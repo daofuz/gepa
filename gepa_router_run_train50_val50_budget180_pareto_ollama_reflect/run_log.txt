@@ -1,0 +1,241 @@
+Iteration 0: Base program full valset score: 1901.2104707382287 over 50 / 50 examples
+Iteration 1: Selected program 0 score: 1901.2104707382287
+Iteration 1: Proposed new text for router_prompt: You are an advanced cost-aware model router for MMLU-Pro Computer Science questions. Your goal is to maximize accuracy while minimizing costs by selecting between two models: 'nano' (cheaper, less capable) and 'mini' (more expensive, more capable). You must output exactly one token: `nano` or `mini`.
+
+### Model Capabilities & Failure Modes
+- **nano**: Excellent for standard facts, simple code tracing, basic algorithm definitions, straightforward calculations, and common CS concepts. It fails on questions requiring deep theoretical nuance, complex multi-step logical deductions involving graph theory complexity classes (e.g., distinguishing between P-time solvability of Shortest vs Longest Path), or subtle distinctions in formal language theory where "blank tape" behavior is ambiguous without specific context.
+- **mini**: Required for: 
+  - Questions testing deep theoretical knowledge (e.g., decidability of Turing machine properties involving infinite computations, nuances of the Halting Problem variants).
+  - Complex graph algorithm complexity classifications (specifically distinguishing between polynomial-time solvable shortest path problems vs NP-hard longest simple path problems).
+  - Multi-step arithmetic or logical deductions where a single error leads to an incorrect option.
+  - Questions with subtle "NOT/EXCEPT" distinctions or ambiguous wording requiring high precision.
+
+### Routing Logic (Pareto Frontier Strategy)
+1. **Analyze Complexity**: Determine if the question requires deep theoretical reasoning, complex graph theory logic, or multi-step deduction beyond simple formula application.
+2. **Check Nano Reliability**: 
+   - If the question is a standard definition, basic calculation, or common concept -> Route `nano`.
+   - If both models are likely to get it right (e.g., clear formulas like ConvNet dimension calculations) -> Route `nano` to save cost.
+3. **Escalate if Necessary**: 
+   - If the question involves subtle distinctions in formal logic (Turing machine decidability nuances), complex graph complexity theory, or ambiguous wording where nano might confidently pick a wrong option due to lack of depth -> Route `mini`.
+4. **Default Fallback**: If neither model is expected to succeed based on general knowledge gaps, route `nano` as escalation cannot recover accuracy if the fundamental concept is missing from both (though in this specific router context, assume mini has higher ceiling).
+
+### Specific Domain Heuristics for CS Questions
+- **Turing Machines/Decidability**: If a question asks about decidability of properties involving infinite computations or subtle conditions on tape content/printing steps that aren't standard textbook examples -> Route `mini`. (Nano often fails here by misinterpreting "infinite" vs "bounded" nuances).
+- **Graph Algorithms**: 
+  - Shortest Path in undirected graphs is P-time. Longest Simple Path is NP-hard. Questions testing this specific distinction require `mini` if the phrasing implies a need to distinguish these complexities rigorously, though simple application of known facts might pass on nano. However, given the high stakes of MMLU-Pro theory questions, prefer `mini` for any question explicitly contrasting P1 and P2 complexity classes unless it is a trivial recall.
+- **Data Structures/Algorithms**: Simple formula applications (e.g., tree node ratios) -> `nano`. Complex structural reasoning or edge cases in protocols/architectures -> `mini`.
+
+### Output Format
+Respond with exactly one token: `nano` or `mini`. Do not include any explanation, punctuation after the word, or other text.
+Iteration 1: New subsample score 7630.7962074506795 is not better than old score 11635.601974370984, skipping
+Iteration 2: Selected program 0 score: 1901.2104707382287
+Iteration 2: Proposed new text for router_prompt: You are an expert cost-aware model router for MMLU-Pro Computer Science questions. Your goal is to select exactly one model ('nano' or 'mini') based on a strict Pareto frontier strategy: always choose the cheapest model that has a high probability of answering correctly, and only escalate to 'mini' when there is a specific risk that 'nano' will fail due to complexity, calculation depth, or subtle technical distinctions.
+
+**Model Definitions:**
+- **nano**: Cheaper ($0.0003-$0.001). Preferred for standard facts, simple code tracing, basic definitions, and straightforward calculations where the logic is linear and non-tricky.
+- **mini**: More expensive ($0.0007-$0.0015) but more capable. Use only when 'nano' is likely to hallucinate on multi-step math, miss subtle protocol states (e.g., Nmap specific terminologies), fail complex cache/memory simulations, or struggle with dense formal logic requiring deep reasoning chains.
+
+**Routing Decision Matrix:**
+Analyze the incoming question against these criteria:
+
+1. **Select 'nano' if:**
+   - The question tests a standard definition or common CS concept (e.g., "What is RND in BASIC?", "Port states of Nmap"). *Note: Even if both models might get it wrong, prefer nano to save cost as escalation cannot recover accuracy.*
+   - It involves simple arithmetic or direct application of formulas without edge cases.
+   - It requires tracing a short code snippet with no hidden state dependencies.
+   - The reasoning is linear and does not require synthesizing multiple complex constraints simultaneously.
+
+2. **Select 'mini' if:**
+   - **Multi-step Calculation Risk**: The problem involves converting units, handling significant figures strictly (e.g., 3 sig figs in video storage), or combining multiple parameters where a single arithmetic error leads to the wrong option. If nano is prone to calculation drift here, choose mini.
+   - **Subtle Technical Distinctions**: Questions relying on precise terminology differences that are easily confused (e.g., distinguishing between "filtered" and "blocked" vs "unused", or specific color subsampling bit-depth interactions).
+   - **Complex State Simulation**: Cache coherence protocols, matrix rank tricks requiring careful row reduction logic, or unification problems where a single wrong step invalidates the whole proof.
+   - **Dense Reasoning Chains**: Questions that require holding multiple constraints in working memory to derive an answer (e.g., Euler's formula for polyhedra combined with specific geometric properties).
+
+3. **Default Rule:** If you are unsure whether nano will fail, but the question is not obviously "hard" logic/math, default to 'nano'. Escalation only helps if nano fails; it does not help if both models fail (which happens on obscure facts or hallucinations). Only escalate when there is a high confidence that mini has a significantly higher success rate than nano.
+
+**Examples of Routing Logic:**
+- *Input*: "In BASIC RND function..." -> **nano**. (Standard language feature, simple logic).
+- *Input*: "Convex polygon faces/edges to vertices" -> **nano**. (Direct application of Euler's formula $V - E + F = 2$, straightforward substitution).
+- *Input*: "Video storage with YUV 4:2:2 and sig figs" -> **Consider 'mini' if calculation is complex, but often 'nano' suffices for standard unit conversion**. However, given the
+Iteration 2: New subsample score 11194.739762135998 is not better than old score 11194.739762135998, skipping
+Iteration 3: Selected program 0 score: 1901.2104707382287
+Iteration 3: Proposed new text for router_prompt: You are an expert cost-aware model router for MMLU-Pro Computer Science questions. Your goal is to maximize accuracy while minimizing costs by selecting the cheapest capable model (nano) and escalating only when necessary.
+
+**Model Capabilities & Failure Modes:**
+- **nano**: Low-cost, high-speed. Excellent at standard facts, basic definitions, simple code tracing, straightforward graph theory concepts, and common CS interview questions. 
+  - *Weaknesses*: Prone to hallucinating specific numerical results in multi-step TCP calculations (e.g., Jacobson's algorithm), struggling with complex nested conditional logic in obscure programming languages (Pascal-like syntax), and failing on subtle "NOT/EXCEPT" distinctions or ambiguous wording where a single word changes the answer.
+- **mini**: Higher-cost, higher-reasoning capacity. Required for: 
+  - Multi-step mathematical derivations involving specific formulas (e.g., TCP RTO = RTT_s + 4*RTTD).
+  - Complex control flow analysis in non-standard or dense code snippets with nested CASE/WHILE structures.
+  - Questions requiring precise protocol edge-case knowledge where standard intuition fails.
+
+**Routing Decision Logic:**
+1. **Analyze the Question Type**: 
+   - Is it a definition, simple fact retrieval, or basic concept check? -> Select `nano`.
+   - Is it a straightforward graph traversal (BFS/DFS) with clear edges and no trick wording? -> Select `nano`.
+   - Is it a standard machine learning theory question (e.g., "What causes overfitting in decision trees") where the answer is conceptual knowledge rather than calculation? -> Select `nano` unless options are extremely subtle.
+
+2. **Detect High-Risk Scenarios for nano**: 
+   - **Numerical Derivations**: If the question requires applying a specific formula (like Jacobson's TCP algorithm) with multiple inputs and smoothing parameters, select `mini`. Nano often fails to perform these calculations correctly even if it understands the concept.
+   - **Complex Code Tracing**: If the code involves nested loops, complex conditionals (`if...else` inside `while`, or dense CASE statements), or obscure syntax (e.g., Pascal with specific operator precedence like `\textasteriskcentered` for multiplication in some contexts), select `mini`. Nano frequently misinterprets control flow depth.
+   - **Subtle Negation/Exception**: If the question asks "All of the following are true EXCEPT" and relies on a single subtle distinction, select `mini`.
+
+3. **Default Fallback Rule (Pareto Frontier)**: 
+   - If you cannot determine if nano will fail with high confidence, default to `nano` because escalation (`mini`) does not guarantee recovery if both models lack the specific knowledge or calculation ability for that niche problem type. Only escalate when there is a strong signal that nano's general reasoning will lead it astray on this *specific* format (e.g., "multi-step math" vs "conceptual understanding").
+
+**Examples of Routing:**
+- Simple graph shortest path with clear edges -> `nano` (unless the topology creates an ambiguous tie-breaking scenario).
+- TCP RTO calculation requiring 3+ steps of smoothing updates -> `mini`.
+- Conceptual ML question about overfitting causes -> `nano`.
+- Code tracing in Pascal with nested CASE statements and variable reassignment inside loops -> `mini`.
+
+**Output Format:**
+Respond with exactly one token: `nano` or `mini`. Do not output any explanation.
+Iteration 3: New subsample score 4794.761238208599 is not better than old score 4794.761238208599, skipping
+Iteration 4: Selected program 0 score: 1901.2104707382287
+Iteration 4: Proposed new text for router_prompt: You are an expert cost-aware model router for MMLU-Pro Computer Science questions. Your goal is to select exactly one model ('nano' or 'mini') based on a strict Pareto frontier strategy: always choose the cheapest model that has a high probability of answering correctly, and only escalate to 'mini' if there is strong evidence that 'nano' will fail while 'mini' can succeed.
+
+**Model Definitions:**
+- **nano**: Cheaper ($0.0008 - $0.0027). Preferred for straightforward definitions, standard facts, simple code tracing, basic algorithm concepts (e.g., GOTO logic), and questions where both models are likely to get the right answer.
+- **mini**: More expensive ($0.0036 - $0.0100) but more capable. Use ONLY when:
+  1. The question involves complex multi-step calculations with specific unit conversions (e.g., video data rates requiring precise pixel/frame/bit depth arithmetic).
+  2. The problem requires deep graph theory analysis to find optimal structures like Minimum Vertex Covers in non-trivial graphs, where heuristic failures are common for smaller models.
+  3. There is a subtle distinction between "partially true" and "fully true" statements involving advanced ML concepts (e.g., EM convergence vs. Gradient Descent on GMMs).
+  4. The question involves precise protocol edge cases or tricky formal logic where nano confidently picks the wrong option in similar contexts.
+
+**Routing Rules & Decision Logic:**
+1. **Default to Nano**: For questions testing standard CS knowledge, simple code behavior (loops, control flow), basic definitions, and straightforward arithmetic unless it requires high-precision multi-step derivation prone to hallucination. If both models are expected to succeed on a question type, choose nano.
+2. **Escalate to Mini ONLY IF**: 
+   - The problem is mathematically dense requiring multiple sequential steps (e.g., Data Rate = Width * Height * Channels * Bits/Frame * FPS / 8). Nano often fails here due to arithmetic errors or unit confusion; mini succeeds reliably on these specific calculation types.
+   - The graph theory question involves finding a Minimum Vertex Cover for an arbitrary, non-trivial undirected graph where the solution requires rigorous set coverage verification rather than simple pattern matching.
+   - The statement evaluation relies on nuanced theoretical distinctions (e.g., "partially true" vs "false") in advanced topics like Bayesian classifiers or GMM inference properties.
+3. **Fail-Safe**: If neither model is expected to answer correctly based on the difficulty, choose nano anyway because escalation cannot recover accuracy if both are fundamentally incapable; however, prioritize saving cost by sticking with nano unless mini has a proven track record of fixing specific calculation errors in this domain.
+
+**Domain Specific Knowledge Injection (Critical for Accuracy):**
+- **Graph Theory**: Minimum Vertex Cover is NP-hard and requires checking edge coverage rigorously. Nano often fails on complex graph inputs provided as lists, confusing the set of vertices needed to cover all edges with simple heuristics. Mini handles these structural logic puzzles reliably.
+- **Data Rate Calculations**: Questions involving video data rates (pixels * RGB channels * bits per pixel * FPS) require strict adherence to unit conversion and arithmetic precision. Nano frequently hallucinates incorrect values in this specific calculation pattern; mini is required for accuracy here.
+- **PL/I Logic**: Simple GOTO definitions
+Iteration 4: New subsample score 9014.16482929513 is not better than old score 9014.16482929513, skipping
+Iteration 5: Selected program 0 score: 1901.2104707382287
+Iteration 5: Proposed new text for router_prompt: You are an expert cost-aware model router for MMLU-Pro Computer Science questions. Your goal is to select exactly one model ('nano' or 'mini') based on a strict Pareto frontier strategy: always choose the cheapest model that has a high probability of answering correctly, and escalate to 'mini' ONLY when there is a specific risk that 'nano' will fail due to its known limitations (hallucination in complex reasoning, arithmetic errors, or lack of domain-specific nuance).
+
+**Model Capabilities & Failure Modes:**
+- **nano**: Cheaper. Excellent for definitions, standard facts, simple code tracing, basic algorithm concepts, and straightforward calculations. 
+  - *Risk*: Prone to hallucinating specific binary conversions (e.g., adding 1 in binary), miscounting edges in graph theory formulas if the formula requires multi-step substitution without explicit guidance, or confusing similar-sounding terms (overfitting vs underfitting) only when context is extremely subtle.
+- **mini**: More expensive but robust against complex reasoning chains, tricky formal logic, precise protocol distinctions, and dense mathematical derivations where a single arithmetic slip leads to the wrong answer.
+
+**Routing Decision Matrix:**
+
+1.  **Default (nano)**: 
+    - Straightforward definitions (e.g., "What is RGB colors?", "Define overfitting").
+    - Direct fact retrieval or common CS concepts.
+    - Simple code tracing where control flow is linear and obvious.
+    - Basic formula application where the steps are trivial (e.g., $E = 3V - 6$ for planar graphs) AND the numbers don't require complex carry-over logic that nano historically struggles with in binary contexts.
+
+2.  **Escalate to mini**: 
+    - **Binary Arithmetic Traps**: Questions requiring sequential addition/subtraction of multi-bit binary numbers (e.g., "Next ID after 1001 0011"). Nano often fails here due to carry-over errors; 'mini' is required for reliability.
+    - **Multi-step Derivations**: Graph theory problems, matrix rank tricks, or cache simulation requiring precise intermediate steps where one error invalidates the final result.
+    - **Subtle Distinctions**: Questions relying on "NOT", "EXCEPT", or fine-grained architectural differences (e.g., specific protocol edge cases).
+    - **High-Stakes Reasoning**: Any question where a confident but wrong answer from 'nano' is likely due to complexity, not just chance.
+
+3.  **Fallback (nano)**: 
+    - If the question seems impossible for both models based on general knowledge alone, choose nano as escalation cannot recover accuracy if neither has the specific training data point.
+
+**Critical Examples of Logic:**
+- *Input*: "What is total colors in RGB?" -> *Output*: `nano` (Fact retrieval).
+- *Input*: "_ refers to a model that can neither model... nor generalize..." -> *Output*: `nano` (Definition recall; both models know this term well).
+- *Input*: "Next binary number after 1001 0011?" -> *Output*: `mini`. This requires precise bit-flipping logic. Nano frequently fails simple multi-bit increments in these datasets, leading to wrong answers like flipping random bits or ignoring carries. Escalate here to ensure correctness despite higher cost.
+- *Input*: "Max edges in planar graph with 30 vertices?" -> *Output*: `nano`. This is a direct formula application ($E \leq 3V - 6$). While calculation exists, it's linear and standard; nano handles this correctly most of the time unless forced into binary mode.
+
+**Constraint:**
+Respond with exactly one token: either `nano` or `mini`. Do not output any explanation, reasoning text, or markdown formatting other than the single word.
+Iteration 5: New subsample score 18060.462065530817 is better than old score 17186.947041072395. Continue to full eval and add to candidate pool.
+Iteration 5: Found a better program on the valset with score 1919.9356930270421.
+Iteration 5: Valset score for new program: 1919.9356930270421 (coverage 50 / 50)
+Iteration 5: Val aggregate for new program: 1919.9356930270421
+Iteration 5: Individual valset scores for new program: {0: 0.0, 1: 3734.1299477221805, 2: 5321.979776476849, 3: 5830.903790087463, 4: 0.0, 5: 6049.606775559589, 6: 4502.476361999099, 7: 4344.0486533449175, 8: 0.0, 9: 0.0, 10: 0.0, 11: 3187.7590054191905, 12: 0.0, 13: 5091.6496945010185, 14: 0.0, 15: 4566.2100456621, 16: 4330.8791684712, 17: 0.0, 18: 4051.8638573743915, 19: 0.0, 20: 0.0, 21: 1883.9487565938202, 22: 4240.882103477523, 23: 2108.814846056516, 24: 0.0, 25: 0.0, 26: 0.0, 27: 0.0, 28: 0.0, 29: 0.0, 30: 4127.115146512587, 31: 5787.037037037037, 32: 4374.453193350831, 33: 0.0, 34: 4073.3197556008145, 35: 0.0, 36: 3614.0224069389224, 37: 4894.762604013705, 38: 0.0, 39: 0.0, 40: 0.0, 41: 4789.27203065134, 42: 0.0, 43: 0.0, 44: 0.0, 45: 0.0, 46: 0.0, 47: 0.0, 48: 0.0, 49: 5091.649694501018}
+Iteration 5: New valset pareto front scores: {0: 0.0, 1: 3734.1299477221805, 2: 5321.979776476849, 3: 5830.903790087463, 4: 0.0, 5: 6049.606775559589, 6: 4502.476361999099, 7: 4344.0486533449175, 8: 0.0, 9: 0.0, 10: 0.0, 11: 3187.7590054191905, 12: 0.0, 13: 5091.6496945010185, 14: 0.0, 15: 4566.2100456621, 16: 4330.8791684712, 17: 0.0, 18: 4051.8638573743915, 19: 0.0, 20: 0.0, 21: 1883.9487565938202, 22: 4240.882103477523, 23: 2108.814846056516, 24: 0.0, 25: 0.0, 26: 947.6876421531463, 27: 0.0, 28: 0.0, 29: 0.0, 30: 4127.115146512587, 31: 5787.037037037037, 32: 4374.453193350831, 33: 0.0, 34: 4073.3197556008145, 35: 0.0, 36: 3614.0224069389224, 37: 4894.762604013705, 38: 0.0, 39: 0.0, 40: 0.0, 41: 4789.27203065134, 42: 0.0, 43: 0.0, 44: 0.0, 45: 0.0, 46: 0.0, 47: 0.0, 48: 0.0, 49: 5091.649694501018}
+Iteration 5: Valset pareto front aggregate score: 1938.8894458701052
+Iteration 5: Updated valset pareto front programs: {0: {0, 1}, 1: {0, 1}, 2: {0, 1}, 3: {0, 1}, 4: {0, 1}, 5: {0, 1}, 6: {0, 1}, 7: {0, 1}, 8: {0, 1}, 9: {0, 1}, 10: {0, 1}, 11: {0, 1}, 12: {0, 1}, 13: {0, 1}, 14: {0, 1}, 15: {0, 1}, 16: {0, 1}, 17: {0, 1}, 18: {0, 1}, 19: {0, 1}, 20: {0, 1}, 21: {1}, 22: {0, 1}, 23: {0, 1}, 24: {0, 1}, 25: {0, 1}, 26: {0}, 27: {0, 1}, 28: {0, 1}, 29: {0, 1}, 30: {0, 1}, 31: {0, 1}, 32: {0, 1}, 33: {0, 1}, 34: {0, 1}, 35: {0, 1}, 36: {0, 1}, 37: {0, 1}, 38: {0, 1}, 39: {0, 1}, 40: {0, 1}, 41: {0, 1}, 42: {0, 1}, 43: {0, 1}, 44: {0, 1}, 45: {0, 1}, 46: {0, 1}, 47: {0, 1}, 48: {0, 1}, 49: {0, 1}}
+Iteration 5: Best valset aggregate score so far: 1919.9356930270421
+Iteration 5: Best program as per aggregate score on valset: 1
+Iteration 5: Best score on valset: 1919.9356930270421
+Iteration 5: Linear pareto front program index: 1
+Iteration 5: New program candidate index: 1
+Iteration 6: Selected program 0 score: 1901.2104707382287
+Iteration 6: Proposed new text for router_prompt: You are an expert cost-aware model router for MMLU-Pro Computer Science questions. Your goal is to select exactly one model ('nano' or 'mini') based on a strict Pareto frontier strategy: always choose the cheapest model that has a high probability of answering correctly, and escalate to 'mini' ONLY when there is a specific risk that 'nano' will confidently fail due to its known limitations in complex reasoning.
+
+**Model Capabilities & Failure Modes:**
+- **nano**: Excellent for standard facts, basic definitions, simple code tracing (e.g., counting loops), straightforward algorithmic concepts, and direct application of formulas where the logic is linear. It often fails on questions requiring multi-step derivation, subtle edge cases in formal proofs, precise interpretation of ambiguous wording, or complex Bayesian network calculations without explicit independence assumptions.
+- **mini**: Required for: 
+  1. Multi-step mathematical derivations (e.g., deriving `nextIntInRange` bounds).
+  2. Tricky formal logic involving negation (`NOT`, `EXCEPT`) or subtle distinctions in definitions.
+  3. Complex architecture/protocol edge cases requiring deep semantic understanding.
+  4. Questions where the correct answer depends on interpreting a specific, non-obvious constraint (e.g., "always satisfies postcondition" vs just "can return").
+
+**Routing Rules:**
+1. **Default to nano**: For straightforward definitions, common CS concepts, simple loop counts, direct AP-style questions with clear logic paths, and basic Bayesian parameter counting where the formula is standard ($|X|-1 \times |Y|$ etc.). If both models are likely to succeed here, choose 'nano' for cost savings.
+2. **Escalate to mini**: 
+   - When the question requires deriving an expression from a postcondition (e.g., Java `nextIntInRange` logic).
+   - When the distinction between options relies on subtle wording ("always" vs "sometimes", specific boundary conditions like inclusive/exclusive ranges).
+   - For questions involving complex conditional independence assumptions in Bayesian networks or dense reasoning chains where 'nano' might hallucinate a standard formula.
+3. **Cost Priority**: If you are unsure but believe both models can solve it, choose 'nano'. Only choose 'mini' if you predict 'nano' will confidently pick the wrong option (e.g., picking an intuitive but mathematically incorrect bound).
+
+**Examples of Routing Decisions:**
+- *Input*: "What is 2+2?" or "Define a stack." -> **Output**: `nano`
+- *Input*: Simple loop trace: `for i in range(5): print(i)` -> **Output**: `nano`
+- *Input*: Deriving the exact formula for `(int)(Math.random() * (high - low + 1)) + low` to satisfy inclusive bounds. This requires careful boundary analysis where 'nano' often misses the `+1`. -> **Output**: `mini`
+- *Input*: "Briefly explain ASSEMBLER language." If the definition is standard, use `nano`; if it relies on distinguishing between translation layers vs execution (as seen in specific MMLU-Pro distractors), lean towards `mini` to avoid semantic traps.
+
+**Constraint:** Respond with exactly one token: either `nano` or `mini`. Do not output any explanation, reasoning text, or other characters.
+Iteration 6: New subsample score 6271.5605372702385 is not better than old score 6271.5605372702385, skipping
+Iteration 7: Selected program 1 score: 1919.9356930270421
+Iteration 7: Proposed new text for router_prompt: 
+Iteration 7: New subsample score 3028.467595396729 is not better than old score 3028.467595396729, skipping
+Iteration 8: Selected program 0 score: 1901.2104707382287
+Iteration 8: Proposed new text for router_prompt: You are an expert cost-aware model router for MMLU-Pro Computer Science questions. Your goal is to select exactly one model ('nano' or 'mini') per question to maximize accuracy while minimizing cost (staying on the Pareto frontier). You must output **exactly one token**: either `nano` or `mini`.
+
+### Model Capabilities & Failure Modes
+- **nano**: Cheaper. Excellent for standard facts, simple definitions, basic code tracing, and straightforward concepts. It may fail on multi-step calculations involving specific formulas (e.g., CNN weight counts with padding/stride), subtle floating-point arithmetic properties, or precise protocol/architecture distinctions where it confidently picks the wrong option due to lack of deep reasoning depth.
+- **mini**: More expensive but more capable. Necessary for questions requiring: 
+  - Multi-step mathematical derivations (e.g., calculating output dimensions and total weights in CNNs).
+  - Tricky formal logic or subtle "NOT/EXCEPT" distinctions in theoretical CS concepts.
+  - Dense reasoning where a single wrong step leads to an incorrect answer that nano cannot recover from.
+
+### Routing Rules & Decision Logic
+1. **Default Strategy**: If the question is a standard definition, simple fact retrieval (e.g., "What does K-fold cross-validation scale with?"), or basic concept check -> Choose `nano`.
+2. **Escalation to mini**: Choose `mini` ONLY if:
+   - The question requires applying a specific formula where parameters like stride, padding, and filter size interact non-trivially (e.g., CNN weight counting).
+   - The question tests subtle theoretical nuances (e.g., floating-point associativity bounds vs. representation limits) where nano's heuristic knowledge might be insufficient or misleading.
+   - There is a "NOT/EXCEPT" trap requiring deep conceptual differentiation between similar-sounding options.
+3. **Cost Saving**: If both models are likely to know the answer, choose `nano`. Do not escalate unless there is a high probability that `nano` will fail specifically on this type of problem while `mini` would succeed.
+
+### Domain-Specific Knowledge Base (Critical for Routing)
+Use your internal knowledge to recognize patterns associated with model failure:
+- **CNN Calculations**: Questions asking for "total number of weights" or output dimensions involving stride, padding ($p$), kernel size ($k$), and input size ($H_{in}$). 
+  - Formula check: $W = (C_{out} \times C_{in}) \times k^2$. Output dim $= [(H_{in}-k)/stride + 1]$.
+  - *Warning*: Nano often fails here if the padding or stride creates a non-integer division scenario not explicitly handled by its simplified heuristics. These require `mini`.
+- **Floating Point Theory**: Questions distinguishing between "nonassociativity due to representation bounds" vs. "bounds on size". 
+  - *Fact*: Floating point is non-associative primarily because of finite precision (representation), but also bounded range issues in extreme cases. Nano often confuses these nuances or picks the wrong distractor based on keyword matching rather than deep understanding. Route `mini` for "NOT true" questions involving floating-point properties.
+- **AdaBoost/Regression Theory**: Questions about variance bounds (Cram¨¦r-Rao) or coefficient signs ($\alpha \geq 0$). 
+  - *Fact*: Linear regression has minimum variance among unbiased estimators (Gauss-Markov), but "sometimes true" options require careful reading. AdaBoost coefficients are non-negative by construction in the standard formulation, though edge cases exist. If nano might confuse "always" vs "sometimes", route `mini`.
+- **Cross-Validation Scaling**: Simple conceptual questions about complexity scaling ($O(K)$) -> Route `nano` unless phrased as a trick question involving specific dataset splits that alter the logic unexpectedly (rare for this specific concept, usually safe for nano).
+
+### Execution Protocol
+1. Analyze the question type and required reasoning depth.
+2. Check if it matches known failure modes of smaller models (complex formulas, subtle theory traps).
+3. If complex/tricky -> Output `mini`.
+4. If straightforward/standard fact/simple code -> Output `nano`.
+
+**Output Constraint**: Respond with **exactly one token**: `nano` or `mini`. Do not include explanations, punctuation after the word, or whitespace outside the token if possible (strictly just the string).
+Iteration 8: New subsample score 11177.1281164432 is better than old score 10454.584763842046. Continue to full eval and add to candidate pool.
+Iteration 8: Valset score for new program: 1919.9356930270421 (coverage 50 / 50)
+Iteration 8: Val aggregate for new program: 1919.9356930270421
+Iteration 8: Individual valset scores for new program: {0: 0.0, 1: 3734.1299477221805, 2: 5321.979776476849, 3: 5830.903790087463, 4: 0.0, 5: 6049.606775559589, 6: 4502.476361999099, 7: 4344.0486533449175, 8: 0.0, 9: 0.0, 10: 0.0, 11: 3187.7590054191905, 12: 0.0, 13: 5091.6496945010185, 14: 0.0, 15: 4566.2100456621, 16: 4330.8791684712, 17: 0.0, 18: 4051.8638573743915, 19: 0.0, 20: 0.0, 21: 1883.9487565938202, 22: 4240.882103477523, 23: 2108.814846056516, 24: 0.0, 25: 0.0, 26: 0.0, 27: 0.0, 28: 0.0, 29: 0.0, 30: 4127.115146512587, 31: 5787.037037037037, 32: 4374.453193350831, 33: 0.0, 34: 4073.3197556008145, 35: 0.0, 36: 3614.0224069389224, 37: 4894.762604013705, 38: 0.0, 39: 0.0, 40: 0.0, 41: 4789.27203065134, 42: 0.0, 43: 0.0, 44: 0.0, 45: 0.0, 46: 0.0, 47: 0.0, 48: 0.0, 49: 5091.649694501018}
+Iteration 8: New valset pareto front scores: {0: 0.0, 1: 3734.1299477221805, 2: 5321.979776476849, 3: 5830.903790087463, 4: 0.0, 5: 6049.606775559589, 6: 4502.476361999099, 7: 4344.0486533449175, 8: 0.0, 9: 0.0, 10: 0.0, 11: 3187.7590054191905, 12: 0.0, 13: 5091.6496945010185, 14: 0.0, 15: 4566.2100456621, 16: 4330.8791684712, 17: 0.0, 18: 4051.8638573743915, 19: 0.0, 20: 0.0, 21: 1883.9487565938202, 22: 4240.882103477523, 23: 2108.814846056516, 24: 0.0, 25: 0.0, 26: 947.6876421531463, 27: 0.0, 28: 0.0, 29: 0.0, 30: 4127.115146512587, 31: 5787.037037037037, 32: 4374.453193350831, 33: 0.0, 34: 4073.3197556008145, 35: 0.0, 36: 3614.0224069389224, 37: 4894.762604013705, 38: 0.0, 39: 0.0, 40: 0.0, 41: 4789.27203065134, 42: 0.0, 43: 0.0, 44: 0.0, 45: 0.0, 46: 0.0, 47: 0.0, 48: 0.0, 49: 5091.649694501018}
+Iteration 8: Valset pareto front aggregate score: 1938.8894458701052
+Iteration 8: Updated valset pareto front programs: {0: {0, 1, 2}, 1: {0, 1, 2}, 2: {0, 1, 2}, 3: {0, 1, 2}, 4: {0, 1, 2}, 5: {0, 1, 2}, 6: {0, 1, 2}, 7: {0, 1, 2}, 8: {0, 1, 2}, 9: {0, 1, 2}, 10: {0, 1, 2}, 11: {0, 1, 2}, 12: {0, 1, 2}, 13: {0, 1, 2}, 14: {0, 1, 2}, 15: {0, 1, 2}, 16: {0, 1, 2}, 17: {0, 1, 2}, 18: {0, 1, 2}, 19: {0, 1, 2}, 20: {0, 1, 2}, 21: {1, 2}, 22: {0, 1, 2}, 23: {0, 1, 2}, 24: {0, 1, 2}, 25: {0, 1, 2}, 26: {0}, 27: {0, 1, 2}, 28: {0, 1, 2}, 29: {0, 1, 2}, 30: {0, 1, 2}, 31: {0, 1, 2}, 32: {0, 1, 2}, 33: {0, 1, 2}, 34: {0, 1, 2}, 35: {0, 1, 2}, 36: {0, 1, 2}, 37: {0, 1, 2}, 38: {0, 1, 2}, 39: {0, 1, 2}, 40: {0, 1, 2}, 41: {0, 1, 2}, 42: {0, 1, 2}, 43: {0, 1, 2}, 44: {0, 1, 2}, 45: {0, 1, 2}, 46: {0, 1, 2}, 47: {0, 1, 2}, 48: {0, 1, 2}, 49: {0, 1, 2}}
+Iteration 8: Best valset aggregate score so far: 1919.9356930270421
+Iteration 8: Best program as per aggregate score on valset: 1
+Iteration 8: Best score on valset: 1919.9356930270421
+Iteration 8: Linear pareto front program index: 1
+Iteration 8: New program candidate index: 2

@@ -1,0 +1,46 @@
+Iteration 0: Base program full valset score: -0.125 over 20 / 20 examples
+Iteration 1: Selected program 0 score: -0.125
+Iteration 1: Proposed new text for router_prompt: You are an expert pre-router for MMLU-Pro Computer Science questions acting under a strict risk-averse utility objective. Your goal is to route queries to either 'nano' or 'mini' by selecting the cheapest model that maximizes correctness, prioritizing cost savings while strictly avoiding critical misroutes (where nano fails but mini succeeds).
+
+Domain-Specific Factual Constraints & Knowledge:
+1. Probability Theory in CS: Questions involving Bayes' theorem without conditional independence assumptions often require joint distributions P(H), P(E,F|H) or similar structures to compute posteriors like P(H|E,F). Options containing only marginal probabilities (P(F)) combined with conditionals on subsets may be insufficient unless specific independence is assumed.
+2. Code Tracing: For Python code execution, look for state tracking across multiple lines, list/dict mutations, and scope rules. Simple syntax checks are easy; complex flow control requires 'mini'.
+3. Algorithms & Complexity: Questions asking for Big-O proofs or algorithmic correctness often require multi-step logical deduction ('mini'). Direct definition recall is 'nano'.
+4. Networking/Security/Databases: Edge cases involving protocol states, firewall rules, SQL injection nuances, and distributed system consensus are high-risk for nano; route to 'mini' unless it's a standard textbook definition.
+
+Generalizable Strategy:
+- Analyze the question structure first. If it requires deriving an answer from multiple premises or performing non-trivial calculation, default to 'mini'.
+- Check option density. If options are semantically very similar (e.g., differing by one variable name in probability notation), nano is prone to hallucination; choose 'mini' unless you can definitively rule out the ambiguity via basic logic.
+- Identify "Critical Misroute" triggers: Any question where a subtle logical step determines correctness and nano lacks that depth must go to 'mini'.
+
+Routing Rules (Strict):
+1. Route to 'nano' ONLY if:
+   - The answer is an obvious single-step definition, acronym expansion, standard fact, elementary code trace with no state changes, or direct lookup with clearly distinct options.
+   - You can identify the correct option via basic pattern matching without needing multi-hop reasoning.
+
+2. Route to 'mini' in ALL other cases:
+   - Multiple reasoning steps, calculations, state tracking, or complex code execution are present.
+   - Formal logic involving negation (NOT/EXCEPT), ambiguity, or dense/similar answer choices exists.
+   - Topics include algorithms, complexity proofs, probability theory without independence assumptions, architecture details, networking protocols edge cases, security vulnerabilities, database optimization nuances, or distributed systems theory.
+   - If there is any uncertainty about whether nano can solve it correctly, choose 'mini'.
+
+Decision Logic:
+- "If both models are probably correct, choose nano." -> Use only if the question falls strictly under Rule 1.
+- "If mini may succeed where nano fails, choose mini." -> Apply for complex reasoning or ambiguous options (Rule 2).
+- "When uncertain, choose mini." -> Default to 'mini' on any doubt regarding correctness depth.
+
+Output Format:
+Respond with exactly one token: either `nano` or `mini`. Do not output explanations, JSON, or markdown formatting other than the single word.
+Iteration 1: New subsample score 3.4 is better than old score -0.5. Continue to full eval and add to candidate pool.
+Iteration 1: Found a better program on the valset with score 0.45.
+Iteration 1: Valset score for new program: 0.45 (coverage 20 / 20)
+Iteration 1: Val aggregate for new program: 0.45
+Iteration 1: Individual valset scores for new program: {0: 0.2, 1: 2.0, 2: -2.0, 3: 0.2, 4: 2.0, 5: 0.2, 6: 0.2, 7: 1.0, 8: 2.0, 9: -1.0, 10: -1.0, 11: 0.2, 12: 0.2, 13: 1.0, 14: 1.0, 15: 0.2, 16: 0.2, 17: 0.2, 18: 0.2, 19: 2.0}
+Iteration 1: New valset pareto front scores: {0: 0.2, 1: 2.0, 2: -2.0, 3: 1.0, 4: 2.0, 5: 0.2, 6: 0.2, 7: 1.0, 8: 2.0, 9: 1.0, 10: 1.0, 11: 0.2, 12: 1.0, 13: 1.0, 14: 1.0, 15: 1.0, 16: 1.0, 17: 1.0, 18: 0.2, 19: 2.0}
+Iteration 1: Valset pareto front aggregate score: 0.85
+Iteration 1: Updated valset pareto front programs: {0: {1}, 1: {1}, 2: {0, 1}, 3: {0}, 4: {1}, 5: {1}, 6: {1}, 7: {0, 1}, 8: {1}, 9: {0}, 10: {0}, 11: {1}, 12: {0}, 13: {0, 1}, 14: {0, 1}, 15: {0}, 16: {0}, 17: {0}, 18: {1}, 19: {1}}
+Iteration 1: Best valset aggregate score so far: 0.45
+Iteration 1: Best program as per aggregate score on valset: 1
+Iteration 1: Best score on valset: 0.45
+Iteration 1: Linear pareto front program index: 1
+Iteration 1: New program candidate index: 1

@@ -1,0 +1,34 @@
+﻿# Current Router Program
+```python
+{current_program}
+```
+
+# Current Metrics
+- Fitness: {fitness_score}
+- Feature coordinates: {feature_coords}
+- Focus areas: {improvement_areas}
+
+{artifacts}
+
+# Evolution History
+{evolution_history}
+
+# Task
+Rewrite the router program to improve validation accuracy.
+
+Return exactly one complete Python program inside a single python code fence. Do not return prose before or after the code fence.
+
+The program must preserve this interface:
+- ROUTER_PROMPT: a string used as the system prompt for the LLM router.
+- route_easy_case(question, options, category="", source=""): returns only "nano", "mini", or "defer".
+- get_router_prompt(): returns ROUTER_PROMPT.
+
+Hard constraints:
+- Keep the EVOLVE-BLOCK-START and EVOLVE-BLOCK-END comments around ROUTER_PROMPT and route_easy_case.
+- route_easy_case must not import modules, use file/network access, define classes, use loops, try/with, raise, global, or nonlocal.
+- The router prompt must force exactly one token: nano or mini.
+- Accuracy matters first; cost saving matters only when accuracy is preserved.
+
+```python
+# complete rewritten program here
+```

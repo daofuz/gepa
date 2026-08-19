@@ -1,0 +1,152 @@
+﻿\section{Prompt Optimization Overview}
+\label{sec:overview}
+
+\begin{figure*}[t]
+  \centering
+  \begin{tikzpicture}[
+    font=\scriptsize,
+    >={Latex[length=2.2mm]},
+    flow/.style={->, semithick, draw=RRGray},
+    box/.style={draw=RRGray, rounded corners=2pt, semithick, align=center,
+      inner xsep=6pt, inner ysep=5pt},
+    pool/.style={box, fill=RRGray!5, text width=2.35cm, minimum height=1.45cm},
+    screen/.style={box, draw=RRBlue, fill=RRBlue!5,
+      text width=3.15cm, minimum height=1.45cm},
+    acquire/.style={box, draw=RROrange, fill=RROrange!7,
+      text width=3.55cm, minimum height=1.55cm},
+    data/.style={box, draw=RRBlue, fill=RRBlue!5,
+      text width=3.15cm, minimum height=1.55cm},
+    soft/.style={box, draw=RRGreen, fill=RRGreen!7,
+      text width=4.2cm, minimum height=1.35cm},
+    discrete/.style={box, draw=RRBlue, fill=RRBlue!4,
+      text width=4.2cm, minimum height=1.35cm},
+    deploy/.style={box, fill=RRGray!5, text width=5.8cm, minimum height=0.9cm}
+  ]
+    \node[pool] (pool) at (-0.1,1.7)
+      {\textbf{1. Unlabeled pool}\\[2pt]
+       $N$ candidate tuples $(x,q)$\\no gold answers};
+
+    \node[screen] (screen) at (3.1,1.7)
+      {\textbf{2. Paired screening}\\[2pt]
+       run \textbf{Nano and Mini} on every tuple\\
+       compare their predicted answers};
+
+    \node[acquire] (acquire) at (7.25,1.7)
+      {\textbf{3. Agreement-aware selection}\\[2pt]
+       \textbf{disagree:} prioritize critical-case candidates\\
+       \textbf{agree:} retain a coverage sample\\
+       select only $B\ll N$ tuples; gold remains hidden};
+
+    \node[data] (data) at (11.65,1.7)
+      {\textbf{4. Annotate selected subset}\\[2pt]
+       humans provide gold only for $B$ tuples\\
+       derive \bc/\mo/\no/\bw, target, and $w=1/\bar c_y$};
+
+    \node[soft] (soft) at (7.9,-0.65)
+      {\textbf{5a. Primary: soft-prompt router}\\[2pt]
+       frozen compact encoder\\train prompt vectors + linear head};
+
+    \node[discrete] (discrete) at (13.2,-0.65)
+      {\textbf{5b. Alternative: discrete router}\\[2pt]
+       generative instruction router\\optimize policy text with GEPA};
+
+    \node[deploy] (deploy) at (10.55,-2.55)
+      {\textbf{6. Deploy one pre-router}\\
+       $(x,q) \rightarrow \{\text{Nano},\text{Mini}\} \rightarrow$ operator output};
+
+    \draw[flow] (pool) -- (screen);
+    \draw[flow] (screen) -- node[above, text=RRGray, font=\tiny]
+      {agree / disagree} (acquire);
+    \draw[flow] (acquire) -- node[above, text=RRGray, font=\tiny]
+      {$B$ selected IDs} (data);
+    \coordinate (split) at (10.6,0.35);
+    \draw[semithick, draw=RRGray] (data.south) -- (split);
+    \fill[RRGray] (split) circle (1.1pt);
+    \draw[flow] (split) -| (soft.north);
+    \draw[flow] (split) -| (discrete.north);
+    \draw[flow] (soft.south) |- (deploy.west);
+    \draw[flow] (discrete.south) |- (deploy.east);
+
+    \node[font=\tiny\bfseries, text=RRGray, anchor=south west]
+      at (-1.55,2.55) {OFFLINE ACQUISITION};
+    \node[font=\tiny\bfseries, text=RRGray, anchor=south west]
+      at (5.65,0.18) {INDEPENDENT TRAINING PATHS};
+  \end{tikzpicture}
+  \caption{End-to-end workflow for an initially unlabeled candidate pool. Nano
+  and Mini first screen every candidate without gold labels. Active selection
+  prioritizes their disagreements, where recoverable one-model-only cases can
+  occur, while retaining agreement examples for coverage. Humans annotate only
+  the selected subset; the resulting gold-labeled paired set trains either the
+  primary lightweight soft-prompt router or the independent discrete router.
+  The two routers are alternatives, not stages of one model.}
+  \Description{An unlabeled candidate pool is screened by Nano and Mini. Their
+  predicted answers partition the pool into agreement and disagreement strata.
+  Active selection prioritizes disagreements and samples some agreements, after
+  which humans provide gold labels only for the selected subset. Gold labels and
+  the cached paired predictions determine the four correctness outcomes and the
+  cost-weighted route targets. This training set branches to two independent
+  paths, a lightweight soft-prompt router and a discrete prompt router. Either
+  trained router can choose Nano or Mini at deployment time.}
+  \label{fig:overview}
+\end{figure*}
+
+Figure~\ref{fig:overview} gives the end-to-end workflow when the candidate pool
+has no gold answers. The answer-model pair is fixed: $M_N$ denotes the cheap
+Nano model and $M_M$ the stronger Mini model. We first execute both models on
+the unlabeled pool and partition candidates using the observable event
+$\hat z_N(x,q)=\hat z_M(x,q)$. Disagreements receive higher acquisition priority
+because every Mini-only and Nano-only case must lie in this stratum; a sampled
+agreement subset preserves coverage of ordinary cases and helps control
+over-escalation. Selection never inspects an unselected gold answer. Humans then
+annotate only the selected $B\ll N$ tuples, at which point the cached pair of
+predictions and gold label reveal the \bc/\mo/\no/\bw outcome, route target, and
+inverse-cost weight. The resulting agreement-stratified paired set is shared by
+two independent training paths: the primary lightweight soft-prompt router and
+the discrete prompt router. This workflow saves $N-B$ human annotations, though
+it deliberately pays for paired model screening on the full candidate pool.
+
+\paragraph{Soft-prompt router.}
+The main \system router prepends $p$ learned embedding vectors to each tuple
+and feeds the sequence to a frozen DistilBERT encoder
+\cite{sanh2019distilbert}. Only the $p\times768$ prompt matrix and a two-class
+linear head are trainable: 3,074, 4,610, 7,682, and 13,826 parameters for
+$p\in\{2,4,8,16\}$. The frozen backbone still participates in inference, but
+the task-specific state is tiny and routing is a single non-generative encoder
+pass rather than autoregressive decoding by a billion-parameter LLM. This makes
+the soft-prompt path the practical focus of \system.
+
+Active acquisition determines which tuples train this router. The cost score
+defines a hard route target, and its target route receives weight
+$1/\bar c_y$. The soft prompt is trained only with the resulting weighted
+cross-entropy (Eq.~\ref{eq:weighted-ce}). No outcome-specific constant is
+tuned: disagreement enrichment, rather than a manual MO multiplier, ensures that
+recoverable failures appear often enough to affect training. A
+validation threshold exposes the cost--quality curve without retraining. The
+design is inexpensive to retrain and supports multi-seed analysis, though its
+learned prompt vectors are not human-readable
+\cite{lester2021prompttuning}.
+\paragraph{Independent discrete router.}
+The discrete method is a separate router, not a component or second stage of
+the soft-prompt method. It uses a Qwen3.5-2B generative execution router and a
+Qwen3.5-4B reflection model during GEPA optimization. A seed instruction
+defines the operator and route tokens; outcome-enriched demonstrations omit
+gold labels and answer-model predictions. The adapter attaches route score and
+textual feedback to each trace, and GEPA proposes revised policy text
+\cite{agrawal2025gepa}. Reflection minibatches contain four examples and the
+budget is 20 metric calls.
+
+Hard routing asks for exactly \texttt{nano} or \texttt{mini}; invalid text
+falls back to Mini. The scored interface emits raw risk
+$\tilde{s}_P(x)\in[0,100]$, which the parser clips and normalizes to
+$s_P(x)\in[0,1]$. Validation predicts Mini when $s_P(x)\ge\tau$; reported
+thresholds 0.30 and 0.50 therefore use the normalized scale.
+
+\paragraph{Role of the discrete comparison.}
+The comparison tests whether the two innovations depend on one router class.
+Discrete instructions offer interpretable policies but require substantially
+larger generative models and can ignore a verbal rule at generation time. Soft
+prompts are compact and directly supervised but can overfit a small validation
+set. We report them as two independent methods under shared data and scoring,
+never as an ensemble.
+
+

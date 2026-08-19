@@ -1,0 +1,456 @@
+{"kind":"deck","id":"pr/s6mwl7","name":"Deck"}
+{"kind":"layout","layoutId":"557da2ae-b6ae-4aed-b083-b7b02400a5f8","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"2aa6589a-3057-4e1f-9053-f7080f3ad44c","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/7wfz8v","slide":1,"title":"路由实验复盘","textShapes":17}
+{"kind":"textbox","id":"sh/mtwra5gb","slide":1,"text":"路由实验复盘","textPreview":"路由实验复盘","textChars":6,"textLines":1,"bbox":[42,62,900,76]}
+{"kind":"textbox","id":"sh/xkf6dcbu","slide":1,"text":"从 prompt router 到 token/risk-averse 与 soft prompt","textPreview":"从 prompt router 到 token/risk-averse 与 soft prompt","textChars":49,"textLines":1,"bbox":[42,154,920,44]}
+{"kind":"shape","id":"sh/4zidonyd","slide":1,"bbox":[42,242,1196,1]}
+{"kind":"shape","id":"sh/f6dcbulw","slide":1,"bbox":[42,300,270,146]}
+{"kind":"textbox","id":"sh/mlkjm1cf","slide":1,"text":"任务","textPreview":"任务","textChars":2,"textLines":1,"bbox":[62,318,230,26]}
+{"kind":"textbox","id":"sh/xc3ylc7u","slide":1,"text":"MMLU-Pro CS","textPreview":"MMLU-Pro CS","textChars":11,"textLines":1,"bbox":[62,348,230,54]}
+{"kind":"textbox","id":"sh/4r65wjud","slide":1,"text":"mini / nano 二选一","textPreview":"mini / nano 二选一","textChars":15,"textLines":1,"bbox":[62,406,230,30]}
+{"kind":"shape","id":"sh/fu18jqh0","slide":1,"bbox":[342,300,270,146]}
+{"kind":"textbox","id":"sh/m94fu18j","slide":1,"text":"最大样本池","textPreview":"最大样本池","textChars":5,"textLines":1,"bbox":[362,318,230,26]}
+{"kind":"textbox","id":"sh/sji5snel","slide":1,"text":"410 题","textPreview":"410 题","textChars":5,"textLines":1,"bbox":[362,348,230,54]}
+{"kind":"textbox","id":"sh/h4byhgn2","slide":1,"text":"first half 205 + test 205","textPreview":"first half 205 + test 205","textChars":25,"textLines":1,"bbox":[362,406,230,30]}
+{"kind":"shape","id":"sh/adsji5sn","slide":1,"bbox":[642,300,270,146]}
+{"kind":"textbox","id":"sh/3ylc7u54","slide":1,"text":"最好准确率","textPreview":"最好准确率","textChars":5,"textLines":1,"bbox":[662,318,230,26]}
+{"kind":"textbox","id":"sh/s72x4nap","slide":1,"text":"85.5%","textPreview":"85.5%","textChars":5,"textLines":1,"bbox":[662,348,230,54]}
+{"kind":"textbox","id":"sh/lszqtcj6","slide":1,"text":"310 题；-1.0pp vs all-mini","textPreview":"310 题；-1.0pp vs all-mini","textChars":24,"textLines":1,"bbox":[662,406,230,30]}
+{"kind":"shape","id":"sh/a5gbq1or","slide":1,"bbox":[942,300,270,146]}
+{"kind":"textbox","id":"sh/3m94fu18","slide":1,"text":"最高节省","textPreview":"最高节省","textChars":4,"textLines":1,"bbox":[962,318,230,26]}
+{"kind":"textbox","id":"sh/s36hcrmh","slide":1,"text":"71.7%","textPreview":"71.7%","textChars":5,"textLines":1,"bbox":[962,348,230,54]}
+{"kind":"textbox","id":"sh/hoza1gvy","slide":1,"text":"310 题；-2.9pp vs all-mini","textPreview":"310 题；-2.9pp vs all-mini","textChars":24,"textLines":1,"bbox":[962,406,230,30]}
+{"kind":"textbox","id":"sh/lkjm1cfa","slide":1,"text":"主结论：最好的方向不是单纯追求更便宜，而是在“避免 critical misroute”和“保留 nano 的成本优势”之间设定风险姿态。","textPreview":"主结论：最好的方向不是单纯追求更便宜，而是在“避免 critical misroute”和“保留 nano 的成本优势”之间设定风险姿态。","textChars":69,"textLines":1,"bbox":[42,510,1100,56]}
+{"kind":"textbox","id":"sh/szqtcj6t","slide":1,"text":"来源：routing_cost_comparison_*.csv、routing_split_*.json、softprompt_router_*.json","textPreview":"来源：routing_cost_comparison_*.csv、routing_split_*.json、softprompt_router_*.json","textChars":78,"textLines":1,"bbox":[42,665,980,22]}
+{"kind":"textbox","id":"sh/3ex0nuxc","slide":1,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[1188,662,50,22]}
+{"kind":"notes","id":"nt/7wfz8v","slide":1,"text":""}
+{"kind":"slide","id":"sl/8mhtci","slide":2,"title":"数据与基线","textShapes":42}
+{"kind":"textbox","id":"sh/vixczed8","slide":2,"text":"数据与基线","textPreview":"数据与基线","textChars":5,"textLines":1,"bbox":[42,36,520,24]}
+{"kind":"textbox","id":"sh/k3q5o7qp","slide":2,"text":"实验口径先固定，否则指标会互相误导","textPreview":"实验口径先固定，否则指标会互相误导","textChars":17,"textLines":1,"bbox":[42,64,980,78]}
+{"kind":"shape","id":"sh/donyd0z6","slide":2,"bbox":[42,146,1196,1]}
+{"kind":"shape","id":"sh/6psfil0r","slide":2,"bbox":[42,184,250,146]}
+{"kind":"textbox","id":"sh/val87ed8","slide":2,"text":"模型","textPreview":"模型","textChars":2,"textLines":1,"bbox":[62,202,210,26]}
+{"kind":"textbox","id":"sh/kre1w7mp","slide":2,"text":"mini vs nano","textPreview":"mini vs nano","textChars":12,"textLines":1,"bbox":[62,232,210,54]}
+{"kind":"textbox","id":"sh/dcbulwva","slide":2,"text":"mini 更准更贵，nano 更便宜","textPreview":"mini 更准更贵，nano 更便宜","textChars":18,"textLines":1,"bbox":[62,290,210,30]}
+{"kind":"shape","id":"sh/2lszqtcj","slide":2,"bbox":[316,184,250,146]}
+{"kind":"textbox","id":"sh/v6psfil0","slide":2,"text":"成本价","textPreview":"成本价","textChars":3,"textLines":1,"bbox":[336,202,210,26]}
+{"kind":"textbox","id":"sh/bq1oryts","slide":2,"text":"4x","textPreview":"4x","textChars":2,"textLines":1,"bbox":[336,232,210,54]}
+{"kind":"textbox","id":"sh/m58z25kb","slide":2,"text":"mini input/output 均为 nano 的 4 倍","textPreview":"mini input/output 均为 nano 的 4 倍","textChars":31,"textLines":1,"bbox":[336,290,210,30]}
+{"kind":"shape","id":"sh/twra5gbq","slide":2,"bbox":[590,184,250,146]}
+{"kind":"textbox","id":"sh/4byhgn29","slide":2,"text":"主 split","textPreview":"主 split","textChars":7,"textLines":1,"bbox":[610,202,210,26]}
+{"kind":"textbox","id":"sh/b2hwfyxo","slide":2,"text":"205 / 205","textPreview":"205 / 205","textChars":9,"textLines":1,"bbox":[610,232,210,54]}
+{"kind":"textbox","id":"sh/mhk3q5o7","slide":2,"text":"first half 做 train/val，second half 做 test","textPreview":"first half 做 train/val，second half 做 test","textChars":41,"textLines":1,"bbox":[610,290,210,30]}
+{"kind":"shape","id":"sh/t83itgfm","slide":2,"bbox":[864,184,250,146]}
+{"kind":"textbox","id":"sh/4nap4r65","slide":2,"text":"候选目标","textPreview":"候选目标","textChars":4,"textLines":1,"bbox":[884,202,210,26]}
+{"kind":"textbox","id":"sh/bat47y1k","slide":2,"text":"oracle","textPreview":"oracle","textChars":6,"textLines":1,"bbox":[884,232,210,54]}
+{"kind":"textbox","id":"sh/mp0bi9s3","slide":2,"text":"已知每题两模型对错后的上界","textPreview":"已知每题两模型对错后的上界","textChars":13,"textLines":1,"bbox":[884,290,210,30]}
+{"kind":"shape","id":"sh/uxc3ylc7","slide":2,"bbox":[42,390,855,44]}
+{"kind":"textbox","id":"sh/ji5snelo","slide":2,"text":"测试口径","textPreview":"测试口径","textChars":4,"textLines":1,"bbox":[52,402,230,22]}
+{"kind":"textbox","id":"sh/c3ylc7u5","slide":2,"text":"all-mini","textPreview":"all-mini","textChars":8,"textLines":1,"bbox":[302,402,125,22]}
+{"kind":"textbox","id":"sh/1kre1w7m","slide":2,"text":"all-nano","textPreview":"all-nano","textChars":8,"textLines":1,"bbox":[447,402,125,22]}
+{"kind":"textbox","id":"sh/ulwval87","slide":2,"text":"oracle","textPreview":"oracle","textChars":6,"textLines":1,"bbox":[592,402,125,22]}
+{"kind":"textbox","id":"sh/j6tovaho","slide":2,"text":"可省成本上界","textPreview":"可省成本上界","textChars":6,"textLines":1,"bbox":[737,402,150,22]}
+{"kind":"shape","id":"sh/crmhk3q5","slide":2,"bbox":[42,434,855,1]}
+{"kind":"textbox","id":"sh/1cfa9w3m","slide":2,"text":"360 题早期测试","textPreview":"360 题早期测试","textChars":9,"textLines":1,"bbox":[52,445,230,38]}
+{"kind":"textbox","id":"sh/qh0fepkz","slide":2,"text":"84.7%","textPreview":"84.7%","textChars":5,"textLines":1,"bbox":[302,445,125,38]}
+{"kind":"textbox","id":"sh/j2t83itg","slide":2,"text":"76.7%","textPreview":"76.7%","textChars":5,"textLines":1,"bbox":[447,445,125,38]}
+{"kind":"textbox","id":"sh/pkzupwb2","slide":2,"text":"85.6%","textPreview":"85.6%","textChars":5,"textLines":1,"bbox":[592,445,125,38]}
+{"kind":"textbox","id":"sh/0z61032l","slide":2,"text":"66.4%","textPreview":"66.4%","textChars":5,"textLines":1,"bbox":[737,445,150,38]}
+{"kind":"shape","id":"sh/7ed8bat4","slide":2,"bbox":[42,484,855,1]}
+{"kind":"textbox","id":"sh/itgfmlkj","slide":2,"text":"205 题 half1 test","textPreview":"205 题 half1 test","textChars":16,"textLines":1,"bbox":[52,495,230,38]}
+{"kind":"textbox","id":"sh/p8nqxs72","slide":2,"text":"80.5%","textPreview":"80.5%","textChars":5,"textLines":1,"bbox":[302,495,125,38]}
+{"kind":"textbox","id":"sh/0nuxc3yl","slide":2,"text":"71.2%","textPreview":"71.2%","textChars":5,"textLines":1,"bbox":[447,495,125,38]}
+{"kind":"textbox","id":"sh/72x4nap4","slide":2,"text":"83.9%","textPreview":"83.9%","textChars":5,"textLines":1,"bbox":[592,495,125,38]}
+{"kind":"textbox","id":"sh/ih4byhgn","slide":2,"text":"64.2%","textPreview":"64.2%","textChars":5,"textLines":1,"bbox":[737,495,150,38]}
+{"kind":"shape","id":"sh/p4r65wju","slide":2,"bbox":[42,534,855,1]}
+{"kind":"textbox","id":"sh/wjudg7ad","slide":2,"text":"310 题 token/risk 口径","textPreview":"310 题 token/risk 口径","textChars":19,"textLines":1,"bbox":[52,545,230,38]}
+{"kind":"textbox","id":"sh/kre1w7mp","slide":2,"text":"86.5%","textPreview":"86.5%","textChars":5,"textLines":1,"bbox":[302,545,125,38]}
+{"kind":"textbox","id":"sh/dcbulwva","slide":2,"text":"83.2%","textPreview":"83.2%","textChars":5,"textLines":1,"bbox":[447,545,125,38]}
+{"kind":"textbox","id":"sh/6psfil0r","slide":2,"text":"86.5%","textPreview":"86.5%","textChars":5,"textLines":1,"bbox":[592,545,125,38]}
+{"kind":"textbox","id":"sh/val87ed8","slide":2,"text":"71.4%","textPreview":"71.4%","textChars":5,"textLines":1,"bbox":[737,545,150,38]}
+{"kind":"textbox","id":"sh/k3q5o7qp","slide":2,"text":"•","textPreview":"•","textChars":1,"textLines":1,"bbox":[945,410,18,24]}
+{"kind":"textbox","id":"sh/donyd0z6","slide":2,"text":"不同测试集大小不同，绝对准确率不能直接横比。","textPreview":"不同测试集大小不同，绝对准确率不能直接横比。","textChars":22,"textLines":1,"bbox":[973,410,232,32]}
+{"kind":"textbox","id":"sh/2x4nap4r","slide":2,"text":"•","textPreview":"•","textChars":1,"textLines":1,"bbox":[945,450,18,24]}
+{"kind":"textbox","id":"sh/vixczed8","slide":2,"text":"真正要看的是相对 all-mini 的准确率损失和成本节省。","textPreview":"真正要看的是相对 all-mini 的准确率损失和成本节省。","textChars":30,"textLines":1,"bbox":[973,450,232,32]}
+{"kind":"textbox","id":"sh/kf6dcbul","slide":2,"text":"•","textPreview":"•","textChars":1,"textLines":1,"bbox":[945,490,18,24]}
+{"kind":"textbox","id":"sh/d0z61032","slide":2,"text":"oracle 显示：理论上有很大 nano 空间。","textPreview":"oracle 显示：理论上有很大 nano 空间。","textChars":25,"textLines":1,"bbox":[973,490,232,32]}
+{"kind":"textbox","id":"sh/3ylc7u54","slide":2,"text":"基线来自 routing_cost_comparison_testdata_pareto_ollama.csv、hybrid_half1_trainval50_openai.csv、token_targeted_risk_averse_openai.csv","textPreview":"基线来自 routing_cost_comparison_testdata_pareto_ollama.csv、hybrid_half1_trainval50_openai.csv、token_targeted_risk_averse_openai.csv","textChars":128,"textLines":1,"bbox":[42,665,980,22]}
+{"kind":"textbox","id":"sh/adsji5sn","slide":2,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1188,662,50,22]}
+{"kind":"notes","id":"nt/8mhtci","slide":2,"text":""}
+{"kind":"slide","id":"sl/3kp6lq","slide":3,"title":"第一阶段","textShapes":49}
+{"kind":"textbox","id":"sh/bm58z25k","slide":3,"text":"第一阶段","textPreview":"第一阶段","textChars":4,"textLines":1,"bbox":[42,36,520,24]}
+{"kind":"textbox","id":"sh/47y1kre1","slide":3,"text":"早期 GEPA prompt router 证明可行，但 trade-off 还不稳","textPreview":"早期 GEPA prompt router 证明可行，但 trade-off 还不稳","textChars":42,"textLines":1,"bbox":[42,64,980,78]}
+{"kind":"shape","id":"sh/tsvu9kni","slide":3,"bbox":[42,146,1196,1]}
+{"kind":"shape","id":"sh/mp0bi9s3","slide":3,"bbox":[42,184,1135,44]}
+{"kind":"textbox","id":"sh/bat47y1k","slide":3,"text":"口径","textPreview":"口径","textChars":2,"textLines":1,"bbox":[52,196,210,22]}
+{"kind":"textbox","id":"sh/4vmtwra5","slide":3,"text":"策略","textPreview":"策略","textChars":2,"textLines":1,"bbox":[282,196,130,22]}
+{"kind":"textbox","id":"sh/tgfmlkjm","slide":3,"text":"准确率","textPreview":"准确率","textChars":3,"textLines":1,"bbox":[432,196,90,22]}
+{"kind":"textbox","id":"sh/mhk3q5o7","slide":3,"text":"节省","textPreview":"节省","textChars":2,"textLines":1,"bbox":[542,196,80,22]}
+{"kind":"textbox","id":"sh/b2hwfyxo","slide":3,"text":"nano/mini","textPreview":"nano/mini","textChars":9,"textLines":1,"bbox":[642,196,115,22]}
+{"kind":"textbox","id":"sh/f6dcbulw","slide":3,"text":"解释","textPreview":"解释","textChars":2,"textLines":1,"bbox":[777,196,390,22]}
+{"kind":"shape","id":"sh/mlkjm1cf","slide":3,"bbox":[42,228,1135,1]}
+{"kind":"textbox","id":"sh/xc3ylc7u","slide":3,"text":"360 题","textPreview":"360 题","textChars":5,"textLines":1,"bbox":[52,239,210,52]}
+{"kind":"textbox","id":"sh/4r65wjud","slide":3,"text":"GEPA Pareto","textPreview":"GEPA Pareto","textChars":11,"textLines":1,"bbox":[282,239,130,52]}
+{"kind":"textbox","id":"sh/fepkzupw","slide":3,"text":"79.2%","textPreview":"79.2%","textChars":5,"textLines":1,"bbox":[432,239,90,52]}
+{"kind":"textbox","id":"sh/mtwra5gb","slide":3,"text":"55.1%","textPreview":"55.1%","textChars":5,"textLines":1,"bbox":[542,239,80,52]}
+{"kind":"textbox","id":"sh/xkf6dcbu","slide":3,"text":"298/62","textPreview":"298/62","textChars":6,"textLines":1,"bbox":[642,239,115,52]}
+{"kind":"textbox","id":"sh/4zidonyd","slide":3,"text":"省钱明显，但比 all-mini 低 5.6pp。","textPreview":"省钱明显，但比 all-mini 低 5.6pp。","textChars":25,"textLines":1,"bbox":[777,239,390,52]}
+{"kind":"shape","id":"sh/fil0rqd4","slide":3,"bbox":[42,292,1135,1]}
+{"kind":"textbox","id":"sh/qxs72x4n","slide":3,"text":"205 题","textPreview":"205 题","textChars":5,"textLines":1,"bbox":[52,303,210,52]}
+{"kind":"textbox","id":"sh/u9knih4b","slide":3,"text":"GEPA trainval50","textPreview":"GEPA trainval50","textChars":15,"textLines":1,"bbox":[282,303,130,52]}
+{"kind":"textbox","id":"sh/judg7ads","slide":3,"text":"80.0%","textPreview":"80.0%","textChars":5,"textLines":1,"bbox":[432,303,90,52]}
+{"kind":"textbox","id":"sh/cfa9w3m9","slide":3,"text":"12.6%","textPreview":"12.6%","textChars":5,"textLines":1,"bbox":[542,303,80,52]}
+{"kind":"textbox","id":"sh/1032lszq","slide":3,"text":"45/160","textPreview":"45/160","textChars":6,"textLines":1,"bbox":[642,303,115,52]}
+{"kind":"textbox","id":"sh/u18jqh0f","slide":3,"text":"准确率几乎贴近 all-mini，但成本收益较小。","textPreview":"准确率几乎贴近 all-mini，但成本收益较小。","textChars":25,"textLines":1,"bbox":[777,303,390,52]}
+{"kind":"shape","id":"sh/jm1cfa9w","slide":3,"bbox":[42,356,1135,1]}
+{"kind":"textbox","id":"sh/c7u54zid","slide":3,"text":"205 题","textPreview":"205 题","textChars":5,"textLines":1,"bbox":[52,367,210,52]}
+{"kind":"textbox","id":"sh/1orytsvu","slide":3,"text":"OpenEvolve trainval50","textPreview":"OpenEvolve trainval50","textChars":21,"textLines":1,"bbox":[282,367,130,52]}
+{"kind":"textbox","id":"sh/upwb2hwf","slide":3,"text":"80.5%","textPreview":"80.5%","textChars":5,"textLines":1,"bbox":[432,367,90,52]}
+{"kind":"textbox","id":"sh/nap4r65w","slide":3,"text":"2.5%","textPreview":"2.5%","textChars":4,"textLines":1,"bbox":[542,367,80,52]}
+{"kind":"textbox","id":"sh/9gr2p8nq","slide":3,"text":"11/194","textPreview":"11/194","textChars":6,"textLines":1,"bbox":[642,367,115,52]}
+{"kind":"textbox","id":"sh/gvy90je9","slide":3,"text":"非常保守，几乎退回 all-mini。","textPreview":"非常保守，几乎退回 all-mini。","textChars":19,"textLines":1,"bbox":[777,367,390,52]}
+{"kind":"shape","id":"sh/ra5gbq1o","slide":3,"bbox":[42,420,1135,1]}
+{"kind":"textbox","id":"sh/2p8nqxs7","slide":3,"text":"205 题","textPreview":"205 题","textChars":5,"textLines":1,"bbox":[52,431,210,52]}
+{"kind":"textbox","id":"sh/94fu18jq","slide":3,"text":"AdaEvolve trainval50","textPreview":"AdaEvolve trainval50","textChars":20,"textLines":1,"bbox":[282,431,130,52]}
+{"kind":"textbox","id":"sh/kjm1cfa9","slide":3,"text":"74.6%","textPreview":"74.6%","textChars":5,"textLines":1,"bbox":[432,431,90,52]}
+{"kind":"textbox","id":"sh/r2p8nqxs","slide":3,"text":"45.3%","textPreview":"45.3%","textChars":5,"textLines":1,"bbox":[542,431,80,52]}
+{"kind":"textbox","id":"sh/2hwfyxob","slide":3,"text":"149/56","textPreview":"149/56","textChars":6,"textLines":1,"bbox":[642,431,115,52]}
+{"kind":"textbox","id":"sh/9w3m94fu","slide":3,"text":"更便宜，但 critical 风险偏高。","textPreview":"更便宜，但 critical 风险偏高。","textChars":20,"textLines":1,"bbox":[777,431,390,52]}
+{"kind":"textbox","id":"sh/kb6xkf6d","slide":3,"text":"Pareto 360","textPreview":"Pareto 360","textChars":10,"textLines":1,"bbox":[820,200,110,24]}
+{"kind":"shape","id":"sh/o7qpg3ex","slide":3,"bbox":[930,202,196,10]}
+{"kind":"shape","id":"sh/dsji5sne","slide":3,"bbox":[930,202,172.48,10]}
+{"kind":"shape","id":"sh/61032lsz","slide":3,"bbox":[930,218,196,10]}
+{"kind":"shape","id":"sh/vmtwra5g","slide":3,"bbox":[930,218,134.99,10]}
+{"kind":"textbox","id":"sh/oj2t83it","slide":3,"text":"79.2%","textPreview":"79.2%","textChars":5,"textLines":1,"bbox":[1136,197,58,20]}
+{"kind":"textbox","id":"sh/d4vmtwra","slide":3,"text":"55.1%","textPreview":"55.1%","textChars":5,"textLines":1,"bbox":[1136,213,58,20]}
+{"kind":"textbox","id":"sh/6dcbulwv","slide":3,"text":"GEPA 50","textPreview":"GEPA 50","textChars":7,"textLines":1,"bbox":[820,238.5,110,24]}
+{"kind":"shape","id":"sh/vy90je9c","slide":3,"bbox":[930,240.5,196,10]}
+{"kind":"shape","id":"sh/onyd0z61","slide":3,"bbox":[930,240.5,174.22,10]}
+{"kind":"shape","id":"sh/d8v6psfi","slide":3,"bbox":[930,256.5,196,10]}
+{"kind":"shape","id":"sh/3ex0nuxc","slide":3,"bbox":[930,256.5,30.87,10]}
+{"kind":"textbox","id":"sh/at47y1kr","slide":3,"text":"80.0%","textPreview":"80.0%","textChars":5,"textLines":1,"bbox":[1136,235.5,58,20]}
+{"kind":"textbox","id":"sh/lkjm1cfa","slide":3,"text":"12.6%","textPreview":"12.6%","textChars":5,"textLines":1,"bbox":[1136,251.5,58,20]}
+{"kind":"textbox","id":"sh/szqtcj6t","slide":3,"text":"OpenEvolve","textPreview":"OpenEvolve","textChars":10,"textLines":1,"bbox":[820,277,110,24]}
+{"kind":"shape","id":"sh/32lszqtc","slide":3,"bbox":[930,279,196,10]}
+{"kind":"shape","id":"sh/ahoza1gv","slide":3,"bbox":[930,279,175.31,10]}
+{"kind":"shape","id":"sh/l87ed8ba","slide":3,"bbox":[930,295,196,10]}
+{"kind":"shape","id":"sh/sneloj2t","slide":3,"bbox":[930,295,6.13,10]}
+{"kind":"textbox","id":"sh/3q5o7qpg","slide":3,"text":"80.5%","textPreview":"80.5%","textChars":5,"textLines":1,"bbox":[1136,274,58,20]}
+{"kind":"textbox","id":"sh/e9cvixcz","slide":3,"text":"2.5%","textPreview":"2.5%","textChars":4,"textLines":1,"bbox":[1136,290,58,20]}
+{"kind":"textbox","id":"sh/m58z25kb","slide":3,"text":"AdaEvolve","textPreview":"AdaEvolve","textChars":9,"textLines":1,"bbox":[820,315.5,110,24]}
+{"kind":"shape","id":"sh/bq1oryts","slide":3,"bbox":[930,317.5,196,10]}
+{"kind":"shape","id":"sh/4byhgn29","slide":3,"bbox":[930,317.5,162.46,10]}
+{"kind":"shape","id":"sh/twra5gbq","slide":3,"bbox":[930,333.5,196,10]}
+{"kind":"shape","id":"sh/mhk3q5o7","slide":3,"bbox":[930,333.5,110.98,10]}
+{"kind":"textbox","id":"sh/b2hwfyxo","slide":3,"text":"74.6%","textPreview":"74.6%","textChars":5,"textLines":1,"bbox":[1136,312.5,58,20]}
+{"kind":"textbox","id":"sh/4nap4r65","slide":3,"text":"45.3%","textPreview":"45.3%","textChars":5,"textLines":1,"bbox":[1136,328.5,58,20]}
+{"kind":"shape","id":"sh/t83itgfm","slide":3,"bbox":[930,364,18,8]}
+{"kind":"textbox","id":"sh/mp0bi9s3","slide":3,"text":"准确率","textPreview":"准确率","textChars":3,"textLines":1,"bbox":[954,357,80,20]}
+{"kind":"shape","id":"sh/bat47y1k","slide":3,"bbox":[1040,364,18,8]}
+{"kind":"textbox","id":"sh/1cfa9w3m","slide":3,"text":"成本节省","textPreview":"成本节省","textChars":4,"textLines":1,"bbox":[1064,357,90,20]}
+{"kind":"textbox","id":"sh/crmhk3q5","slide":3,"text":"阶段性判断：GEPA 能学到“什么时候该省”，但如果 objective 没有强约束 critical misroute，会在准确率和成本之间摆动。","textPreview":"阶段性判断：GEPA 能学到“什么时候该省”，但如果 objective 没有强约束 critical misroute，会在准确率和成本之间摆动。","textChars":74,"textLines":1,"bbox":[42,580,1060,44]}
+{"kind":"textbox","id":"sh/j6tovaho","slide":3,"text":"来源：routing_cost_comparison_testdata_pareto_ollama.csv、hybrid_half1_trainval50_openai.csv、openevolve/adaevolve 对照 CSV","textPreview":"来源：routing_cost_comparison_testdata_pareto_ollama.csv、hybrid_half1_trainval50_openai.csv、openevolve/adaevolve 对照 CSV","textChars":116,"textLines":1,"bbox":[42,665,980,22]}
+{"kind":"textbox","id":"sh/ulwval87","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1188,662,50,22]}
+{"kind":"notes","id":"nt/3kp6lq","slide":3,"text":""}
+{"kind":"slide","id":"sl/imevft","slide":4,"title":"GEPA sweep","textShapes":55}
+{"kind":"textbox","id":"sh/7y1kre1w","slide":4,"text":"GEPA sweep","textPreview":"GEPA sweep","textChars":10,"textLines":1,"bbox":[42,36,520,24]}
+{"kind":"textbox","id":"sh/wjudg7ad","slide":4,"text":"增加 train/val 数量没有单调改善，50 题反而最稳","textPreview":"增加 train/val 数量没有单调改善，50 题反而最稳","textChars":30,"textLines":1,"bbox":[42,64,980,78]}
+{"kind":"shape","id":"sh/p4r65wju","slide":4,"bbox":[42,146,1196,1]}
+{"kind":"shape","id":"sh/i5sneloj","slide":4,"bbox":[42,184,735,44]}
+{"kind":"textbox","id":"sh/7qpg3ex0","slide":4,"text":"train/val","textPreview":"train/val","textChars":9,"textLines":1,"bbox":[52,196,100,22]}
+{"kind":"textbox","id":"sh/0bi9s36h","slide":4,"text":"准确率","textPreview":"准确率","textChars":3,"textLines":1,"bbox":[172,196,85,22]}
+{"kind":"textbox","id":"sh/pwb2hwfy","slide":4,"text":"节省","textPreview":"节省","textChars":2,"textLines":1,"bbox":[277,196,85,22]}
+{"kind":"textbox","id":"sh/itgfmlkj","slide":4,"text":"nano/mini","textPreview":"nano/mini","textChars":9,"textLines":1,"bbox":[382,196,100,22]}
+{"kind":"textbox","id":"sh/7ed8bat4","slide":4,"text":"观察","textPreview":"观察","textChars":2,"textLines":1,"bbox":[502,196,265,22]}
+{"kind":"shape","id":"sh/r2p8nqxs","slide":4,"bbox":[42,228,735,1]}
+{"kind":"textbox","id":"sh/2hwfyxob","slide":4,"text":"25","textPreview":"25","textChars":2,"textLines":1,"bbox":[52,239,100,36]}
+{"kind":"textbox","id":"sh/94fu18jq","slide":4,"text":"78.5%","textPreview":"78.5%","textChars":5,"textLines":1,"bbox":[172,239,85,36]}
+{"kind":"textbox","id":"sh/kjm1cfa9","slide":4,"text":"18.6%","textPreview":"18.6%","textChars":5,"textLines":1,"bbox":[277,239,85,36]}
+{"kind":"textbox","id":"sh/ra5gbq1o","slide":4,"text":"64/141","textPreview":"64/141","textChars":6,"textLines":1,"bbox":[382,239,100,36]}
+{"kind":"textbox","id":"sh/2p8nqxs7","slide":4,"text":"保守程度适中，少量掉点。","textPreview":"保守程度适中，少量掉点。","textChars":12,"textLines":1,"bbox":[502,239,265,36]}
+{"kind":"shape","id":"sh/9gr2p8nq","slide":4,"bbox":[42,276,735,1]}
+{"kind":"textbox","id":"sh/gvy90je9","slide":4,"text":"50","textPreview":"50","textChars":2,"textLines":1,"bbox":[52,287,100,36]}
+{"kind":"textbox","id":"sh/re1w7mp0","slide":4,"text":"80.0%","textPreview":"80.0%","textChars":5,"textLines":1,"bbox":[172,287,85,36]}
+{"kind":"textbox","id":"sh/2t83itgf","slide":4,"text":"12.6%","textPreview":"12.6%","textChars":5,"textLines":1,"bbox":[277,287,85,36]}
+{"kind":"textbox","id":"sh/qpg3ex0n","slide":4,"text":"45/160","textPreview":"45/160","textChars":6,"textLines":1,"bbox":[382,287,100,36]}
+{"kind":"textbox","id":"sh/fa9w3m94","slide":4,"text":"准确率最接近 all-mini。","textPreview":"准确率最接近 all-mini。","textChars":16,"textLines":1,"bbox":[502,287,265,36]}
+{"kind":"shape","id":"sh/8v6psfil","slide":4,"bbox":[42,324,735,1]}
+{"kind":"textbox","id":"sh/xczed8v6","slide":4,"text":"75","textPreview":"75","textChars":2,"textLines":1,"bbox":[52,335,100,36]}
+{"kind":"textbox","id":"sh/qd4vmtwr","slide":4,"text":"77.6%","textPreview":"77.6%","textChars":5,"textLines":1,"bbox":[172,335,85,36]}
+{"kind":"textbox","id":"sh/fyxobm58","slide":4,"text":"31.2%","textPreview":"31.2%","textChars":5,"textLines":1,"bbox":[277,335,85,36]}
+{"kind":"textbox","id":"sh/8jqh0fep","slide":4,"text":"109/96","textPreview":"109/96","textChars":6,"textLines":1,"bbox":[382,335,100,36]}
+{"kind":"textbox","id":"sh/x4nap4r6","slide":4,"text":"开始更激进。","textPreview":"开始更激进。","textChars":6,"textLines":1,"bbox":[502,335,265,36]}
+{"kind":"shape","id":"sh/q1orytsv","slide":4,"bbox":[42,372,735,1]}
+{"kind":"textbox","id":"sh/fmlkjm1c","slide":4,"text":"100","textPreview":"100","textChars":3,"textLines":1,"bbox":[52,383,100,36]}
+{"kind":"textbox","id":"sh/5sneloj2","slide":4,"text":"76.1%","textPreview":"76.1%","textChars":5,"textLines":1,"bbox":[172,383,85,36]}
+{"kind":"textbox","id":"sh/cbulwval","slide":4,"text":"43.4%","textPreview":"43.4%","textChars":5,"textLines":1,"bbox":[277,383,85,36]}
+{"kind":"textbox","id":"sh/nqxs72x4","slide":4,"text":"146/59","textPreview":"146/59","textChars":6,"textLines":1,"bbox":[382,383,100,36]}
+{"kind":"textbox","id":"sh/u54zidon","slide":4,"text":"省钱增加，准确率下滑。","textPreview":"省钱增加，准确率下滑。","textChars":11,"textLines":1,"bbox":[502,383,265,36]}
+{"kind":"shape","id":"sh/5kb6xkf6","slide":4,"bbox":[42,420,735,1]}
+{"kind":"textbox","id":"sh/czed8v6p","slide":4,"text":"125-200","textPreview":"125-200","textChars":7,"textLines":1,"bbox":[52,431,100,36]}
+{"kind":"textbox","id":"sh/neloj2t8","slide":4,"text":"72.2%","textPreview":"72.2%","textChars":5,"textLines":1,"bbox":[172,431,85,36]}
+{"kind":"textbox","id":"sh/ytsvu9kn","slide":4,"text":"62-68%","textPreview":"62-68%","textChars":6,"textLines":1,"bbox":[277,431,85,36]}
+{"kind":"textbox","id":"sh/58z25kb6","slide":4,"text":"约 192/13","textPreview":"约 192/13","textChars":8,"textLines":1,"bbox":[382,431,100,36]}
+{"kind":"textbox","id":"sh/gn29gr2p","slide":4,"text":"几乎变成 nano-heavy。","textPreview":"几乎变成 nano-heavy。","textChars":16,"textLines":1,"bbox":[502,431,265,36]}
+{"kind":"textbox","id":"sh/032lszqt","slide":4,"text":"25","textPreview":"25","textChars":2,"textLines":1,"bbox":[815,182,48,24]}
+{"kind":"shape","id":"sh/tovahoza","slide":4,"bbox":[863,184,263,10]}
+{"kind":"shape","id":"sh/ixczed8v","slide":4,"bbox":[863,184,229.39,10]}
+{"kind":"shape","id":"sh/bi9s36hc","slide":4,"bbox":[863,200,263,10]}
+{"kind":"shape","id":"sh/0fepkzup","slide":4,"bbox":[863,200,61.15,10]}
+{"kind":"textbox","id":"sh/p0bi9s36","slide":4,"text":"78.5%","textPreview":"78.5%","textChars":5,"textLines":1,"bbox":[1136,179,58,20]}
+{"kind":"textbox","id":"sh/i9s36hcr","slide":4,"text":"18.6%","textPreview":"18.6%","textChars":5,"textLines":1,"bbox":[1136,195,58,20]}
+{"kind":"textbox","id":"sh/bulwval8","slide":4,"text":"50","textPreview":"50","textChars":2,"textLines":1,"bbox":[815,220.5,48,24]}
+{"kind":"shape","id":"sh/0je9cvix","slide":4,"bbox":[863,222.5,263,10]}
+{"kind":"shape","id":"sh/t47y1kre","slide":4,"bbox":[863,222.5,233.78,10]}
+{"kind":"shape","id":"sh/zqtcj6to","slide":4,"bbox":[863,238.5,263,10]}
+{"kind":"shape","id":"sh/65wjudg7","slide":4,"bbox":[863,238.5,41.42,10]}
+{"kind":"textbox","id":"sh/hwfyxobm","slide":4,"text":"80.0%","textPreview":"80.0%","textChars":5,"textLines":1,"bbox":[1136,217.5,58,20]}
+{"kind":"textbox","id":"sh/obm58z25","slide":4,"text":"12.6%","textPreview":"12.6%","textChars":5,"textLines":1,"bbox":[1136,233.5,58,20]}
+{"kind":"textbox","id":"sh/zed8v6ps","slide":4,"text":"75","textPreview":"75","textChars":2,"textLines":1,"bbox":[815,259,48,24]}
+{"kind":"shape","id":"sh/6xkf6dcb","slide":4,"bbox":[863,261,263,10]}
+{"kind":"shape","id":"sh/hk3q5o7q","slide":4,"bbox":[863,261,226.76,10]}
+{"kind":"shape","id":"sh/oza1gvy9","slide":4,"bbox":[863,277,263,10]}
+{"kind":"shape","id":"sh/z61032ls","slide":4,"bbox":[863,277,102.57,10]}
+{"kind":"textbox","id":"sh/al87ed8b","slide":4,"text":"77.6%","textPreview":"77.6%","textChars":5,"textLines":1,"bbox":[1136,256,58,20]}
+{"kind":"textbox","id":"sh/ih4byhgn","slide":4,"text":"31.2%","textPreview":"31.2%","textChars":5,"textLines":1,"bbox":[1136,272,58,20]}
+{"kind":"textbox","id":"sh/72x4nap4","slide":4,"text":"100","textPreview":"100","textChars":3,"textLines":1,"bbox":[815,297.5,48,24]}
+{"kind":"shape","id":"sh/0nuxc3yl","slide":4,"bbox":[863,299.5,263,10]}
+{"kind":"shape","id":"sh/p8nqxs72","slide":4,"bbox":[863,299.5,222.38,10]}
+{"kind":"shape","id":"sh/itgfmlkj","slide":4,"bbox":[863,315.5,263,10]}
+{"kind":"shape","id":"sh/7ed8bat4","slide":4,"bbox":[863,315.5,142.68,10]}
+{"kind":"textbox","id":"sh/0z61032l","slide":4,"text":"76.1%","textPreview":"76.1%","textChars":5,"textLines":1,"bbox":[1136,294.5,58,20]}
+{"kind":"textbox","id":"sh/pkzupwb2","slide":4,"text":"43.4%","textPreview":"43.4%","textChars":5,"textLines":1,"bbox":[1136,310.5,58,20]}
+{"kind":"textbox","id":"sh/i5sneloj","slide":4,"text":"150","textPreview":"150","textChars":3,"textLines":1,"bbox":[815,336,48,24]}
+{"kind":"shape","id":"sh/7qpg3ex0","slide":4,"bbox":[863,338,263,10]}
+{"kind":"shape","id":"sh/xobm58z2","slide":4,"bbox":[863,338,210.98,10]}
+{"kind":"shape","id":"sh/83itgfml","slide":4,"bbox":[863,354,263,10]}
+{"kind":"shape","id":"sh/fil0rqd4","slide":4,"bbox":[863,354,204.81,10]}
+{"kind":"textbox","id":"sh/qxs72x4n","slide":4,"text":"72.2%","textPreview":"72.2%","textChars":5,"textLines":1,"bbox":[1136,333,58,20]}
+{"kind":"textbox","id":"sh/x0nuxc3y","slide":4,"text":"62.3%","textPreview":"62.3%","textChars":5,"textLines":1,"bbox":[1136,349,58,20]}
+{"kind":"textbox","id":"sh/4fu18jqh","slide":4,"text":"200","textPreview":"200","textChars":3,"textLines":1,"bbox":[815,374.5,48,24]}
+{"kind":"shape","id":"sh/fu18jqh0","slide":4,"bbox":[863,376.5,263,10]}
+{"kind":"shape","id":"sh/m94fu18j","slide":4,"bbox":[863,376.5,210.98,10]}
+{"kind":"shape","id":"sh/xc3ylc7u","slide":4,"bbox":[863,392.5,263,10]}
+{"kind":"shape","id":"sh/4r65wjud","slide":4,"bbox":[863,392.5,204.81,10]}
+{"kind":"textbox","id":"sh/8v6psfil","slide":4,"text":"72.2%","textPreview":"72.2%","textChars":5,"textLines":1,"bbox":[1136,371.5,58,20]}
+{"kind":"textbox","id":"sh/xczed8v6","slide":4,"text":"62.3%","textPreview":"62.3%","textChars":5,"textLines":1,"bbox":[1136,387.5,58,20]}
+{"kind":"shape","id":"sh/qpg3ex0n","slide":4,"bbox":[863,423,18,8]}
+{"kind":"textbox","id":"sh/fa9w3m94","slide":4,"text":"准确率","textPreview":"准确率","textChars":3,"textLines":1,"bbox":[887,416,80,20]}
+{"kind":"shape","id":"sh/8jqh0fep","slide":4,"bbox":[973,423,18,8]}
+{"kind":"textbox","id":"sh/x4nap4r6","slide":4,"text":"成本节省","textPreview":"成本节省","textChars":4,"textLines":1,"bbox":[997,416,90,20]}
+{"kind":"textbox","id":"sh/qd4vmtwr","slide":4,"text":"随机对照也显示类似倾向：trainval100 random control 为 75.1% / 43.9% 节省，trainval150/200 为 72.2% / 61.9% 节省。","textPreview":"随机对照也显示类似倾向：trainval100 random control 为 75.1% / 43.9% 节省，trainval150/200 为 72.2% / 61.9% 节省。","textChars":93,"textLines":1,"bbox":[42,590,1120,38]}
+{"kind":"textbox","id":"sh/fyxobm58","slide":4,"text":"来源：routing_cost_comparison_testdata_hybrid_half1_trainval*_openai.csv、random_control_trainval*_openai.csv","textPreview":"来源：routing_cost_comparison_testdata_hybrid_half1_trainval*_openai.csv、random_control_trainval*_openai.csv","textChars":105,"textLines":1,"bbox":[42,665,980,22]}
+{"kind":"textbox","id":"sh/87ed8bat","slide":4,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1188,662,50,22]}
+{"kind":"notes","id":"nt/imevft","slide":4,"text":""}
+{"kind":"slide","id":"sl/jcc116","slide":5,"title":"分桶与反思模型","textShapes":40}
+{"kind":"textbox","id":"sh/al87ed8b","slide":5,"text":"分桶与反思模型","textPreview":"分桶与反思模型","textChars":7,"textLines":1,"bbox":[42,36,520,24]}
+{"kind":"textbox","id":"sh/hcrmhk3q","slide":5,"text":"ablation 的信号：样本构成比样本量更关键","textPreview":"ablation 的信号：样本构成比样本量更关键","textChars":24,"textLines":1,"bbox":[42,64,980,78]}
+{"kind":"shape","id":"sh/orytsvu9","slide":5,"bbox":[42,146,1196,1]}
+{"kind":"shape","id":"sh/zupwb2hw","slide":5,"bbox":[42,184,1125,44]}
+{"kind":"textbox","id":"sh/a9w3m94f","slide":5,"text":"ablation","textPreview":"ablation","textChars":8,"textLines":1,"bbox":[52,196,320,22]}
+{"kind":"textbox","id":"sh/h0fepkzu","slide":5,"text":"准确率","textPreview":"准确率","textChars":3,"textLines":1,"bbox":[392,196,80,22]}
+{"kind":"textbox","id":"sh/sfil0rqd","slide":5,"text":"节省","textPreview":"节省","textChars":2,"textLines":1,"bbox":[492,196,80,22]}
+{"kind":"textbox","id":"sh/zqtcj6to","slide":5,"text":"nano/mini","textPreview":"nano/mini","textChars":9,"textLines":1,"bbox":[592,196,105,22]}
+{"kind":"textbox","id":"sh/65wjudg7","slide":5,"text":"含义","textPreview":"含义","textChars":2,"textLines":1,"bbox":[717,196,440,22]}
+{"kind":"shape","id":"sh/g3ex0nux","slide":5,"bbox":[42,228,1125,1]}
+{"kind":"textbox","id":"sh/5o7qpg3e","slide":5,"text":"balancedish openai","textPreview":"balancedish openai","textChars":18,"textLines":1,"bbox":[52,239,320,42]}
+{"kind":"textbox","id":"sh/yxobm58z","slide":5,"text":"79.0%","textPreview":"79.0%","textChars":5,"textLines":1,"bbox":[392,239,80,42]}
+{"kind":"textbox","id":"sh/nih4byhg","slide":5,"text":"24.3%","textPreview":"24.3%","textChars":5,"textLines":1,"bbox":[492,239,80,42]}
+{"kind":"textbox","id":"sh/gr2p8nqx","slide":5,"text":"82/123","textPreview":"82/123","textChars":6,"textLines":1,"bbox":[592,239,105,42]}
+{"kind":"textbox","id":"sh/9cvixcze","slide":5,"text":"更平衡，保留了一些成本收益。","textPreview":"更平衡，保留了一些成本收益。","textChars":14,"textLines":1,"bbox":[717,239,440,42]}
+{"kind":"shape","id":"sh/ylc7u54z","slide":5,"bbox":[42,282,1125,1]}
+{"kind":"textbox","id":"sh/r65wjudg","slide":5,"text":"critical + both_wrong","textPreview":"critical + both_wrong","textChars":21,"textLines":1,"bbox":[52,293,320,42]}
+{"kind":"textbox","id":"sh/gfmlkjm1","slide":5,"text":"78.0%","textPreview":"78.0%","textChars":5,"textLines":1,"bbox":[392,293,80,42]}
+{"kind":"textbox","id":"sh/90je9cvi","slide":5,"text":"24.4%","textPreview":"24.4%","textChars":5,"textLines":1,"bbox":[492,293,80,42]}
+{"kind":"textbox","id":"sh/t83itgfm","slide":5,"text":"85/120","textPreview":"85/120","textChars":6,"textLines":1,"bbox":[592,293,105,42]}
+{"kind":"textbox","id":"sh/4nap4r65","slide":5,"text":"更关注风险样本，准确率接近但成本更高。","textPreview":"更关注风险样本，准确率接近但成本更高。","textChars":19,"textLines":1,"bbox":[717,293,440,42]}
+{"kind":"shape","id":"sh/b2hwfyxo","slide":5,"bbox":[42,336,1125,1]}
+{"kind":"textbox","id":"sh/mhk3q5o7","slide":5,"text":"critical + both_correct","textPreview":"critical + both_correct","textChars":23,"textLines":1,"bbox":[52,347,320,42]}
+{"kind":"textbox","id":"sh/twra5gbq","slide":5,"text":"76.1%","textPreview":"76.1%","textChars":5,"textLines":1,"bbox":[392,347,80,42]}
+{"kind":"textbox","id":"sh/4byhgn29","slide":5,"text":"34.7%","textPreview":"34.7%","textChars":5,"textLines":1,"bbox":[492,347,80,42]}
+{"kind":"textbox","id":"sh/bq1oryts","slide":5,"text":"122/83","textPreview":"122/83","textChars":6,"textLines":1,"bbox":[592,347,105,42]}
+{"kind":"textbox","id":"sh/m58z25kb","slide":5,"text":"省钱更多，但准确率损失扩大。","textPreview":"省钱更多，但准确率损失扩大。","textChars":14,"textLines":1,"bbox":[717,347,440,42]}
+{"kind":"shape","id":"sh/tsvu9kni","slide":5,"bbox":[42,390,1125,1]}
+{"kind":"textbox","id":"sh/47y1kre1","slide":5,"text":"both_correct heavy","textPreview":"both_correct heavy","textChars":18,"textLines":1,"bbox":[52,401,320,42]}
+{"kind":"textbox","id":"sh/e1w7mp0b","slide":5,"text":"72.2%","textPreview":"72.2%","textChars":5,"textLines":1,"bbox":[392,401,80,42]}
+{"kind":"textbox","id":"sh/7mp0bi9s","slide":5,"text":"59.9%","textPreview":"59.9%","textChars":5,"textLines":1,"bbox":[492,401,80,42]}
+{"kind":"textbox","id":"sh/w7mp0bi9","slide":5,"text":"185/20","textPreview":"185/20","textChars":6,"textLines":1,"bbox":[592,401,105,42]}
+{"kind":"textbox","id":"sh/psfil0rq","slide":5,"text":"过多 easy/cheap 信号会推向 nano-heavy。","textPreview":"过多 easy/cheap 信号会推向 nano-heavy。","textChars":31,"textLines":1,"bbox":[717,401,440,42]}
+{"kind":"shape","id":"sh/epkzupwb","slide":5,"bbox":[42,444,1125,1]}
+{"kind":"textbox","id":"sh/7adsji5s","slide":5,"text":"Qwen 0.8B local reflect","textPreview":"Qwen 0.8B local reflect","textChars":23,"textLines":1,"bbox":[52,455,320,42]}
+{"kind":"textbox","id":"sh/wval87ed","slide":5,"text":"71.2%","textPreview":"71.2%","textChars":5,"textLines":1,"bbox":[392,455,80,42]}
+{"kind":"textbox","id":"sh/pg3ex0nu","slide":5,"text":"74.1%","textPreview":"74.1%","textChars":5,"textLines":1,"bbox":[492,455,80,42]}
+{"kind":"textbox","id":"sh/eloj2t83","slide":5,"text":"205/0","textPreview":"205/0","textChars":5,"textLines":1,"bbox":[592,455,105,42]}
+{"kind":"textbox","id":"sh/36hcrmhk","slide":5,"text":"塌缩为全 nano，说明反思/路由能力不足。","textPreview":"塌缩为全 nano，说明反思/路由能力不足。","textChars":22,"textLines":1,"bbox":[717,455,440,42]}
+{"kind":"shape","id":"sh/n29gr2p8","slide":5,"bbox":[42,498,1125,1]}
+{"kind":"textbox","id":"sh/yhgn29gr","slide":5,"text":"Qwen 4B local/openai","textPreview":"Qwen 4B local/openai","textChars":20,"textLines":1,"bbox":[52,509,320,42]}
+{"kind":"textbox","id":"sh/58z25kb6","slide":5,"text":"75.6-76.1%","textPreview":"75.6-76.1%","textChars":10,"textLines":1,"bbox":[392,509,80,42]}
+{"kind":"textbox","id":"sh/gn29gr2p","slide":5,"text":"47.4-47.5%","textPreview":"47.4-47.5%","textChars":10,"textLines":1,"bbox":[492,509,80,42]}
+{"kind":"textbox","id":"sh/nuxc3ylc","slide":5,"text":"约 155/50","textPreview":"约 155/50","textChars":8,"textLines":1,"bbox":[592,509,105,42]}
+{"kind":"textbox","id":"sh/y90je9cv","slide":5,"text":"比 0.8B 稳，但仍偏省钱。","textPreview":"比 0.8B 稳，但仍偏省钱。","textChars":15,"textLines":1,"bbox":[717,509,440,42]}
+{"kind":"textbox","id":"sh/5wjudg7a","slide":5,"text":"这里最有价值的发现不是某个 ablation 单点赢，而是：critical / mini-only 样本必须被足够代表；否则 objective 很容易学成“默认 nano”。","textPreview":"这里最有价值的发现不是某个 ablation 单点赢，而是：critical / mini-only 样本必须被足够代表；否则 objective 很容易学成“默认 nano”。","textChars":89,"textLines":1,"bbox":[58,585,1060,52]}
+{"kind":"textbox","id":"sh/gbq1oryt","slide":5,"text":"来源：routing_cost_comparison_testdata_hybrid_half1_ablation50_*.csv","textPreview":"来源：routing_cost_comparison_testdata_hybrid_half1_ablation50_*.csv","textChars":65,"textLines":1,"bbox":[42,665,980,22]}
+{"kind":"textbox","id":"sh/nqxs72x4","slide":5,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1188,662,50,22]}
+{"kind":"notes","id":"nt/jcc116","slide":5,"text":""}
+{"kind":"slide","id":"sl/4kk8kv","slide":6,"title":"目标函数与输出格式","textShapes":45}
+{"kind":"textbox","id":"sh/fa9w3m94","slide":6,"text":"目标函数与输出格式","textPreview":"目标函数与输出格式","textChars":9,"textLines":1,"bbox":[42,36,520,24]}
+{"kind":"textbox","id":"sh/8v6psfil","slide":6,"text":"token 与 risk-averse 版本把结果推到更可用的前沿","textPreview":"token 与 risk-averse 版本把结果推到更可用的前沿","textChars":33,"textLines":1,"bbox":[42,64,980,78]}
+{"kind":"shape","id":"sh/xczed8v6","slide":6,"bbox":[42,146,1196,1]}
+{"kind":"textbox","id":"sh/qd4vmtwr","slide":6,"text":"manual risk full","textPreview":"manual risk full","textChars":16,"textLines":1,"bbox":[42,182,190,24]}
+{"kind":"shape","id":"sh/fyxobm58","slide":6,"bbox":[232,184,316,10]}
+{"kind":"shape","id":"sh/8jqh0fep","slide":6,"bbox":[232,184,300.2,10]}
+{"kind":"shape","id":"sh/x4nap4r6","slide":6,"bbox":[232,200,316,10]}
+{"kind":"shape","id":"sh/q1orytsv","slide":6,"bbox":[232,200,145.75,10]}
+{"kind":"textbox","id":"sh/fmlkjm1c","slide":6,"text":"85.5%","textPreview":"85.5%","textChars":5,"textLines":1,"bbox":[558,179,58,20]}
+{"kind":"textbox","id":"sh/jqh0fepk","slide":6,"text":"36.9%","textPreview":"36.9%","textChars":5,"textLines":1,"bbox":[558,195,58,20]}
+{"kind":"textbox","id":"sh/q5o7qpg3","slide":6,"text":"hybrid easy openai","textPreview":"hybrid easy openai","textChars":18,"textLines":1,"bbox":[42,220.5,190,24]}
+{"kind":"shape","id":"sh/1w7mp0bi","slide":6,"bbox":[232,222.5,316,10]}
+{"kind":"shape","id":"sh/8bat47y1","slide":6,"bbox":[232,222.5,299.15,10]}
+{"kind":"shape","id":"sh/j2t83itg","slide":6,"bbox":[232,238.5,316,10]}
+{"kind":"shape","id":"sh/qh0fepkz","slide":6,"bbox":[232,238.5,181.7,10]}
+{"kind":"textbox","id":"sh/18jqh0fe","slide":6,"text":"85.2%","textPreview":"85.2%","textChars":5,"textLines":1,"bbox":[558,217.5,58,20]}
+{"kind":"textbox","id":"sh/8nqxs72x","slide":6,"text":"46.0%","textPreview":"46.0%","textChars":5,"textLines":1,"bbox":[558,233.5,58,20]}
+{"kind":"textbox","id":"sh/j6tovaho","slide":6,"text":"train100 pareto","textPreview":"train100 pareto","textChars":15,"textLines":1,"bbox":[42,259,190,24]}
+{"kind":"shape","id":"sh/ulwval87","slide":6,"bbox":[232,261,316,10]}
+{"kind":"shape","id":"sh/ed8v6psf","slide":6,"bbox":[232,261,297.04,10]}
+{"kind":"shape","id":"sh/7y1kre1w","slide":6,"bbox":[232,277,316,10]}
+{"kind":"shape","id":"sh/wjudg7ad","slide":6,"bbox":[232,277,226.34,10]}
+{"kind":"textbox","id":"sh/p4r65wju","slide":6,"text":"84.6%","textPreview":"84.6%","textChars":5,"textLines":1,"bbox":[558,256,58,20]}
+{"kind":"textbox","id":"sh/i5sneloj","slide":6,"text":"57.3%","textPreview":"57.3%","textChars":5,"textLines":1,"bbox":[558,272,58,20]}
+{"kind":"textbox","id":"sh/7qpg3ex0","slide":6,"text":"balanced100 risk","textPreview":"balanced100 risk","textChars":16,"textLines":1,"bbox":[42,297.5,190,24]}
+{"kind":"shape","id":"sh/0bi9s36h","slide":6,"bbox":[232,299.5,316,10]}
+{"kind":"shape","id":"sh/pwb2hwfy","slide":6,"bbox":[232,299.5,295.64,10]}
+{"kind":"shape","id":"sh/itgfmlkj","slide":6,"bbox":[232,315.5,316,10]}
+{"kind":"shape","id":"sh/7ed8bat4","slide":6,"bbox":[232,315.5,188.81,10]}
+{"kind":"textbox","id":"sh/xkf6dcbu","slide":6,"text":"84.2%","textPreview":"84.2%","textChars":5,"textLines":1,"bbox":[558,294.5,58,20]}
+{"kind":"textbox","id":"sh/4zidonyd","slide":6,"text":"47.8%","textPreview":"47.8%","textChars":5,"textLines":1,"bbox":[558,310.5,58,20]}
+{"kind":"textbox","id":"sh/fepkzupw","slide":6,"text":"token target openai","textPreview":"token target openai","textChars":19,"textLines":1,"bbox":[42,336,190,24]}
+{"kind":"shape","id":"sh/mtwra5gb","slide":6,"bbox":[232,338,316,10]}
+{"kind":"shape","id":"sh/xc3ylc7u","slide":6,"bbox":[232,338,293.18,10]}
+{"kind":"shape","id":"sh/4r65wjud","slide":6,"bbox":[232,354,316,10]}
+{"kind":"shape","id":"sh/f6dcbulw","slide":6,"bbox":[232,354,283.22,10]}
+{"kind":"textbox","id":"sh/mlkjm1cf","slide":6,"text":"83.5%","textPreview":"83.5%","textChars":5,"textLines":1,"bbox":[558,333,58,20]}
+{"kind":"textbox","id":"sh/x0nuxc3y","slide":6,"text":"71.7%","textPreview":"71.7%","textChars":5,"textLines":1,"bbox":[558,349,58,20]}
+{"kind":"textbox","id":"sh/4fu18jqh","slide":6,"text":"token target ollama","textPreview":"token target ollama","textChars":19,"textLines":1,"bbox":[42,374.5,190,24]}
+{"kind":"shape","id":"sh/svu9knih","slide":6,"bbox":[232,376.5,316,10]}
+{"kind":"shape","id":"sh/hgn29gr2","slide":6,"bbox":[232,376.5,293.18,10]}
+{"kind":"shape","id":"sh/ap4r65wj","slide":6,"bbox":[232,392.5,316,10]}
+{"kind":"shape","id":"sh/za1gvy90","slide":6,"bbox":[232,392.5,253.59,10]}
+{"kind":"textbox","id":"sh/s36hcrmh","slide":6,"text":"83.5%","textPreview":"83.5%","textChars":5,"textLines":1,"bbox":[558,371.5,58,20]}
+{"kind":"textbox","id":"sh/hoza1gvy","slide":6,"text":"64.2%","textPreview":"64.2%","textChars":5,"textLines":1,"bbox":[558,387.5,58,20]}
+{"kind":"shape","id":"sh/a1gvy90j","slide":6,"bbox":[232,423,18,8]}
+{"kind":"textbox","id":"sh/zidonyd0","slide":6,"text":"准确率","textPreview":"准确率","textChars":3,"textLines":1,"bbox":[256,416,80,20]}
+{"kind":"shape","id":"sh/s72x4nap","slide":6,"bbox":[342,423,18,8]}
+{"kind":"textbox","id":"sh/lszqtcj6","slide":6,"text":"成本节省","textPreview":"成本节省","textChars":4,"textLines":1,"bbox":[366,416,90,20]}
+{"kind":"shape","id":"sh/nih4byhg","slide":6,"bbox":[685,184,545,44]}
+{"kind":"textbox","id":"sh/yxobm58z","slide":6,"text":"方案","textPreview":"方案","textChars":2,"textLines":1,"bbox":[695,196,230,22]}
+{"kind":"textbox","id":"sh/5o7qpg3e","slide":6,"text":"准确率","textPreview":"准确率","textChars":3,"textLines":1,"bbox":[945,196,70,22]}
+{"kind":"textbox","id":"sh/g3ex0nux","slide":6,"text":"节省","textPreview":"节省","textChars":2,"textLines":1,"bbox":[1035,196,70,22]}
+{"kind":"textbox","id":"sh/r65wjudg","slide":6,"text":"nano/mini","textPreview":"nano/mini","textChars":9,"textLines":1,"bbox":[1125,196,95,22]}
+{"kind":"shape","id":"sh/ylc7u54z","slide":6,"bbox":[685,228,545,1]}
+{"kind":"textbox","id":"sh/9cvixcze","slide":6,"text":"manual risk full","textPreview":"manual risk full","textChars":16,"textLines":1,"bbox":[695,239,230,44]}
+{"kind":"textbox","id":"sh/gr2p8nqx","slide":6,"text":"85.5%","textPreview":"85.5%","textChars":5,"textLines":1,"bbox":[945,239,70,44]}
+{"kind":"textbox","id":"sh/rytsvu9k","slide":6,"text":"36.9%","textPreview":"36.9%","textChars":5,"textLines":1,"bbox":[1035,239,70,44]}
+{"kind":"textbox","id":"sh/yd0z6103","slide":6,"text":"183/127","textPreview":"183/127","textChars":7,"textLines":1,"bbox":[1125,239,95,44]}
+{"kind":"shape","id":"sh/a9w3m94f","slide":6,"bbox":[685,284,545,1]}
+{"kind":"textbox","id":"sh/zupwb2hw","slide":6,"text":"hybrid easy openai","textPreview":"hybrid easy openai","textChars":18,"textLines":1,"bbox":[695,295,230,44]}
+{"kind":"textbox","id":"sh/sfil0rqd","slide":6,"text":"85.2%","textPreview":"85.2%","textChars":5,"textLines":1,"bbox":[945,295,70,44]}
+{"kind":"textbox","id":"sh/h0fepkzu","slide":6,"text":"46.0%","textPreview":"46.0%","textChars":5,"textLines":1,"bbox":[1035,295,70,44]}
+{"kind":"textbox","id":"sh/al87ed8b","slide":6,"text":"222/88","textPreview":"222/88","textChars":6,"textLines":1,"bbox":[1125,295,95,44]}
+{"kind":"shape","id":"sh/z61032ls","slide":6,"bbox":[685,340,545,1]}
+{"kind":"textbox","id":"sh/orytsvu9","slide":6,"text":"token target openai","textPreview":"token target openai","textChars":19,"textLines":1,"bbox":[695,351,230,44]}
+{"kind":"textbox","id":"sh/hcrmhk3q","slide":6,"text":"83.5%","textPreview":"83.5%","textChars":5,"textLines":1,"bbox":[945,351,70,44]}
+{"kind":"textbox","id":"sh/6xkf6dcb","slide":6,"text":"71.7%","textPreview":"71.7%","textChars":5,"textLines":1,"bbox":[1035,351,70,44]}
+{"kind":"textbox","id":"sh/zed8v6ps","slide":6,"text":"305/5","textPreview":"305/5","textChars":5,"textLines":1,"bbox":[1125,351,95,44]}
+{"kind":"shape","id":"sh/pg3ex0nu","slide":6,"bbox":[685,396,545,1]}
+{"kind":"textbox","id":"sh/wval87ed","slide":6,"text":"all-mini baseline","textPreview":"all-mini baseline","textChars":17,"textLines":1,"bbox":[695,407,230,44]}
+{"kind":"textbox","id":"sh/7adsji5s","slide":6,"text":"86.5%","textPreview":"86.5%","textChars":5,"textLines":1,"bbox":[945,407,70,44]}
+{"kind":"textbox","id":"sh/epkzupwb","slide":6,"text":"0%","textPreview":"0%","textChars":2,"textLines":1,"bbox":[1035,407,70,44]}
+{"kind":"textbox","id":"sh/psfil0rq","slide":6,"text":"0/310","textPreview":"0/310","textChars":5,"textLines":1,"bbox":[1125,407,95,44]}
+{"kind":"textbox","id":"sh/w7mp0bi9","slide":6,"text":"可选结论：如果优先保准，manual risk full 最好；如果优先降本，token target openai 几乎达到 oracle 成本，同时只比 all-mini 低 2.9pp。","textPreview":"可选结论：如果优先保准，manual risk full 最好；如果优先降本，token target openai 几乎达到 oracle 成本，同时只比 all-mini 低 2.9pp。","textChars":96,"textLines":1,"bbox":[685,476,500,84]}
+{"kind":"textbox","id":"sh/7mp0bi9s","slide":6,"text":"来源：routing_cost_comparison_testdata_token_*.csv、hybrid_easy_py_qwen35_latest_token_*.csv、balanced100_structured_trace_*.csv","textPreview":"来源：routing_cost_comparison_testdata_token_*.csv、hybrid_easy_py_qwen35_latest_token_*.csv、balanced100_structured_trace_*.csv","textChars":123,"textLines":1,"bbox":[42,665,980,22]}
+{"kind":"textbox","id":"sh/e1w7mp0b","slide":6,"text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1188,662,50,22]}
+{"kind":"notes","id":"nt/4kk8kv","slide":6,"text":""}
+{"kind":"slide","id":"sl/mfncil","slide":7,"title":"替代优化路线","textShapes":33}
+{"kind":"textbox","id":"sh/1032lszq","slide":7,"text":"替代优化路线","textPreview":"替代优化路线","textChars":6,"textLines":1,"bbox":[42,36,520,24]}
+{"kind":"textbox","id":"sh/u9knih4b","slide":7,"text":"soft prompt 是值得继续的支线，但还需要校准阈值","textPreview":"soft prompt 是值得继续的支线，但还需要校准阈值","textChars":29,"textLines":1,"bbox":[42,64,980,78]}
+{"kind":"shape","id":"sh/judg7ads","slide":7,"bbox":[42,146,1196,1]}
+{"kind":"shape","id":"sh/c7u54zid","slide":7,"bbox":[42,184,260,146]}
+{"kind":"textbox","id":"sh/1orytsvu","slide":7,"text":"soft prompt","textPreview":"soft prompt","textChars":11,"textLines":1,"bbox":[62,202,220,26]}
+{"kind":"textbox","id":"sh/u18jqh0f","slide":7,"text":"81.0%","textPreview":"81.0%","textChars":5,"textLines":1,"bbox":[62,232,220,54]}
+{"kind":"textbox","id":"sh/jm1cfa9w","slide":7,"text":"205 题 test accuracy","textPreview":"205 题 test accuracy","textChars":19,"textLines":1,"bbox":[62,290,220,30]}
+{"kind":"shape","id":"sh/cvixczed","slide":7,"bbox":[330,184,260,146]}
+{"kind":"textbox","id":"sh/5gbq1ory","slide":7,"text":"成本节省","textPreview":"成本节省","textChars":4,"textLines":1,"bbox":[350,202,220,26]}
+{"kind":"textbox","id":"sh/18jqh0fe","slide":7,"text":"40.6%","textPreview":"40.6%","textChars":5,"textLines":1,"bbox":[350,232,220,54]}
+{"kind":"textbox","id":"sh/8nqxs72x","slide":7,"text":"95 nano / 110 mini","textPreview":"95 nano / 110 mini","textChars":18,"textLines":1,"bbox":[350,290,220,30]}
+{"kind":"shape","id":"sh/j2t83itg","slide":7,"bbox":[618,184,260,146]}
+{"kind":"textbox","id":"sh/qh0fepkz","slide":7,"text":"critical","textPreview":"critical","textChars":8,"textLines":1,"bbox":[638,202,220,26]}
+{"kind":"textbox","id":"sh/1w7mp0bi","slide":7,"text":"6 次","textPreview":"6 次","textChars":3,"textLines":1,"bbox":[638,232,220,54]}
+{"kind":"textbox","id":"sh/8bat47y1","slide":7,"text":"nano 误路由且 mini 会对","textPreview":"nano 误路由且 mini 会对","textChars":17,"textLines":1,"bbox":[638,290,220,30]}
+{"kind":"shape","id":"sh/jqh0fepk","slide":7,"bbox":[906,184,260,146]}
+{"kind":"textbox","id":"sh/q5o7qpg3","slide":7,"text":"正确升级","textPreview":"正确升级","textChars":4,"textLines":1,"bbox":[926,202,220,26]}
+{"kind":"textbox","id":"sh/1kre1w7m","slide":7,"text":"20 次","textPreview":"20 次","textChars":4,"textLines":1,"bbox":[926,232,220,54]}
+{"kind":"textbox","id":"sh/c3ylc7u5","slide":7,"text":"mini 选对且 nano 会错","textPreview":"mini 选对且 nano 会错","textChars":16,"textLines":1,"bbox":[926,290,220,30]}
+{"kind":"shape","id":"sh/orytsvu9","slide":7,"bbox":[42,380,1120,44]}
+{"kind":"textbox","id":"sh/hcrmhk3q","slide":7,"text":"路线","textPreview":"路线","textChars":2,"textLines":1,"bbox":[52,392,220,22]}
+{"kind":"textbox","id":"sh/al87ed8b","slide":7,"text":"代表结果","textPreview":"代表结果","textChars":4,"textLines":1,"bbox":[292,392,180,22]}
+{"kind":"textbox","id":"sh/z61032ls","slide":7,"text":"优点","textPreview":"优点","textChars":2,"textLines":1,"bbox":[492,392,300,22]}
+{"kind":"textbox","id":"sh/sfil0rqd","slide":7,"text":"问题","textPreview":"问题","textChars":2,"textLines":1,"bbox":[812,392,340,22]}
+{"kind":"shape","id":"sh/h0fepkzu","slide":7,"bbox":[42,424,1120,1]}
+{"kind":"textbox","id":"sh/a9w3m94f","slide":7,"text":"OpenEvolve","textPreview":"OpenEvolve","textChars":10,"textLines":1,"bbox":[52,435,220,50]}
+{"kind":"textbox","id":"sh/zupwb2hw","slide":7,"text":"80.5% / 2.5% 节省","textPreview":"80.5% / 2.5% 节省","textChars":15,"textLines":1,"bbox":[292,435,180,50]}
+{"kind":"textbox","id":"sh/obm58z25","slide":7,"text":"能保准确率","textPreview":"能保准确率","textChars":5,"textLines":1,"bbox":[492,435,300,50]}
+{"kind":"textbox","id":"sh/hwfyxobm","slide":7,"text":"太保守，成本收益很小","textPreview":"太保守，成本收益很小","textChars":10,"textLines":1,"bbox":[812,435,340,50]}
+{"kind":"shape","id":"sh/7u54zido","slide":7,"bbox":[42,486,1120,1]}
+{"kind":"textbox","id":"sh/ed8bat47","slide":7,"text":"AdaEvolve","textPreview":"AdaEvolve","textChars":9,"textLines":1,"bbox":[52,497,220,50]}
+{"kind":"textbox","id":"sh/l0rqd4vm","slide":7,"text":"74.6% / 45.3% 节省","textPreview":"74.6% / 45.3% 节省","textChars":16,"textLines":1,"bbox":[292,497,180,50]}
+{"kind":"textbox","id":"sh/wfyxobm5","slide":7,"text":"能探索更省钱策略","textPreview":"能探索更省钱策略","textChars":8,"textLines":1,"bbox":[492,497,300,50]}
+{"kind":"textbox","id":"sh/36hcrmhk","slide":7,"text":"准确率损失偏大","textPreview":"准确率损失偏大","textChars":7,"textLines":1,"bbox":[812,497,340,50]}
+{"kind":"shape","id":"sh/eloj2t83","slide":7,"bbox":[42,548,1120,1]}
+{"kind":"textbox","id":"sh/lc7u54zi","slide":7,"text":"Soft prompt","textPreview":"Soft prompt","textChars":11,"textLines":1,"bbox":[52,559,220,50]}
+{"kind":"textbox","id":"sh/wra5gbq1","slide":7,"text":"81.0% / 40.6% 节省","textPreview":"81.0% / 40.6% 节省","textChars":16,"textLines":1,"bbox":[292,559,180,50]}
+{"kind":"textbox","id":"sh/7adsji5s","slide":7,"text":"明显优于早期 GEPA 的成本收益","textPreview":"明显优于早期 GEPA 的成本收益","textChars":17,"textLines":1,"bbox":[492,559,300,50]}
+{"kind":"textbox","id":"sh/epkzupwb","slide":7,"text":"仍有 6 个 critical misroute","textPreview":"仍有 6 个 critical misroute","textChars":24,"textLines":1,"bbox":[812,559,340,50]}
+{"kind":"textbox","id":"sh/ex0nuxc3","slide":7,"text":"下一步不该只加 epoch，而应把阈值、class weight 和 critical penalty 一起扫；soft prompt 的价值在于可连续调风险，不只输出一段 prompt。","textPreview":"下一步不该只加 epoch，而应把阈值、class weight 和 critical penalty 一起扫；soft prompt 的价值在于可连续调风险，不只输出一段 prompt。","textChars":94,"textLines":1,"bbox":[42,600,1120,42]}
+{"kind":"textbox","id":"sh/3itgfmlk","slide":7,"text":"来源：softprompt_router_balanced50_risk_best_expected_utility_test205.json、OpenEvolve/AdaEvolve testdata CSV","textPreview":"来源：softprompt_router_balanced50_risk_best_expected_utility_test205.json、OpenEvolve/AdaEvolve testdata CSV","textChars":105,"textLines":1,"bbox":[42,665,980,22]}
+{"kind":"textbox","id":"sh/w3m94fu1","slide":7,"text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1188,662,50,22]}
+{"kind":"notes","id":"nt/mfncil","slide":7,"text":""}
+{"kind":"slide","id":"sl/8cjnv9","slide":8,"title":"建议","textShapes":30}
+{"kind":"textbox","id":"sh/6psfil0r","slide":8,"text":"建议","textPreview":"建议","textChars":2,"textLines":1,"bbox":[42,36,520,24]}
+{"kind":"textbox","id":"sh/dcbulwva","slide":8,"text":"下一轮实验应围绕风险姿态，而不是再堆更多变体","textPreview":"下一轮实验应围绕风险姿态，而不是再堆更多变体","textChars":22,"textLines":1,"bbox":[42,64,980,78]}
+{"kind":"shape","id":"sh/kre1w7mp","slide":8,"bbox":[42,146,1196,1]}
+{"kind":"shape","id":"sh/vixczed8","slide":8,"bbox":[42,184,1160,44]}
+{"kind":"textbox","id":"sh/2x4nap4r","slide":8,"text":"选择","textPreview":"选择","textChars":2,"textLines":1,"bbox":[52,196,230,22]}
+{"kind":"textbox","id":"sh/donyd0z6","slide":8,"text":"适用场景","textPreview":"适用场景","textChars":4,"textLines":1,"bbox":[302,196,330,22]}
+{"kind":"textbox","id":"sh/k3q5o7qp","slide":8,"text":"当前最佳数据","textPreview":"当前最佳数据","textChars":6,"textLines":1,"bbox":[652,196,240,22]}
+{"kind":"textbox","id":"sh/vu9knih4","slide":8,"text":"下一步","textPreview":"下一步","textChars":3,"textLines":1,"bbox":[912,196,280,22]}
+{"kind":"shape","id":"sh/29gr2p8n","slide":8,"bbox":[42,228,1160,1]}
+{"kind":"textbox","id":"sh/kre1w7mp","slide":8,"text":"保准优先","textPreview":"保准优先","textChars":4,"textLines":1,"bbox":[52,239,230,58]}
+{"kind":"textbox","id":"sh/dcbulwva","slide":8,"text":"希望接近 all-mini","textPreview":"希望接近 all-mini","textChars":13,"textLines":1,"bbox":[302,239,330,58]}
+{"kind":"textbox","id":"sh/6psfil0r","slide":8,"text":"85.5%，36.9% 节省","textPreview":"85.5%，36.9% 节省","textChars":14,"textLines":1,"bbox":[652,239,240,58]}
+{"kind":"textbox","id":"sh/val87ed8","slide":8,"text":"以 manual risk full 为主线，降低 critical。","textPreview":"以 manual risk full 为主线，降低 critical。","textChars":35,"textLines":1,"bbox":[912,239,280,58]}
+{"kind":"shape","id":"sh/k3q5o7qp","slide":8,"bbox":[42,298,1160,1]}
+{"kind":"textbox","id":"sh/donyd0z6","slide":8,"text":"平衡优先","textPreview":"平衡优先","textChars":4,"textLines":1,"bbox":[52,309,230,58]}
+{"kind":"textbox","id":"sh/2x4nap4r","slide":8,"text":"可接受约 1-2pp 损失","textPreview":"可接受约 1-2pp 损失","textChars":13,"textLines":1,"bbox":[302,309,330,58]}
+{"kind":"textbox","id":"sh/vixczed8","slide":8,"text":"85.2%，46.0% 节省","textPreview":"85.2%，46.0% 节省","textChars":14,"textLines":1,"bbox":[652,309,240,58]}
+{"kind":"textbox","id":"sh/kf6dcbul","slide":8,"text":"继续 hybrid easy + openai reflect。","textPreview":"继续 hybrid easy + openai reflect。","textChars":32,"textLines":1,"bbox":[912,309,280,58]}
+{"kind":"shape","id":"sh/d0z61032","slide":8,"bbox":[42,368,1160,1]}
+{"kind":"textbox","id":"sh/dsji5sne","slide":8,"text":"降本优先","textPreview":"降本优先","textChars":4,"textLines":1,"bbox":[52,379,230,58]}
+{"kind":"textbox","id":"sh/o7qpg3ex","slide":8,"text":"愿意用 3pp 换 70%+ 节省","textPreview":"愿意用 3pp 换 70%+ 节省","textChars":17,"textLines":1,"bbox":[302,379,330,58]}
+{"kind":"textbox","id":"sh/vmtwra5g","slide":8,"text":"83.5%，71.7% 节省","textPreview":"83.5%，71.7% 节省","textChars":14,"textLines":1,"bbox":[652,379,240,58]}
+{"kind":"textbox","id":"sh/61032lsz","slide":8,"text":"验证 token target 是否泛化。","textPreview":"验证 token target 是否泛化。","textChars":21,"textLines":1,"bbox":[912,379,280,58]}
+{"kind":"shape","id":"sh/d4vmtwra","slide":8,"bbox":[42,438,1160,1]}
+{"kind":"textbox","id":"sh/oj2t83it","slide":8,"text":"可训练路由","textPreview":"可训练路由","textChars":5,"textLines":1,"bbox":[52,449,230,58]}
+{"kind":"textbox","id":"sh/vy90je9c","slide":8,"text":"想要可调阈值","textPreview":"想要可调阈值","textChars":6,"textLines":1,"bbox":[302,449,330,58]}
+{"kind":"textbox","id":"sh/6dcbulwv","slide":8,"text":"81.0%，40.6% 节省","textPreview":"81.0%，40.6% 节省","textChars":14,"textLines":1,"bbox":[652,449,240,58]}
+{"kind":"textbox","id":"sh/d8v6psfi","slide":8,"text":"soft prompt 做 threshold/class-weight sweep。","textPreview":"soft prompt 做 threshold/class-weight sweep。","textChars":43,"textLines":1,"bbox":[912,449,280,58]}
+{"kind":"textbox","id":"sh/onyd0z61","slide":8,"text":"•","textPreview":"•","textChars":1,"textLines":1,"bbox":[42,548,18,24]}
+{"kind":"textbox","id":"sh/ylc7u54z","slide":8,"text":"统一评估集：后续所有候选都固定到同一 310 或 205 题 heldout，避免口径漂移。","textPreview":"统一评估集：后续所有候选都固定到同一 310 或 205 题 heldout，避免口径漂移。","textChars":46,"textLines":1,"bbox":[70,548,1052,32]}
+{"kind":"textbox","id":"sh/r65wjudg","slide":8,"text":"•","textPreview":"•","textChars":1,"textLines":1,"bbox":[42,588,18,24]}
+{"kind":"textbox","id":"sh/gr2p8nqx","slide":8,"text":"主指标改为三元组：准确率损失、成本节省、critical misroute 数。","textPreview":"主指标改为三元组：准确率损失、成本节省、critical misroute 数。","textChars":40,"textLines":1,"bbox":[70,588,1052,32]}
+{"kind":"textbox","id":"sh/9cvixcze","slide":8,"text":"•","textPreview":"•","textChars":1,"textLines":1,"bbox":[42,628,18,24]}
+{"kind":"textbox","id":"sh/yxobm58z","slide":8,"text":"先定产品风险阈值，再选择 router；这比继续追单点最高 accuracy 更有用。","textPreview":"先定产品风险阈值，再选择 router；这比继续追单点最高 accuracy 更有用。","textChars":43,"textLines":1,"bbox":[70,628,1052,32]}
+{"kind":"textbox","id":"sh/nih4byhg","slide":8,"text":"汇总依据：本工作区已有 CSV/JSON 结果；未引入外部数据","textPreview":"汇总依据：本工作区已有 CSV/JSON 结果；未引入外部数据","textChars":31,"textLines":1,"bbox":[42,665,980,22]}
+{"kind":"textbox","id":"sh/g3ex0nux","slide":8,"text":"08","textPreview":"08","textChars":2,"textLines":1,"bbox":[1188,662,50,22]}
+{"kind":"notes","id":"nt/8cjnv9","slide":8,"text":""}

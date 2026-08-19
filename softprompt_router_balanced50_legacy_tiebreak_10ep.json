@@ -1,0 +1,1436 @@
+{
+  "args": {
+    "mini_file": "computer science_result_mini.json",
+    "nano_file": "computer science_result_nano.json",
+    "mini_cost_model": "gpt-4.1-mini",
+    "nano_cost_model": "gpt-4.1-nano",
+    "hf_model": "distilbert-base-uncased",
+    "allow_download": false,
+    "limit": 50,
+    "sampling": "balanced",
+    "target_train_counts": "mini_only=25,nano_only=10,both_correct=10,both_wrong=5",
+    "target_val_counts": "mini_only=10,nano_only=6,both_correct=17,both_wrong=17",
+    "split_file": null,
+    "train_ratio": 0.8,
+    "seed": 0,
+    "score_mode": "legacy",
+    "include_nano_answer": false,
+    "nano_response_max_chars": 1600,
+    "soft_prompt_tokens": 16,
+    "max_length": 384,
+    "epochs": 10,
+    "batch_size": 8,
+    "learning_rate": 0.01,
+    "weight_decay": 0.0,
+    "class_weight": false,
+    "train_backbone": false,
+    "device": "auto",
+    "output": "softprompt_router_balanced50_legacy_tiebreak_10ep.json",
+    "save_model": "outputs\\softprompt_router_balanced50_legacy_tiebreak_10ep.pt"
+  },
+  "device": "cpu",
+  "selected_count": 50,
+  "train_count": 38,
+  "val_count": 12,
+  "test_count": 0,
+  "selected_outcome_counts": {
+    "mini_only": 13,
+    "nano_only": 13,
+    "both_correct": 12,
+    "both_wrong": 12
+  },
+  "train_outcome_counts": {
+    "mini_only": 10,
+    "nano_only": 10,
+    "both_correct": 9,
+    "both_wrong": 9
+  },
+  "val_outcome_counts": {
+    "mini_only": 3,
+    "nano_only": 3,
+    "both_correct": 3,
+    "both_wrong": 3
+  },
+  "test_outcome_counts": null,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.9617047498100683,
+      "train_mean_score": 0.7368421052631579,
+      "train_accuracy": 0.5,
+      "val_mean_score": 0.75,
+      "val_accuracy": 0.5,
+      "val_nano_routes": 12,
+      "val_mini_routes": 0
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.6396740078926086,
+      "train_mean_score": 0.7368421052631579,
+      "train_accuracy": 0.5,
+      "val_mean_score": 0.75,
+      "val_accuracy": 0.5,
+      "val_nano_routes": 12,
+      "val_mini_routes": 0
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.5790303992597681,
+      "train_mean_score": 0.7368421052631579,
+      "train_accuracy": 0.5,
+      "val_mean_score": 0.75,
+      "val_accuracy": 0.5,
+      "val_nano_routes": 12,
+      "val_mini_routes": 0
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.5524747654011375,
+      "train_mean_score": 0.7368421052631579,
+      "train_accuracy": 0.5,
+      "val_mean_score": 0.75,
+      "val_accuracy": 0.5,
+      "val_nano_routes": 12,
+      "val_mini_routes": 0
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.5128327482625058,
+      "train_mean_score": 0.9960526315789474,
+      "train_accuracy": 0.7631578947368421,
+      "val_mean_score": 0.7374999999999999,
+      "val_accuracy": 0.5,
+      "val_nano_routes": 9,
+      "val_mini_routes": 3
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.3894866987278587,
+      "train_mean_score": 0.7368421052631579,
+      "train_accuracy": 0.5,
+      "val_mean_score": 0.75,
+      "val_accuracy": 0.5,
+      "val_nano_routes": 12,
+      "val_mini_routes": 0
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.438025016533701,
+      "train_mean_score": 0.8157894736842105,
+      "train_accuracy": 0.5789473684210527,
+      "val_mean_score": 0.75,
+      "val_accuracy": 0.5,
+      "val_nano_routes": 12,
+      "val_mini_routes": 0
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.3278621450850838,
+      "train_mean_score": 1.0,
+      "train_accuracy": 0.7631578947368421,
+      "val_mean_score": 0.75,
+      "val_accuracy": 0.5,
+      "val_nano_routes": 12,
+      "val_mini_routes": 0
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.2990250634519677,
+      "train_mean_score": 0.8947368421052632,
+      "train_accuracy": 0.6578947368421053,
+      "val_mean_score": 0.75,
+      "val_accuracy": 0.5,
+      "val_nano_routes": 12,
+      "val_mini_routes": 0
+    },
+    {
+      "epoch": 10,
+      "train_loss": 0.2405436650702828,
+      "train_mean_score": 1.0,
+      "train_accuracy": 0.7631578947368421,
+      "val_mean_score": 0.6666666666666666,
+      "val_accuracy": 0.4166666666666667,
+      "val_nano_routes": 11,
+      "val_mini_routes": 1
+    }
+  ],
+  "best_val_mean_score": 0.75,
+  "best_train_mean_score_at_best_val": 1.0,
+  "train_summary": {
+    "count": 38,
+    "score_mode": "legacy",
+    "mean_score": 1.0,
+    "final_accuracy": 0.7631578947368421,
+    "cost_saving_rate_vs_all_mini": 0.53744543355748,
+    "nano_routes": 28,
+    "mini_routes": 10,
+    "failure_counts": {
+      "correct_escalation": 10,
+      "successful_saving": 9,
+      "both_failed_but_cheap": 9,
+      "nano_better_than_mini": 10
+    },
+    "target_counts": {
+      "mini": 10,
+      "nano": 28
+    },
+    "traces": [
+      {
+        "question_id": 10521,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10552,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10391,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10591,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10579,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10696,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10625,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10570,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10358,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10450,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10763,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10700,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10422,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10655,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10590,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10727,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10418,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10772,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10580,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10657,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10656,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10770,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10503,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10436,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10740,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10583,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10532,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10563,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10525,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10435,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10695,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10402,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10359,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10497,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10735,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10529,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10612,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10433,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      }
+    ]
+  },
+  "val_summary": {
+    "count": 12,
+    "score_mode": "legacy",
+    "mean_score": 0.75,
+    "final_accuracy": 0.5,
+    "cost_saving_rate_vs_all_mini": 0.7172020515589149,
+    "nano_routes": 12,
+    "mini_routes": 0,
+    "failure_counts": {
+      "critical_misroute": 3,
+      "successful_saving": 3,
+      "both_failed_but_cheap": 3,
+      "nano_better_than_mini": 3
+    },
+    "target_counts": {
+      "mini": 3,
+      "nano": 9
+    },
+    "traces": [
+      {
+        "question_id": 10473,
+        "route": "nano",
+        "target_route": "mini",
+        "score": 0.0,
+        "selected_correct": false,
+        "failure_type": "critical_misroute",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10414,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10455,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10428,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10574,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10485,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10606,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10610,
+        "route": "nano",
+        "target_route": "mini",
+        "score": 0.0,
+        "selected_correct": false,
+        "failure_type": "critical_misroute",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10487,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10729,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10618,
+        "route": "nano",
+        "target_route": "mini",
+        "score": 0.0,
+        "selected_correct": false,
+        "failure_type": "critical_misroute",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10707,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      }
+    ]
+  },
+  "all_summary": {
+    "count": 50,
+    "score_mode": "legacy",
+    "mean_score": 0.94,
+    "final_accuracy": 0.7,
+    "cost_saving_rate_vs_all_mini": 0.5787975346782894,
+    "nano_routes": 40,
+    "mini_routes": 10,
+    "failure_counts": {
+      "critical_misroute": 3,
+      "nano_better_than_mini": 13,
+      "successful_saving": 12,
+      "both_failed_but_cheap": 12,
+      "correct_escalation": 10
+    },
+    "target_counts": {
+      "mini": 13,
+      "nano": 37
+    },
+    "traces": [
+      {
+        "question_id": 10610,
+        "route": "nano",
+        "target_route": "mini",
+        "score": 0.0,
+        "selected_correct": false,
+        "failure_type": "critical_misroute",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10450,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10529,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10696,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10625,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10700,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10455,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10525,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10391,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10707,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10763,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10770,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10552,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10497,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10695,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10579,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10657,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10729,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10422,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10428,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10656,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10612,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10414,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10435,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10618,
+        "route": "nano",
+        "target_route": "mini",
+        "score": 0.0,
+        "selected_correct": false,
+        "failure_type": "critical_misroute",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10359,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10591,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10532,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10570,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10503,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10740,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10606,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10655,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10485,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10727,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10487,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10583,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10436,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10433,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10358,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10521,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10563,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10580,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10402,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10735,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10772,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10574,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10418,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": false,
+        "failure_type": "both_failed_but_cheap",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10473,
+        "route": "nano",
+        "target_route": "mini",
+        "score": 0.0,
+        "selected_correct": false,
+        "failure_type": "critical_misroute",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10590,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "nano_better_than_mini",
+        "mini_correct": false,
+        "nano_correct": true
+      }
+    ]
+  },
+  "test_summary": null,
+  "train_probabilities": [
+    [
+      0.2013143002986908,
+      0.7986857295036316
+    ],
+    [
+      0.31744346022605896,
+      0.6825565099716187
+    ],
+    [
+      0.3277108669281006,
+      0.6722891926765442
+    ],
+    [
+      0.7856988310813904,
+      0.21430115401744843
+    ],
+    [
+      0.9219012260437012,
+      0.07809872925281525
+    ],
+    [
+      0.7906926274299622,
+      0.20930743217468262
+    ],
+    [
+      0.33653026819229126,
+      0.6634697318077087
+    ],
+    [
+      0.41282615065574646,
+      0.5871738791465759
+    ],
+    [
+      0.7637490630149841,
+      0.23625096678733826
+    ],
+    [
+      0.9585497379302979,
+      0.04145032912492752
+    ],
+    [
+      0.7788447141647339,
+      0.22115521132946014
+    ],
+    [
+      0.915507435798645,
+      0.08449258655309677
+    ],
+    [
+      0.5025501251220703,
+      0.4974498450756073
+    ],
+    [
+      0.3678233027458191,
+      0.6321766972541809
+    ],
+    [
+      0.7331916689872742,
+      0.26680833101272583
+    ],
+    [
+      0.6470184922218323,
+      0.3529815375804901
+    ],
+    [
+      0.7688672542572021,
+      0.23113267123699188
+    ],
+    [
+      0.8145729899406433,
+      0.18542702496051788
+    ],
+    [
+      0.9014191031455994,
+      0.09858091920614243
+    ],
+    [
+      0.20978042483329773,
+      0.7902195453643799
+    ],
+    [
+      0.22187329828739166,
+      0.7781267166137695
+    ],
+    [
+      0.970015287399292,
+      0.029984688386321068
+    ],
+    [
+      0.7336821556091309,
+      0.26631784439086914
+    ],
+    [
+      0.8014962673187256,
+      0.1985037475824356
+    ],
+    [
+      0.9562888741493225,
+      0.04371112957596779
+    ],
+    [
+      0.32091158628463745,
+      0.6790884137153625
+    ],
+    [
+      0.8887583613395691,
+      0.11124162375926971
+    ],
+    [
+      0.884583592414856,
+      0.11541640013456345
+    ],
+    [
+      0.7166121602058411,
+      0.2833878695964813
+    ],
+    [
+      0.9066691398620605,
+      0.09333083778619766
+    ],
+    [
+      0.7383496761322021,
+      0.2616502642631531
+    ],
+    [
+      0.7728151679039001,
+      0.22718481719493866
+    ],
+    [
+      0.7415359020233154,
+      0.25846409797668457
+    ],
+    [
+      0.7218195796012878,
+      0.27818045020103455
+    ],
+    [
+      0.408753365278244,
+      0.5912466645240784
+    ],
+    [
+      0.8622468113899231,
+      0.1377532184123993
+    ],
+    [
+      0.8597267270088196,
+      0.1402733474969864
+    ],
+    [
+      0.9061917662620544,
+      0.09380824118852615
+    ]
+  ],
+  "val_probabilities": [
+    [
+      0.9013932347297668,
+      0.09860675036907196
+    ],
+    [
+      0.8777686953544617,
+      0.12223130464553833
+    ],
+    [
+      0.803955614566803,
+      0.19604435563087463
+    ],
+    [
+      0.5610640048980713,
+      0.4389359951019287
+    ],
+    [
+      0.792740523815155,
+      0.20725950598716736
+    ],
+    [
+      0.5041587948799133,
+      0.49584123492240906
+    ],
+    [
+      0.7868423461914062,
+      0.21315768361091614
+    ],
+    [
+      0.765734851360321,
+      0.23426508903503418
+    ],
+    [
+      0.7098960876464844,
+      0.29010385274887085
+    ],
+    [
+      0.5715385675430298,
+      0.42846137285232544
+    ],
+    [
+      0.7073270678520203,
+      0.2926729619503021
+    ],
+    [
+      0.8709174394607544,
+      0.129082590341568
+    ]
+  ],
+  "test_probabilities": [],
+  "model_config": {
+    "hf_model": "distilbert-base-uncased",
+    "soft_prompt_tokens": 16,
+    "train_backbone": false,
+    "trainable_parameter_count": 13826,
+    "total_parameter_count": 66376706
+  }
+}

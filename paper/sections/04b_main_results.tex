@@ -1,0 +1,159 @@
+\section{Experimental Results}
+\label{sec:results}
+
+\subsection{RQ1: Historical Cost--Quality Frontier}
+
+Table~\ref{tab:historical-main} reports the main historical Movie results. The
+gap between all-Nano (89.02\%) and all-Mini (93.90\%) is 4.88 accuracy points,
+while the conservative accuracy oracle reaches 95.12\% with 9 Mini calls,
+including Mini on all four \bw rows under the reference convention explained
+below Table~\ref{tab:score}. This shows both that routing has substantial headroom and that Mini is not a strict
+superset: the single \no case makes the oracle more accurate than all-Mini.
+
+The conservative direct soft prompt reaches 93.50\% accuracy, 0.41 point below
+all-Mini, and avoids 17.48\% of Mini calls. It captures 93.33\% of critical
+cases and sends every \bw case to Mini. A regularized 16-token setting obtains
+the same mean accuracy and critical recall while avoiding 34.15\% of Mini calls,
+but its \bw Mini rate drops to 75\%. Thus the apparently larger saving partly
+comes from relaxing a risk dimension that answer accuracy cannot see.
+
+The answer-aware cascade obtains 94.31\% accuracy and avoids 61.38\% of Mini
+calls. Its advantage is informative but not directly comparable in online
+cost: it observes Nano's answer and therefore pays for Nano on every tuple,
+whereas the direct routers execute exactly one answer model. The result also
+predates the locked fresh evaluation. We treat it as an upper-bound-style
+diagnostic showing that model-specific answer evidence is more predictive than
+review text alone.
+
+\begin{table*}[t]
+  \centering
+  \small
+  \caption{Historical SemBench Movie test (82 rows). Learned methods are
+  three-seed means; label budgets are shown, and $\pm$ values are population standard deviations. The
+  answer-aware cascade first executes Nano and is not a direct pre-router.}
+  \label{tab:historical-main}
+  \begin{tabular}{lrrrr}
+    \toprule
+    Method & Accuracy (\%) & Mini saving (\%) & Critical recall (\%) & BW$\rightarrow$Mini (\%)\\
+    \midrule
+    All Nano & 89.02 & 100.00 & 0.00 & 0.00\\
+    All Mini & 93.90 & 0.00 & 100.00 & 100.00\\
+    Conservative oracle (BW$\rightarrow$Mini) & 95.12 & 89.02 & 100.00 & 100.00\\
+    \midrule
+    4-token cost-WCE (160 lbl.) & $93.50\pm0.57$ & $17.48\pm10.22$ & $93.33\pm9.43$ & 100.00\\
+    8-token cost-WCE (100 lbl.) & $93.50\pm0.57$ & $15.85\pm2.63$ & $93.33\pm9.43$ & 100.00\\
+    16-token regularized cost-WCE (100 lbl.) & $93.50\pm0.57$ & $34.15\pm7.90$ & $93.33\pm9.43$ & $75.00\pm20.41$\\
+    Residual 8-token (100 lbl.) & $93.50\pm0.57$ & $17.07\pm4.34$ & $93.33\pm9.43$ & 100.00\\
+    Answer-aware 4-token (160 lbl.) & $94.31\pm0.57$ & $61.38\pm7.06$ & $93.33\pm9.43$ & $58.33\pm23.57$\\
+    \bottomrule
+  \end{tabular}
+\end{table*}
+
+\subsection{RQ5: Locked Fresh Evaluation}
+
+The locked result in Table~\ref{tab:fresh} changes the conclusion. The
+pre-specified 200-label router averages 90.17\% accuracy, 1.33 points below
+all-Mini, while avoiding 34.17\% of Mini calls. Critical recall falls to
+77.08\%, and Mini saving has a 24.00-point standard deviation. One seed matches
+all-Mini accuracy only by sending 98.5\% of rows to Mini; the other seeds save
+42.5--58.5\% but lose two accuracy points. Validation on 40 rows therefore does
+not reliably distinguish a safe threshold from an aggressive one.
+
+Post-hoc variants do not reverse the finding. Eight tokens improve mean
+critical recall to 89.58\% and accuracy to 90.83\%, but remain 0.67 point below
+all-Mini while saving 21.83\% of calls. A two-head unweighted correctness model
+matches all-Mini by routing every row to Mini. Random residual training loses
+two points. The scored GEPA prompt saves 65.5\% of Mini calls but captures only
+37.5\% of critical cases. Since these variants were designed after the fresh
+outcomes were available, they are diagnostic only.
+
+\begin{table*}[t]
+  \centering
+  \small
+  \caption{Fresh 200-row Movie evaluation. Only the row marked ``locked'' was
+  specified before the outcomes were acquired. Post-hoc rows must not be used
+  as untouched confirmation. GEPA uses one seed; other learned rows use three.}
+  \label{tab:fresh}
+  \begin{tabular}{llrrrr}
+    \toprule
+    Status & Method & Accuracy (\%) & Mini saving (\%) & Critical recall (\%) & BW$\rightarrow$Mini (\%)\\
+    \midrule
+    baseline & All Nano & 85.00 & 100.00 & 0.00 & 0.00\\
+    baseline & All Mini & 91.50 & 0.00 & 100.00 & 100.00\\
+    baseline & Conservative oracle (BW$\rightarrow$Mini) & 93.00 & 85.00 & 100.00 & 100.00\\
+    \midrule
+    locked & 200-label, 4-token cost-WCE & $90.17\pm0.94$ & $34.17\pm24.00$ & $77.08\pm16.40$ & $61.90\pm26.30$\\
+    post-hoc & 100-label, 4-token cost-WCE & $90.17\pm0.47$ & $38.00\pm5.76$ & $77.08\pm10.62$ & $66.67\pm17.82$\\
+    post-hoc & 100-label, 8-token cost-WCE & $90.83\pm0.47$ & $21.83\pm4.48$ & $89.58\pm7.80$ & $71.43\pm5.83$\\
+    post-hoc & Two-head correctness, direct & 91.50 & 0.00 & 100.00 & 100.00\\
+    post-hoc & Random residual 8-token & $89.50\pm1.08$ & $33.33\pm10.44$ & $70.83\pm14.73$ & $54.76\pm14.68$\\
+    post-hoc & GEPA scored prompt (one seed) & 87.00 & 65.50 & 37.50 & 78.57\\
+    \bottomrule
+  \end{tabular}
+\end{table*}
+
+\subsection{RQ2: Lightweight Soft Prompts versus Discrete Instructions}
+
+The two routers are independent alternatives. Our primary soft-prompt router
+uses a frozen compact encoder, trains only 3,074--13,826 parameters, and makes
+one non-generative forward pass per tuple. The discrete alternative invokes a
+Qwen3.5-2B generative router online and uses Qwen3.5-4B reflection during
+optimization. Thus the soft-prompt method is substantially smaller and cheaper
+as a routing component, while the discrete method offers readable policies.
+
+\begin{table}[t]
+  \centering
+  \small
+  \caption{The methods are separate routers. Soft prompting updates only
+  3,074--13,826 task-specific parameters and avoids generative route decoding.}
+  \label{tab:router-resources}
+  \begin{tabular}{@{}llll@{}}
+    \toprule
+    Method & Online & Decision & Optimizer\\
+    \midrule
+    Soft prompt & DistilBERT (frozen) & classifier & gradients\\
+    Discrete & Qwen3.5-2B & generation & Qwen3.5-4B refl.\\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Soft prompts also provide the stronger current frontier. Direct supervised
+gradients use every acquired tuple, and thresholding yields a smooth
+cost--quality curve; historical configurations reach 93.50\% accuracy while
+avoiding 15.85--34.15\% of Mini calls. Their weakness is calibration rather
+than capacity: on the locked fresh set the selected router averages 90.17\%,
+and savings vary sharply across seeds.
+
+The independent hard-route Qwen method instead degenerates to all-Nano on
+validation, historical test, and fresh data. GEPA produces a detailed
+risk-averse mutation, but both seed and mutation still emit Nano for every
+hard-route input. The shared cost-derived score retains the stronger validation candidate. A
+plausible verbal policy therefore need not control actual routing decisions.
+
+The scored discrete interface extracts more signal. On 40 validation rows, the
+seed reaches 90\% accuracy with 29 Mini calls at normalized threshold 0.30;
+the mutation reaches the same accuracy with 19 calls at 0.50. Yet it reaches
+only 90.24\% historically and 87.00\% on fresh data, with 37.5\% fresh
+critical recall. Under current budgets, neither method establishes
+Eq.~\ref{eq:constrained} with $\epsilon=0$, but the lightweight soft-prompt
+router is the more promising systems design and the focus of the remaining
+matched evaluation.
+
+\begin{table}[t]
+  \centering
+  \small
+  \caption{Discrete prompt behavior on Movie under the shared cost-derived score. Historical/fresh values use the
+  validation-selected scored GEPA mutation.}
+  \label{tab:gepa}
+  \begin{tabular}{lrrr}
+    \toprule
+    Interface / split & Accuracy & Mini calls & Critical recall\\
+    \midrule
+    Hard route, validation & 82.50\% & 0/40 & 0.00\%\\
+    Scored seed, validation & 90.00\% & 29/40 & 100.00\%\\
+    Scored GEPA, validation & 90.00\% & 19/40 & 100.00\%\\
+    Scored GEPA, historical & 90.24\% & 36/82 & 40.00\%\\
+    Scored GEPA, fresh & 87.00\% & 69/200 & 37.50\%\\
+    \bottomrule
+  \end{tabular}
+\end{table}

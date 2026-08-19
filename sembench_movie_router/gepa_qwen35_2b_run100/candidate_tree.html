@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEPA Candidate Tree</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; width: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f8f9fa; display: flex; flex-direction: column; }
+  #header { background: #fff; border-bottom: 1px solid #dee2e6; padding: 12px 20px; display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+  #header h1 { font-size: 18px; font-weight: 600; color: #212529; }
+  .legend { display: flex; gap: 14px; font-size: 13px; color: #495057; }
+  .legend-item { display: flex; align-items: center; gap: 4px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid #adb5bd; }
+  #graph-container { flex: 1 1 auto; width: 100%; overflow: auto; padding: 20px; text-align: center; }
+  #graph-container svg { width: 100%; height: 100%; }
+  #tooltip {
+    display: none; position: fixed; background: #fff; border: 1px solid #dee2e6;
+    border-radius: 8px; padding: 14px 16px; max-width: 560px; max-height: 70vh; overflow-y: auto;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18); z-index: 1000; font-size: 13px; line-height: 1.5;
+  }
+  #tooltip .tt-header { font-weight: 700; font-size: 15px; margin-bottom: 6px; color: #212529; }
+  #tooltip .tt-meta { color: #6c757d; margin-bottom: 4px; }
+  #tooltip .tt-hint { color: #adb5bd; font-size: 11px; font-style: italic; margin-bottom: 10px; }
+  #tooltip .tt-comp-name { font-weight: 600; color: #495057; margin-top: 10px; border-bottom: 1px solid #e9ecef; padding-bottom: 2px; }
+  #tooltip .tt-comp-text {
+    white-space: pre-wrap; word-break: break-word; background: #f8f9fa;
+    border: 1px solid #e9ecef; border-radius: 4px; padding: 8px 10px; margin-top: 4px;
+    font-family: "SF Mono", SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px;
+    max-height: 200px; overflow-y: auto;
+  }
+  .role-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-left: 6px; }
+  .role-best { background: #00e5ff33; color: #006064; }
+  .role-pareto { background: #ff980033; color: #e65100; }
+  .role-seed { background: #e0e0e0; color: #424242; }
+</style>
+</head>
+<body>
+<div id="header">
+  <h1>GEPA Candidate Tree</h1>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:cyan"></div> Best</div>
+    <div class="legend-item"><div class="legend-dot" style="background:orange"></div> Pareto Front</div>
+    <div class="legend-item"><div class="legend-dot" style="background:lightgray"></div> Other</div>
+  </div>
+</div>
+<div id="graph-container"><p>Loading graph&hellip;</p></div>
+<div id="tooltip"></div>
+
+<script type="module">
+const NODES = [{"idx": 0, "score": 0.5875, "parents": "seed", "role": "Best", "components": {"router_prompt": "You are a pre-routing model for an AI SQL semantic operator that\nclassifies movie-review sentiment. Decide whether the review should be sent to\nthe cheap nano model or the stronger mini model.\n\nThis is routing, not sentiment classification. Do not output POSITIVE or\nNEGATIVE. Predict which answer model is needed:\n- nano: use when the review is explicit, direct, and easy enough that nano is\n  likely to classify it correctly.\n- mini: use when nano is likely to fail but mini may succeed, including subtle\n  implication, sarcasm, irony, mixed sentiment, contrast, negation, cultural\n  references, compressed critic language, or ambiguous targets.\n- If both models are likely correct, choose nano.\n- If both models are likely wrong, choose mini as the conservative fallback.\n\nAvoid shortcuts based on whether the review sounds positive or negative. Route\nby linguistic difficulty and nano-failure risk, not by the sentiment label.\n\nRespond with exactly one lowercase token: nano or mini.\n\nHistorical routing demonstrations follow. They show routing outcomes,\nnot sentiment labels. Infer general difficulty patterns rather than\nmemorizing words, movie titles, or positive/negative polarity.\nExample 1:\nMovie: ant_man_and_the_wasp_quantumania\nReview: I cannot imagine ranking it anywhere other than dead last out of the 31 features presently constituting the Marvel Cinematic Universe&#46;\nRoute: nano\nExample 2:\nMovie: a_star_is_born_2018\nReview: The apex of their collaboration occurs in the breathtaking first performance of \"Shallow,\" during which Cooper wisely decides to stay on the edges of the frame, giving the literal and metaphorical spotlight to Gaga...\nRoute: nano\nExample 3:\nMovie: 2012\nReview: This movie is a disaster. At least it would be if it didn't fall into the \"so bad it's good\" category.\nRoute: mini\nExample 4:\nMovie: the_lion_king_2019\nReview: I would have loved to see director John Favreau infuse more fantasy and wonder, as he did with the live action version of The Jungle Book.\nRoute: mini\nExample 5:\nMovie: the_front_runner_2018\nReview: [Jackman] captures the self-confidence bordering on arrogance that blinded Hart to the precariousness of his position...\nRoute: mini\nExample 6:\nMovie: kong_skull_island\nReview: Skull Island is a mix of different shades of dumb - there's plenty of dumb fun, but also some groan-inducing, forehead-slapping moments of dumb.\nRoute: mini\nExample 7:\nMovie: 2012\nReview: Emmerich would be better off losing the pretense of respectability and embracing the B-movie showmanship that is clearly his strength.\nRoute: nano\nExample 8:\nMovie: solo_a_star_wars_story\nReview: Solo isn't a disaster, it's just an uninspired showing that is passably entertaining.\nRoute: nano\nExample 9:\nMovie: taken_3\nReview: Rather than jumping into unexplored territory, the film retreads several other prominent action movie staples.\nRoute: mini\nFor every new review, output exactly nano or mini."}},
+{"idx": 1, "score": 0.5675, "parents": "0", "role": "", "components": {"router_prompt": "You are an expert pre-routing classifier for a hybrid AI sentiment analysis pipeline designed to optimize cost and accuracy by dynamically selecting between two models: \"nano\" (cheap, fast) and \"mini\" (expensive, robust). Your goal is not to classify the sentiment itself but to determine which model will correctly handle the input.\n\n### Critical Constraints & Rules\n1. **Output Format**: Respond with EXACTLY one lowercase token: either `nano` or `mini`. Do not output explanations, JSON, markdown code blocks (unless strictly necessary for structure), POSITIVE, NEGATIVE, or any other text. The system will parse your response as a single string.\n\n2. **Routing Logic - Nano Criteria**:\n   Select `nano` ONLY if the review exhibits:\n   - Explicit, direct sentiment markers (e.g., \"best movie ever\", \"worst disaster\").\n   - Clear subjectivity without ambiguity regarding the target of criticism/praise.\n   - Standard sentence structures lacking complex negation or irony that might confuse smaller models.\n   - High confidence in classification based on surface-level linguistic features alone.\n\n3. **Routing Logic - Mini Criteria**:\n   Select `mini` if there is ANY risk that nano will fail, specifically when the review contains:\n   - Subtle implication, sarcasm, or irony (e.g., praising something bad to mock it).\n   - Mixed sentiment requiring contrast resolution (e.g., \"good acting but terrible script\").\n   - Complex negation structures where the polarity is inverted.\n   - Cultural references or compressed critic language that requires contextual understanding.\n   - Ambiguous targets of evaluation (who/what is being reviewed?).\n   - Reviews where both models might be wrong, requiring mini as a conservative fallback to avoid critical misrouting penalties.\n\n4. **Risk Averse Objective**:\n   Your primary objective is to prevent `critical_misroute`. This occurs if you select `nano` but the review actually requires `mini`, leading to an incorrect sentiment prediction by nano while being correct with mini. \n   - If a review has ANY element of linguistic difficulty (irony, mixed signals), err on the side of caution and choose `mini`.\n   - Do not use the apparent positive or negative tone as a shortcut; analyze the structural complexity instead.\n\n### Domain-Specific Factual Knowledge & Patterns to Internalize\n- **Irony Detection**: Reviews stating \"It's so bad it's good\" often require mini models because they contain contradictory sentiments that nano might misinterpret as purely negative or purely positive depending on its training bias.\n- **Director/Actor Context**: References like \"[Jackman] captures the self-confidence bordering on arrogance...\" imply a critique of an actor's portrayal, which may be subtle and requires understanding character dynamics (mini).\n- **\"So Bad It's Good\" Category**: Explicit mentions of this category usually indicate mixed sentiment or ironic praise, necessitating `mini`.\n- **Comparative Analysis**: Reviews comparing one film to another (\"as he did with...\") often involve nuanced evaluation of style vs. substance, favoring `mini`.\n- **Explicit Praise/Criticism**: Direct statements like \"dead last\" or \"breathtaking first performance\" are usually safe for `nano` unless they contain hidden qualifiers.\n\n### Few-Shot Learning Examples (Internalize the Pattern)\nAnalyze these examples to infer difficulty, NOT to memorize specific movie titles:\n\n- **Example A** (Explicit Negative): \n  Input: \"I cannot imagine ranking it anywhere other than dead last...\"\n  Analysis: Direct superlative (\"dead last\"), clear negative sentiment. No irony or mixed signals detected.\n  Decision: `nano`\n\n- **Example B** (Complex Narrative/Positive Tone but Neutral Content?):\n  Input: \"...Cooper wisely decides to stay on the edges of the frame, giving the literal and metaphorical spotlight...\"\n  Analysis: Descriptive analysis rather than direct sentiment expression. Requires understanding film technique context. Risky for nano? \n  *Correction based on provided data*: In Example 2 from your history, this was routed `nano`. This implies that descriptive praise (\"breathtaking\", \"wisely\") without explicit contradiction is safe for nano.\n  \n- **Example C** (Mixed Sentiment/Irony):\n  Input: \"This movie is a disaster. At least it would be if it didn't fall into the 'so bad it's good' category.\"\n  Analysis: Explicit mention of irony/mixed category (\"disaster\" vs \"good\"). Nano likely fails here due to conflicting signals.\n  Decision: `mini`\n\n- **Example D** (Subtle Critique/Contrast):\n  Input: \"I would have loved to see director John Favreau infuse more fantasy and wonder...\"\n  Analysis: Expresses a desire for something missing (\"would have loved\"). Implies the current film lacks these qualities. Requires understanding of implied criticism vs literal statement.\n  Decision: `mini`\n\n- **Example E** (Character Study/Complex Adjectives):\n  Input: \"[Jackman] captures the self-confidence bordering on arrogance...\"\n  Analysis: \"Self-confidence\" is positive, but \"bordering on arrogance\" adds a negative nuance requiring synthesis. High risk of nano misclassification.\n  Decision: `mini`\n\n- **Example F** (Mixed Shades):\n  Input: \"...mix of different shades of dumb - there's plenty of dumb fun, but also some groan-inducing...\"\n  Analysis: Explicit contrast (\"plenty\" vs \"also\"). Mixed sentiment structure.\n  Decision: `mini`\n\n### Execution Protocol\n1. Read the review text carefully.\n2. Scan for linguistic markers of difficulty (irony, negation, mixed signals).\n3. Apply the heuristic: If ANY marker exists -> `mini`. Else if explicit and direct -> `nano`.\n4. Output ONLY the token `nano` or `mini`."}}];
+const DOT = `digraph G {
+    rankdir=TB;
+    node [style=filled, shape=circle, fontsize=14, width=0.6, height=0.6];
+    0 [label="0\\n(0.59)", fillcolor=cyan, tooltip=" "];
+    1 [label="1\\n(0.57)", fillcolor=lightgray, tooltip=" "];
+    0 -> 1;
+}`;
+
+const nodeMap = {};
+NODES.forEach(n => { nodeMap[n.idx] = n; });
+
+let pinnedIdx = null;   // non-null when tooltip is click-pinned (scrollable)
+let hoverIdx = null;    // non-null when hovering over a node
+
+function renderTooltip(idx) {
+  const n = nodeMap[idx];
+  if (!n) return "";
+  let roleBadge = "";
+  if (n.role === "Best") roleBadge = '<span class="role-badge role-best">BEST</span>';
+  else if (n.role === "Pareto Front") roleBadge = '<span class="role-badge role-pareto">PARETO</span>';
+  else if (n.role === "Seed") roleBadge = '<span class="role-badge role-seed">SEED</span>';
+
+  let comps = "";
+  for (const [name, text] of Object.entries(n.components)) {
+    const escaped = text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    comps += '<div class="tt-comp-name">' + name + '</div><div class="tt-comp-text">' + escaped + '</div>';
+  }
+
+  return '<div class="tt-header">Candidate ' + n.idx + roleBadge + '</div>' +
+    '<div class="tt-meta">Score: <strong>' + n.score + '</strong>&nbsp;&nbsp;|&nbsp;&nbsp;Parent(s): ' + n.parents +
+    '</div><div class="tt-hint">' + (pinnedIdx === idx ? 'Click node again to dismiss' : 'Click to pin &amp; scroll') + '</div>' +
+    comps;
+}
+
+function positionTooltip(x, y) {
+  const tt = document.getElementById("tooltip");
+  let tx = x + 16, ty = y + 16;
+  const r = tt.getBoundingClientRect();
+  if (tx + r.width > window.innerWidth - 8) tx = x - r.width - 16;
+  if (ty + r.height > window.innerHeight - 8) ty = y - r.height - 16;
+  if (tx < 8) tx = 8;
+  if (ty < 8) ty = 8;
+  tt.style.left = tx + "px";
+  tt.style.top = ty + "px";
+}
+
+function showTooltip(idx, x, y) {
+  const tt = document.getElementById("tooltip");
+  tt.innerHTML = renderTooltip(idx);
+  tt.style.display = "block";
+  positionTooltip(x, y);
+}
+
+function hideTooltip() {
+  pinnedIdx = null;
+  hoverIdx = null;
+  document.getElementById("tooltip").style.display = "none";
+}
+
+// Click outside tooltip and outside nodes dismisses pinned tooltip
+document.addEventListener("mousedown", function(e) {
+  const tt = document.getElementById("tooltip");
+  if (pinnedIdx !== null && tt.style.display === "block"
+      && !tt.contains(e.target) && !e.target.closest(".node")) {
+    hideTooltip();
+  }
+});
+
+async function render() {
+  const { instance } = await import("https://cdn.jsdelivr.net/npm/@viz-js/viz@3.11.0/lib/viz-standalone.mjs");
+  const viz = await instance();
+  const svg = viz.renderSVGElement(DOT);
+  const container = document.getElementById("graph-container");
+  container.innerHTML = "";
+  container.appendChild(svg);
+
+  // Attach hover listeners and strip native <title> tooltips to avoid double tooltips
+  svg.querySelectorAll(".node").forEach(node => {
+    const title = node.querySelector("title");
+    if (!title) return;
+    const idx = parseInt(title.textContent, 10);
+    if (isNaN(idx)) return;
+    title.remove();  // remove native SVG tooltip
+    node.style.cursor = "pointer";
+    // Hover: show tooltip following the mouse (non-interactive)
+    node.addEventListener("mouseenter", e => {
+      if (pinnedIdx !== null) return;  // don't override a pinned tooltip
+      hoverIdx = idx;
+      showTooltip(idx, e.clientX, e.clientY);
+    });
+    node.addEventListener("mousemove", e => {
+      if (pinnedIdx !== null || hoverIdx !== idx) return;
+      positionTooltip(e.clientX, e.clientY);
+    });
+    node.addEventListener("mouseleave", () => {
+      if (pinnedIdx !== null) return;
+      hoverIdx = null;
+      document.getElementById("tooltip").style.display = "none";
+    });
+    // Click: pin the tooltip so user can scroll it
+    node.addEventListener("click", e => {
+      e.stopPropagation();
+      if (pinnedIdx === idx) { hideTooltip(); return; }
+      pinnedIdx = idx;
+      showTooltip(idx, e.clientX, e.clientY);
+    });
+  });
+  // Also strip <title> from edges and the graph itself
+  svg.querySelectorAll(".edge title").forEach(t => t.remove());
+  const graphTitle = svg.querySelector(":scope > title");
+  if (graphTitle) graphTitle.remove();
+}
+
+render().catch(err => {
+  document.getElementById("graph-container").innerHTML =
+    "<p style='color:red'>Failed to render graph: " + err.message + "</p>" +
+    "<pre>" + DOT.replace(/</g,"&lt;") + "</pre>";
+});
+</script>
+</body>
+</html>

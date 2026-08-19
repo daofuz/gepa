@@ -1,0 +1,568 @@
+{"kind":"deck","id":"pr/hcqqae","name":"Deck"}
+{"kind":"layout","layoutId":"4cd42e4e-66c5-425e-8480-50dd7501c4e0","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"756d4f21-9457-4979-9ee2-6220feb948aa","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/vqdmsq","slide":1,"title":"First-half 205 experiments","textShapes":17}
+{"kind":"textbox","id":"sh/cv2tc7mt","slide":1,"text":"First-half 205 experiments","textPreview":"First-half 205 experiments","textChars":26,"textLines":1,"bbox":[42,66,930,74]}
+{"kind":"textbox","id":"sh/rutc32l8","slide":1,"text":"Model routing on computer-science multiple-choice questions","textPreview":"Model routing on computer-science multiple-choice questions","textChars":59,"textLines":1,"bbox":[42,154,1000,42]}
+{"kind":"shape","id":"sh/qtkbah4n","slide":1,"bbox":[42,242,1196,1]}
+{"kind":"shape","id":"sh/psru1c32","slide":1,"bbox":[42,304,260,138]}
+{"kind":"textbox","id":"sh/4rit87mh","slide":1,"text":"Task","textPreview":"Task","textChars":4,"textLines":1,"bbox":[60,320,224,24]}
+{"kind":"textbox","id":"sh/369cz25w","slide":1,"text":"routing","textPreview":"routing","textChars":7,"textLines":1,"bbox":[60,350,224,50]}
+{"kind":"textbox","id":"sh/250b6x4b","slide":1,"text":"select one model per question","textPreview":"select one model per question","textChars":29,"textLines":1,"bbox":[60,406,224,26]}
+{"kind":"shape","id":"sh/9ovudw36","slide":1,"bbox":[326,304,260,138]}
+{"kind":"textbox","id":"sh/onmdkrml","slide":1,"text":"Dataset","textPreview":"Dataset","textChars":7,"textLines":1,"bbox":[344,320,224,24]}
+{"kind":"textbox","id":"sh/ql43ut0z","slide":1,"text":"410 MCQs","textPreview":"410 MCQs","textChars":8,"textLines":1,"bbox":[344,350,224,50]}
+{"kind":"textbox","id":"sh/rmdkny1k","slide":1,"text":"computer-science questions","textPreview":"computer-science questions","textChars":26,"textLines":1,"bbox":[344,406,224,26]}
+{"kind":"shape","id":"sh/cnmlw3i5","slide":1,"bbox":[610,304,260,138]}
+{"kind":"textbox","id":"sh/dov2p8zq","slide":1,"text":"GPT-4o mini","textPreview":"GPT-4o mini","textChars":11,"textLines":1,"bbox":[628,320,224,24]}
+{"kind":"textbox","id":"sh/2hk3qt0n","slide":1,"text":"stronger","textPreview":"stronger","textChars":8,"textLines":1,"bbox":[628,350,224,50]}
+{"kind":"textbox","id":"sh/3itkjy18","slide":1,"text":"higher accuracy, higher cost","textPreview":"higher accuracy, higher cost","textChars":28,"textLines":1,"bbox":[628,406,224,26]}
+{"kind":"shape","id":"sh/4j2ls3it","slide":1,"bbox":[894,304,260,138]}
+{"kind":"textbox","id":"sh/pkv2loje","slide":1,"text":"GPT-4o nano","textPreview":"GPT-4o nano","textChars":11,"textLines":1,"bbox":[912,320,224,24]}
+{"kind":"textbox","id":"sh/mdo32d07","slide":1,"text":"cheaper","textPreview":"cheaper","textChars":7,"textLines":1,"bbox":[912,350,224,50]}
+{"kind":"textbox","id":"sh/nex4vihs","slide":1,"text":"lower cost, lower accuracy","textPreview":"lower cost, lower accuracy","textChars":26,"textLines":1,"bbox":[912,406,224,26]}
+{"kind":"textbox","id":"sh/jyp0nah4","slide":1,"text":"Goal: preserve answer accuracy while reducing cost. Train and validate on the first 205 questions, then evaluate every router on the fixed second-half 205-question test set.","textPreview":"Goal: preserve answer accuracy while reducing cost. Train and validate on the first 205 questions, then evaluate every router on the fixe...","textChars":173,"textLines":1,"bbox":[42,518,1160,66]}
+{"kind":"textbox","id":"sh/ixgze5gj","slide":1,"text":"Sources: routing_split_half1_*.json, gepa_router_prompt_result_hybrid_half1_*.json, routing_cost_comparison_testdata_hybrid_half1_*.csv, softprompt_router_*.json","textPreview":"Sources: routing_split_half1_*.json, gepa_router_prompt_result_hybrid_half1_*.json, routing_cost_comparison_testdata_hybrid_half1_*.csv, ...","textChars":161,"textLines":1,"bbox":[42,662,1060,24]}
+{"kind":"textbox","id":"sh/5k7ipkza","slide":1,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[1186,662,52,24]}
+{"kind":"notes","id":"nt/vqdmsq","slide":1,"text":""}
+{"kind":"slide","id":"sl/5nao27","slide":2,"title":"205/205 framing","textShapes":40}
+{"kind":"textbox","id":"sh/a9wv6p4n","slide":2,"text":"205/205 framing","textPreview":"205/205 framing","textChars":15,"textLines":1,"bbox":[42,34,720,24]}
+{"kind":"textbox","id":"sh/xwnuh4ny","slide":2,"text":"The fixed test set offers substantial cost savings through routing","textPreview":"The fixed test set offers substantial cost savings through routing","textChars":66,"textLines":1,"bbox":[42,62,1060,78]}
+{"kind":"shape","id":"sh/wved8zmd","slide":2,"bbox":[42,146,1196,1]}
+{"kind":"shape","id":"sh/n6lcbu5w","slide":2,"bbox":[42,184,250,138]}
+{"kind":"textbox","id":"sh/m5cv2p4b","slide":2,"text":"test mini-only","textPreview":"test mini-only","textChars":14,"textLines":1,"bbox":[60,200,214,24]}
+{"kind":"textbox","id":"sh/98nud4n2","slide":2,"text":"26","textPreview":"26","textChars":2,"textLines":1,"bbox":[60,230,214,50]}
+{"kind":"textbox","id":"sh/87ud4zmh","slide":2,"text":"12.7%; must escalate","textPreview":"12.7%; must escalate","textChars":20,"textLines":1,"bbox":[60,286,214,26]}
+{"kind":"shape","id":"sh/72pwnel0","slide":2,"bbox":[316,184,250,138]}
+{"kind":"textbox","id":"sh/61gve94f","slide":2,"text":"test both-correct","textPreview":"test both-correct","textChars":17,"textLines":1,"bbox":[334,200,214,24]}
+{"kind":"textbox","id":"sh/kva18v2d","slide":2,"text":"139","textPreview":"139","textChars":3,"textLines":1,"bbox":[334,230,214,50]}
+{"kind":"textbox","id":"sh/lw3ih03y","slide":2,"text":"67.8%; can be cheap","textPreview":"67.8%; can be cheap","textChars":19,"textLines":1,"bbox":[334,286,214,26]}
+{"kind":"shape","id":"sh/ytsj6lkn","slide":2,"bbox":[590,184,250,138]}
+{"kind":"textbox","id":"sh/zu10fqls","slide":2,"text":"test both-wrong","textPreview":"test both-wrong","textChars":15,"textLines":1,"bbox":[608,200,214,24]}
+{"kind":"textbox","id":"sh/cra14v2h","slide":2,"text":"33","textPreview":"33","textChars":2,"textLines":1,"bbox":[608,230,214,50]}
+{"kind":"textbox","id":"sh/xsjidg32","slide":2,"text":"16.1%; no route fixes it","textPreview":"16.1%; no route fixes it","textChars":24,"textLines":1,"bbox":[608,286,214,26]}
+{"kind":"shape","id":"sh/a5sj2lkb","slide":2,"bbox":[864,184,250,138]}
+{"kind":"textbox","id":"sh/bq10bqlw","slide":2,"text":"oracle","textPreview":"oracle","textChars":6,"textLines":1,"bbox":[882,200,214,24]}
+{"kind":"textbox","id":"sh/o3qh0b25","slide":2,"text":"83.9%","textPreview":"83.9%","textChars":5,"textLines":1,"bbox":[882,230,214,50]}
+{"kind":"textbox","id":"sh/p4zi9g3q","slide":2,"text":"179 nano / 26 mini","textPreview":"179 nano / 26 mini","textChars":18,"textLines":1,"bbox":[882,286,214,26]}
+{"kind":"shape","id":"sh/58rqh8ri","slide":2,"bbox":[42,388,1130,42]}
+{"kind":"textbox","id":"sh/4nipo3qx","slide":2,"text":"Policy","textPreview":"Policy","textChars":6,"textLines":1,"bbox":[50,399,204,22]}
+{"kind":"textbox","id":"sh/jmp8fy9c","slide":2,"text":"Accuracy","textPreview":"Accuracy","textChars":8,"textLines":1,"bbox":[270,399,114,22]}
+{"kind":"textbox","id":"sh/ilg7mtsr","slide":2,"text":"Cost / 1k","textPreview":"Cost / 1k","textChars":9,"textLines":1,"bbox":[400,399,124,22]}
+{"kind":"textbox","id":"sh/hk76d8r6","slide":2,"text":"Savings","textPreview":"Savings","textChars":7,"textLines":1,"bbox":[540,399,104,22]}
+{"kind":"textbox","id":"sh/wjypk3a1","slide":2,"text":"nano/mini","textPreview":"nano/mini","textChars":9,"textLines":1,"bbox":[660,399,124,22]}
+{"kind":"textbox","id":"sh/vipoby9g","slide":2,"text":"Meaning","textPreview":"Meaning","textChars":7,"textLines":1,"bbox":[800,399,364,22]}
+{"kind":"shape","id":"sh/uhg7itsv","slide":2,"bbox":[42,430,1130,1]}
+{"kind":"textbox","id":"sh/1gbqpsrq","slide":2,"text":"all-mini","textPreview":"all-mini","textChars":8,"textLines":1,"bbox":[50,440,204,42]}
+{"kind":"textbox","id":"sh/gf2pwnq5","slide":2,"text":"80.5%","textPreview":"80.5%","textChars":5,"textLines":1,"bbox":[270,440,114,42]}
+{"kind":"textbox","id":"sh/ylcnqp8n","slide":2,"text":"$1.124","textPreview":"$1.124","textChars":6,"textLines":1,"bbox":[400,440,124,42]}
+{"kind":"textbox","id":"sh/zml4jup8","slide":2,"text":"0%","textPreview":"0%","textChars":2,"textLines":1,"bbox":[540,440,104,42]}
+{"kind":"textbox","id":"sh/knu5szqt","slide":2,"text":"0/205","textPreview":"0/205","textChars":5,"textLines":1,"bbox":[660,440,124,42]}
+{"kind":"textbox","id":"sh/lonml47y","slide":2,"text":"Accuracy baseline.","textPreview":"Accuracy baseline.","textChars":18,"textLines":1,"bbox":[800,440,364,42]}
+{"kind":"shape","id":"sh/axc3mp8b","slide":2,"bbox":[42,484,1130,1]}
+{"kind":"textbox","id":"sh/bil4fapw","slide":2,"text":"all-nano","textPreview":"all-nano","textChars":8,"textLines":1,"bbox":[50,494,204,42]}
+{"kind":"textbox","id":"sh/cju5ofqh","slide":2,"text":"71.2%","textPreview":"71.2%","textChars":5,"textLines":1,"bbox":[270,494,114,42]}
+{"kind":"textbox","id":"sh/xk3mhk72","slide":2,"text":"$0.291","textPreview":"$0.291","textChars":6,"textLines":1,"bbox":[400,494,124,42]}
+{"kind":"textbox","id":"sh/utwny9ov","slide":2,"text":"74.1%","textPreview":"74.1%","textChars":5,"textLines":1,"bbox":[540,494,104,42]}
+{"kind":"textbox","id":"sh/ve54repg","slide":2,"text":"205/0","textPreview":"205/0","textChars":5,"textLines":1,"bbox":[660,494,124,42]}
+{"kind":"textbox","id":"sh/f6l0n6tg","slide":2,"text":"Cheap, but loses 9.3 points.","textPreview":"Cheap, but loses 9.3 points.","textChars":28,"textLines":1,"bbox":[800,494,364,42]}
+{"kind":"shape","id":"sh/e5cje1sb","slide":2,"bbox":[42,538,1130,1]}
+{"kind":"textbox","id":"sh/183ipgbm","slide":2,"text":"oracle","textPreview":"oracle","textChars":6,"textLines":1,"bbox":[50,548,204,42]}
+{"kind":"textbox","id":"sh/g7u1gba1","slide":2,"text":"83.9%","textPreview":"83.9%","textChars":5,"textLines":1,"bbox":[270,548,114,42]}
+{"kind":"textbox","id":"sh/7il0j6tk","slide":2,"text":"$0.402","textPreview":"$0.402","textChars":6,"textLines":1,"bbox":[400,548,124,42]}
+{"kind":"textbox","id":"sh/6hsja1sz","slide":2,"text":"64.2%","textPreview":"64.2%","textChars":5,"textLines":1,"bbox":[540,548,104,42]}
+{"kind":"textbox","id":"sh/tk3ilgbq","slide":2,"text":"179/26","textPreview":"179/26","textChars":6,"textLines":1,"bbox":[660,548,124,42]}
+{"kind":"textbox","id":"sh/sju1cba5","slide":2,"text":"Large theoretical room because most items are both-correct.","textPreview":"Large theoretical room because most items are both-correct.","textChars":59,"textLines":1,"bbox":[800,548,364,42]}
+{"kind":"textbox","id":"sh/be5kvqto","slide":2,"text":"Fixed test outcomes: mini-only 26, nano-only 7, both-correct 139, both-wrong 33","textPreview":"Fixed test outcomes: mini-only 26, nano-only 7, both-correct 139, both-wrong 33","textChars":79,"textLines":1,"bbox":[42,662,1060,24]}
+{"kind":"textbox","id":"sh/qdwjm5s3","slide":2,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1186,662,52,24]}
+{"kind":"notes","id":"nt/5nao27","slide":2,"text":""}
+{"kind":"slide","id":"sl/6chv7o","slide":3,"title":"Why active sampling","textShapes":33}
+{"kind":"textbox","id":"sh/jqp83q54","slide":3,"text":"Why active sampling","textPreview":"Why active sampling","textChars":19,"textLines":1,"bbox":[42,34,720,24]}
+{"kind":"textbox","id":"sh/4rypwvmp","slide":3,"text":"Critical cases carry the routing signal","textPreview":"Critical cases carry the routing signal","textChars":39,"textLines":1,"bbox":[42,62,1060,78]}
+{"kind":"shape","id":"sh/5s7q50na","slide":3,"bbox":[42,146,1196,1]}
+{"kind":"textbox","id":"sh/u1w7qlon","slide":3,"text":"A critical case is one where the models disagree. Agreement cases reveal little about which route to choose; disagreement cases expose the decision boundary.","textPreview":"A critical case is one where the models disagree. Agreement cases reveal little about which route to choose; disagreement cases expose th...","textChars":157,"textLines":1,"bbox":[42,172,1170,48]}
+{"kind":"shape","id":"sh/v258zq58","slide":3,"bbox":[42,232,552,108]}
+{"kind":"textbox","id":"sh/w3ypsvmd","slide":3,"text":"MINI-ONLY","textPreview":"MINI-ONLY","textChars":9,"textLines":1,"bbox":[60,246,170,22]}
+{"kind":"textbox","id":"sh/h47q10ny","slide":3,"text":"mini correct / nano wrong","textPreview":"mini correct / nano wrong","textChars":25,"textLines":1,"bbox":[60,274,490,30]}
+{"kind":"textbox","id":"sh/ex07254r","slide":3,"text":"Escalation is necessary to preserve accuracy.","textPreview":"Escalation is necessary to preserve accuracy.","textChars":45,"textLines":1,"bbox":[60,310,490,22]}
+{"kind":"shape","id":"sh/fy98ba5c","slide":3,"bbox":[616,232,552,108]}
+{"kind":"textbox","id":"sh/7utsn2hs","slide":3,"text":"NANO-ONLY","textPreview":"NANO-ONLY","textChars":9,"textLines":1,"bbox":[634,246,170,22]}
+{"kind":"textbox","id":"sh/69kbux0n","slide":3,"text":"nano correct / mini wrong","textPreview":"nano correct / mini wrong","textChars":25,"textLines":1,"bbox":[634,274,490,30]}
+{"kind":"textbox","id":"sh/twbapczy","slide":3,"text":"The cheaper route is also the better route.","textPreview":"The cheaper route is also the better route.","textChars":43,"textLines":1,"bbox":[634,310,490,22]}
+{"kind":"shape","id":"sh/sv2tw7id","slide":3,"bbox":[42,370,1196,42]}
+{"kind":"textbox","id":"sh/fydsrmh4","slide":3,"text":"Size-50 sampling","textPreview":"Size-50 sampling","textChars":16,"textLines":1,"bbox":[50,381,234,22]}
+{"kind":"textbox","id":"sh/uxkbyh0j","slide":3,"text":"mini-only","textPreview":"mini-only","textChars":9,"textLines":1,"bbox":[300,381,104,22]}
+{"kind":"textbox","id":"sh/h0vatcza","slide":3,"text":"nano-only","textPreview":"nano-only","textChars":9,"textLines":1,"bbox":[420,381,104,22]}
+{"kind":"textbox","id":"sh/gzmt0rip","slide":3,"text":"critical share","textPreview":"critical share","textChars":14,"textLines":1,"bbox":[540,381,154,22]}
+{"kind":"textbox","id":"sh/32dsvmh0","slide":3,"text":"both-correct","textPreview":"both-correct","textChars":12,"textLines":1,"bbox":[710,381,174,22]}
+{"kind":"textbox","id":"sh/214b2h0f","slide":3,"text":"Test accuracy","textPreview":"Test accuracy","textChars":13,"textLines":1,"bbox":[900,381,144,22]}
+{"kind":"textbox","id":"sh/yx8vulkn","slide":3,"text":"Savings","textPreview":"Savings","textChars":7,"textLines":1,"bbox":[1060,381,170,22]}
+{"kind":"shape","id":"sh/zyhw3q18","slide":3,"bbox":[42,412,1196,1]}
+{"kind":"textbox","id":"sh/0zqdwv2t","slide":3,"text":"actively selected","textPreview":"actively selected","textChars":17,"textLines":1,"bbox":[50,422,234,42]}
+{"kind":"textbox","id":"sh/lkze50je","slide":3,"text":"19","textPreview":"19","textChars":2,"textLines":1,"bbox":[300,422,104,42]}
+{"kind":"textbox","id":"sh/qtovqlkr","slide":3,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[420,422,104,42]}
+{"kind":"textbox","id":"sh/buxwzq1c","slide":3,"text":"40%","textPreview":"40%","textChars":3,"textLines":1,"bbox":[540,422,154,42]}
+{"kind":"textbox","id":"sh/cv6dsb2x","slide":3,"text":"40%","textPreview":"40%","textChars":3,"textLines":1,"bbox":[710,422,174,42]}
+{"kind":"textbox","id":"sh/dwfe1gji","slide":3,"text":"80.0%","textPreview":"80.0%","textChars":5,"textLines":1,"bbox":[900,422,144,42]}
+{"kind":"textbox","id":"sh/apsv250v","slide":3,"text":"12.6%","textPreview":"12.6%","textChars":5,"textLines":1,"bbox":[1060,422,170,42]}
+{"kind":"shape","id":"sh/vq1wba1g","slide":3,"bbox":[42,466,1196,1]}
+{"kind":"textbox","id":"sh/5k3y143y","slide":3,"text":"random sample","textPreview":"random sample","textChars":13,"textLines":1,"bbox":[50,476,234,42]}
+{"kind":"textbox","id":"sh/kjuhsz2d","slide":3,"text":"6","textPreview":"6","textChars":1,"textLines":1,"bbox":[300,476,104,42]}
+{"kind":"textbox","id":"sh/jilgzuls","slide":3,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[420,476,104,42]}
+{"kind":"textbox","id":"sh/ihczq947","slide":3,"text":"16%","textPreview":"16%","textChars":3,"textLines":1,"bbox":[540,476,154,42]}
+{"kind":"textbox","id":"sh/xg3yx43m","slide":3,"text":"74%","textPreview":"74%","textChars":3,"textLines":1,"bbox":[710,476,174,42]}
+{"kind":"textbox","id":"sh/wfahozm1","slide":3,"text":"73.7%","textPreview":"73.7%","textChars":5,"textLines":1,"bbox":[900,476,144,42]}
+{"kind":"textbox","id":"sh/ve1gvulg","slide":3,"text":"49.5%","textPreview":"49.5%","textChars":5,"textLines":1,"bbox":[1060,476,170,42]}
+{"kind":"textbox","id":"sh/atsfmp4v","slide":3,"text":"Random sampling mostly selected easy both-correct cases, pushing the router toward nano and losing 6.3 accuracy points. We therefore oversampled critical cases deliberately.","textPreview":"Random sampling mostly selected easy both-correct cases, pushing the router toward nano and losing 6.3 accuracy points. We therefore over...","textChars":173,"textLines":1,"bbox":[42,558,1160,56]}
+{"kind":"textbox","id":"sh/hcny9o3q","slide":3,"text":"Critical = mini-only + nano-only; sources: half1 trainval50 with-critical split and random-control trainval50 split","textPreview":"Critical = mini-only + nano-only; sources: half1 trainval50 with-critical split and random-control trainval50 split","textChars":115,"textLines":1,"bbox":[42,662,1060,24]}
+{"kind":"textbox","id":"sh/gbeh0j2l","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1186,662,52,24]}
+{"kind":"notes","id":"nt/6chv7o","slide":3,"text":""}
+{"kind":"slide","id":"sl/iieism","slide":4,"title":"Prompt-router size sweep","textShapes":53}
+{"kind":"textbox","id":"sh/epgvad4r","slide":4,"text":"Prompt-router size sweep","textPreview":"Prompt-router size sweep","textChars":24,"textLines":1,"bbox":[42,34,720,24]}
+{"kind":"textbox","id":"sh/1s7ul832","slide":4,"text":"Larger samples were not automatically better","textPreview":"Larger samples were not automatically better","textChars":44,"textLines":1,"bbox":[42,62,1060,78]}
+{"kind":"shape","id":"sh/0rydc3mh","slide":4,"bbox":[42,146,1196,1]}
+{"kind":"shape","id":"sh/rmpcfyl0","slide":4,"bbox":[42,184,1196,42]}
+{"kind":"textbox","id":"sh/q1wv6t4f","slide":4,"text":"Size","textPreview":"Size","textChars":4,"textLines":1,"bbox":[50,195,64,22]}
+{"kind":"textbox","id":"sh/do7uh836","slide":4,"text":"M/N/B/W mix","textPreview":"M/N/B/W mix","textChars":11,"textLines":1,"bbox":[130,195,154,22]}
+{"kind":"textbox","id":"sh/cnyd83ml","slide":4,"text":"Accuracy","textPreview":"Accuracy","textChars":8,"textLines":1,"bbox":[300,195,94,22]}
+{"kind":"textbox","id":"sh/3y5cbel4","slide":4,"text":"Savings","textPreview":"Savings","textChars":7,"textLines":1,"bbox":[410,195,94,22]}
+{"kind":"textbox","id":"sh/2xwv2t4j","slide":4,"text":"test nano/mini","textPreview":"test nano/mini","textChars":14,"textLines":1,"bbox":[520,195,114,22]}
+{"kind":"textbox","id":"sh/g7utc3yt","slide":4,"text":"Readout","textPreview":"Readout","textChars":7,"textLines":1,"bbox":[650,195,580,22]}
+{"kind":"shape","id":"sh/18nul8ze","slide":4,"bbox":[42,226,1196,1]}
+{"kind":"textbox","id":"sh/elcbatg3","slide":4,"text":"25","textPreview":"25","textChars":2,"textLines":1,"bbox":[50,236,64,34]}
+{"kind":"textbox","id":"sh/f6lcjyho","slide":4,"text":"76/0/24/0%","textPreview":"76/0/24/0%","textChars":10,"textLines":1,"bbox":[130,236,154,34]}
+{"kind":"textbox","id":"sh/sjut83yx","slide":4,"text":"78.5%","textPreview":"78.5%","textChars":5,"textLines":1,"bbox":[300,236,94,34]}
+{"kind":"textbox","id":"sh/tk3uhozi","slide":4,"text":"18.6%","textPreview":"18.6%","textChars":5,"textLines":1,"bbox":[410,236,94,34]}
+{"kind":"textbox","id":"sh/6hcb6tgr","slide":4,"text":"64/141","textPreview":"64/141","textChars":6,"textLines":1,"bbox":[520,236,114,34]}
+{"kind":"textbox","id":"sh/rilsfyhc","slide":4,"text":"Intermediate trade-off.","textPreview":"Intermediate trade-off.","textChars":23,"textLines":1,"bbox":[650,236,580,34]}
+{"kind":"shape","id":"sh/cfytkny1","slide":4,"bbox":[42,272,1196,1]}
+{"kind":"textbox","id":"sh/dg7utszm","slide":4,"text":"50","textPreview":"50","textChars":2,"textLines":1,"bbox":[50,282,64,34]}
+{"kind":"textbox","id":"sh/lw3uds7q","slide":4,"text":"38/2/40/20%","textPreview":"38/2/40/20%","textChars":11,"textLines":1,"bbox":[130,282,154,34]}
+{"kind":"textbox","id":"sh/kvut4nq5","slide":4,"text":"80.0%","textPreview":"80.0%","textChars":5,"textLines":1,"bbox":[300,282,94,34]}
+{"kind":"textbox","id":"sh/zulcbi90","slide":4,"text":"12.6%","textPreview":"12.6%","textChars":5,"textLines":1,"bbox":[410,282,94,34]}
+{"kind":"textbox","id":"sh/ytsb2d8f","slide":4,"text":"45/160","textPreview":"45/160","textChars":6,"textLines":1,"bbox":[520,282,114,34]}
+{"kind":"textbox","id":"sh/xsja98ru","slide":4,"text":"Best accuracy-preserving point: 80.0%, but only 12.6% savings.","textPreview":"Best accuracy-preserving point: 80.0%, but only 12.6% savings.","textChars":62,"textLines":1,"bbox":[650,282,580,34]}
+{"kind":"shape","id":"sh/crat03q9","slide":4,"bbox":[42,318,1196,1]}
+{"kind":"textbox","id":"sh/bq1s7i9o","slide":4,"text":"75","textPreview":"75","textChars":2,"textLines":1,"bbox":[50,328,64,34]}
+{"kind":"textbox","id":"sh/a5sbyd83","slide":4,"text":"25/1/57/16%","textPreview":"25/1/57/16%","textChars":11,"textLines":1,"bbox":[130,328,154,34]}
+{"kind":"textbox","id":"sh/p4ja58ri","slide":4,"text":"77.6%","textPreview":"77.6%","textChars":5,"textLines":1,"bbox":[300,328,94,34]}
+{"kind":"textbox","id":"sh/o3atw3qx","slide":4,"text":"31.2%","textPreview":"31.2%","textChars":5,"textLines":1,"bbox":[410,328,94,34]}
+{"kind":"textbox","id":"sh/e9or69ov","slide":4,"text":"109/96","textPreview":"109/96","textChars":6,"textLines":1,"bbox":[520,328,114,34]}
+{"kind":"textbox","id":"sh/fax8fepg","slide":4,"text":"Intermediate trade-off.","textPreview":"Intermediate trade-off.","textChars":23,"textLines":1,"bbox":[650,328,580,34]}
+{"kind":"shape","id":"sh/0bq98z61","slide":4,"bbox":[42,364,1196,1]}
+{"kind":"textbox","id":"sh/1wzqh4nm","slide":4,"text":"100","textPreview":"100","textChars":3,"textLines":1,"bbox":[50,374,64,34]}
+{"kind":"textbox","id":"sh/65o72poz","slide":4,"text":"19/2/62/17%","textPreview":"19/2/62/17%","textChars":11,"textLines":1,"bbox":[130,374,154,34]}
+{"kind":"textbox","id":"sh/r6x8bupk","slide":4,"text":"76.1%","textPreview":"76.1%","textChars":5,"textLines":1,"bbox":[300,374,94,34]}
+{"kind":"textbox","id":"sh/s7694z6p","slide":4,"text":"43.4%","textPreview":"43.4%","textChars":5,"textLines":1,"bbox":[410,374,94,34]}
+{"kind":"textbox","id":"sh/d8fqd47a","slide":4,"text":"146/59","textPreview":"146/59","textChars":6,"textLines":1,"bbox":[520,374,114,34]}
+{"kind":"textbox","id":"sh/i147ypon","slide":4,"text":"Intermediate trade-off.","textPreview":"Intermediate trade-off.","textChars":23,"textLines":1,"bbox":[650,374,580,34]}
+{"kind":"shape","id":"sh/j2d87up8","slide":4,"bbox":[42,410,1196,1]}
+{"kind":"textbox","id":"sh/vux43q94","slide":4,"text":"125","textPreview":"125","textChars":3,"textLines":1,"bbox":[50,420,64,34]}
+{"kind":"textbox","id":"sh/atonalsj","slide":4,"text":"15/2/64/18%","textPreview":"15/2/64/18%","textChars":11,"textLines":1,"bbox":[130,420,154,34]}
+{"kind":"textbox","id":"sh/xwzm50ra","slide":4,"text":"72.2%","textPreview":"72.2%","textChars":5,"textLines":1,"bbox":[300,420,94,34]}
+{"kind":"textbox","id":"sh/wv65cvap","slide":4,"text":"67.5%","textPreview":"67.5%","textChars":5,"textLines":1,"bbox":[410,420,94,34]}
+{"kind":"textbox","id":"sh/nqx4zq9s","slide":4,"text":"191/14","textPreview":"191/14","textChars":6,"textLines":1,"bbox":[520,420,114,34]}
+{"kind":"textbox","id":"sh/mpon6lsn","slide":4,"text":"The router became nano-heavy as both-correct dominated.","textPreview":"The router became nano-heavy as both-correct dominated.","textChars":55,"textLines":1,"bbox":[650,420,580,34]}
+{"kind":"shape","id":"sh/9sfm1gry","slide":4,"bbox":[42,456,1196,1]}
+{"kind":"textbox","id":"sh/8r658bad","slide":4,"text":"150","textPreview":"150","textChars":3,"textLines":1,"bbox":[50,466,64,34]}
+{"kind":"textbox","id":"sh/z2d4v6tw","slide":4,"text":"13/4/67/16%","textPreview":"13/4/67/16%","textChars":11,"textLines":1,"bbox":[130,466,154,34]}
+{"kind":"textbox","id":"sh/y14321sb","slide":4,"text":"72.2%","textPreview":"72.2%","textChars":5,"textLines":1,"bbox":[300,466,94,34]}
+{"kind":"textbox","id":"sh/o721c7q9","slide":4,"text":"62.3%","textPreview":"62.3%","textChars":5,"textLines":1,"bbox":[410,466,94,34]}
+{"kind":"textbox","id":"sh/p8b25c7u","slide":4,"text":"193/12","textPreview":"193/12","textChars":6,"textLines":1,"bbox":[520,466,114,34]}
+{"kind":"textbox","id":"sh/250jax83","slide":4,"text":"The router became nano-heavy as both-correct dominated.","textPreview":"The router became nano-heavy as both-correct dominated.","textChars":55,"textLines":1,"bbox":[650,466,580,34]}
+{"kind":"shape","id":"sh/36tk32po","slide":4,"bbox":[42,502,1196,1]}
+{"kind":"textbox","id":"sh/cv21g7q5","slide":4,"text":"200","textPreview":"200","textChars":3,"textLines":1,"bbox":[50,512,64,34]}
+{"kind":"textbox","id":"sh/dwb29c7q","slide":4,"text":"10/5/71/15%","textPreview":"10/5/71/15%","textChars":11,"textLines":1,"bbox":[130,512,154,34]}
+{"kind":"textbox","id":"sh/q9kjeh8f","slide":4,"text":"72.2%","textPreview":"72.2%","textChars":5,"textLines":1,"bbox":[300,512,94,34]}
+{"kind":"textbox","id":"sh/butk7mpk","slide":4,"text":"62.3%","textPreview":"62.3%","textChars":5,"textLines":1,"bbox":[410,512,94,34]}
+{"kind":"textbox","id":"sh/szi14nq1","slide":4,"text":"193/12","textPreview":"193/12","textChars":6,"textLines":1,"bbox":[520,512,114,34]}
+{"kind":"textbox","id":"sh/t0r2xsrm","slide":4,"text":"The router became nano-heavy as both-correct dominated.","textPreview":"The router became nano-heavy as both-correct dominated.","textChars":55,"textLines":1,"bbox":[650,512,580,34]}
+{"kind":"textbox","id":"sh/9kzqlkfy","slide":4,"text":"Size 50 best preserved accuracy. At larger sizes, the falling critical share and rising both-correct share pushed the router toward nano-heavy policies.","textPreview":"Size 50 best preserved accuracy. At larger sizes, the falling critical share and rising both-correct share pushed the router toward nano-...","textChars":152,"textLines":1,"bbox":[42,574,1160,50]}
+{"kind":"textbox","id":"sh/8jq9cfed","slide":4,"text":"Fixed test set: second-half 205; source: routing_cost_comparison_testdata_hybrid_half1_trainval*_openai.csv","textPreview":"Fixed test set: second-half 205; source: routing_cost_comparison_testdata_hybrid_half1_trainval*_openai.csv","textChars":107,"textLines":1,"bbox":[42,662,1060,24]}
+{"kind":"textbox","id":"sh/nih8jax8","slide":4,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1186,662,52,24]}
+{"kind":"notes","id":"nt/iieism","slide":4,"text":""}
+{"kind":"slide","id":"sl/spukpw","slide":5,"title":"Random-control comparison","textShapes":37}
+{"kind":"textbox","id":"sh/wnadkfmt","slide":5,"text":"Random-control comparison","textPreview":"Random-control comparison","textChars":25,"textLines":1,"bbox":[42,34,720,24]}
+{"kind":"textbox","id":"sh/bmhcbal8","slide":5,"text":"Random controls showed that natural sampling pushed the router toward nano","textPreview":"Random controls showed that natural sampling pushed the router toward nano","textChars":74,"textLines":1,"bbox":[42,62,1060,78]}
+{"kind":"shape","id":"sh/al8vi54n","slide":5,"bbox":[42,146,1196,1]}
+{"kind":"shape","id":"sh/9kzu9032","slide":5,"bbox":[42,179,18,10]}
+{"kind":"textbox","id":"sh/ozqdgvmh","slide":5,"text":"mini-only","textPreview":"mini-only","textChars":9,"textLines":1,"bbox":[66,172,120,24]}
+{"kind":"shape","id":"sh/nyhc7qlw","slide":5,"bbox":[184,179,18,10]}
+{"kind":"textbox","id":"sh/mx8vel4b","slide":5,"text":"nano-only","textPreview":"nano-only","textChars":9,"textLines":1,"bbox":[208,172,120,24]}
+{"kind":"shape","id":"sh/tg3elk36","slide":5,"bbox":[326,179,18,10]}
+{"kind":"textbox","id":"sh/8vudszml","slide":5,"text":"both correct","textPreview":"both correct","textChars":12,"textLines":1,"bbox":[350,172,120,24]}
+{"kind":"shape","id":"sh/69k3ipcb","slide":5,"bbox":[468,179,18,10]}
+{"kind":"textbox","id":"sh/7atkbudg","slide":5,"text":"both wrong","textPreview":"both wrong","textChars":10,"textLines":1,"bbox":[492,172,120,24]}
+{"kind":"textbox","id":"sh/8b2lkfu1","slide":5,"text":"random 50","textPreview":"random 50","textChars":9,"textLines":1,"bbox":[42,222,100,24]}
+{"kind":"shape","id":"sh/tcvmdkvm","slide":5,"bbox":[160,224,63.6,28]}
+{"kind":"textbox","id":"sh/y5k3e5cz","slide":5,"text":"12%","textPreview":"12%","textChars":3,"textLines":1,"bbox":[163,229,57.6,20]}
+{"kind":"shape","id":"sh/j6tk7adk","slide":5,"bbox":[223.6,224,21.2,28]}
+{"kind":"shape","id":"sh/k72lgfu5","slide":5,"bbox":[244.8,224,392.2,28]}
+{"kind":"textbox","id":"sh/l8b29kvq","slide":5,"text":"74%","textPreview":"74%","textChars":3,"textLines":1,"bbox":[247.8,229,386.2,20]}
+{"kind":"shape","id":"sh/i143q9c3","slide":5,"bbox":[637,224,53,28]}
+{"kind":"textbox","id":"sh/32d4jeto","slide":5,"text":"10%","textPreview":"10%","textChars":3,"textLines":1,"bbox":[640,229,47,20]}
+{"kind":"textbox","id":"sh/fa58v2p4","slide":5,"text":"6/2/37/5","textPreview":"6/2/37/5","textChars":8,"textLines":1,"bbox":[710,227,170,22]}
+{"kind":"textbox","id":"sh/e9wrmxoj","slide":5,"text":"acc 73.7%","textPreview":"acc 73.7%","textChars":9,"textLines":1,"bbox":[902,227,90,22]}
+{"kind":"textbox","id":"sh/1cnqxc7a","slide":5,"text":"save 49.5%","textPreview":"save 49.5%","textChars":10,"textLines":1,"bbox":[1006,227,110,22]}
+{"kind":"textbox","id":"sh/0be9o76p","slide":5,"text":"random 100","textPreview":"random 100","textChars":10,"textLines":1,"bbox":[42,290,100,24]}
+{"kind":"shape","id":"sh/ny5szmp0","slide":5,"bbox":[160,292,53,28]}
+{"kind":"textbox","id":"sh/2dwrqhof","slide":5,"text":"10%","textPreview":"10%","textChars":3,"textLines":1,"bbox":[163,297,47,20]}
+{"kind":"shape","id":"sh/p07a1c76","slide":5,"bbox":[213,292,21.2,28]}
+{"kind":"shape","id":"sh/ozy9s76l","slide":5,"bbox":[234.2,292,381.6,28]}
+{"kind":"textbox","id":"sh/b2ps3m5c","slide":5,"text":"72%","textPreview":"72%","textChars":3,"textLines":1,"bbox":[237.2,297,375.6,20]}
+{"kind":"shape","id":"sh/a1gruhor","slide":5,"bbox":[615.8,292,74.2,28]}
+{"kind":"textbox","id":"sh/87i9krmp","slide":5,"text":"14%","textPreview":"14%","textChars":3,"textLines":1,"bbox":[618.8,297,68.2,20]}
+{"kind":"textbox","id":"sh/98rqdw3a","slide":5,"text":"10/4/72/14","textPreview":"10/4/72/14","textChars":10,"textLines":1,"bbox":[710,295,170,22]}
+{"kind":"textbox","id":"sh/m5g7ih4z","slide":5,"text":"acc 75.1%","textPreview":"acc 75.1%","textChars":9,"textLines":1,"bbox":[902,295,90,22]}
+{"kind":"textbox","id":"sh/76p8bml4","slide":5,"text":"save 43.9%","textPreview":"save 43.9%","textChars":10,"textLines":1,"bbox":[1006,295,110,22]}
+{"kind":"textbox","id":"sh/k3ypgrmt","slide":5,"text":"random 150","textPreview":"random 150","textChars":10,"textLines":1,"bbox":[42,358,100,24]}
+{"kind":"shape","id":"sh/l47q9c3e","slide":5,"bbox":[160,360,49.47,28]}
+{"kind":"textbox","id":"sh/y1g7eh4n","slide":5,"text":"9%","textPreview":"9%","textChars":2,"textLines":1,"bbox":[163,365,43.47,20]}
+{"kind":"shape","id":"sh/z2p87ml8","slide":5,"bbox":[209.47,360,21.2,28]}
+{"kind":"shape","id":"sh/czypc7mh","slide":5,"bbox":[230.67,360,374.53,28]}
+{"kind":"textbox","id":"sh/x07q5c32","slide":5,"text":"71%","textPreview":"71%","textChars":3,"textLines":1,"bbox":[233.67,365,368.53,20]}
+{"kind":"shape","id":"sh/1k36d8ju","slide":5,"bbox":[605.2,360,84.8,28]}
+{"kind":"textbox","id":"sh/0ju5k329","slide":5,"text":"16%","textPreview":"16%","textChars":3,"textLines":1,"bbox":[608.2,365,78.8,20]}
+{"kind":"textbox","id":"sh/fil4by14","slide":5,"text":"14/6/106/24","textPreview":"14/6/106/24","textChars":11,"textLines":1,"bbox":[710,363,170,22]}
+{"kind":"textbox","id":"sh/ehcnitkj","slide":5,"text":"acc 72.2%","textPreview":"acc 72.2%","textChars":9,"textLines":1,"bbox":[902,363,90,22]}
+{"kind":"textbox","id":"sh/p8n6hsj6","slide":5,"text":"save 61.9%","textPreview":"save 61.9%","textChars":10,"textLines":1,"bbox":[1006,363,110,22]}
+{"kind":"textbox","id":"sh/o7e5on2l","slide":5,"text":"random 200","textPreview":"random 200","textChars":10,"textLines":1,"bbox":[42,426,100,24]}
+{"kind":"shape","id":"sh/n6lofi10","slide":5,"bbox":[160,428,50.35,28]}
+{"kind":"textbox","id":"sh/2lcnmdkf","slide":5,"text":"10%","textPreview":"10%","textChars":3,"textLines":1,"bbox":[163,433,44.35,20]}
+{"kind":"shape","id":"sh/5cjm5ojm","slide":5,"bbox":[210.35,428,23.85,28]}
+{"kind":"shape","id":"sh/4ba5cj2h","slide":5,"bbox":[234.2,428,376.3,28]}
+{"kind":"textbox","id":"sh/uh83mp0z","slide":5,"text":"71%","textPreview":"71%","textChars":3,"textLines":1,"bbox":[237.2,433,370.3,20]}
+{"kind":"shape","id":"sh/vihkfuhk","slide":5,"bbox":[610.5,428,79.5,28]}
+{"kind":"textbox","id":"sh/wjqlozi5","slide":5,"text":"15%","textPreview":"15%","textChars":3,"textLines":1,"bbox":[613.5,433,73.5,20]}
+{"kind":"textbox","id":"sh/hkz2h4zq","slide":5,"text":"19/9/142/30","textPreview":"19/9/142/30","textChars":11,"textLines":1,"bbox":[710,431,170,22]}
+{"kind":"textbox","id":"sh/il83q90b","slide":5,"text":"acc 72.2%","textPreview":"acc 72.2%","textChars":9,"textLines":1,"bbox":[902,431,90,22]}
+{"kind":"textbox","id":"sh/jmhkjuhw","slide":5,"text":"save 61.9%","textPreview":"save 61.9%","textChars":10,"textLines":1,"bbox":[1006,431,110,22]}
+{"kind":"textbox","id":"sh/4nqlszi1","slide":5,"text":"Random50 had only 12% mini-only and 74% both-correct. That is why the random-control router saved more money but lost more accuracy than the critical-heavy size-50 split.","textPreview":"Random50 had only 12% mini-only and 74% both-correct. That is why the random-control router saved more money but lost more accuracy than ...","textChars":170,"textLines":1,"bbox":[42,538,1120,58]}
+{"kind":"textbox","id":"sh/5oj2l4zm","slide":5,"text":"Sources: routing_split_half1_random_control_trainval*.json and routing_cost_comparison_testdata_hybrid_half1_random_control_trainval*.csv","textPreview":"Sources: routing_split_half1_random_control_trainval*.json and routing_cost_comparison_testdata_hybrid_half1_random_control_trainval*.csv","textChars":137,"textLines":1,"bbox":[42,662,1060,24]}
+{"kind":"textbox","id":"sh/ypoje50r","slide":5,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1186,662,52,24]}
+{"kind":"notes","id":"nt/spukpw","slide":5,"text":""}
+{"kind":"slide","id":"sl/u2p8bw","slide":6,"title":"Bucket ablations","textShapes":47}
+{"kind":"textbox","id":"sh/6d47e58b","slide":6,"text":"Bucket ablations","textPreview":"Bucket ablations","textChars":16,"textLines":1,"bbox":[42,34,720,24]}
+{"kind":"textbox","id":"sh/tgfq9kr2","slide":6,"text":"The size-50 ablations changed risk posture, not just sample count","textPreview":"The size-50 ablations changed risk posture, not just sample count","textChars":65,"textLines":1,"bbox":[42,62,1060,78]}
+{"kind":"shape","id":"sh/sfmpgfqh","slide":6,"bbox":[42,146,1196,1]}
+{"kind":"shape","id":"sh/f2x8bu98","slide":6,"bbox":[42,184,1155,42]}
+{"kind":"textbox","id":"sh/uho7ip8n","slide":6,"text":"Training mix","textPreview":"Training mix","textChars":12,"textLines":1,"bbox":[50,195,229,22]}
+{"kind":"textbox","id":"sh/h4fqd4ry","slide":6,"text":"M/N/B/W count","textPreview":"M/N/B/W count","textChars":13,"textLines":1,"bbox":[295,195,134,22]}
+{"kind":"textbox","id":"sh/g36pkzqt","slide":6,"text":"M/N/B/W share","textPreview":"M/N/B/W share","textChars":13,"textLines":1,"bbox":[445,195,129,22]}
+{"kind":"textbox","id":"sh/36x8fu94","slide":6,"text":"Accuracy","textPreview":"Accuracy","textChars":8,"textLines":1,"bbox":[590,195,74,22]}
+{"kind":"textbox","id":"sh/25o7m98j","slide":6,"text":"Savings","textPreview":"Savings","textChars":7,"textLines":1,"bbox":[680,195,74,22]}
+{"kind":"textbox","id":"sh/07u9w7ud","slide":6,"text":"test nano/mini","textPreview":"test nano/mini","textChars":14,"textLines":1,"bbox":[770,195,109,22]}
+{"kind":"textbox","id":"sh/l83apcvy","slide":6,"text":"Takeaway","textPreview":"Takeaway","textChars":8,"textLines":1,"bbox":[895,195,294,22]}
+{"kind":"shape","id":"sh/y5cruxc7","slide":6,"bbox":[42,226,1155,1]}
+{"kind":"textbox","id":"sh/z6lsn2ds","slide":6,"text":"balancedish 50","textPreview":"balancedish 50","textChars":14,"textLines":1,"bbox":[50,236,229,46]}
+{"kind":"textbox","id":"sh/8vet0ru9","slide":6,"text":"13/9/14/14","textPreview":"13/9/14/14","textChars":10,"textLines":1,"bbox":[295,236,134,46]}
+{"kind":"textbox","id":"sh/9wnatwvu","slide":6,"text":"26/18/28/28%","textPreview":"26/18/28/28%","textChars":12,"textLines":1,"bbox":[445,236,129,46]}
+{"kind":"textbox","id":"sh/mtcryhc3","slide":6,"text":"79.0%","textPreview":"79.0%","textChars":5,"textLines":1,"bbox":[590,236,74,46]}
+{"kind":"textbox","id":"sh/7ulsrmdo","slide":6,"text":"24.3%","textPreview":"24.3%","textChars":5,"textLines":1,"bbox":[680,236,74,46]}
+{"kind":"textbox","id":"sh/wzet4rul","slide":6,"text":"82/123","textPreview":"82/123","textChars":6,"textLines":1,"bbox":[770,236,109,46]}
+{"kind":"textbox","id":"sh/h0naxwv6","slide":6,"text":"Most balanced: 79.0% / 24.3%.","textPreview":"Most balanced: 79.0% / 24.3%.","textChars":29,"textLines":1,"bbox":[895,236,294,46]}
+{"kind":"shape","id":"sh/5gjahwna","slide":6,"bbox":[42,284,1155,1]}
+{"kind":"textbox","id":"sh/4fa9ormp","slide":6,"text":"critical + both-correct","textPreview":"critical + both-correct","textChars":23,"textLines":1,"bbox":[50,294,229,46]}
+{"kind":"textbox","id":"sh/3e1sfm54","slide":6,"text":"19/0/31/0","textPreview":"19/0/31/0","textChars":9,"textLines":1,"bbox":[295,294,134,46]}
+{"kind":"textbox","id":"sh/itsrmh4j","slide":6,"text":"38/0/62/0%","textPreview":"38/0/62/0%","textChars":10,"textLines":1,"bbox":[445,294,129,46]}
+{"kind":"textbox","id":"sh/dk3alwn6","slide":6,"text":"76.1%","textPreview":"76.1%","textChars":5,"textLines":1,"bbox":[590,294,74,46]}
+{"kind":"textbox","id":"sh/sju9srml","slide":6,"text":"34.7%","textPreview":"34.7%","textChars":5,"textLines":1,"bbox":[680,294,74,46]}
+{"kind":"textbox","id":"sh/rilsj650","slide":6,"text":"122/83","textPreview":"122/83","textChars":6,"textLines":1,"bbox":[770,294,109,46]}
+{"kind":"textbox","id":"sh/qhcrq14f","slide":6,"text":"Shifted risk posture.","textPreview":"Shifted risk posture.","textChars":21,"textLines":1,"bbox":[895,294,294,46]}
+{"kind":"shape","id":"sh/toza9cn2","slide":6,"bbox":[42,342,1155,1]}
+{"kind":"textbox","id":"sh/8nq9g7mh","slide":6,"text":"critical + both-wrong","textPreview":"critical + both-wrong","textChars":21,"textLines":1,"bbox":[50,352,229,46]}
+{"kind":"textbox","id":"sh/yto7qdkf","slide":6,"text":"19/0/0/31","textPreview":"19/0/0/31","textChars":9,"textLines":1,"bbox":[295,352,134,46]}
+{"kind":"textbox","id":"sh/zuxojilk","slide":6,"text":"38/0/0/62%","textPreview":"38/0/0/62%","textChars":10,"textLines":1,"bbox":[445,352,129,46]}
+{"kind":"textbox","id":"sh/kv6psn25","slide":6,"text":"78.0%","textPreview":"78.0%","textChars":5,"textLines":1,"bbox":[590,352,74,46]}
+{"kind":"textbox","id":"sh/lwf6l83q","slide":6,"text":"24.4%","textPreview":"24.4%","textChars":5,"textLines":1,"bbox":[680,352,74,46]}
+{"kind":"textbox","id":"sh/mxo7udkb","slide":6,"text":"85/120","textPreview":"85/120","textChars":6,"textLines":1,"bbox":[770,352,109,46]}
+{"kind":"textbox","id":"sh/7yh8nilw","slide":6,"text":"More conservative, but limited savings.","textPreview":"More conservative, but limited savings.","textChars":39,"textLines":1,"bbox":[895,352,294,46]}
+{"kind":"shape","id":"sh/8zqpwn2h","slide":6,"bbox":[42,400,1155,1]}
+{"kind":"textbox","id":"sh/tkzqps32","slide":6,"text":"both-correct heavy","textPreview":"both-correct heavy","textChars":18,"textLines":1,"bbox":[50,410,229,46]}
+{"kind":"textbox","id":"sh/2147itk7","slide":6,"text":"5/0/40/5","textPreview":"5/0/40/5","textChars":8,"textLines":1,"bbox":[295,410,134,46]}
+{"kind":"textbox","id":"sh/n2dobyls","slide":6,"text":"10/0/80/10%","textPreview":"10/0/80/10%","textChars":11,"textLines":1,"bbox":[445,410,129,46]}
+{"kind":"textbox","id":"sh/36lwzq94","slide":6,"text":"72.2%","textPreview":"72.2%","textChars":5,"textLines":1,"bbox":[590,410,74,46]}
+{"kind":"textbox","id":"sh/ilcvqlsj","slide":6,"text":"59.9%","textPreview":"59.9%","textChars":5,"textLines":1,"bbox":[680,410,74,46]}
+{"kind":"textbox","id":"sh/583e10ra","slide":6,"text":"185/20","textPreview":"185/20","textChars":6,"textLines":1,"bbox":[770,410,109,46]}
+{"kind":"textbox","id":"sh/47udsvqp","slide":6,"text":"Too many cheap-safe examples pushed nano.","textPreview":"Too many cheap-safe examples pushed nano.","textChars":41,"textLines":1,"bbox":[895,410,294,46]}
+{"kind":"shape","id":"sh/ra5w3q9g","slide":6,"bbox":[42,458,1155,1]}
+{"kind":"textbox","id":"sh/q9wvul8v","slide":6,"text":"both-wrong heavy","textPreview":"both-wrong heavy","textChars":16,"textLines":1,"bbox":[50,468,229,46]}
+{"kind":"textbox","id":"sh/dcne50r6","slide":6,"text":"5/0/14/31","textPreview":"5/0/14/31","textChars":9,"textLines":1,"bbox":[295,468,134,46]}
+{"kind":"textbox","id":"sh/sbedwvql","slide":6,"text":"10/0/28/62%","textPreview":"10/0/28/62%","textChars":11,"textLines":1,"bbox":[445,468,129,46]}
+{"kind":"textbox","id":"sh/fe5w7a9c","slide":6,"text":"74.6%","textPreview":"74.6%","textChars":5,"textLines":1,"bbox":[590,468,74,46]}
+{"kind":"textbox","id":"sh/edwvy58r","slide":6,"text":"47.3%","textPreview":"47.3%","textChars":5,"textLines":1,"bbox":[680,468,74,46]}
+{"kind":"textbox","id":"sh/c3ydof65","slide":6,"text":"157/48","textPreview":"157/48","textChars":6,"textLines":1,"bbox":[770,468,109,46]}
+{"kind":"textbox","id":"sh/x47uhk7q","slide":6,"text":"Shifted risk posture.","textPreview":"Shifted risk posture.","textChars":21,"textLines":1,"bbox":[895,468,294,46]}
+{"kind":"textbox","id":"sh/ahgvm5oz","slide":6,"text":"M/N/B/W = mini-only / nano-only / both-correct / both-wrong. The important lever was bucket mix, not merely optimizer choice.","textPreview":"M/N/B/W = mini-only / nano-only / both-correct / both-wrong. The important lever was bucket mix, not merely optimizer choice.","textChars":125,"textLines":1,"bbox":[42,580,1120,44]}
+{"kind":"textbox","id":"sh/bipcfapk","slide":6,"text":"Sources: gepa_router_prompt_result_hybrid_half1_ablation50_*.json and corresponding testdata CSV files","textPreview":"Sources: gepa_router_prompt_result_hybrid_half1_ablation50_*.json and corresponding testdata CSV files","textChars":102,"textLines":1,"bbox":[42,662,1060,24]}
+{"kind":"textbox","id":"sh/ofedkv6t","slide":6,"text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1186,662,52,24]}
+{"kind":"notes","id":"nt/u2p8bw","slide":6,"text":""}
+{"kind":"slide","id":"sl/2gzrz7","slide":7,"title":"Soft-prompt workflow","textShapes":20}
+{"kind":"textbox","id":"sh/ehkbmloj","slide":7,"text":"Soft-prompt workflow","textPreview":"Soft-prompt workflow","textChars":20,"textLines":1,"bbox":[42,34,720,24]}
+{"kind":"textbox","id":"sh/1kvah0na","slide":7,"text":"The soft-prompt router turned routing into a small trainable classifier","textPreview":"The soft-prompt router turned routing into a small trainable classifier","textChars":71,"textLines":1,"bbox":[42,62,1060,78]}
+{"kind":"shape","id":"sh/0jmtov6p","slide":7,"bbox":[42,146,1196,1]}
+{"kind":"shape","id":"sh/retsbq58","slide":7,"bbox":[42,210,192,280]}
+{"kind":"textbox","id":"sh/qdkbilon","slide":7,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[60,228,50,40]}
+{"kind":"textbox","id":"sh/dgbadgne","slide":7,"text":"Build routing examples","textPreview":"Build routing examples","textChars":22,"textLines":1,"bbox":[60,282,156,48]}
+{"kind":"textbox","id":"sh/cf2tkv6t","slide":7,"text":"Each question is paired with mini/nano correctness and cost, then bucketed as mini-only, nano-only, both-correct, or both-wrong.","textPreview":"Each question is paired with mini/nano correctness and cost, then bucketed as mini-only, nano-only, both-correct, or both-wrong.","textChars":128,"textLines":1,"bbox":[60,342,156,126]}
+{"kind":"shape","id":"sh/3qts765w","slide":7,"bbox":[274,210,192,280]}
+{"kind":"textbox","id":"sh/2p0re1or","slide":7,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[292,228,50,40]}
+{"kind":"textbox","id":"sh/g721s7el","slide":7,"text":"Format the input text","textPreview":"Format the input text","textChars":21,"textLines":1,"bbox":[292,282,156,48]}
+{"kind":"textbox","id":"sh/h8vi1cf6","slide":7,"text":"The encoder sees category, source, question, and answer options. These runs did not include the nano answer text.","textPreview":"The encoder sees category, source, question, and answer options. These runs did not include the nano answer text.","textChars":113,"textLines":1,"bbox":[292,342,156,126]}
+{"kind":"shape","id":"sh/u5kjqxgv","slide":7,"bbox":[506,210,192,280]}
+{"kind":"textbox","id":"sh/f6t0z2x0","slide":7,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[524,228,50,40]}
+{"kind":"textbox","id":"sh/sj2honyp","slide":7,"text":"Prepend soft tokens","textPreview":"Prepend soft tokens","textChars":19,"textLines":1,"bbox":[524,282,156,48]}
+{"kind":"textbox","id":"sh/t4bixsfa","slide":7,"text":"Sixteen learned embedding vectors are concatenated before the token embeddings; they are not readable words.","textPreview":"Sixteen learned embedding vectors are concatenated before the token embeddings; they are not readable words.","textChars":108,"textLines":1,"bbox":[524,342,156,126]}
+{"kind":"shape","id":"sh/6hkzmdgj","slide":7,"bbox":[738,210,192,280]}
+{"kind":"textbox","id":"sh/7it0vix4","slide":7,"text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[756,228,50,40]}
+{"kind":"textbox","id":"sh/cfm10ret","slide":7,"text":"Classify the route","textPreview":"Classify the route","textChars":18,"textLines":1,"bbox":[756,282,156,48]}
+{"kind":"textbox","id":"sh/d0fi9wfe","slide":7,"text":"The frozen encoder produces a representation, and a small linear head predicts nano vs mini.","textPreview":"The frozen encoder produces a representation, and a small linear head predicts nano vs mini.","textChars":92,"textLines":1,"bbox":[756,342,156,126]}
+{"kind":"shape","id":"sh/lwbitc7i","slide":7,"bbox":[970,210,192,280]}
+{"kind":"textbox","id":"sh/0v21kr6x","slide":7,"text":"5","textPreview":"5","textChars":1,"textLines":1,"bbox":[988,228,50,40]}
+{"kind":"textbox","id":"sh/zu90rmpc","slide":7,"text":"Apply a threshold","textPreview":"Apply a threshold","textChars":17,"textLines":1,"bbox":[988,282,156,48]}
+{"kind":"textbox","id":"sh/yt0ziho7","slide":7,"text":"The mini probability is compared with a decision threshold; higher threshold routes more examples to nano.","textPreview":"The mini probability is compared with a decision threshold; higher threshold routes more examples to nano.","textChars":106,"textLines":1,"bbox":[988,342,156,126]}
+{"kind":"textbox","id":"sh/dsripc7m","slide":7,"text":"The important shift from prompt GEPA: the policy is no longer a single text instruction. It becomes a learned probability score that can be calibrated after training.","textPreview":"The important shift from prompt GEPA: the policy is no longer a single text instruction. It becomes a learned probability score that can ...","textChars":166,"textLines":1,"bbox":[42,548,1120,54]}
+{"kind":"textbox","id":"sh/crihg761","slide":7,"text":"Implementation: train_softprompt_router.py; SoftPromptRouter.forward prepends learned embeddings and thresholds the mini probability","textPreview":"Implementation: train_softprompt_router.py; SoftPromptRouter.forward prepends learned embeddings and thresholds the mini probability","textChars":132,"textLines":1,"bbox":[42,662,1060,24]}
+{"kind":"textbox","id":"sh/bq90n2pg","slide":7,"text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1186,662,52,24]}
+{"kind":"notes","id":"nt/2gzrz7","slide":7,"text":""}
+{"kind":"slide","id":"sl/aag79a","slide":8,"title":"Soft-prompt architecture","textShapes":34}
+{"kind":"textbox","id":"sh/grq9wvid","slide":8,"text":"Soft-prompt architecture","textPreview":"Soft-prompt architecture","textChars":24,"textLines":1,"bbox":[42,34,720,24]}
+{"kind":"textbox","id":"sh/vqh83q1s","slide":8,"text":"Backbone and training setup were intentionally small","textPreview":"Backbone and training setup were intentionally small","textChars":52,"textLines":1,"bbox":[42,62,1060,78]}
+{"kind":"shape","id":"sh/up8ru5k7","slide":8,"bbox":[42,146,1196,1]}
+{"kind":"shape","id":"sh/tozq10j2","slide":8,"bbox":[42,184,260,138]}
+{"kind":"textbox","id":"sh/8nq9sv2h","slide":8,"text":"Backbone","textPreview":"Backbone","textChars":8,"textLines":1,"bbox":[60,200,224,24]}
+{"kind":"textbox","id":"sh/7mx8zq1w","slide":8,"text":"DistilBERT","textPreview":"DistilBERT","textChars":10,"textLines":1,"bbox":[60,230,224,50]}
+{"kind":"textbox","id":"sh/6lo76lkb","slide":8,"text":"distilbert-base-uncased","textPreview":"distilbert-base-uncased","textChars":23,"textLines":1,"bbox":[60,286,224,26]}
+{"kind":"shape","id":"sh/dkjadkj6","slide":8,"bbox":[326,184,260,138]}
+{"kind":"textbox","id":"sh/sja94fil","slide":8,"text":"Backbone update","textPreview":"Backbone update","textChars":15,"textLines":1,"bbox":[344,200,224,24]}
+{"kind":"textbox","id":"sh/qhwzqxwf","slide":8,"text":"frozen","textPreview":"frozen","textChars":6,"textLines":1,"bbox":[344,230,224,50]}
+{"kind":"textbox","id":"sh/ri50j2x0","slide":8,"text":"train_backbone = false","textPreview":"train_backbone = false","textChars":22,"textLines":1,"bbox":[344,286,224,26]}
+{"kind":"shape","id":"sh/sjehs7el","slide":8,"bbox":[610,184,260,138]}
+{"kind":"textbox","id":"sh/dknilcv6","slide":8,"text":"Soft tokens","textPreview":"Soft tokens","textChars":11,"textLines":1,"bbox":[628,200,224,24]}
+{"kind":"textbox","id":"sh/itczmxwj","slide":8,"text":"16","textPreview":"16","textChars":2,"textLines":1,"bbox":[628,230,224,50]}
+{"kind":"textbox","id":"sh/3u50f2x4","slide":8,"text":"learned prompt embeddings","textPreview":"learned prompt embeddings","textChars":25,"textLines":1,"bbox":[628,286,224,26]}
+{"kind":"shape","id":"sh/4veho7ep","slide":8,"bbox":[894,184,260,138]}
+{"kind":"textbox","id":"sh/5gnihsfu","slide":8,"text":"Trainable params","textPreview":"Trainable params","textChars":16,"textLines":1,"bbox":[912,200,224,24]}
+{"kind":"textbox","id":"sh/2pgjyhwn","slide":8,"text":"13.8k","textPreview":"13.8k","textChars":5,"textLines":1,"bbox":[912,230,224,50]}
+{"kind":"textbox","id":"sh/nqp0rmd8","slide":8,"text":"out of 66.4M total","textPreview":"out of 66.4M total","textChars":18,"textLines":1,"bbox":[912,286,224,26]}
+{"kind":"shape","id":"sh/zuhwjedk","slide":8,"bbox":[42,378,1130,42]}
+{"kind":"textbox","id":"sh/yt8fa9cz","slide":8,"text":"Component","textPreview":"Component","textChars":9,"textLines":1,"bbox":[50,389,214,22]}
+{"kind":"textbox","id":"sh/lwjelovq","slide":8,"text":"What it did","textPreview":"What it did","textChars":11,"textLines":1,"bbox":[280,389,404,22]}
+{"kind":"textbox","id":"sh/kvaxcju5","slide":8,"text":"Key setting in best run","textPreview":"Key setting in best run","textChars":23,"textLines":1,"bbox":[700,389,464,22]}
+{"kind":"shape","id":"sh/7y1wnydw","slide":8,"bbox":[42,420,1130,1]}
+{"kind":"textbox","id":"sh/mxsfetcb","slide":8,"text":"Input encoder","textPreview":"Input encoder","textChars":13,"textLines":1,"bbox":[50,430,214,36]}
+{"kind":"textbox","id":"sh/90jyp8bm","slide":8,"text":"Tokenized question/options into a transformer sequence.","textPreview":"Tokenized question/options into a transformer sequence.","textChars":55,"textLines":1,"bbox":[280,430,404,36]}
+{"kind":"textbox","id":"sh/8zaxg3uh","slide":8,"text":"max_length 384; no nano-answer text included.","textPreview":"max_length 384; no nano-answer text included.","textChars":45,"textLines":1,"bbox":[700,430,464,36]}
+{"kind":"shape","id":"sh/vmlgryts","slide":8,"bbox":[42,468,1130,1]}
+{"kind":"textbox","id":"sh/u1sfitc7","slide":8,"text":"Soft prompt","textPreview":"Soft prompt","textChars":11,"textLines":1,"bbox":[50,478,214,36]}
+{"kind":"textbox","id":"sh/srud83al","slide":8,"text":"Added task-specific learned vectors before the real tokens.","textPreview":"Added task-specific learned vectors before the real tokens.","textChars":59,"textLines":1,"bbox":[280,478,404,36]}
+{"kind":"textbox","id":"sh/ds3eh8r6","slide":8,"text":"16 vectors of DistilBERT hidden size.","textPreview":"16 vectors of DistilBERT hidden size.","textChars":37,"textLines":1,"bbox":[700,478,464,36]}
+{"kind":"shape","id":"sh/qpcv6dsf","slide":8,"bbox":[42,516,1130,1]}
+{"kind":"textbox","id":"sh/rqlwfy90","slide":8,"text":"Classifier head","textPreview":"Classifier head","textChars":15,"textLines":1,"bbox":[50,526,214,36]}
+{"kind":"textbox","id":"sh/4nud43a9","slide":8,"text":"Mapped the encoder state to nano/mini logits.","textPreview":"Mapped the encoder state to nano/mini logits.","textChars":45,"textLines":1,"bbox":[280,526,404,36]}
+{"kind":"textbox","id":"sh/5o3ed8ru","slide":8,"text":"Linear layer over the first real token state after soft tokens.","textPreview":"Linear layer over the first real token state after soft tokens.","textChars":63,"textLines":1,"bbox":[700,526,464,36]}
+{"kind":"shape","id":"sh/i1sv2tsj","slide":8,"bbox":[42,564,1130,1]}
+{"kind":"textbox","id":"sh/j2lwby9o","slide":8,"text":"Training objective","textPreview":"Training objective","textChars":18,"textLines":1,"bbox":[50,574,214,36]}
+{"kind":"textbox","id":"sh/wzad0jad","slide":8,"text":"Optimized routing utility rather than just accuracy.","textPreview":"Optimized routing utility rather than just accuracy.","textChars":52,"textLines":1,"bbox":[280,574,404,36]}
+{"kind":"textbox","id":"sh/h0je9ory","slide":8,"text":"expected_utility loss; target mini rate 0.25; mini penalty 0.4.","textPreview":"expected_utility loss; target mini rate 0.25; mini penalty 0.4.","textChars":63,"textLines":1,"bbox":[700,574,464,36]}
+{"kind":"shape","id":"sh/lsf2l03e","slide":8,"bbox":[42,612,1130,1]}
+{"kind":"textbox","id":"sh/0r61svmt","slide":8,"text":"Decision rule","textPreview":"Decision rule","textChars":13,"textLines":1,"bbox":[50,622,214,36]}
+{"kind":"textbox","id":"sh/zqxkjql8","slide":8,"text":"Converted mini probability into a discrete route.","textPreview":"Converted mini probability into a discrete route.","textChars":49,"textLines":1,"bbox":[280,622,404,36]}
+{"kind":"textbox","id":"sh/ypojql4n","slide":8,"text":"threshold 0.45 for the selected 205-test run.","textPreview":"threshold 0.45 for the selected 205-test run.","textChars":45,"textLines":1,"bbox":[700,622,464,36]}
+{"kind":"textbox","id":"sh/9wf2p03a","slide":8,"text":"Best-run args: hf_model distilbert-base-uncased, epochs 8, batch 8, learning_rate 0.01, train_backbone false","textPreview":"Best-run args: hf_model distilbert-base-uncased, epochs 8, batch 8, learning_rate 0.01, train_backbone false","textChars":108,"textLines":1,"bbox":[42,662,1060,24]}
+{"kind":"textbox","id":"sh/8v6lwvm5","slide":8,"text":"08","textPreview":"08","textChars":2,"textLines":1,"bbox":[1186,662,52,24]}
+{"kind":"notes","id":"nt/aag79a","slide":8,"text":""}
+{"kind":"slide","id":"sl/v1xp21","slide":9,"title":"Soft-prompt follow-up","textShapes":48}
+{"kind":"textbox","id":"sh/e9cbipsb","slide":9,"text":"Soft-prompt follow-up","textPreview":"Soft-prompt follow-up","textChars":21,"textLines":1,"bbox":[42,34,720,24]}
+{"kind":"textbox","id":"sh/lc3ud4rm","slide":9,"text":"Soft prompt was added as a trainable router after the prompt sweeps","textPreview":"Soft prompt was added as a trainable router after the prompt sweeps","textChars":67,"textLines":1,"bbox":[42,62,1060,78]}
+{"kind":"shape","id":"sh/0butkza1","slide":9,"bbox":[42,146,1196,1]}
+{"kind":"shape","id":"sh/ne5cfe9s","slide":9,"bbox":[42,184,260,138]}
+{"kind":"textbox","id":"sh/mdwbm9s7","slide":9,"text":"Model form","textPreview":"Model form","textChars":10,"textLines":1,"bbox":[60,200,224,24]}
+{"kind":"textbox","id":"sh/9gnuh4ry","slide":9,"text":"frozen encoder","textPreview":"frozen encoder","textChars":14,"textLines":1,"bbox":[60,230,224,50]}
+{"kind":"textbox","id":"sh/8fetojqd","slide":9,"text":"trainable soft tokens + classifier","textPreview":"trainable soft tokens + classifier","textChars":34,"textLines":1,"bbox":[60,286,224,26]}
+{"kind":"shape","id":"sh/vi5cje9o","slide":9,"bbox":[326,184,260,138]}
+{"kind":"textbox","id":"sh/ahwbq98j","slide":9,"text":"Initial split","textPreview":"Initial split","textChars":13,"textLines":1,"bbox":[344,200,224,24]}
+{"kind":"textbox","id":"sh/gbix0fyx","slide":9,"text":"40 / 10","textPreview":"40 / 10","textChars":7,"textLines":1,"bbox":[344,230,224,50]}
+{"kind":"textbox","id":"sh/1cry9kfi","slide":9,"text":"same half1 trainval50 split","textPreview":"same half1 trainval50 split","textChars":27,"textLines":1,"bbox":[344,286,224,26]}
+{"kind":"shape","id":"sh/e90fy5gr","slide":9,"bbox":[610,184,260,138]}
+{"kind":"textbox","id":"sh/fa9g7axc","slide":9,"text":"Best heldout run","textPreview":"Best heldout run","textChars":16,"textLines":1,"bbox":[628,200,224,24]}
+{"kind":"textbox","id":"sh/of2h4fyt","slide":9,"text":"81.0%","textPreview":"81.0%","textChars":5,"textLines":1,"bbox":[628,230,224,50]}
+{"kind":"textbox","id":"sh/pgbydkfe","slide":9,"text":"205-test accuracy","textPreview":"205-test accuracy","textChars":17,"textLines":1,"bbox":[628,286,224,26]}
+{"kind":"shape","id":"sh/2d0z2pg3","slide":9,"bbox":[894,184,260,138]}
+{"kind":"textbox","id":"sh/3etgbax8","slide":9,"text":"Best savings","textPreview":"Best savings","textChars":12,"textLines":1,"bbox":[912,200,224,24]}
+{"kind":"textbox","id":"sh/c32h8zy5","slide":9,"text":"40.6%","textPreview":"40.6%","textChars":5,"textLines":1,"bbox":[912,230,224,50]}
+{"kind":"textbox","id":"sh/d4byh4fq","slide":9,"text":"95 nano / 110 mini","textPreview":"95 nano / 110 mini","textChars":18,"textLines":1,"bbox":[912,286,224,26]}
+{"kind":"shape","id":"sh/l07ylk7u","slide":9,"bbox":[42,386,1175,42]}
+{"kind":"textbox","id":"sh/kzyxszq9","slide":9,"text":"Run","textPreview":"Run","textChars":3,"textLines":1,"bbox":[50,397,284,22]}
+{"kind":"textbox","id":"sh/zypgjupo","slide":9,"text":"train/val","textPreview":"train/val","textChars":9,"textLines":1,"bbox":[350,397,79,22]}
+{"kind":"textbox","id":"sh/yxgfqp83","slide":9,"text":"test","textPreview":"test","textChars":4,"textLines":1,"bbox":[445,397,54,22]}
+{"kind":"textbox","id":"sh/9oryp47q","slide":9,"text":"Accuracy","textPreview":"Accuracy","textChars":8,"textLines":1,"bbox":[515,397,79,22]}
+{"kind":"textbox","id":"sh/8nihwzq5","slide":9,"text":"Savings","textPreview":"Savings","textChars":7,"textLines":1,"bbox":[610,397,79,22]}
+{"kind":"textbox","id":"sh/729gnupk","slide":9,"text":"nano/mini","textPreview":"nano/mini","textChars":9,"textLines":1,"bbox":[705,397,89,22]}
+{"kind":"textbox","id":"sh/m10fup8f","slide":9,"text":"critical","textPreview":"critical","textChars":8,"textLines":1,"bbox":[810,397,69,22]}
+{"kind":"textbox","id":"sh/psnyd07m","slide":9,"text":"Interpretation","textPreview":"Interpretation","textChars":14,"textLines":1,"bbox":[895,397,314,22]}
+{"kind":"shape","id":"sh/orexkfq1","slide":9,"bbox":[42,428,1175,1]}
+{"kind":"textbox","id":"sh/edcvu1oz","slide":9,"text":"half1 trainval50 smoke","textPreview":"half1 trainval50 smoke","textChars":22,"textLines":1,"bbox":[50,438,284,46]}
+{"kind":"textbox","id":"sh/fylcn65k","slide":9,"text":"40/10","textPreview":"40/10","textChars":5,"textLines":1,"bbox":[350,438,79,46]}
+{"kind":"textbox","id":"sh/0zudwb6p","slide":9,"text":"205","textPreview":"205","textChars":3,"textLines":1,"bbox":[445,438,54,46]}
+{"kind":"textbox","id":"sh/103epgna","slide":9,"text":"80.0%","textPreview":"80.0%","textChars":5,"textLines":1,"bbox":[515,438,79,46]}
+{"kind":"textbox","id":"sh/21wvylov","slide":9,"text":"5.3%","textPreview":"5.3%","textChars":4,"textLines":1,"bbox":[610,438,79,46]}
+{"kind":"textbox","id":"sh/n25wrq5g","slide":9,"text":"14/191","textPreview":"14/191","textChars":6,"textLines":1,"bbox":[705,438,89,46]}
+{"kind":"textbox","id":"sh/o3ed0v61","slide":9,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[810,438,69,46]}
+{"kind":"textbox","id":"sh/p4net0nm","slide":9,"text":"Accuracy-preserving, too conservative.","textPreview":"Accuracy-preserving, too conservative.","textChars":38,"textLines":1,"bbox":[895,438,314,46]}
+{"kind":"shape","id":"sh/i5svmhor","slide":9,"bbox":[42,486,1175,1]}
+{"kind":"textbox","id":"sh/361cfm5c","slide":9,"text":"balanced50 risk EU","textPreview":"balanced50 risk EU","textChars":18,"textLines":1,"bbox":[50,496,284,46]}
+{"kind":"textbox","id":"sh/zq9k3eto","slide":9,"text":"38/12","textPreview":"38/12","textChars":5,"textLines":1,"bbox":[350,496,79,46]}
+{"kind":"textbox","id":"sh/yp0jutc3","slide":9,"text":"205","textPreview":"205","textChars":3,"textLines":1,"bbox":[445,496,54,46]}
+{"kind":"textbox","id":"sh/lsr25obu","slide":9,"text":"81.0%","textPreview":"81.0%","textChars":5,"textLines":1,"bbox":[515,496,79,46]}
+{"kind":"textbox","id":"sh/kri1wju9","slide":9,"text":"40.6%","textPreview":"40.6%","textChars":5,"textLines":1,"bbox":[610,496,79,46]}
+{"kind":"textbox","id":"sh/7utk7yt0","slide":9,"text":"95/110","textPreview":"95/110","textChars":6,"textLines":1,"bbox":[705,496,89,46]}
+{"kind":"textbox","id":"sh/mtkjytcf","slide":9,"text":"6","textPreview":"6","textChars":1,"textLines":1,"bbox":[810,496,69,46]}
+{"kind":"textbox","id":"sh/tgb298bq","slide":9,"text":"Best usable trade-off.","textPreview":"Best usable trade-off.","textChars":22,"textLines":1,"bbox":[895,496,314,46]}
+{"kind":"shape","id":"sh/8f2103ul","slide":9,"bbox":[42,544,1175,1]}
+{"kind":"textbox","id":"sh/vitkbitw","slide":9,"text":"first205 random50 risk EU","textPreview":"first205 random50 risk EU","textChars":25,"textLines":1,"bbox":[50,554,284,46]}
+{"kind":"textbox","id":"sh/uhk32dcb","slide":9,"text":"50/0","textPreview":"50/0","textChars":4,"textLines":1,"bbox":[350,554,79,46]}
+{"kind":"textbox","id":"sh/snm1snap","slide":9,"text":"205","textPreview":"205","textChars":3,"textLines":1,"bbox":[445,554,54,46]}
+{"kind":"textbox","id":"sh/dovi18ra","slide":9,"text":"71.2%","textPreview":"71.2%","textChars":5,"textLines":1,"bbox":[515,554,79,46]}
+{"kind":"textbox","id":"sh/ql4jqdsj","slide":9,"text":"63.4%","textPreview":"63.4%","textChars":5,"textLines":1,"bbox":[610,554,79,46]}
+{"kind":"textbox","id":"sh/rmd0zi94","slide":9,"text":"169/36","textPreview":"169/36","textChars":6,"textLines":1,"bbox":[705,554,89,46]}
+{"kind":"textbox","id":"sh/4j21o3ad","slide":9,"text":"24","textPreview":"24","textChars":2,"textLines":1,"bbox":[810,554,69,46]}
+{"kind":"textbox","id":"sh/5kvix8ry","slide":9,"text":"Cheap but unsafe.","textPreview":"Cheap but unsafe.","textChars":17,"textLines":1,"bbox":[895,554,314,46]}
+{"kind":"textbox","id":"sh/ihkjmtsn","slide":9,"text":"Sources: softprompt_router_half1_trainval50_test_smoke.json, softprompt_router_balanced50_risk_best_expected_utility_test205.json, softprompt_router_first205_random50_seed0_risk_expected_utility.json","textPreview":"Sources: softprompt_router_half1_trainval50_test_smoke.json, softprompt_router_balanced50_risk_best_expected_utility_test205.json, softpr...","textChars":199,"textLines":1,"bbox":[42,662,1060,24]}
+{"kind":"textbox","id":"sh/3it0vy9s","slide":9,"text":"09","textPreview":"09","textChars":2,"textLines":1,"bbox":[1186,662,52,24]}
+{"kind":"notes","id":"nt/v1xp21","slide":9,"text":""}
+{"kind":"slide","id":"sl/r3bd9b","slide":10,"title":"Threshold sweep","textShapes":50}
+{"kind":"textbox","id":"sh/wbmd0n65","slide":10,"text":"Threshold sweep","textPreview":"Threshold sweep","textChars":15,"textLines":1,"bbox":[42,34,720,24]}
+{"kind":"textbox","id":"sh/badc7ip0","slide":10,"text":"The soft-prompt threshold exposed a smoother risk-cost frontier","textPreview":"The soft-prompt threshold exposed a smoother risk-cost frontier","textChars":63,"textLines":1,"bbox":[42,62,1060,78]}
+{"kind":"shape","id":"sh/a94vydof","slide":10,"bbox":[42,146,1196,1]}
+{"kind":"textbox","id":"sh/l0veds72","slide":10,"text":"0.00","textPreview":"0.00","textChars":4,"textLines":1,"bbox":[42,201,60,24]}
+{"kind":"shape","id":"sh/kzmd4n6h","slide":10,"bbox":[102,205,330,9]}
+{"kind":"shape","id":"sh/jydwbipw","slide":10,"bbox":[102,205,295.17,9]}
+{"kind":"shape","id":"sh/yx4v2dob","slide":10,"bbox":[102,221,330,9]}
+{"kind":"shape","id":"sh/t4fehc7y","slide":10,"bbox":[102,221,0,9]}
+{"kind":"textbox","id":"sh/836d876d","slide":10,"text":"80.5%","textPreview":"80.5%","textChars":5,"textLines":1,"bbox":[442,200,55,20]}
+{"kind":"textbox","id":"sh/u9kna9of","slide":10,"text":"0.0%","textPreview":"0.0%","textChars":4,"textLines":1,"bbox":[442,215,55,20]}
+{"kind":"textbox","id":"sh/fat43ep0","slide":10,"text":"0.25","textPreview":"0.25","textChars":4,"textLines":1,"bbox":[42,243,60,24]}
+{"kind":"shape","id":"sh/gb25cz6l","slide":10,"bbox":[102,247,330,9]}
+{"kind":"shape","id":"sh/hwbm547q","slide":10,"bbox":[102,247,297,9]}
+{"kind":"shape","id":"sh/2x4ne9ob","slide":10,"bbox":[102,263,330,9]}
+{"kind":"shape","id":"sh/3yd47epw","slide":10,"bbox":[102,263,39.19,9]}
+{"kind":"textbox","id":"sh/4zm5gj6h","slide":10,"text":"81.0%","textPreview":"81.0%","textChars":5,"textLines":1,"bbox":[442,242,55,20]}
+{"kind":"textbox","id":"sh/p0vm9o72","slide":10,"text":"9.5%","textPreview":"9.5%","textChars":4,"textLines":1,"bbox":[442,257,55,20]}
+{"kind":"textbox","id":"sh/i1032po7","slide":10,"text":"0.30","textPreview":"0.30","textChars":4,"textLines":1,"bbox":[42,285,60,24]}
+{"kind":"shape","id":"sh/j294vaps","slide":10,"bbox":[102,289,330,9]}
+{"kind":"shape","id":"sh/na5snm18","slide":10,"bbox":[102,289,300.67,9]}
+{"kind":"shape","id":"sh/29wbeh0n","slide":10,"bbox":[102,305,330,9]}
+{"kind":"shape","id":"sh/pwnapwje","slide":10,"bbox":[102,305,69.3,9]}
+{"kind":"textbox","id":"sh/ovetgrit","slide":10,"text":"82.0%","textPreview":"82.0%","textChars":5,"textLines":1,"bbox":[442,284,55,20]}
+{"kind":"textbox","id":"sh/f6lsjm1c","slide":10,"text":"16.8%","textPreview":"16.8%","textChars":5,"textLines":1,"bbox":[442,299,55,20]}
+{"kind":"textbox","id":"sh/e5crah0r","slide":10,"text":"0.35","textPreview":"0.35","textChars":4,"textLines":1,"bbox":[42,327,60,24]}
+{"kind":"shape","id":"sh/183alcj2","slide":10,"bbox":[102,331,330,9]}
+{"kind":"shape","id":"sh/07u9c7ih","slide":10,"bbox":[102,331,300.67,9]}
+{"kind":"shape","id":"sh/z2psv61g","slide":10,"bbox":[102,347,330,9]}
+{"kind":"shape","id":"sh/y1gbm10v","slide":10,"bbox":[102,347,101.47,9]}
+{"kind":"textbox","id":"sh/g7qpg3yd","slide":10,"text":"82.0%","textPreview":"82.0%","textChars":5,"textLines":1,"bbox":[442,326,55,20]}
+{"kind":"textbox","id":"sh/h8zq98zy","slide":10,"text":"24.6%","textPreview":"24.6%","textChars":5,"textLines":1,"bbox":[442,341,55,20]}
+{"kind":"textbox","id":"sh/u587etg7","slide":10,"text":"0.45","textPreview":"0.45","textChars":4,"textLines":1,"bbox":[42,369,60,24]}
+{"kind":"shape","id":"sh/v6h87yhs","slide":10,"bbox":[102,373,330,9]}
+{"kind":"shape","id":"sh/4bapk3y9","slide":10,"bbox":[102,373,297,9]}
+{"kind":"shape","id":"sh/5cjqd8zu","slide":10,"bbox":[102,389,330,9]}
+{"kind":"shape","id":"sh/i9s7idgj","slide":10,"bbox":[102,389,167.47,9]}
+{"kind":"textbox","id":"sh/3a18bih4","slide":10,"text":"81.0%","textPreview":"81.0%","textChars":5,"textLines":1,"bbox":[442,368,55,20]}
+{"kind":"textbox","id":"sh/sfaponyl","slide":10,"text":"40.6%","textPreview":"40.6%","textChars":5,"textLines":1,"bbox":[442,383,55,20]}
+{"kind":"shape","id":"sh/dgjqhsz6","slide":10,"bbox":[548,190,525,42]}
+{"kind":"textbox","id":"sh/dobqx836","slide":10,"text":"Threshold","textPreview":"Threshold","textChars":9,"textLines":1,"bbox":[556,201,79,22]}
+{"kind":"textbox","id":"sh/cn2p432l","slide":10,"text":"Accuracy","textPreview":"Accuracy","textChars":8,"textLines":1,"bbox":[651,201,84,22]}
+{"kind":"textbox","id":"sh/bmt8vil0","slide":10,"text":"Savings","textPreview":"Savings","textChars":7,"textLines":1,"bbox":[751,201,84,22]}
+{"kind":"textbox","id":"sh/qlk72dkv","slide":10,"text":"nano/mini","textPreview":"nano/mini","textChars":9,"textLines":1,"bbox":[851,201,104,22]}
+{"kind":"textbox","id":"sh/pkbqt83a","slide":10,"text":"Mean score","textPreview":"Mean score","textChars":10,"textLines":1,"bbox":[971,201,94,22]}
+{"kind":"shape","id":"sh/ojip032p","slide":10,"bbox":[548,232,525,1]}
+{"kind":"textbox","id":"sh/3i98ryl4","slide":10,"text":"0.00","textPreview":"0.00","textChars":4,"textLines":1,"bbox":[556,242,79,40]}
+{"kind":"textbox","id":"sh/2h07ytkj","slide":10,"text":"80.5%","textPreview":"80.5%","textChars":5,"textLines":1,"bbox":[651,242,84,40]}
+{"kind":"textbox","id":"sh/9gvq5s3e","slide":10,"text":"0.0%","textPreview":"0.0%","textChars":4,"textLines":1,"bbox":[751,242,84,40]}
+{"kind":"textbox","id":"sh/8fm9cn2t","slide":10,"text":"0/205","textPreview":"0/205","textChars":5,"textLines":1,"bbox":[851,242,104,40]}
+{"kind":"textbox","id":"sh/69wva5wz","slide":10,"text":"0.387","textPreview":"0.387","textChars":5,"textLines":1,"bbox":[971,242,94,40]}
+{"kind":"shape","id":"sh/7a5wjaxk","slide":10,"bbox":[548,284,525,1]}
+{"kind":"textbox","id":"sh/sbedcve5","slide":10,"text":"0.25","textPreview":"0.25","textChars":4,"textLines":1,"bbox":[556,294,79,40]}
+{"kind":"textbox","id":"sh/tcnel0fq","slide":10,"text":"81.0%","textPreview":"81.0%","textChars":5,"textLines":1,"bbox":[651,294,84,40]}
+{"kind":"textbox","id":"sh/ylcv6lw3","slide":10,"text":"9.5%","textPreview":"9.5%","textChars":4,"textLines":1,"bbox":[751,294,84,40]}
+{"kind":"textbox","id":"sh/jmlwfqxo","slide":10,"text":"29/176","textPreview":"29/176","textChars":6,"textLines":1,"bbox":[851,294,104,40]}
+{"kind":"textbox","id":"sh/kned8ve9","slide":10,"text":"0.460","textPreview":"0.460","textChars":5,"textLines":1,"bbox":[971,294,94,40]}
+{"kind":"shape","id":"sh/58neh0fu","slide":10,"bbox":[548,336,525,1]}
+{"kind":"textbox","id":"sh/2hgfipw7","slide":10,"text":"0.30","textPreview":"0.30","textChars":4,"textLines":1,"bbox":[556,346,79,40]}
+{"kind":"textbox","id":"sh/3ipwruxs","slide":10,"text":"82.0%","textPreview":"82.0%","textChars":5,"textLines":1,"bbox":[651,346,84,40]}
+{"kind":"textbox","id":"sh/zmhsjmd4","slide":10,"text":"16.8%","textPreview":"16.8%","textChars":5,"textLines":1,"bbox":[751,346,84,40]}
+{"kind":"textbox","id":"sh/el8bahcz","slide":10,"text":"46/159","textPreview":"46/159","textChars":6,"textLines":1,"bbox":[851,346,104,40]}
+{"kind":"textbox","id":"sh/1ojalcva","slide":10,"text":"0.505","textPreview":"0.505","textChars":5,"textLines":1,"bbox":[971,346,94,40]}
+{"kind":"shape","id":"sh/0nqtcrup","slide":10,"bbox":[548,388,525,1]}
+{"kind":"textbox","id":"sh/nq1cnmdg","slide":10,"text":"0.35","textPreview":"0.35","textChars":4,"textLines":1,"bbox":[556,398,79,40]}
+{"kind":"textbox","id":"sh/mpsbehcv","slide":10,"text":"82.0%","textPreview":"82.0%","textChars":5,"textLines":1,"bbox":[651,398,84,40]}
+{"kind":"textbox","id":"sh/9sjupwvm","slide":10,"text":"24.6%","textPreview":"24.6%","textChars":5,"textLines":1,"bbox":[751,398,84,40]}
+{"kind":"textbox","id":"sh/oratgru1","slide":10,"text":"66/139","textPreview":"66/139","textChars":6,"textLines":1,"bbox":[851,398,104,40]}
+{"kind":"textbox","id":"sh/be1cr6dc","slide":10,"text":"0.551","textPreview":"0.551","textChars":5,"textLines":1,"bbox":[971,398,94,40]}
+{"kind":"shape","id":"sh/atsbi1cr","slide":10,"bbox":[548,440,525,1]}
+{"kind":"textbox","id":"sh/sjut8ba5","slide":10,"text":"0.45","textPreview":"0.45","textChars":4,"textLines":1,"bbox":[556,450,79,40]}
+{"kind":"textbox","id":"sh/tk3a1grq","slide":10,"text":"81.0%","textPreview":"81.0%","textChars":5,"textLines":1,"bbox":[651,450,84,40]}
+{"kind":"textbox","id":"sh/6hcr61sz","slide":10,"text":"40.6%","textPreview":"40.6%","textChars":5,"textLines":1,"bbox":[751,450,84,40]}
+{"kind":"textbox","id":"sh/7ilsz6tk","slide":10,"text":"95/110","textPreview":"95/110","textChars":6,"textLines":1,"bbox":[851,450,104,40]}
+{"kind":"textbox","id":"sh/kfu94rat","slide":10,"text":"0.556","textPreview":"0.556","textChars":5,"textLines":1,"bbox":[971,450,94,40]}
+{"kind":"textbox","id":"sh/lg3axwbe","slide":10,"text":"Unlike a single prompt, the soft-prompt router can move along a threshold curve. The selected 0.45 point traded one accuracy point for a much larger cost reduction.","textPreview":"Unlike a single prompt, the soft-prompt router can move along a threshold curve. The selected 0.45 point traded one accuracy point for a ...","textChars":164,"textLines":1,"bbox":[42,548,1110,54]}
+{"kind":"textbox","id":"sh/ytsr2hs3","slide":10,"text":"Threshold rows from softprompt_router_balanced50_risk_best_expected_utility_test205.json","textPreview":"Threshold rows from softprompt_router_balanced50_risk_best_expected_utility_test205.json","textChars":88,"textLines":1,"bbox":[42,662,1060,24]}
+{"kind":"textbox","id":"sh/ju1svmto","slide":10,"text":"10","textPreview":"10","textChars":2,"textLines":1,"bbox":[1186,662,52,24]}
+{"kind":"notes","id":"nt/r3bd9b","slide":10,"text":""}
+{"kind":"slide","id":"sl/g9dbaf","slide":11,"title":"Takeaways","textShapes":20}
+{"kind":"textbox","id":"sh/1cbyd43a","slide":11,"text":"Takeaways","textPreview":"Takeaways","textChars":9,"textLines":1,"bbox":[42,34,720,24]}
+{"kind":"textbox","id":"sh/ep0z29kz","slide":11,"text":"What the combined story says","textPreview":"What the combined story says","textChars":28,"textLines":1,"bbox":[42,62,1060,78]}
+{"kind":"shape","id":"sh/zqtgbelk","slide":11,"bbox":[42,146,1196,1]}
+{"kind":"shape","id":"sh/cnih0z2t","slide":11,"bbox":[42,184,1130,42]}
+{"kind":"textbox","id":"sh/dory943e","slide":11,"text":"Finding","textPreview":"Finding","textChars":7,"textLines":1,"bbox":[50,195,324,22]}
+{"kind":"textbox","id":"sh/ql0zypkn","slide":11,"text":"Evidence","textPreview":"Evidence","textChars":8,"textLines":1,"bbox":[390,195,344,22]}
+{"kind":"textbox","id":"sh/rm9g7ul8","slide":11,"text":"Implication","textPreview":"Implication","textChars":11,"textLines":1,"bbox":[750,195,414,22]}
+{"kind":"shape","id":"sh/wjmhc32x","slide":11,"bbox":[42,226,1130,1]}
+{"kind":"textbox","id":"sh/xkvil83i","slide":11,"text":"Data mix dominated the prompt-router behavior","textPreview":"Data mix dominated the prompt-router behavior","textChars":45,"textLines":1,"bbox":[50,236,324,66]}
+{"kind":"textbox","id":"sh/x4r254zu","slide":11,"text":"mini-only share fell from 76.0% to 9.5% across the size sweep.","textPreview":"mini-only share fell from 76.0% to 9.5% across the size sweep.","textChars":62,"textLines":1,"bbox":[390,236,344,66]}
+{"kind":"textbox","id":"sh/w3y1czy9","slide":11,"text":"Do not treat larger train/val size as automatically better.","textPreview":"Do not treat larger train/val size as automatically better.","textChars":59,"textLines":1,"bbox":[750,236,414,66]}
+{"kind":"shape","id":"sh/v2pk3uh4","slide":11,"bbox":[42,304,1130,1]}
+{"kind":"textbox","id":"sh/a1gjapgj","slide":11,"text":"Size 50 remained the clean prompt-router anchor","textPreview":"Size 50 remained the clean prompt-router anchor","textChars":47,"textLines":1,"bbox":[50,314,324,66]}
+{"kind":"textbox","id":"sh/90721kzy","slide":11,"text":"80.0% accuracy, 12.6% savings, 45/160 routes.","textPreview":"80.0% accuracy, 12.6% savings, 45/160 routes.","textChars":45,"textLines":1,"bbox":[390,314,344,66]}
+{"kind":"textbox","id":"sh/8zy18fyd","slide":11,"text":"It preserved accuracy because critical examples were over-represented.","textPreview":"It preserved accuracy because critical examples were over-represented.","textChars":70,"textLines":1,"bbox":[750,314,414,66]}
+{"kind":"shape","id":"sh/nypkzahs","slide":11,"bbox":[42,382,1130,1]}
+{"kind":"textbox","id":"sh/mxgj6pg7","slide":11,"text":"Soft prompt improved the trade-off frontier","textPreview":"Soft prompt improved the trade-off frontier","textChars":43,"textLines":1,"bbox":[50,392,324,66]}
+{"kind":"textbox","id":"sh/twb2doz2","slide":11,"text":"81.0% accuracy, 40.6% savings, 95/110 routes.","textPreview":"81.0% accuracy, 40.6% savings, 95/110 routes.","textChars":45,"textLines":1,"bbox":[390,392,344,66]}
+{"kind":"textbox","id":"sh/svilkjyh","slide":11,"text":"Trainable thresholding was more useful than another static prompt variant.","textPreview":"Trainable thresholding was more useful than another static prompt variant.","textChars":74,"textLines":1,"bbox":[750,392,414,66]}
+{"kind":"shape","id":"sh/cbadwra5","slide":11,"bbox":[42,460,1130,1]}
+{"kind":"textbox","id":"sh/dcje5wbq","slide":11,"text":"Random soft prompt was unsafe","textPreview":"Random soft prompt was unsafe","textChars":29,"textLines":1,"bbox":[50,470,324,66]}
+{"kind":"textbox","id":"sh/q9svuhsz","slide":11,"text":"71.2% accuracy, 63.4% savings, 24 critical misroutes.","textPreview":"71.2% accuracy, 63.4% savings, 24 critical misroutes.","textChars":53,"textLines":1,"bbox":[390,470,344,66]}
+{"kind":"textbox","id":"sh/ra1w3mtk","slide":11,"text":"The training mix still matters even with a learned router.","textPreview":"The training mix still matters even with a learned router.","textChars":58,"textLines":1,"bbox":[750,470,414,66]}
+{"kind":"textbox","id":"sh/47ads7at","slide":11,"text":"Next experiment: keep the fixed 205-test set, sweep bucket mix and soft-prompt threshold together, and report accuracy loss, cost savings, and critical misroutes as a single scorecard.","textPreview":"Next experiment: keep the fixed 205-test set, sweep bucket mix and soft-prompt threshold together, and report accuracy loss, cost savings...","textChars":184,"textLines":1,"bbox":[42,610,1130,38]}
+{"kind":"textbox","id":"sh/p8ju1cbe","slide":11,"text":"Scope: first-half 205 train/validation experiments plus later soft-prompt follow-up","textPreview":"Scope: first-half 205 train/validation experiments plus later soft-prompt follow-up","textChars":83,"textLines":1,"bbox":[42,662,1060,24]}
+{"kind":"textbox","id":"sh/2l8vqxs3","slide":11,"text":"11","textPreview":"11","textChars":2,"textLines":1,"bbox":[1186,662,52,24]}
+{"kind":"notes","id":"nt/g9dbaf","slide":11,"text":""}
+{"kind":"slide","id":"sl/us9x7j","slide":12,"title":"Planned experiments","textShapes":20}
+{"kind":"textbox","id":"sh/qpgbitw7","slide":12,"text":"Planned experiments","textPreview":"Planned experiments","textChars":19,"textLines":1,"bbox":[42,34,720,24]}
+{"kind":"textbox","id":"sh/dsrat8vi","slide":12,"text":"Next comparisons will isolate routing gains","textPreview":"Next comparisons will isolate routing gains","textChars":43,"textLines":1,"bbox":[42,62,1060,78]}
+{"kind":"shape","id":"sh/critk3ed","slide":12,"bbox":[42,146,1196,1]}
+{"kind":"shape","id":"sh/32psnyxg","slide":12,"bbox":[42,184,1196,42]}
+{"kind":"textbox","id":"sh/21gbetwv","slide":12,"text":"Comparison","textPreview":"Comparison","textChars":10,"textLines":1,"bbox":[50,195,264,22]}
+{"kind":"textbox","id":"sh/p47apofm","slide":12,"text":"Controlled setup","textPreview":"Controlled setup","textChars":16,"textLines":1,"bbox":[330,195,454,22]}
+{"kind":"textbox","id":"sh/o3ytg3e1","slide":12,"text":"Primary readout","textPreview":"Primary readout","textChars":15,"textLines":1,"bbox":[800,195,430,22]}
+{"kind":"shape","id":"sh/fy5sjexk","slide":12,"bbox":[42,226,1196,1]}
+{"kind":"textbox","id":"sh/exwra9wz","slide":12,"text":"Sampling strategy","textPreview":"Sampling strategy","textChars":17,"textLines":1,"bbox":[50,236,264,70]}
+{"kind":"textbox","id":"sh/kzmtwra1","slide":12,"text":"Active critical selection vs random sampling at matched N and seed.","textPreview":"Active critical selection vs random sampling at matched N and seed.","textChars":67,"textLines":1,"bbox":[330,236,454,70]}
+{"kind":"textbox","id":"sh/lkvu5wr6","slide":12,"text":"Critical share, test accuracy, savings, and critical misroutes.","textPreview":"Critical share, test accuracy, savings, and critical misroutes.","textChars":63,"textLines":1,"bbox":[800,236,430,70]}
+{"kind":"shape","id":"sh/yx4buhsv","slide":12,"bbox":[42,308,1196,1]}
+{"kind":"textbox","id":"sh/zydc3m9g","slide":12,"text":"Router family","textPreview":"Router family","textChars":13,"textLines":1,"bbox":[50,318,264,70]}
+{"kind":"textbox","id":"sh/cvmtsrap","slide":12,"text":"Prompt router vs soft-prompt router on the same selected split.","textPreview":"Prompt router vs soft-prompt router on the same selected split.","textChars":63,"textLines":1,"bbox":[330,318,454,70]}
+{"kind":"textbox","id":"sh/xwvu1wra","slide":12,"text":"Accuracy-savings frontier under matched test conditions.","textPreview":"Accuracy-savings frontier under matched test conditions.","textChars":56,"textLines":1,"bbox":[800,318,430,70]}
+{"kind":"shape","id":"sh/at4bqhsj","slide":12,"bbox":[42,390,1196,1]}
+{"kind":"textbox","id":"sh/budszm94","slide":12,"text":"Data size vs data mix","textPreview":"Data size vs data mix","textChars":21,"textLines":1,"bbox":[50,400,264,70]}
+{"kind":"textbox","id":"sh/wr6t4bqt","slide":12,"text":"Sweep N at fixed bucket proportions, then sweep the M/N/B/W mix at fixed N.","textPreview":"Sweep N at fixed bucket proportions, then sweep the M/N/B/W mix at fixed N.","textChars":75,"textLines":1,"bbox":[330,400,454,70]}
+{"kind":"textbox","id":"sh/hszudgre","slide":12,"text":"Separate data-volume effects from outcome-composition effects.","textPreview":"Separate data-volume effects from outcome-composition effects.","textChars":62,"textLines":1,"bbox":[800,400,430,70]}
+{"kind":"shape","id":"sh/58vuxgji","slide":12,"bbox":[42,472,1196,1]}
+{"kind":"textbox","id":"sh/47mtobid","slide":12,"text":"Training and decision rule","textPreview":"Training and decision rule","textChars":26,"textLines":1,"bbox":[50,482,264,70]}
+{"kind":"textbox","id":"sh/36tcv61s","slide":12,"text":"Cross-entropy vs expected utility; compare thresholds at a matched mini budget.","textPreview":"Cross-entropy vs expected utility; compare thresholds at a matched mini budget.","textChars":79,"textLines":1,"bbox":[330,482,454,70]}
+{"kind":"textbox","id":"sh/i5kbm107","slide":12,"text":"Utility, cost per 1k, route share, and calibration stability.","textPreview":"Utility, cost per 1k, route share, and calibration stability.","textChars":61,"textLines":1,"bbox":[800,482,430,70]}
+{"kind":"textbox","id":"sh/hkbatwjm","slide":12,"text":"Every comparison will use the fixed second-half 205 test set, all-mini/all-nano/oracle baselines, and multiple random seeds.","textPreview":"Every comparison will use the fixed second-half 205 test set, all-mini/all-nano/oracle baselines, and multiple random seeds.","textChars":124,"textLines":1,"bbox":[42,582,1160,54]}
+{"kind":"textbox","id":"sh/gj2tkb21","slide":12,"text":"Planned comparison matrix; no new results reported on this slide","textPreview":"Planned comparison matrix; no new results reported on this slide","textChars":64,"textLines":1,"bbox":[42,662,1060,24]}
+{"kind":"textbox","id":"sh/vitsr61g","slide":12,"text":"12","textPreview":"12","textChars":2,"textLines":1,"bbox":[1186,662,52,24]}
+{"kind":"notes","id":"nt/us9x7j","slide":12,"text":""}

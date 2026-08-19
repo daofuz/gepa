@@ -1,0 +1,57 @@
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Semantic query processing.}
+Semantic operators extend relational processing with natural-language filters,
+joins, maps, rankings, and aggregations. LOTUS formalizes these operators and
+uses proxy models, embeddings, and statistical procedures to reduce cost while
+providing accuracy guarantees \cite{patel2025lotus}. Palimpzest searches plans
+across models, prompts, and physical implementations
+\cite{liu2025palimpzest}; UQE combines foundation-model calls with sampling and
+compiler techniques \cite{dai2024uqe}; and DocETL uses agentic rewrites and
+plan evaluation for complex document pipelines \cite{shankar2025docetl}.
+SemBench provides a common evaluation of semantic query engines across
+operators and modalities \cite{lao2026sembench}. \system focuses on a narrower
+physical decision inside these systems---which answer model executes each
+operator instance---and on the prompt/data statistics required to make that
+decision reliable. Unlike operator-level plan search, the route is
+instance-specific and rare failures dominate its risk.
+
+\paragraph{LLM cascades and routers.}
+FrugalGPT studies prompt adaptation, approximation, and cascades across model
+APIs \cite{chen2024frugalgpt}. Language Model Cascades learns post-hoc deferral
+from token-level uncertainty \cite{gupta2024cascades}. RouteLLM trains several
+routers from preference data and introduces cost--performance metrics
+\cite{ong2025routellm}; UniRoute represents models in a common feature space so
+new models can be routed without retraining \cite{jitkrittum2026uniroute}.
+These works establish the potential of learned routing, often on large
+preference or benchmark collections. Our study instead examines low-label,
+operator-specific routing where both answer models can be executed offline and
+correctness labels are available. The four-outcome abstraction exposes two
+cases hidden by strong-versus-weak preference labels: Nano can be uniquely
+correct, and both models can fail. It also makes fresh critical recall a
+first-class measure rather than inferring reliability from an aggregate curve.
+
+\paragraph{Automatic and soft prompt optimization.}
+ProTeGi constructs textual gradients and searches prompt edits
+\cite{pryzant2023protegi}; MIPRO jointly optimizes instructions and
+demonstrations \cite{opsahlong2024mipro}; DSPy compiles declarative LM programs
+against downstream metrics \cite{khattab2024dspy}; and GEPA uses natural-language
+reflection, execution traces, and Pareto-aware evolution
+\cite{agrawal2025gepa}. Recent analysis shows that reflective optimization can
+follow uninterpretable trajectories and fail systematically when its feedback
+or evaluation signal is weak \cite{wang2026reflection}. Our results provide a
+systems instance of this warning: richer routing prose does not prevent an
+all-Nano collapse, and validation-calibrated scores miss fresh rare events.
+Soft prompt tuning instead optimizes continuous prefix embeddings while
+freezing most model parameters \cite{lester2021prompttuning}. We compare these
+surfaces under one utility rather than treating automatic prompt engineering
+and learned routing as separate problems.
+
+\paragraph{Selective prediction and learning to defer.}
+The constrained objective in Eq.~\ref{eq:constrained} is related to selective
+classification and learning to defer, where a predictor abstains or transfers
+an example to an expert \cite{madras2018defer}. In model routing, deferral has a
+monetary cost and the expert can also be wrong. Our \no and \bw outcomes make
+that distinction explicit, while the validation threshold supplies an
+operating point for a query optimizer's quality target.

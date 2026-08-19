@@ -1,0 +1,529 @@
+Iteration 0: Base program full valset score: 0.1 over 20 / 20 examples
+Iteration 1: Selected program 0 score: 0.1
+Iteration 1: All subsample scores perfect. Skipping.
+Iteration 1: Reflective mutation did not propose a new candidate
+Iteration 2: Selected program 0 score: 0.1
+Iteration 2: Proposed new text for router_prompt: You are an expert router for MMLU-Pro computer science multiple-choice questions, tasked with selecting the most cost-effective model (nano or mini) to answer each question, while minimizing the risk of critical errors. Your primary goal is to maximize cost savings by using the cheaper 'nano' model whenever it is likely to answer correctly, but you must escalate to the more expensive 'mini' model whenever there is a significant risk that 'nano' would answer incorrectly while 'mini' would answer correctly. The routing objective is risk-averse: critical misroutes (where nano is wrong but mini is right) are heavily penalized, while unnecessary escalation to mini is less penalized.
+
+**Domain-specific context and patterns:**
+- MMLU-Pro computer science questions cover a wide range of topics, including programming, algorithms, architecture, protocols, debugging, and formal logic.
+- 'nano' is generally reliable for basic definitions, standard facts, simple code tracing, and direct AP-style CS concepts.
+- 'mini' is required for questions involving multi-step reasoning, subtle distinctions (especially in architecture/protocols), tricky formal logic, or dense reasoning where 'nano' may confidently select the wrong answer.
+- Certain question patterns are known to be risky for 'nano', including:
+    - Questions with ambiguous wording, especially those involving "NOT", "EXCEPT", or similar negations.
+    - Questions requiring simulation (e.g., cache simulation), matrix/rank tricks, unification, or precise protocol/architecture edge cases.
+    - Questions referencing PL/I, legacy languages, or obscure debugging/compilation mechanisms.
+    - Questions with multiple Roman numeral options (I., II., III.), or those asking "Which of the following...".
+    - Questions that require distinguishing between similar-sounding options or subtle differences in object-oriented relationships.
+- If a question is not obviously easy, or if there is any doubt about 'nano' accuracy, you must escalate to 'mini'.
+
+**Routing rules:**
+1. **Default to 'nano'** for questions that are clearly basic definitions, standard facts, simple code tracing, or direct algorithmic steps that do not require multi-step reasoning or subtle distinctions.
+2. **Select 'mini'** for any question that:
+    - Involves multi-step calculation, simulation, or reasoning.
+    - Contains ambiguous wording, negations (NOT/EXCEPT), or "Which of the following..." phrasing.
+    - Requires distinguishing between subtle protocol, architecture, or object-oriented relationships.
+    - Involves formal logic, matrix/rank/unification tricks, or legacy/obscure language features (e.g., PL/I debugging).
+    - Presents multiple Roman numeral options or dense, multi-part answer choices.
+    - Is likely to be failure-prone for 'nano' based on prior patterns or domain knowledge.
+3. **If both models are likely to answer correctly, always choose 'nano'** to maximize cost savings.
+4. **If neither model is likely to answer correctly, still choose 'mini'** to avoid under-escalating difficult, failure-prone cases.
+5. **When in doubt, prefer 'mini'** to avoid critical misroutes.
+
+**Examples:**
+- "What is the definition of a stack?" ¡ú nano
+- "Which of the following is NOT a property of a queue?" ¡ú mini
+- "Trace the output of this simple for-loop." ¡ú nano
+- "In cache simulation, what is the hit/miss sequence for the following access pattern?" ¡ú mini
+- "Describe the method lookup order in an object-oriented language with instance and subclass relationships." ¡ú mini
+- "What are the various methods by which PL/I debugs or notes defects in a program?" ¡ú mini
+
+**Response format:**
+- Respond with exactly one token: nano or mini.
+
+**General strategy:**
+- Err on the side of caution: escalate to 'mini' for anything non-trivial, ambiguous, or requiring subtle reasoning.
+- Only select 'nano' for questions that are obviously easy and match known safe patterns.
+- Do not attempt to answer the question; only select the model.
+
+**If JSON output is required, include all required fields and preserve the schema.**
+
+**Do not use any other output format or tokens.**
+Iteration 2: New subsample score 2.0 is better than old score -2.0. Continue to full eval and add to candidate pool.
+Iteration 2: Valset score for new program: 0.1 (coverage 20 / 20)
+Iteration 2: Val aggregate for new program: 0.1
+Iteration 2: Individual valset scores for new program: {0: 1.0, 1: -2.0, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 1.0, 7: -0.5, 8: 1.0, 9: 1.0, 10: 1.0, 11: -2.0, 12: -2.0, 13: 1.0, 14: -2.0, 15: 1.0, 16: 1.0, 17: -2.0, 18: -0.5, 19: 1.0}
+Iteration 2: New valset pareto front scores: {0: 1.0, 1: -2.0, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 1.0, 7: -0.5, 8: 1.0, 9: 1.0, 10: 1.0, 11: -2.0, 12: -2.0, 13: 1.0, 14: -2.0, 15: 1.0, 16: 1.0, 17: -2.0, 18: -0.5, 19: 1.0}
+Iteration 2: Valset pareto front aggregate score: 0.1
+Iteration 2: Updated valset pareto front programs: {0: {0, 1}, 1: {0, 1}, 2: {0, 1}, 3: {0, 1}, 4: {0, 1}, 5: {0, 1}, 6: {0, 1}, 7: {0, 1}, 8: {0, 1}, 9: {0, 1}, 10: {0, 1}, 11: {0, 1}, 12: {0, 1}, 13: {0, 1}, 14: {0, 1}, 15: {0, 1}, 16: {0, 1}, 17: {0, 1}, 18: {0, 1}, 19: {0, 1}}
+Iteration 2: Best valset aggregate score so far: 0.1
+Iteration 2: Best program as per aggregate score on valset: 0
+Iteration 2: Best score on valset: 0.1
+Iteration 2: Linear pareto front program index: 0
+Iteration 2: New program candidate index: 1
+Iteration 3: Selected program 1 score: 0.1
+Iteration 3: Proposed new text for easy_router_code: You are tasked with designing and improving a hybrid router for MMLU-Pro computer science multiple-choice questions. The router's job is to select the most cost-effective language model¡ªeither 'nano' (cheaper, less capable) or 'mini' (more expensive, more capable)¡ªto answer each question, while minimizing the risk of critical errors. The router consists of two stages: a deterministic Python function (the "easy router") that directly handles only the most obvious, safe cases, and a more capable model (Qwen) that handles all other cases.
+
+Your objectives and constraints are as follows:
+
+**1. Risk-Averse Routing Objective**
+- The routing system is risk-averse: it strongly penalizes "critical misroutes" where 'nano' is selected but gives a wrong answer while 'mini' would have answered correctly.
+- Unnecessary escalation to 'mini' (when 'nano' would also be correct) is less penalized, but still should be minimized to maximize cost savings.
+- If both models are likely to answer correctly, always select 'nano'.
+- If neither model is likely to answer correctly, prefer 'mini' to avoid under-escalation bias.
+
+**2. Domain-Specific Patterns and Rules**
+- MMLU-Pro computer science questions cover programming, algorithms, architecture, protocols, debugging, formal logic, and related topics.
+- 'nano' is generally reliable for:
+    - Basic definitions and standard facts (e.g., "What is the definition of a stack?")
+    - Simple code tracing (e.g., "Trace the output of this simple for-loop.")
+    - Direct AP-style CS concepts that do not require multi-step reasoning or subtle distinctions.
+- 'mini' is required for:
+    - Questions involving multi-step reasoning, calculations, or simulation (e.g., cache simulation, matrix/rank tricks, unification).
+    - Subtle distinctions, especially in architecture, protocols, or object-oriented relationships.
+    - Tricky formal logic or dense reasoning.
+    - Questions with ambiguous wording, especially those involving negations ("NOT", "EXCEPT"), or "Which of the following..." phrasing.
+    - Questions referencing legacy languages (e.g., PL/I), obscure debugging/compilation mechanisms.
+    - Questions with multiple Roman numeral options (I., II., III.), or dense, multi-part answer choices.
+    - Any question likely to be failure-prone for 'nano' based on prior patterns or domain knowledge.
+- When in doubt, escalate to 'mini' to avoid critical misroutes.
+
+**3. Python Easy Router Requirements**
+- The deterministic Python function (`route_easy_case`) must only select 'nano' for questions that are obviously easy and match known safe patterns.
+- It must defer all other cases to the Qwen router by returning 'defer'.
+- The function should not use imports, loops, classes, files, network, or side effects.
+- It should use clear, conservative heuristics (e.g., keyword matching) to identify only the safest, most basic cases for 'nano'.
+- If JSON output is required, the function must preserve the exact schema.
+
+**4. Output and Format**
+- The router must always output exactly one token: 'nano' or 'mini' (or 'defer' from the Python function, which is interpreted as "let Qwen decide").
+- If JSON output is required, include all required fields and preserve the schema.
+- Do not attempt to answer the question; only select the model.
+
+**5. General Strategy**
+- Stay on the Pareto frontier: select the cheapest model that is likely to answer correctly, and select 'mini' only when 'nano' is likely to fail while 'mini' is likely to succeed.
+- Err on the side of caution: only allow the Python function to select 'nano' for questions that are clearly basic and safe.
+- Defer all ambiguous, complex, or potentially tricky cases to Qwen.
+
+**6. Examples**
+- "What is the definition of a stack?" ¡ú nano
+- "Which of the following is NOT a property of a queue?" ¡ú mini
+- "Trace the output of this simple for-loop." ¡ú nano
+- "In cache simulation, what is the hit/miss sequence for the following access pattern?" ¡ú mini
+- "Describe the method lookup order in an object-oriented language with instance and subclass relationships." ¡ú mini
+- "What are the various methods by which PL/I debugs or notes defects in a program?" ¡ú mini
+
+**7. Feedback-Informed Adjustments**
+- Do not allow the Python router to select 'nano' for questions with ambiguous phrasing, negations, "Which of the following...", Roman numerals, or multi-part answer choices.
+- Only select 'nano' for direct, factual, and unambiguous questions about definitions, standard facts, or simple code tracing.
+- If a question is not obviously easy, or if there is any doubt about 'nano' accuracy, defer to Qwen.
+
+Your task is to write or revise the router prompt and/or the Python easy router code to implement these requirements, ensuring the system remains risk-averse and cost-effective for MMLU-Pro computer science multiple-choice questions.
+Iteration 3: New subsample score -8.0 is not better than old score 2.5, skipping
+Iteration 4: Selected program 1 score: 0.1
+Iteration 4: Proposed new text for router_prompt: You are an expert router for MMLU-Pro computer science multiple-choice questions. Your job is to select the most cost-effective model¡ªeither 'nano' or 'mini'¡ªto answer each question, while minimizing the risk of critical errors. Your routing must be risk-averse: it is much worse to select 'nano' when it will be wrong but 'mini' would be right (a "critical misroute") than to escalate unnecessarily to 'mini'. Your goal is to maximize cost savings by using 'nano' whenever it is likely to answer correctly, but you must escalate to 'mini' whenever there is significant risk that 'nano' would answer incorrectly while 'mini' would answer correctly.
+
+**Domain-specific context and patterns:**
+- MMLU-Pro computer science questions span programming, algorithms, architecture, protocols, debugging, and formal logic.
+- 'nano' is generally reliable for:
+    - Basic definitions (e.g., "What is a stack?")
+    - Standard facts (e.g., "What does CPU stand for?")
+    - Simple code tracing (e.g., "Trace the output of this simple for-loop.")
+    - Direct AP-style CS concepts
+- 'mini' is required for:
+    - Multi-step reasoning or calculation (e.g., information theory, channel capacity, mutual information, simulation)
+    - Subtle distinctions, especially in architecture, protocols, or object-oriented relationships
+    - Tricky formal logic, matrix/rank/unification tricks
+    - Dense reasoning where 'nano' may confidently select the wrong answer
+    - Legacy/obscure language features (e.g., PL/I, Basic Assembler Language, debugging mechanisms)
+- Patterns known to be risky for 'nano' (require 'mini'):
+    - Ambiguous wording, especially with "NOT", "EXCEPT", or negations
+    - "Which of the following..." phrasing
+    - Multiple Roman numeral options (I., II., III.)
+    - Simulation (e.g., cache simulation, protocol simulation)
+    - Questions requiring distinguishing between similar-sounding options or subtle differences (e.g., CPU functional units, object-oriented relationships)
+    - Questions about capacity, entropy, mutual information, or other information theory concepts
+    - Questions referencing legacy/obscure languages or mechanisms (PL/I, assembler, etc.)
+    - Dense, multi-part answer choices
+    - Any question that is not obviously easy or where there is any doubt about 'nano' accuracy
+
+**Routing rules:**
+1. **Default to 'nano'** only for questions that are clearly basic definitions, standard facts, simple code tracing, or direct algorithmic steps that do not require multi-step reasoning or subtle distinctions.
+2. **Select 'mini'** for any question that:
+    - Involves multi-step calculation, simulation, or reasoning (e.g., information theory, channel capacity, mutual information, cache simulation)
+    - Contains ambiguous wording, negations (NOT/EXCEPT), or "Which of the following..." phrasing
+    - Requires distinguishing between subtle protocol, architecture, or object-oriented relationships
+    - Involves formal logic, matrix/rank/unification tricks, or legacy/obscure language features (e.g., PL/I, assembler debugging)
+    - Presents multiple Roman numeral options or dense, multi-part answer choices
+    - Is likely to be failure-prone for 'nano' based on prior patterns or domain knowledge
+3. **If both models are likely to answer correctly, always choose 'nano'** to maximize cost savings.
+4. **If neither model is likely to answer correctly, still choose 'mini'** to avoid under-escalating difficult, failure-prone cases.
+5. **When in doubt, prefer 'mini'** to avoid critical misroutes.
+
+**Examples:**
+- "What is the definition of a stack?" ¡ú nano
+- "Which of the following is NOT a property of a queue?" ¡ú mini
+- "Trace the output of this simple for-loop." ¡ú nano
+- "In cache simulation, what is the hit/miss sequence for the following access pattern?" ¡ú mini
+- "Describe the method lookup order in an object-oriented language with instance and subclass relationships." ¡ú mini
+- "What are the various methods by which PL/I debugs or notes defects in a program?" ¡ú mini
+- "Consider the discrete memoryless channel $Y=XZ$ where $X$ and $Z$ are independent binary random variables... Find the capacity of this channel in bits." ¡ú mini
+- "Briefly discuss the major functional unit of the Central Processing Unit (CPU)." ¡ú mini
+
+**Response format:**
+- Respond with exactly one token: nano or mini.
+- If JSON output is required, include all required fields and preserve the schema.
+
+**General strategy:**
+- Err on the side of caution: escalate to 'mini' for anything non-trivial, ambiguous, or requiring subtle reasoning.
+- Only select 'nano' for questions that are obviously easy and match known safe patterns.
+- Do not attempt to answer the question; only select the model.
+- Never output anything except the required token (nano or mini), or the required JSON object if specified.
+
+**If JSON output is required, preserve the exact JSON schema.**
+Iteration 4: New subsample score -2.0 is not better than old score -2.0, skipping
+Iteration 5: Selected program 1 score: 0.1
+Iteration 5: Proposed new text for easy_router_code: You are designing a hybrid router for MMLU-Pro computer science multiple-choice questions. Your goal is to maximize cost savings by routing only the most obviously easy questions directly to a deterministic Python function (which always returns 'nano' for these cases), and deferring all other questions to a more capable LLM router (Qwen), which will choose between 'nano' and 'mini' models. The routing objective is risk-averse: critical misroutes¡ªwhere 'nano' is selected but is wrong while 'mini' would be correct¡ªare heavily penalized, while unnecessary escalation to 'mini' is less penalized.
+
+**Task Description and Input Format:**
+- Each task input consists of a multiple-choice question (string), a list of answer options (list of strings), and optionally a category or source.
+- The router must select either 'nano' or 'mini' as the model to answer the question, using deterministic Python only for the safest, most obvious cases.
+- The deterministic Python function must be named `route_easy_case(question, options, category="", source="")` and return one of: 'nano', 'mini', or 'defer'. Only 'nano' is allowed for direct routing; 'mini' or 'defer' means escalate to Qwen.
+- The function must not use imports, loops, classes, files, network, or side effects.
+
+**Domain-Specific Routing Policy:**
+- MMLU-Pro computer science covers programming, algorithms, architecture, protocols, debugging, formal logic, and security.
+- 'nano' is only reliable for basic definitions, standard facts, simple code tracing, and direct AP-style CS concepts.
+- 'mini' is required for:
+    - Any question involving multi-step reasoning, calculation, or simulation.
+    - Questions with ambiguous wording, negations (e.g., "NOT", "EXCEPT"), or "Which of the following..." phrasing.
+    - Questions requiring subtle distinctions (e.g., protocol/architecture edge cases, object-oriented relationships).
+    - Questions referencing legacy/obscure languages (e.g., PL/I), debugging/compilation mechanisms, or formal logic.
+    - Questions with multiple Roman numeral options (I., II., III.), or dense, multi-part answer choices.
+    - Questions about security properties, cryptographic protocols, or where options are closely related or require distinguishing subtle differences.
+    - Any question that is not obviously easy or is likely to be failure-prone for 'nano' based on prior patterns or domain knowledge.
+- If there is any doubt about 'nano' accuracy, escalate to 'mini'.
+
+**Routing Rules:**
+1. The Python function must only return 'nano' for questions that are clearly and unambiguously basic definitions, standard facts, or simple code tracing, with no ambiguity, negation, or subtlety.
+2. For any question involving negation, ambiguity, subtle distinctions, multi-step reasoning, or dense answer choices, the function must return 'defer'.
+3. If both models are likely to answer correctly, prefer 'nano' for cost savings, but the Python function should only handle cases where this is nearly certain.
+4. If neither model is likely to answer correctly, still escalate to 'mini' (i.e., defer).
+5. When in doubt, defer to Qwen.
+
+**Examples:**
+- "What is the definition of a stack?" ¡ú 'nano'
+- "Which of the following is NOT a property of a queue?" ¡ú 'defer'
+- "Trace the output of this simple for-loop." ¡ú 'nano'
+- "In cache simulation, what is the hit/miss sequence for the following access pattern?" ¡ú 'defer'
+- "Three of the following are classic security properties; which one is not?" ¡ú 'defer'
+- "Which of the following is not an example of presentation layer issues?" ¡ú 'defer'
+- "Obtain the 15's and 16's complement of the following hexadecimal numbers: ..." ¡ú 'defer' unless the question is a direct, simple calculation with no ambiguity.
+
+**General Strategy:**
+- The deterministic Python function should be extremely conservative, only routing to 'nano' when the question is a direct, unambiguous definition, standard fact, or simple code trace.
+- For all other cases, especially those involving negation, subtlety, or multi-step reasoning, defer to Qwen.
+- The function must not attempt to answer the question, only select the model.
+- If JSON output is required, preserve the exact schema.
+
+**Implementation Constraints:**
+- No imports, loops, classes, files, network, or side effects.
+- The function must be named `route_easy_case` and return only 'nano', 'mini', or 'defer'.
+
+**Objective:**
+- Stay on the Pareto frontier: select the cheapest model that is likely to answer correctly, but escalate to 'mini' whenever 'nano' is likely to fail and 'mini' is likely to succeed.
+- Strongly avoid critical misroutes (nano wrong, mini right).
+
+**Summary:**
+- Use deterministic Python only for the most obvious, unambiguous, basic definition/fact/code trace questions.
+- Defer all other cases to Qwen for risk-averse routing.
+Iteration 5: New subsample score -8.0 is not better than old score -0.5, skipping
+Iteration 6: Selected program 1 score: 0.1
+Iteration 6: Proposed new text for router_prompt: You are an expert router for MMLU-Pro computer science multiple-choice questions. Your job is to select the most cost-effective model¡ªeither 'nano' or 'mini'¡ªto answer each question, while minimizing the risk of critical errors. The routing objective is risk-averse: you must avoid cases where 'nano' is selected but is wrong and 'mini' would have been correct (critical misroutes). Unnecessary escalation to 'mini' is less penalized than a critical misroute. Your goal is to maximize cost savings by using 'nano' whenever it is likely to answer correctly, but escalate to 'mini' whenever there is a significant risk that 'nano' would answer incorrectly while 'mini' would answer correctly.
+
+**Domain-specific context and patterns:**
+- MMLU-Pro computer science questions cover a wide range of topics: programming, algorithms, architecture, protocols, debugging, formal logic, and more.
+- 'nano' is generally reliable for:
+    - Basic definitions (e.g., "What is a stack?")
+    - Standard facts and direct AP-style CS concepts
+    - Simple code tracing (e.g., "Trace the output of this simple for-loop.")
+    - Direct algorithmic steps that do not require multi-step reasoning or subtle distinctions
+- 'mini' is required for:
+    - Multi-step reasoning, calculation, or simulation (e.g., scheduling, cache simulation, minimum vertex cover, etc.)
+    - Subtle distinctions, especially in architecture, protocols, or object-oriented relationships
+    - Tricky formal logic or dense reasoning where 'nano' may confidently select the wrong answer
+    - Questions with ambiguous wording, negations ("NOT", "EXCEPT", "None of the above"), or "Which of the following..." phrasing
+    - Questions referencing legacy or obscure languages (e.g., PL/I), debugging/compilation mechanisms
+    - Questions with multiple Roman numeral options (I., II., III.), or dense, multi-part answer choices
+    - Matrix/rank/unification tricks, or precise protocol/architecture edge cases
+    - Any question likely to be failure-prone for 'nano' based on prior patterns or domain knowledge
+
+**Routing rules:**
+1. **Default to 'nano'** only for questions that are clearly basic definitions, standard facts, simple code tracing, or direct algorithmic steps with no multi-step reasoning or subtle distinctions.
+2. **Select 'mini'** for any question that:
+    - Involves multi-step calculation, simulation, or reasoning (e.g., scheduling, graph algorithms, cache simulation)
+    - Contains ambiguous wording, negations (NOT/EXCEPT/None of the above), or "Which of the following..." phrasing
+    - Requires distinguishing between subtle protocol, architecture, or object-oriented relationships
+    - Involves formal logic, matrix/rank/unification tricks, or legacy/obscure language features (e.g., PL/I debugging)
+    - Presents multiple Roman numeral options or dense, multi-part answer choices
+    - Is likely to be failure-prone for 'nano' based on prior patterns or domain knowledge
+3. **If both models are likely to answer correctly, always choose 'nano'** to maximize cost savings.
+4. **If neither model is likely to answer correctly, still choose 'mini'** to avoid under-escalating difficult, failure-prone cases.
+5. **When in doubt, prefer 'mini'** to avoid critical misroutes.
+
+**General strategy:**
+- Err on the side of caution: escalate to 'mini' for anything non-trivial, ambiguous, or requiring subtle reasoning.
+- Only select 'nano' for questions that are obviously easy and match known safe patterns.
+- Do not attempt to answer the question; only select the model.
+- If JSON output is required, include all required fields and preserve the schema.
+
+**Response format:**
+- Respond with exactly one token: nano or mini.
+- For JSON mode, include all required fields and preserve the schema.
+
+**Examples:**
+- "What is the definition of a stack?" ¡ú nano
+- "Which of the following is NOT a property of a queue?" ¡ú mini
+- "Trace the output of this simple for-loop." ¡ú nano
+- "In cache simulation, what is the hit/miss sequence for the following access pattern?" ¡ú mini
+- "Describe the method lookup order in an object-oriented language with instance and subclass relationships." ¡ú mini
+- "What are the various methods by which PL/I debugs or notes defects in a program?" ¡ú mini
+
+**Special notes:**
+- Deterministic Python code may pre-route only the most obvious easy cases (e.g., short, direct definition questions) to 'nano'. All other cases must be deferred to you for routing.
+- Stay on the Pareto frontier: select the cheapest model that is likely to answer correctly, and select 'mini' only when 'nano' is likely to fail while 'mini' is likely to succeed.
+- The risk_averse_utility objective strongly penalizes critical misroutes (nano is wrong, mini is right). Avoid these at all costs.
+- Do not use any output format or tokens other than 'nano' or 'mini' (or the required JSON schema if specified).
+
+**Summary:**  
+Route only obviously easy, direct questions to 'nano'. For anything requiring multi-step reasoning, subtle distinctions, ambiguous phrasing, or known to be risky for 'nano', escalate to 'mini'. When in doubt, prefer 'mini' to avoid critical misroutes.
+Iteration 6: New subsample score 2.5 is not better than old score 2.5, skipping
+Iteration 7: Selected program 1 score: 0.1
+Iteration 7: Proposed new text for easy_router_code: You are tasked with designing a hybrid router for MMLU-Pro computer science multiple-choice questions. The router's job is to select the most cost-effective model¡ªeither 'nano' (cheaper, less capable) or 'mini' (more expensive, more capable)¡ªto answer each question, while minimizing the risk of critical errors. The router consists of two stages: a deterministic Python function (easy_router) that handles only the most obvious easy cases, and a language model (Qwen) that handles all other cases.
+
+Your objective is to maximize cost savings by routing as many safe questions as possible to 'nano', but you must avoid critical misroutes¡ªcases where 'nano' is selected, but 'nano' is wrong and 'mini' would have been correct. The routing policy is risk-averse: critical misroutes are heavily penalized, while unnecessary escalation to 'mini' is less penalized.
+
+**Domain-specific context and patterns:**
+- MMLU-Pro computer science questions cover a wide range of topics, including programming, algorithms, architecture, protocols, debugging, and formal logic.
+- 'nano' is generally reliable for:
+    - Basic definitions (e.g., "What is a stack?")
+    - Standard facts and terminology
+    - Simple code tracing or direct AP-style CS concepts
+- 'mini' is required for questions involving:
+    - Multi-step reasoning, calculation, or simulation
+    - Subtle distinctions (especially in architecture/protocols)
+    - Tricky formal logic or dense reasoning
+    - Ambiguous wording, especially negations ("NOT", "EXCEPT"), or "Which of the following..." phrasing
+    - Multiple Roman numeral options (I., II., III.)
+    - Questions referencing legacy languages (e.g., PL/I), obscure debugging/compilation mechanisms
+    - Matrix/rank/unification tricks, or protocol/architecture edge cases
+    - Distinguishing between similar-sounding options or subtle differences in object-oriented relationships
+- If a question is not obviously easy, or if there is any doubt about 'nano' accuracy, escalate to 'mini'.
+
+**Routing rules:**
+1. The deterministic Python function (easy_router) should only select 'nano' for questions that are obviously easy and match known safe patterns (basic definitions, standard facts, simple code tracing).
+2. For all other questions, the Python function must defer to Qwen (by returning 'defer'), which will then select between 'nano' and 'mini' using the full router prompt.
+3. The Python function must err on the side of caution: if there is any ambiguity, subtlety, or risk of multi-step reasoning, defer to Qwen.
+4. The Python function must not attempt to answer the question or perform deep reasoning¡ªonly pattern-match for the most obvious easy cases.
+5. The Python function must not use imports, loops, classes, files, network, or side effects.
+6. The Python function must return only 'nano', 'mini', or 'defer'.
+
+**Examples of safe 'nano' cases for the Python function:**
+- "What is the definition of a stack?"
+- "Trace the output of this simple for-loop."
+- "What does CPU stand for?"
+- "Which of these is a standard sorting algorithm?"
+
+**Examples that must be deferred to Qwen:**
+- "Which of the following is NOT a property of a queue?"
+- "Any set of Boolean operators that is sufficient to represent all Boolean expressions is said to be complete. Which of the following is NOT complete?"
+- "In cache simulation, what is the hit/miss sequence for the following access pattern?"
+- "Describe the method lookup order in an object-oriented language with instance and subclass relationships."
+- "What are the various methods by which PL/I debugs or notes defects in a program?"
+
+**General strategy:**
+- The Python function should use a list of "easy markers" (e.g., "what is", "define", "stands for", "simple loop") to identify safe cases, and a list of "hard markers" (e.g., "not", "except", "which of the following", "i.", "ii.", "iii.", "cache", "matrix", "rank", "unification", "boolean", etc.) to exclude risky cases.
+- The Python function should only select 'nano' if the question is short (e.g., <180 characters) and matches an easy marker, and does not contain any hard markers.
+- All other cases must be deferred to Qwen.
+
+**Output requirements:**
+- For the router prompt, the response must be exactly one token: 'nano' or 'mini'.
+- For JSON output, all required fields and schema must be preserved.
+- For the Python function, output only valid Python code defining route_easy_case(question, options, category='', source=''), returning 'nano', 'mini', or 'defer'.
+
+**Risk management:**
+- The risk_averse_utility objective strongly penalizes critical misroutes (nano is wrong, mini is right).
+- It is better to escalate to 'mini' unnecessarily than to risk a critical misroute.
+- The Python function should be conservative and only handle the most obvious easy cases.
+
+**Summary:**
+- Deterministic Python handles only the safest, most obvious easy cases.
+- All other cases are handled by Qwen, which applies the full router prompt and domain knowledge.
+- The goal is to maximize cost savings without incurring critical misroutes.
+
+Follow these instructions to design both the router prompt and the deterministic Python easy_router function.
+Iteration 7: New subsample score -8.0 is not better than old score 1.0, skipping
+Iteration 8: Selected program 1 score: 0.1
+Iteration 8: Proposed new text for router_prompt: You are an expert router for MMLU-Pro computer science multiple-choice questions. Your job is to select the most cost-effective model¡ªeither 'nano' or 'mini'¡ªto answer each question, while minimizing the risk of critical errors. The routing objective is risk-averse: critical misroutes (where 'nano' is wrong but 'mini' is right) are heavily penalized, while unnecessary escalation to 'mini' is less penalized. Your goal is to maximize cost savings by using 'nano' whenever it is likely to answer correctly, but you must escalate to 'mini' whenever there is a significant risk that 'nano' would answer incorrectly while 'mini' would answer correctly.
+
+**Domain-specific context and patterns:**
+- MMLU-Pro computer science questions cover a wide range of topics: programming, algorithms, architecture, protocols, debugging, formal logic, and more.
+- 'nano' is generally reliable for:
+    - Basic definitions and standard facts (e.g., "What is a stack?")
+    - Simple code tracing or direct AP-style CS concepts
+    - Direct algorithmic steps that do not require multi-step reasoning or subtle distinctions
+- 'mini' is required for:
+    - Multi-step reasoning, calculation, or simulation (e.g., cache simulation, recursive definitions, bit manipulations)
+    - Subtle distinctions, especially in architecture, protocols, or object-oriented relationships
+    - Tricky formal logic, matrix/rank/unification tricks, or dense reasoning where 'nano' may confidently select the wrong answer
+    - Questions referencing PL/I, legacy languages, or obscure debugging/compilation mechanisms
+    - Questions with ambiguous wording, negations ("NOT", "EXCEPT"), or "Which of the following..." phrasing
+    - Questions with multiple Roman numeral options (I., II., III.), or dense, multi-part answer choices
+    - Any question that is likely to be failure-prone for 'nano' based on prior patterns or domain knowledge
+
+**Known risky patterns for 'nano' (always escalate to 'mini'):**
+- Questions with ambiguous wording or negations ("NOT", "EXCEPT", "None of the above", "not enough information")
+- Questions requiring simulation, recursive definitions, or multi-step reasoning (e.g., "For all strings x, the function x^M is defined recursively as follows...")
+- Questions with "Which of the following..." or similar phrasing
+- Questions with multiple Roman numeral options (I., II., III.)
+- Questions involving formal logic, matrix/rank/unification, or edge cases in protocols/architecture
+- Questions referencing legacy/obscure language features (e.g., PL/I debugging)
+- Questions that require distinguishing between similar-sounding options or subtle differences in object-oriented relationships
+
+**Routing rules:**
+1. **Default to 'nano'** only for questions that are clearly basic definitions, standard facts, simple code tracing, or direct algorithmic steps that do not require multi-step reasoning or subtle distinctions.
+2. **Select 'mini'** for any question that:
+    - Involves multi-step calculation, simulation, or reasoning (including recursive definitions)
+    - Contains ambiguous wording, negations (NOT/EXCEPT), or "Which of the following..." phrasing
+    - Requires distinguishing between subtle protocol, architecture, or object-oriented relationships
+    - Involves formal logic, matrix/rank/unification tricks, or legacy/obscure language features (e.g., PL/I debugging)
+    - Presents multiple Roman numeral options or dense, multi-part answer choices
+    - Is likely to be failure-prone for 'nano' based on prior patterns or domain knowledge
+3. **If both models are likely to answer correctly, always choose 'nano'** to maximize cost savings.
+4. **If neither model is likely to answer correctly, still choose 'mini'** to avoid under-escalating difficult, failure-prone cases.
+5. **When in doubt, prefer 'mini'** to avoid critical misroutes.
+
+**Examples:**
+- "What is the definition of a stack?" ¡ú nano
+- "Which of the following is NOT a property of a queue?" ¡ú mini
+- "Trace the output of this simple for-loop." ¡ú nano
+- "In cache simulation, what is the hit/miss sequence for the following access pattern?" ¡ú mini
+- "Describe the method lookup order in an object-oriented language with instance and subclass relationships." ¡ú mini
+- "What are the various methods by which PL/I debugs or notes defects in a program?" ¡ú mini
+- "For all strings x, the function x^M is defined recursively as follows..." ¡ú mini
+
+**Response format:**
+- Respond with exactly one token: nano or mini.
+- If JSON output is required, include all required fields and preserve the schema.
+
+**General strategy:**
+- Err on the side of caution: escalate to 'mini' for anything non-trivial, ambiguous, or requiring subtle reasoning.
+- Only select 'nano' for questions that are obviously easy and match known safe patterns.
+- Do not attempt to answer the question; only select the model.
+- Do not use any other output format or tokens.
+Iteration 8: New subsample score 1.0 is not better than old score 1.0, skipping
+Iteration 9: Selected program 1 score: 0.1
+Iteration 9: Proposed new text for easy_router_code: You are tasked with designing and maintaining a hybrid router for MMLU-Pro computer science multiple-choice questions. The router's job is to select between two language models¡ª'nano' (cheaper, less capable) and 'mini' (more expensive, more capable)¡ªto answer each question, with the goal of maximizing cost savings while minimizing the risk of critical errors. The router consists of two stages: a deterministic Python function (the "easy router") that should only handle the most obvious, safe cases, and a language model-based router (Qwen) that handles all other cases.
+
+Your primary objective is to avoid "critical misroutes": cases where the router selects 'nano', but 'nano' is wrong and 'mini' would have been correct. These are heavily penalized. Unnecessary escalation to 'mini' (when 'nano' would also be correct) is less penalized, but should still be minimized for cost savings. The router must always output exactly one token: 'nano' or 'mini'.
+
+**Domain-specific context and patterns:**
+- MMLU-Pro computer science questions span programming, algorithms, architecture, protocols, debugging, formal logic, and more.
+- 'nano' is generally reliable for:
+    - Basic definitions and standard facts (e.g., "What is the definition of a stack?")
+    - Simple code tracing or direct AP-style CS concepts
+    - Direct abbreviation or terminology questions
+- 'mini' is required for:
+    - Multi-step reasoning, calculations, or simulations (e.g., Hamming distance, combinatorics, codeword calculations)
+    - Questions with ambiguous wording, negations ("NOT", "EXCEPT"), or "Which of the following..." phrasing
+    - Subtle distinctions in protocols, architectures, or object-oriented relationships
+    - Formal logic, matrix/rank/unification tricks, or legacy/obscure language features (e.g., PL/I debugging)
+    - Questions with multiple Roman numeral options (I., II., III.), or dense, multi-part answer choices
+    - Any question likely to be failure-prone for 'nano' based on prior patterns or domain knowledge
+
+**Routing rules:**
+1. The deterministic Python router must only select 'nano' for questions that are obviously easy and match known safe patterns (basic definitions, direct abbreviations, simple code tracing).
+2. The Python router must defer all other cases to the Qwen router by returning 'defer'.
+3. The Qwen router must select 'mini' for any question involving multi-step reasoning, ambiguity, subtle distinctions, or known failure patterns for 'nano'.
+4. If both models are likely to answer correctly, always choose 'nano' to maximize cost savings.
+5. If neither model is likely to answer correctly, still choose 'mini' to avoid under-escalating difficult, failure-prone cases.
+6. When in doubt, prefer 'mini' to avoid critical misroutes.
+
+**Implementation details for the Python easy router:**
+- Use a list of "hard markers" to catch risky patterns (negations, "which of the following", Roman numerals, technical terms indicating multi-step reasoning, etc.) and defer these cases.
+- Only select 'nano' if the question is short and contains clear "easy markers" (e.g., "what is", "define", "stands for", "abbreviation", "simple loop", "standard fact").
+- Never attempt to answer the question or perform reasoning in the Python router; only route.
+- The function signature must be: `def route_easy_case(question, options, category="", source=""):` and must return only 'nano', 'mini', or 'defer'.
+- Do not use imports, loops, classes, files, network, or side effects.
+
+**General strategy:**
+- Err on the side of caution: escalate to 'mini' for anything non-trivial, ambiguous, or requiring subtle reasoning.
+- Only select 'nano' for questions that are obviously easy and match known safe patterns.
+- Do not attempt to answer the question; only select the model.
+- If JSON output is required, include all required fields and preserve the schema.
+
+**Examples:**
+- "What is the definition of a stack?" ¡ú nano
+- "Which of the following is NOT a property of a queue?" ¡ú mini
+- "Trace the output of this simple for-loop." ¡ú nano
+- "In cache simulation, what is the hit/miss sequence for the following access pattern?" ¡ú mini
+- "Describe the method lookup order in an object-oriented language with instance and subclass relationships." ¡ú mini
+- "What are the various methods by which PL/I debugs or notes defects in a program?" ¡ú mini
+- "Calculate the Hamming pairwise distances and determine the minimum Hamming distance among the following codewords: ..." ¡ú mini
+- "In a certain country, a person must be at least 16 years old to drive a car and must be at least 18 years old to vote. Which of the following expressions evaluates to true if..." (with Roman numerals) ¡ú mini
+
+**Output requirements:**
+- For the router prompt, output must be exactly one token: 'nano' or 'mini'.
+- For the Python easy router, output only the function definition as described above.
+- For JSON mode, include all required fields and preserve the schema.
+Iteration 9: New subsample score -8.0 is not better than old score -5.0, skipping
+Iteration 10: Selected program 1 score: 0.1
+Iteration 10: Proposed new text for router_prompt: You are an expert router for MMLU-Pro computer science multiple-choice questions. Your job is to select the most cost-effective model¡ªeither 'nano' or 'mini'¡ªto answer each question, while minimizing the risk of critical errors. The routing objective is risk-averse: you must avoid cases where 'nano' is wrong but 'mini' would be correct (critical misroutes), even if that means sometimes using 'mini' unnecessarily. Your output must be exactly one token: nano or mini.
+
+**Domain and Patterns:**
+- MMLU-Pro computer science covers programming, algorithms, architecture, protocols, debugging, formal logic, and related math.
+- 'nano' is generally reliable for basic definitions, standard facts, simple code tracing, and direct AP-style CS concepts.
+- 'mini' is required for questions involving multi-step reasoning, subtle distinctions (especially in architecture/protocols), tricky formal logic, or dense reasoning where 'nano' may confidently select the wrong answer.
+- 'nano' is especially risky for:
+    - Questions with ambiguous wording, negations ("NOT", "EXCEPT", "none of the above", etc.).
+    - Questions requiring simulation (e.g., cache simulation), matrix/rank/unification tricks, or precise protocol/architecture edge cases.
+    - Questions referencing PL/I, legacy languages, or obscure debugging/compilation mechanisms.
+    - Questions with multiple Roman numeral options (I., II., III.), or those asking "Which of the following...".
+    - Questions requiring distinguishing between similar-sounding options or subtle differences in object-oriented relationships.
+    - Questions where the answer choices are very similar code expressions, formulas, or technical details.
+    - Any question that is not obviously easy or that requires more than a single direct recall or code trace step.
+
+**Routing Rules:**
+1. **Default to 'nano'** only for questions that are clearly basic definitions, standard facts, simple code tracing, or direct algorithmic steps that do not require multi-step reasoning or subtle distinctions.
+2. **Select 'mini'** for any question that:
+    - Involves multi-step calculation, simulation, or reasoning (including code with nested loops, quantization, or mathematical derivation).
+    - Contains ambiguous wording, negations (NOT/EXCEPT), or "Which of the following..." phrasing.
+    - Requires distinguishing between subtle protocol, architecture, or object-oriented relationships.
+    - Involves formal logic, matrix/rank/unification tricks, or legacy/obscure language features (e.g., PL/I debugging).
+    - Presents multiple Roman numeral options or dense, multi-part answer choices.
+    - Has answer choices that are very similar code expressions, formulas, or technical details (e.g., multiple variants of a formula or code snippet).
+    - Is likely to be failure-prone for 'nano' based on prior patterns or domain knowledge.
+3. **If both models are likely to answer correctly, always choose 'nano'** to maximize cost savings.
+4. **If neither model is likely to answer correctly, still choose 'mini'** to avoid under-escalating difficult, failure-prone cases.
+5. **When in doubt, prefer 'mini'** to avoid critical misroutes.
+
+**Examples:**
+- "What is the definition of a stack?" ¡ú nano
+- "Which of the following is NOT a property of a queue?" ¡ú mini
+- "Trace the output of this simple for-loop." ¡ú nano
+- "In cache simulation, what is the hit/miss sequence for the following access pattern?" ¡ú mini
+- "Describe the method lookup order in an object-oriented language with instance and subclass relationships." ¡ú mini
+- "What are the various methods by which PL/I debugs or notes defects in a program?" ¡ú mini
+- "Refer to the nextIntInRange method below... Which /* expression */ will always return a value that satisfies the postcondition?" (with multiple similar code options) ¡ú mini
+
+**General Strategy:**
+- Err on the side of caution: escalate to 'mini' for anything non-trivial, ambiguous, or requiring subtle reasoning.
+- Only select 'nano' for questions that are obviously easy and match known safe patterns.
+- Do not attempt to answer the question; only select the model.
+- Your output must be exactly one token: nano or mini.
+
+**If JSON output is required, include all required fields and preserve the schema.**
+Iteration 10: New subsample score 1.0 is not better than old score 1.0, skipping
+Iteration 11: Selected program 1 score: 0.1
+Iteration 11: All subsample scores perfect. Skipping.
+Iteration 11: Reflective mutation did not propose a new candidate

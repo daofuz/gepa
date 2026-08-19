@@ -1,0 +1,129 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "lotus-ai"
+version = "1.2.4"
+description = "lotus"
+readme = "README.md"
+authors = [
+    {name = "Liana Patel", email = "lianapat@stanford.edu"},
+    {name = "Siddharth Jha", email = "sidjha@berkeley.edu"}
+]
+license = { "file"= "LICENSE" }
+requires-python = ">=3.10, <3.13"
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+]
+
+dependencies = [
+    "backoff>=2.2.1,<3.0.0",
+    "faiss-cpu>=1.8.0.post1,<2.0.0",
+    "litellm>=1.80.0",
+    "numpy>=1.25.0,<2.0.0",
+    "pandas>=2.0.0,<3.0.0",
+    "sentence-transformers>=3.0.1,<4.0.0",
+    "tiktoken>=0.7.0,<1.0.0",
+    "tqdm>=4.66.4,<5.0.0",
+    "pydantic>=2.11.7,<3.0.0",
+]
+
+[project.optional-dependencies]
+docs = [
+    "sphinx",
+    "sphinx_rtd_theme",
+]
+xml = [
+    "lxml",
+]
+serpapi = [
+    "google-search-results",
+]
+arxiv = [
+    "arxiv",
+]
+pubmed = [
+    "pymed",
+]
+file_extractor = [
+    "llama-index==0.10.53",
+    "llama-index-readers-file",
+    "pymupdf",
+    "docx2txt",
+    "python-pptx",
+    "python-magic"
+]
+weaviate = [
+    "weaviate-client",
+]
+qdrant = [
+    "qdrant-client",
+]
+data_connectors = [
+    "sqlalchemy",
+    "boto3",
+]
+web_search = [
+    "requests",
+    "azure-cognitiveservices-search-websearch",
+    "tavily-python"
+]
+dev = [
+    "ruff>=0.7.2",
+    "mypy>=1.13.0",
+    "pytest>=8.3.3",
+    "pre-commit>=4.0.1",
+]
+gepa = [
+    "gepa>=0.1.1"
+]
+softprompt_router = [
+    "torch>=2.2.0",
+    "transformers>=4.40.0,<6.0.0",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.ruff]
+line-length = 120
+indent-width = 4
+target-version = "py39"
+
+[tool.ruff.lint]
+# Select a minimal set of rules
+select = [
+    "F",
+    "E",
+    "I",
+]
+
+ignore = [
+    "E501",  # Line too long
+]
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.format]
+docstring-code-format = false
+indent-style = "space"
+line-ending = "auto"
+
+[tool.ruff.lint.per-file-ignores]
+"**/{docs}/*" = ["ALL"]
+"**__init__.py" = ["ALL"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["lotus"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+ignore_missing_imports = true

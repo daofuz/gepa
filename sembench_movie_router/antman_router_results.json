@@ -1,0 +1,2910 @@
+{
+  "config": {
+    "reviews": "sembench_movie_router\\antman_reviews.csv",
+    "train_size": 100,
+    "test_size": 156,
+    "mini_model": "gpt-5-mini",
+    "nano_model": "gpt-5-nano",
+    "workers": 8,
+    "seed": 101,
+    "cache": "sembench_movie_router\\model_outputs.json",
+    "output": "sembench_movie_router\\antman_router_results.json"
+  },
+  "train_outcomes": {
+    "both_wrong": 8,
+    "both_correct": 76,
+    "mini_only": 15,
+    "nano_only": 1
+  },
+  "test_outcomes": {
+    "both_correct": 134,
+    "both_wrong": 12,
+    "mini_only": 9,
+    "nano_only": 1
+  },
+  "baselines": {
+    "all_nano": {
+      "accuracy": 0.8653846153846154,
+      "positive_f1": 0.8444444444444444,
+      "positive_precision": 0.9827586206896551,
+      "positive_recall": 0.7402597402597403,
+      "router_accuracy": 0.9423076923076923,
+      "mini_calls": 0,
+      "mini_rate": 0.0,
+      "critical_misroutes": 9,
+      "unnecessary_mini": 0
+    },
+    "all_mini": {
+      "accuracy": 0.9166666666666666,
+      "positive_f1": 0.9103448275862069,
+      "positive_precision": 0.9705882352941176,
+      "positive_recall": 0.8571428571428571,
+      "router_accuracy": 0.057692307692307696,
+      "mini_calls": 156,
+      "mini_rate": 1.0,
+      "critical_misroutes": 0,
+      "unnecessary_mini": 147
+    },
+    "oracle": {
+      "accuracy": 0.9230769230769231,
+      "positive_f1": 0.9166666666666666,
+      "positive_precision": 0.9850746268656716,
+      "positive_recall": 0.8571428571428571,
+      "router_accuracy": 1.0,
+      "mini_calls": 9,
+      "mini_rate": 0.057692307692307696,
+      "critical_misroutes": 0,
+      "unnecessary_mini": 0
+    }
+  },
+  "routers": {
+    "tfidf_pre_router": {
+      "threshold": 0.4,
+      "accuracy": 0.8974358974358975,
+      "positive_f1": 0.8857142857142857,
+      "positive_precision": 0.9841269841269841,
+      "positive_recall": 0.8051948051948052,
+      "router_accuracy": 0.9102564102564102,
+      "mini_calls": 15,
+      "mini_rate": 0.09615384615384616,
+      "critical_misroutes": 4,
+      "unnecessary_mini": 10,
+      "traces": [
+        {
+          "reviewId": "102780692",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3234919820681765
+        },
+        {
+          "reviewId": "102780956",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2824647463529665
+        },
+        {
+          "reviewId": "102779654",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.335680401343598
+        },
+        {
+          "reviewId": "102784175",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3324140193255791
+        },
+        {
+          "reviewId": "102779523",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3006014497271819
+        },
+        {
+          "reviewId": "102779482",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.307472993092045
+        },
+        {
+          "reviewId": "102780632",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3698818551749699
+        },
+        {
+          "reviewId": "102780483",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2660841323351361
+        },
+        {
+          "reviewId": "102779761",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2882232428643599
+        },
+        {
+          "reviewId": "102780845",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.28887566828878036
+        },
+        {
+          "reviewId": "102780748",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.32176557593337773
+        },
+        {
+          "reviewId": "102783989",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3181179881645373
+        },
+        {
+          "reviewId": "102779968",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.31000056695601136
+        },
+        {
+          "reviewId": "102780524",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3938587798360536
+        },
+        {
+          "reviewId": "102784591",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.33294153239202245
+        },
+        {
+          "reviewId": "102784175",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3324140193255791
+        },
+        {
+          "reviewId": "102782734",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "mini",
+          "route": "mini",
+          "p_mini": 0.6386165412366789
+        },
+        {
+          "reviewId": "102781291",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "mini",
+          "route": "nano",
+          "p_mini": 0.3345332906317575
+        },
+        {
+          "reviewId": "102780376",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2690149291124222
+        },
+        {
+          "reviewId": "102780910",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2945097838514563
+        },
+        {
+          "reviewId": "102779616",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2759641069743294
+        },
+        {
+          "reviewId": "102779482",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.307472993092045
+        },
+        {
+          "reviewId": "102781777",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.32667033176545246
+        },
+        {
+          "reviewId": "102780259",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.30027687348193943
+        },
+        {
+          "reviewId": "102781241",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.29497139521748306
+        },
+        {
+          "reviewId": "102780028",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2966711592818338
+        },
+        {
+          "reviewId": "102780494",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.28243184044916353
+        },
+        {
+          "reviewId": "102780414",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.31312129679471673
+        },
+        {
+          "reviewId": "102781359",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3809077696390679
+        },
+        {
+          "reviewId": "102779738",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.31349410993363275
+        },
+        {
+          "reviewId": "102781215",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.31566613967616647
+        },
+        {
+          "reviewId": "102779490",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.29966178230742424
+        },
+        {
+          "reviewId": "102784444",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.29423493491377833
+        },
+        {
+          "reviewId": "102781359",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3809077696390679
+        },
+        {
+          "reviewId": "102779975",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3503697400731409
+        },
+        {
+          "reviewId": "102781057",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3132790546771115
+        },
+        {
+          "reviewId": "102780388",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "mini",
+          "route": "mini",
+          "p_mini": 0.6118088056364348
+        },
+        {
+          "reviewId": "102780524",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3938587798360536
+        },
+        {
+          "reviewId": "102780483",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2660841323351361
+        },
+        {
+          "reviewId": "102781420",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2992578032979551
+        },
+        {
+          "reviewId": "102780491",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2891001426924324
+        },
+        {
+          "reviewId": "102780041",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "mini",
+          "route": "nano",
+          "p_mini": 0.29561193628843907
+        },
+        {
+          "reviewId": "102782182",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.31261026049375734
+        },
+        {
+          "reviewId": "102779555",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3667192187593909
+        },
+        {
+          "reviewId": "102780821",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "mini",
+          "p_mini": 0.4165332478513907
+        },
+        {
+          "reviewId": "102779563",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.25605632832233194
+        },
+        {
+          "reviewId": "102779861",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3198693413706396
+        },
+        {
+          "reviewId": "102780049",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3439721597668221
+        },
+        {
+          "reviewId": "102780704",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "mini",
+          "p_mini": 0.4870275630015928
+        },
+        {
+          "reviewId": "102779501",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3509095271042852
+        },
+        {
+          "reviewId": "102782142",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3007544755091199
+        },
+        {
+          "reviewId": "102779521",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.29385998490801385
+        },
+        {
+          "reviewId": "102779701",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2917420948800353
+        },
+        {
+          "reviewId": "102781076",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3171952156743255
+        },
+        {
+          "reviewId": "102782396",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2872035546439879
+        },
+        {
+          "reviewId": "102781074",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2978312859470252
+        },
+        {
+          "reviewId": "102779496",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3244822099333628
+        },
+        {
+          "reviewId": "102779743",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.28802037992196566
+        },
+        {
+          "reviewId": "102779550",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "mini",
+          "p_mini": 0.4556070685990465
+        },
+        {
+          "reviewId": "102779889",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.32193609700083303
+        },
+        {
+          "reviewId": "102779975",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3503697400731409
+        },
+        {
+          "reviewId": "102779654",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.335680401343598
+        },
+        {
+          "reviewId": "102779634",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.327241616537131
+        },
+        {
+          "reviewId": "102779616",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2759641069743294
+        },
+        {
+          "reviewId": "102780758",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2863863958053038
+        },
+        {
+          "reviewId": "102782769",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2774050720593387
+        },
+        {
+          "reviewId": "102782182",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.31261026049375734
+        },
+        {
+          "reviewId": "102779861",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3198693413706396
+        },
+        {
+          "reviewId": "102779585",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2824649947325456
+        },
+        {
+          "reviewId": "102779507",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3410049404311826
+        },
+        {
+          "reviewId": "102779528",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.37690655596753875
+        },
+        {
+          "reviewId": "102781374",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "mini",
+          "route": "mini",
+          "p_mini": 0.6236505738109867
+        },
+        {
+          "reviewId": "102782426",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3027915761054263
+        },
+        {
+          "reviewId": "102780494",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.28243184044916353
+        },
+        {
+          "reviewId": "102783315",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.29140586804615093
+        },
+        {
+          "reviewId": "102780627",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.31718543234864144
+        },
+        {
+          "reviewId": "102780989",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "mini",
+          "p_mini": 0.4012101920351792
+        },
+        {
+          "reviewId": "102780006",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.33944339204744134
+        },
+        {
+          "reviewId": "102779597",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2809821203729324
+        },
+        {
+          "reviewId": "102779560",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2766723800797812
+        },
+        {
+          "reviewId": "102779597",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2809821203729324
+        },
+        {
+          "reviewId": "102782018",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3327462719207285
+        },
+        {
+          "reviewId": "102780001",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.28648613918369853
+        },
+        {
+          "reviewId": "102779541",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3129149446676568
+        },
+        {
+          "reviewId": "102780607",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "mini",
+          "p_mini": 0.4224536089151671
+        },
+        {
+          "reviewId": "102782395",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.28699801229711036
+        },
+        {
+          "reviewId": "102779634",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.327241616537131
+        },
+        {
+          "reviewId": "102781269",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2872754145005962
+        },
+        {
+          "reviewId": "102779686",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2894222646311683
+        },
+        {
+          "reviewId": "102789361",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3131186073957175
+        },
+        {
+          "reviewId": "102783393",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3869170882812917
+        },
+        {
+          "reviewId": "102779604",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3096529040996901
+        },
+        {
+          "reviewId": "102780948",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.320198611826135
+        },
+        {
+          "reviewId": "102781469",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.28097911971094314
+        },
+        {
+          "reviewId": "102780513",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.32211243651604393
+        },
+        {
+          "reviewId": "102779507",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3410049404311826
+        },
+        {
+          "reviewId": "102780270",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.33094650195361375
+        },
+        {
+          "reviewId": "102780607",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "mini",
+          "p_mini": 0.4224536089151671
+        },
+        {
+          "reviewId": "102780644",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.33389597938806004
+        },
+        {
+          "reviewId": "102780704",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "mini",
+          "p_mini": 0.4870275630015928
+        },
+        {
+          "reviewId": "102779544",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3442318013571276
+        },
+        {
+          "reviewId": "102780041",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "mini",
+          "route": "nano",
+          "p_mini": 0.29561193628843907
+        },
+        {
+          "reviewId": "102781215",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.31566613967616647
+        },
+        {
+          "reviewId": "102780792",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3055845844767492
+        },
+        {
+          "reviewId": "102779951",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.28799664457877655
+        },
+        {
+          "reviewId": "102780625",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3900889229089551
+        },
+        {
+          "reviewId": "102779962",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.33509229667477464
+        },
+        {
+          "reviewId": "102779501",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3509095271042852
+        },
+        {
+          "reviewId": "102780259",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.30027687348193943
+        },
+        {
+          "reviewId": "102779630",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "mini",
+          "route": "mini",
+          "p_mini": 0.6348685676352083
+        },
+        {
+          "reviewId": "102781297",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.29444131122736217
+        },
+        {
+          "reviewId": "102779738",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.31349410993363275
+        },
+        {
+          "reviewId": "102780403",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3291894759940743
+        },
+        {
+          "reviewId": "102780414",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.31312129679471673
+        },
+        {
+          "reviewId": "102782149",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3198478358711944
+        },
+        {
+          "reviewId": "102779962",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.33509229667477464
+        },
+        {
+          "reviewId": "102779984",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3125412493790883
+        },
+        {
+          "reviewId": "102780625",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3900889229089551
+        },
+        {
+          "reviewId": "102784591",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.33294153239202245
+        },
+        {
+          "reviewId": "102780821",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "mini",
+          "p_mini": 0.4165332478513907
+        },
+        {
+          "reviewId": "102780627",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.31718543234864144
+        },
+        {
+          "reviewId": "102781569",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.32995661499459444
+        },
+        {
+          "reviewId": "102780006",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.33944339204744134
+        },
+        {
+          "reviewId": "102779524",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.316313738955046
+        },
+        {
+          "reviewId": "102780668",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3060452465386876
+        },
+        {
+          "reviewId": "102779596",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2584906163171851
+        },
+        {
+          "reviewId": "102780725",
+          "gold": "NEGATIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.29176269141593003
+        },
+        {
+          "reviewId": "102779545",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3537735567198028
+        },
+        {
+          "reviewId": "102779519",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2840825455159513
+        },
+        {
+          "reviewId": "102779701",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2917420948800353
+        },
+        {
+          "reviewId": "102779984",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3125412493790883
+        },
+        {
+          "reviewId": "102782650",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3412897712224818
+        },
+        {
+          "reviewId": "102781291",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "mini",
+          "route": "nano",
+          "p_mini": 0.3345332906317575
+        },
+        {
+          "reviewId": "102779545",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3537735567198028
+        },
+        {
+          "reviewId": "102779875",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2894999680873466
+        },
+        {
+          "reviewId": "102780644",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.33389597938806004
+        },
+        {
+          "reviewId": "102779553",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.34613609726876277
+        },
+        {
+          "reviewId": "102779486",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.38200256723978504
+        },
+        {
+          "reviewId": "102780989",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "mini",
+          "p_mini": 0.4012101920351792
+        },
+        {
+          "reviewId": "102779523",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3006014497271819
+        },
+        {
+          "reviewId": "102782142",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3007544755091199
+        },
+        {
+          "reviewId": "102780917",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.28573392214237386
+        },
+        {
+          "reviewId": "102780165",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2659730499462099
+        },
+        {
+          "reviewId": "102779496",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3244822099333628
+        },
+        {
+          "reviewId": "102783393",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3869170882812917
+        },
+        {
+          "reviewId": "102780270",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.33094650195361375
+        },
+        {
+          "reviewId": "102781334",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3052182685871762
+        },
+        {
+          "reviewId": "102779596",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2584906163171851
+        },
+        {
+          "reviewId": "102780632",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3698818551749699
+        },
+        {
+          "reviewId": "102783989",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3181179881645373
+        },
+        {
+          "reviewId": "102780837",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "mini",
+          "route": "mini",
+          "p_mini": 0.6222817737208424
+        },
+        {
+          "reviewId": "102780916",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2968387313820449
+        },
+        {
+          "reviewId": "102780049",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3439721597668221
+        },
+        {
+          "reviewId": "102780869",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3032004320784798
+        },
+        {
+          "reviewId": "102779550",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "mini",
+          "p_mini": 0.4556070685990465
+        },
+        {
+          "reviewId": "102782650",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3412897712224818
+        }
+      ]
+    },
+    "tfidf_nano_first": {
+      "threshold": 0.4,
+      "accuracy": 0.8974358974358975,
+      "positive_f1": 0.8857142857142857,
+      "positive_precision": 0.9841269841269841,
+      "positive_recall": 0.8051948051948052,
+      "router_accuracy": 0.9102564102564102,
+      "mini_calls": 15,
+      "mini_rate": 0.09615384615384616,
+      "critical_misroutes": 4,
+      "unnecessary_mini": 10,
+      "traces": [
+        {
+          "reviewId": "102780692",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3155765974734164
+        },
+        {
+          "reviewId": "102780956",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2941335985650813
+        },
+        {
+          "reviewId": "102779654",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3092084581015222
+        },
+        {
+          "reviewId": "102784175",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3392568562867596
+        },
+        {
+          "reviewId": "102779523",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2856225522816127
+        },
+        {
+          "reviewId": "102779482",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.295867841505721
+        },
+        {
+          "reviewId": "102780632",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.38580953564544074
+        },
+        {
+          "reviewId": "102780483",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.27062429114234826
+        },
+        {
+          "reviewId": "102779761",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.29372118329099506
+        },
+        {
+          "reviewId": "102780845",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.27940967094767266
+        },
+        {
+          "reviewId": "102780748",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3229680502826087
+        },
+        {
+          "reviewId": "102783989",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.29216339600510494
+        },
+        {
+          "reviewId": "102779968",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.31131912650951027
+        },
+        {
+          "reviewId": "102780524",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.39301426199311246
+        },
+        {
+          "reviewId": "102784591",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.35391784688146494
+        },
+        {
+          "reviewId": "102784175",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3392568562867596
+        },
+        {
+          "reviewId": "102782734",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "mini",
+          "route": "mini",
+          "p_mini": 0.641832365189849
+        },
+        {
+          "reviewId": "102781291",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "mini",
+          "route": "nano",
+          "p_mini": 0.343469887046096
+        },
+        {
+          "reviewId": "102780376",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.27172386294966844
+        },
+        {
+          "reviewId": "102780910",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2969629631285572
+        },
+        {
+          "reviewId": "102779616",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.28720701252624564
+        },
+        {
+          "reviewId": "102779482",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.295867841505721
+        },
+        {
+          "reviewId": "102781777",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.31874714896941103
+        },
+        {
+          "reviewId": "102780259",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.30408857026102365
+        },
+        {
+          "reviewId": "102781241",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2979987192762654
+        },
+        {
+          "reviewId": "102780028",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.29929425110529706
+        },
+        {
+          "reviewId": "102780494",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.28772232252919827
+        },
+        {
+          "reviewId": "102780414",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3164128578216207
+        },
+        {
+          "reviewId": "102781359",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3851104566721799
+        },
+        {
+          "reviewId": "102779738",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.31935530304664694
+        },
+        {
+          "reviewId": "102781215",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3366418724494024
+        },
+        {
+          "reviewId": "102779490",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.29276408469595727
+        },
+        {
+          "reviewId": "102784444",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2968454553076437
+        },
+        {
+          "reviewId": "102781359",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3851104566721799
+        },
+        {
+          "reviewId": "102779975",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3827225005079905
+        },
+        {
+          "reviewId": "102781057",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.30303802583299233
+        },
+        {
+          "reviewId": "102780388",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "mini",
+          "route": "mini",
+          "p_mini": 0.6135810611556612
+        },
+        {
+          "reviewId": "102780524",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.39301426199311246
+        },
+        {
+          "reviewId": "102780483",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.27062429114234826
+        },
+        {
+          "reviewId": "102781420",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3022854991307829
+        },
+        {
+          "reviewId": "102780491",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2907609133603219
+        },
+        {
+          "reviewId": "102780041",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "mini",
+          "route": "nano",
+          "p_mini": 0.3004419298170234
+        },
+        {
+          "reviewId": "102782182",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.29222684327207143
+        },
+        {
+          "reviewId": "102779555",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.38029350916663257
+        },
+        {
+          "reviewId": "102780821",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "mini",
+          "p_mini": 0.4160699037932693
+        },
+        {
+          "reviewId": "102779563",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.24895983268468394
+        },
+        {
+          "reviewId": "102779861",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.32407839036332015
+        },
+        {
+          "reviewId": "102780049",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.36220529190798434
+        },
+        {
+          "reviewId": "102780704",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "mini",
+          "p_mini": 0.4609836324499969
+        },
+        {
+          "reviewId": "102779501",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.35555687542329917
+        },
+        {
+          "reviewId": "102782142",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2762541484930301
+        },
+        {
+          "reviewId": "102779521",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.285029149771724
+        },
+        {
+          "reviewId": "102779701",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.29858282048701923
+        },
+        {
+          "reviewId": "102781076",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3182810920368961
+        },
+        {
+          "reviewId": "102782396",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2932165351556987
+        },
+        {
+          "reviewId": "102781074",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.30056425735796755
+        },
+        {
+          "reviewId": "102779496",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3089090399263845
+        },
+        {
+          "reviewId": "102779743",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2903642046382351
+        },
+        {
+          "reviewId": "102779550",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "mini",
+          "p_mini": 0.4234529847410299
+        },
+        {
+          "reviewId": "102779889",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.31230875720744333
+        },
+        {
+          "reviewId": "102779975",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3827225005079905
+        },
+        {
+          "reviewId": "102779654",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3092084581015222
+        },
+        {
+          "reviewId": "102779634",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.30494477484493826
+        },
+        {
+          "reviewId": "102779616",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.28720701252624564
+        },
+        {
+          "reviewId": "102780758",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.28838690718895943
+        },
+        {
+          "reviewId": "102782769",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.28150413364054977
+        },
+        {
+          "reviewId": "102782182",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.29222684327207143
+        },
+        {
+          "reviewId": "102779861",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.32407839036332015
+        },
+        {
+          "reviewId": "102779585",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2848460605501578
+        },
+        {
+          "reviewId": "102779507",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.34489047302742537
+        },
+        {
+          "reviewId": "102779528",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.36359109549767393
+        },
+        {
+          "reviewId": "102781374",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "mini",
+          "route": "mini",
+          "p_mini": 0.6240543011770715
+        },
+        {
+          "reviewId": "102782426",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.30511643232158303
+        },
+        {
+          "reviewId": "102780494",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.28772232252919827
+        },
+        {
+          "reviewId": "102783315",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.29969307135307066
+        },
+        {
+          "reviewId": "102780627",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3146032853727782
+        },
+        {
+          "reviewId": "102780989",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "mini",
+          "p_mini": 0.41330837463917214
+        },
+        {
+          "reviewId": "102780006",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.32769728934513476
+        },
+        {
+          "reviewId": "102779597",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2616283368224197
+        },
+        {
+          "reviewId": "102779560",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.269321685451096
+        },
+        {
+          "reviewId": "102779597",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2616283368224197
+        },
+        {
+          "reviewId": "102782018",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3345378505550642
+        },
+        {
+          "reviewId": "102780001",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.27296794286410786
+        },
+        {
+          "reviewId": "102779541",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.30497032367391336
+        },
+        {
+          "reviewId": "102780607",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "mini",
+          "p_mini": 0.43912970397187806
+        },
+        {
+          "reviewId": "102782395",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2958610170313505
+        },
+        {
+          "reviewId": "102779634",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.30494477484493826
+        },
+        {
+          "reviewId": "102781269",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2907714815729786
+        },
+        {
+          "reviewId": "102779686",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2797602096819756
+        },
+        {
+          "reviewId": "102789361",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.31519026817931395
+        },
+        {
+          "reviewId": "102783393",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3997911452219213
+        },
+        {
+          "reviewId": "102779604",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3114293678441764
+        },
+        {
+          "reviewId": "102780948",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3111174141940825
+        },
+        {
+          "reviewId": "102781469",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2720186189376285
+        },
+        {
+          "reviewId": "102780513",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.32407106978266426
+        },
+        {
+          "reviewId": "102779507",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.34489047302742537
+        },
+        {
+          "reviewId": "102780270",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.31209654833013156
+        },
+        {
+          "reviewId": "102780607",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "mini",
+          "p_mini": 0.43912970397187806
+        },
+        {
+          "reviewId": "102780644",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3164081044294046
+        },
+        {
+          "reviewId": "102780704",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "mini",
+          "p_mini": 0.4609836324499969
+        },
+        {
+          "reviewId": "102779544",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3460855982474959
+        },
+        {
+          "reviewId": "102780041",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "mini",
+          "route": "nano",
+          "p_mini": 0.3004419298170234
+        },
+        {
+          "reviewId": "102781215",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3366418724494024
+        },
+        {
+          "reviewId": "102780792",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.29696404009413696
+        },
+        {
+          "reviewId": "102779951",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2808581816420228
+        },
+        {
+          "reviewId": "102780625",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.36682124754996265
+        },
+        {
+          "reviewId": "102779962",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3400689740769344
+        },
+        {
+          "reviewId": "102779501",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.35555687542329917
+        },
+        {
+          "reviewId": "102780259",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.30408857026102365
+        },
+        {
+          "reviewId": "102779630",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "mini",
+          "route": "mini",
+          "p_mini": 0.6359311278599946
+        },
+        {
+          "reviewId": "102781297",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.29667300542158304
+        },
+        {
+          "reviewId": "102779738",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.31935530304664694
+        },
+        {
+          "reviewId": "102780403",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3118015454441062
+        },
+        {
+          "reviewId": "102780414",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3164128578216207
+        },
+        {
+          "reviewId": "102782149",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3221608375120219
+        },
+        {
+          "reviewId": "102779962",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3400689740769344
+        },
+        {
+          "reviewId": "102779984",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3155598422251206
+        },
+        {
+          "reviewId": "102780625",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.36682124754996265
+        },
+        {
+          "reviewId": "102784591",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.35391784688146494
+        },
+        {
+          "reviewId": "102780821",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "mini",
+          "p_mini": 0.4160699037932693
+        },
+        {
+          "reviewId": "102780627",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3146032853727782
+        },
+        {
+          "reviewId": "102781569",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.31699633419582074
+        },
+        {
+          "reviewId": "102780006",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.32769728934513476
+        },
+        {
+          "reviewId": "102779524",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3075801143619543
+        },
+        {
+          "reviewId": "102780668",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.30812379631239806
+        },
+        {
+          "reviewId": "102779596",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2639216119199134
+        },
+        {
+          "reviewId": "102780725",
+          "gold": "NEGATIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.28129296429436446
+        },
+        {
+          "reviewId": "102779545",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.327598199953554
+        },
+        {
+          "reviewId": "102779519",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2750488347761783
+        },
+        {
+          "reviewId": "102779701",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.29858282048701923
+        },
+        {
+          "reviewId": "102779984",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3155598422251206
+        },
+        {
+          "reviewId": "102782650",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.36878926673533075
+        },
+        {
+          "reviewId": "102781291",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "mini",
+          "route": "nano",
+          "p_mini": 0.343469887046096
+        },
+        {
+          "reviewId": "102779545",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.327598199953554
+        },
+        {
+          "reviewId": "102779875",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2907981876942531
+        },
+        {
+          "reviewId": "102780644",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3164081044294046
+        },
+        {
+          "reviewId": "102779553",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3327761292165541
+        },
+        {
+          "reviewId": "102779486",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3935207647426058
+        },
+        {
+          "reviewId": "102780989",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "mini",
+          "p_mini": 0.41330837463917214
+        },
+        {
+          "reviewId": "102779523",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2856225522816127
+        },
+        {
+          "reviewId": "102782142",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2762541484930301
+        },
+        {
+          "reviewId": "102780917",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3136215104790095
+        },
+        {
+          "reviewId": "102780165",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2695914489270462
+        },
+        {
+          "reviewId": "102779496",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3089090399263845
+        },
+        {
+          "reviewId": "102783393",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.3997911452219213
+        },
+        {
+          "reviewId": "102780270",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.31209654833013156
+        },
+        {
+          "reviewId": "102781334",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2949665396642761
+        },
+        {
+          "reviewId": "102779596",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2639216119199134
+        },
+        {
+          "reviewId": "102780632",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.38580953564544074
+        },
+        {
+          "reviewId": "102783989",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.29216339600510494
+        },
+        {
+          "reviewId": "102780837",
+          "gold": "POSITIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "mini",
+          "route": "mini",
+          "p_mini": 0.6234597715293664
+        },
+        {
+          "reviewId": "102780916",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.28741468767866823
+        },
+        {
+          "reviewId": "102780049",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.36220529190798434
+        },
+        {
+          "reviewId": "102780869",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.2945893871649183
+        },
+        {
+          "reviewId": "102779550",
+          "gold": "POSITIVE",
+          "nano_pred": "POSITIVE",
+          "mini_pred": "POSITIVE",
+          "target_route": "nano",
+          "route": "mini",
+          "p_mini": 0.4234529847410299
+        },
+        {
+          "reviewId": "102782650",
+          "gold": "NEGATIVE",
+          "nano_pred": "NEGATIVE",
+          "mini_pred": "NEGATIVE",
+          "target_route": "nano",
+          "route": "nano",
+          "p_mini": 0.36878926673533075
+        }
+      ]
+    }
+  },
+  "token_usage": {
+    "gpt-5-nano": {
+      "calls": 256,
+      "input_tokens": 18552,
+      "output_tokens": 5120
+    },
+    "gpt-5-mini": {
+      "calls": 256,
+      "input_tokens": 18552,
+      "output_tokens": 5120
+    }
+  }
+}

@@ -1,0 +1,124 @@
+Iteration 0: Base program full valset score: 0.196 over 50 / 50 examples
+Iteration 1: Selected program 0 score: 0.196
+Iteration 1: Proposed new text for router_prompt: You are a risk-averse router for MMLU-Pro computer science multiple-choice questions. Your job is to decide whether to trust the answer and reasoning from a "nano" model, or to escalate to a more expensive "mini" model for a second opinion. Your primary goal is to avoid critical misroutes: never select nano when nano is wrong and mini is correct. This is much worse than paying extra for mini.
+
+You will be given:
+- The question and answer options.
+- Nano's selected answer and its reasoning.
+
+Your output must be exactly one token: nano or mini.
+
+Detailed routing policy:
+
+1. Choose mini if any of the following apply:
+   - Nano's reasoning uses a questionable formula, skips a required calculation, or makes a logic error.
+   - Nano ignores or mishandles qualifiers like NOT, EXCEPT, ONLY, "cannot be determined", "none of the above", or similar.
+   - Nano's reasoning contradicts itself, changes its conclusion, or does not support its final answer.
+   - The question involves an obscure or specialized protocol, tool, programming language, architecture, graph theory, probability, or formal logic, and nano treats it as routine fact recall.
+   - Nano gives a plausible answer but does not explicitly rule out close distractors, especially in multi-select or "which are correct" questions.
+   - Nano's reasoning is incomplete, skips steps, or fails to analyze all relevant options.
+   - Nano's answer is correct for part of the question but misses a subtlety (e.g., multi-part logic, range boundaries, or exceptions).
+   - The question is about programming language syntax, semantics, or specific instructions (e.g., APL branch syntax), and nano's answer is not fully justified or could be confused with similar options.
+
+2. Choose nano only if ALL of the following are true:
+   - Nano's reasoning is complete, step-by-step, internally consistent, and directly supports the selected answer.
+   - Nano addresses all relevant qualifiers and subtleties in the question.
+   - The question is routine (well-known concepts, basic definitions, or standard algorithms) and nano's answer is unlikely to be improved by mini.
+   - Nano explicitly rules out close distractors when present.
+   - There is no sign of confusion, contradiction, or missing analysis in nano's reasoning.
+
+3. If both models are likely to fail, choose nano to save cost.
+
+Additional notes:
+- For logic, range, or multi-condition questions, ensure nano's reasoning correctly handles all boundaries and logical combinations.
+- For questions about what is NOT, EXCEPT, or which options are correct/incorrect, verify nano's reasoning matches the question's intent and does not miss subtle exclusions.
+- For obscure or rarely-used technical facts (e.g., APL branch syntax, presentation layer vs. security layer), escalate unless nano's answer is fully justified and rules out similar distractors.
+- If nano's answer is plausible but does not clearly eliminate all close alternatives, escalate to mini.
+
+Your output must be exactly one token: nano or mini.
+Iteration 1: New subsample score -5.0 is not better than old score 3.0, skipping
+Iteration 2: Selected program 0 score: 0.196
+Iteration 2: Proposed new text for router_prompt: You are a risk-averse router for MMLU-Pro computer science multiple-choice questions. Your job is to select exactly one model to answer each question: either nano (cheaper, less accurate) or mini (more expensive, more accurate). You will be shown the question, answer options, and nano's saved answer (including its reasoning and selected option).
+
+Your primary goal is to avoid "critical misroutes": do NOT select nano if nano's answer is likely wrong and mini is likely to be correct. It is better to pay extra for mini than to risk a critical misroute. Only select mini when there is a clear risk that nano is wrong and mini may recover the correct answer. If both models are likely to fail, prefer nano to save cost.
+
+Apply the following detailed rules:
+
+1. Choose mini if any of these apply:
+   - Nano's reasoning uses a questionable or incorrect formula, skips a required calculation, or makes a calculation error (especially in combinatorics, probability, graph theory, or codeword/Hamming distance problems).
+   - Nano ignores or mishandles qualifiers like NOT, EXCEPT, ONLY, "cannot be determined", "none of the above", or similar.
+   - Nano's reasoning is internally inconsistent, contradicts itself, or does not support its final answer.
+   - Nano treats an obscure or technical topic (e.g., Bayesian networks, formal logic, advanced probability, unfamiliar protocols, or specialized architectures) as a routine fact, without careful justification.
+   - Nano gives a plausible answer but does not explicitly rule out close distractors, especially when the question requires comparing options or finding a minimum/maximum.
+   - Nano's step-by-step reasoning leads to an answer that does not match its selected option, or the calculations do not match the answer choice.
+   - The question requires careful enumeration, parameter counting, or case analysis, and nano's answer is superficial or skips steps.
+
+2. Choose nano only if ALL of these are true:
+   - Nano's reasoning is correct-looking, complete, and internally consistent.
+   - Nano's reasoning matches its selected answer option.
+   - The question is routine (e.g., basic definitions, simple code tracing, direct fact recall) and there are no close distractors or subtle qualifiers.
+   - There is no evidence that mini would be more accurate.
+
+3. If both models are likely to fail (e.g., both would make the same error, or the question is ambiguous and nano's answer is as good as possible), choose nano to save cost.
+
+Your output must be exactly one token: nano or mini.
+
+If you are required to output JSON, include the following fields: route (nano or mini), difficulty (if available), confidence (if available), reason (brief justification), risk_flags (list of any risk factors present).
+
+Remember: The cost of a critical misroute (choosing nano when mini is correct) is much higher than the cost of an unnecessary escalation to mini. Be strict about escalating to mini when nano's answer shows any of the above risk factors.
+Iteration 2: New subsample score -2.8 is better than old score -4.8. Continue to full eval and add to candidate pool.
+Iteration 2: Found a better program on the valset with score 0.23199999999999998.
+Iteration 2: Valset score for new program: 0.23199999999999998 (coverage 50 / 50)
+Iteration 2: Val aggregate for new program: 0.23199999999999998
+Iteration 2: Individual valset scores for new program: {0: 0.2, 1: 1.0, 2: -2.0, 3: -2.0, 4: -2.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 0.2, 10: -0.5, 11: -2.0, 12: 0.2, 13: 1.0, 14: -0.5, 15: 2.0, 16: 1.0, 17: -2.0, 18: 0.2, 19: 0.2, 20: 1.0, 21: -2.0, 22: -2.0, 23: 1.0, 24: 1.0, 25: -0.5, 26: 1.0, 27: 1.0, 28: 0.2, 29: 1.0, 30: 1.0, 31: 1.0, 32: 0.2, 33: 0.2, 34: 1.0, 35: 1.0, 36: 0.2, 37: 1.0, 38: -0.5, 39: 0.2, 40: 0.2, 41: 0.2, 42: 1.0, 43: 1.0, 44: 1.0, 45: 1.0, 46: -2.0, 47: 2.0, 48: 0.2, 49: 1.0}
+Iteration 2: New valset pareto front scores: {0: 0.2, 1: 1.0, 2: -2.0, 3: -2.0, 4: -2.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 0.2, 10: -0.5, 11: -2.0, 12: 0.2, 13: 1.0, 14: -0.5, 15: 2.0, 16: 1.0, 17: 2.0, 18: 0.2, 19: 0.2, 20: 1.0, 21: 2.0, 22: -2.0, 23: 1.0, 24: 1.0, 25: -0.5, 26: 1.0, 27: 1.0, 28: 0.2, 29: 1.0, 30: 1.0, 31: 1.0, 32: 0.2, 33: 0.2, 34: 1.0, 35: 1.0, 36: 0.2, 37: 1.0, 38: -0.5, 39: 0.2, 40: 0.2, 41: 0.2, 42: 1.0, 43: 1.0, 44: 1.0, 45: 1.0, 46: -2.0, 47: 2.0, 48: 0.2, 49: 1.0}
+Iteration 2: Valset pareto front aggregate score: 0.392
+Iteration 2: Updated valset pareto front programs: {0: {0, 1}, 1: {1}, 2: {0, 1}, 3: {0, 1}, 4: {0, 1}, 5: {0, 1}, 6: {0, 1}, 7: {0, 1}, 8: {0, 1}, 9: {0, 1}, 10: {0, 1}, 11: {0, 1}, 12: {0, 1}, 13: {0, 1}, 14: {0, 1}, 15: {0, 1}, 16: {0, 1}, 17: {0}, 18: {0, 1}, 19: {1}, 20: {1}, 21: {0}, 22: {0, 1}, 23: {0, 1}, 24: {0, 1}, 25: {0, 1}, 26: {0, 1}, 27: {0, 1}, 28: {1}, 29: {0, 1}, 30: {0, 1}, 31: {1}, 32: {1}, 33: {0, 1}, 34: {0, 1}, 35: {0, 1}, 36: {0, 1}, 37: {0, 1}, 38: {0, 1}, 39: {1}, 40: {1}, 41: {1}, 42: {0, 1}, 43: {0, 1}, 44: {1}, 45: {0, 1}, 46: {0, 1}, 47: {0, 1}, 48: {0, 1}, 49: {0, 1}}
+Iteration 2: Best valset aggregate score so far: 0.23199999999999998
+Iteration 2: Best program as per aggregate score on valset: 1
+Iteration 2: Best score on valset: 0.23199999999999998
+Iteration 2: Linear pareto front program index: 1
+Iteration 2: New program candidate index: 1
+Iteration 3: Selected program 1 score: 0.23199999999999998
+Iteration 3: Proposed new text for router_prompt: You are a risk-averse router for MMLU-Pro computer science multiple-choice questions. Your job is to select exactly one model to answer each question: either nano (cheaper, less accurate) or mini (more expensive, more accurate). For each question, you will be shown the question, answer options, and nano's saved answer (including its reasoning and selected option).
+
+Your primary goal is to avoid "critical misroutes": NEVER select nano if nano's answer is likely wrong and mini is likely to be correct. The penalty for a critical misroute is much higher than the cost of an unnecessary escalation to mini. Only select nano when you are highly confident that nano's answer is correct and there is no evidence that mini would be more accurate.
+
+Apply the following strict rules:
+
+1. Choose mini if ANY of these risk factors are present:
+   - Nano's reasoning uses a questionable, incomplete, or incorrect formula, skips a required calculation, or makes a calculation error (especially in combinatorics, probability, graph theory, codeword/Hamming distance, or entropy/information theory problems).
+   - Nano ignores or mishandles qualifiers like NOT, EXCEPT, ONLY, "cannot be determined", "none of the above", or similar.
+   - Nano's reasoning is internally inconsistent, contradicts itself, or does not support its final answer.
+   - Nano treats an obscure, technical, or subtle topic (e.g., Bayesian networks, formal logic, advanced probability/statistics, unfamiliar protocols, specialized architectures, or recursion/termination logic) as a routine fact, without careful justification.
+   - Nano gives a plausible answer but does not explicitly rule out close distractors, especially when the question requires comparing options, finding a minimum/maximum, or evaluating multiple statements.
+   - Nano's step-by-step reasoning leads to an answer that does not match its selected option, or the calculations do not match the answer choice.
+   - The question requires careful enumeration, parameter counting, or case analysis, and nano's answer is superficial, skips steps, or fails to address all relevant cases.
+   - The question involves multi-part logic (e.g., "which of the following must be true?") and nano does not justify each part or misses subtle logical dependencies.
+   - The question is non-routine, ambiguous, or involves advanced or less common computer science concepts (e.g., entropy, information content, recursion guarantees, or formal properties), and nano's answer is not fully justified.
+
+2. Choose nano ONLY if ALL of these are true:
+   - Nano's reasoning is correct-looking, complete, and internally consistent.
+   - Nano's reasoning matches its selected answer option.
+   - The question is routine (e.g., basic definitions, simple code tracing, direct fact recall) and there are no close distractors, subtle qualifiers, or multi-part logical dependencies.
+   - There is no evidence that mini would be more accurate or that the question is tricky or subtle.
+
+3. If both models are likely to fail (e.g., both would make the same error, or the question is ambiguous and nano's answer is as good as possible), choose nano to save cost.
+
+Your output must be exactly one token: nano or mini.
+
+If you are required to output JSON, include the following fields: route (nano or mini), difficulty (if available), confidence (if available), reason (brief justification), risk_flags (list of any risk factors present).
+
+Remember: The cost of a critical misroute (choosing nano when mini is correct) is MUCH higher than the cost of an unnecessary escalation to mini. Be strict and conservative: escalate to mini whenever nano's answer shows ANY of the above risk factors, even if nano's answer seems plausible. Err on the side of caution.
+Iteration 3: New subsample score 3.0 is better than old score -1.0. Continue to full eval and add to candidate pool.
+Iteration 3: Valset score for new program: 0.174 (coverage 50 / 50)
+Iteration 3: Val aggregate for new program: 0.174
+Iteration 3: Individual valset scores for new program: {0: 0.2, 1: 1.0, 2: -2.0, 3: -2.0, 4: -2.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 0.2, 10: -0.5, 11: -2.0, 12: 0.2, 13: 1.0, 14: -0.5, 15: 2.0, 16: 1.0, 17: -2.0, 18: 0.2, 19: 0.2, 20: 1.0, 21: -2.0, 22: -2.0, 23: 1.0, 24: 1.0, 25: -0.5, 26: 1.0, 27: 1.0, 28: -0.5, 29: 1.0, 30: 1.0, 31: 1.0, 32: 0.2, 33: 0.2, 34: 1.0, 35: 1.0, 36: 0.2, 37: 1.0, 38: -0.5, 39: 0.2, 40: 0.2, 41: -0.5, 42: 1.0, 43: 1.0, 44: 0.2, 45: 1.0, 46: -2.0, 47: 2.0, 48: -0.5, 49: 1.0}
+Iteration 3: New valset pareto front scores: {0: 0.2, 1: 1.0, 2: -2.0, 3: -2.0, 4: -2.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 0.2, 10: -0.5, 11: -2.0, 12: 0.2, 13: 1.0, 14: -0.5, 15: 2.0, 16: 1.0, 17: 2.0, 18: 0.2, 19: 0.2, 20: 1.0, 21: 2.0, 22: -2.0, 23: 1.0, 24: 1.0, 25: -0.5, 26: 1.0, 27: 1.0, 28: 0.2, 29: 1.0, 30: 1.0, 31: 1.0, 32: 0.2, 33: 0.2, 34: 1.0, 35: 1.0, 36: 0.2, 37: 1.0, 38: -0.5, 39: 0.2, 40: 0.2, 41: 0.2, 42: 1.0, 43: 1.0, 44: 1.0, 45: 1.0, 46: -2.0, 47: 2.0, 48: 0.2, 49: 1.0}
+Iteration 3: Valset pareto front aggregate score: 0.392
+Iteration 3: Updated valset pareto front programs: {0: {0, 1, 2}, 1: {1, 2}, 2: {0, 1, 2}, 3: {0, 1, 2}, 4: {0, 1, 2}, 5: {0, 1, 2}, 6: {0, 1, 2}, 7: {0, 1, 2}, 8: {0, 1, 2}, 9: {0, 1, 2}, 10: {0, 1, 2}, 11: {0, 1, 2}, 12: {0, 1, 2}, 13: {0, 1, 2}, 14: {0, 1, 2}, 15: {0, 1, 2}, 16: {0, 1, 2}, 17: {0}, 18: {0, 1, 2}, 19: {1, 2}, 20: {1, 2}, 21: {0}, 22: {0, 1, 2}, 23: {0, 1, 2}, 24: {0, 1, 2}, 25: {0, 1, 2}, 26: {0, 1, 2}, 27: {0, 1, 2}, 28: {1}, 29: {0, 1, 2}, 30: {0, 1, 2}, 31: {1, 2}, 32: {1, 2}, 33: {0, 1, 2}, 34: {0, 1, 2}, 35: {0, 1, 2}, 36: {0, 1, 2}, 37: {0, 1, 2}, 38: {0, 1, 2}, 39: {1, 2}, 40: {1, 2}, 41: {1}, 42: {0, 1, 2}, 43: {0, 1, 2}, 44: {1}, 45: {0, 1, 2}, 46: {0, 1, 2}, 47: {0, 1, 2}, 48: {0, 1}, 49: {0, 1, 2}}
+Iteration 3: Best valset aggregate score so far: 0.23199999999999998
+Iteration 3: Best program as per aggregate score on valset: 1
+Iteration 3: Best score on valset: 0.23199999999999998
+Iteration 3: Linear pareto front program index: 1
+Iteration 3: New program candidate index: 2

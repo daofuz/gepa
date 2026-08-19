@@ -1,0 +1,201 @@
+% Target length in the official two-column template: approximately 1.5 pages.
+\section{Methodology}
+\label{sec:method}
+
+\subsection{Routing Objective}
+
+Let $x$ be an input tuple, $q$ a semantic operator, and $M_N,M_M$ the Nano and
+Mini answer models. Their predictions are $\hat{z}_N(x,q)$ and
+$\hat{z}_M(x,q)$. A pre-router $r_\theta(x,q)\in\{N,M\}$ executes before either
+answer model and minimizes expected execution cost subject to a quality target:
+\begin{equation}
+  \min_\theta\; \mathbb{E}[c_R(x,q)+c_{r_\theta(x,q)}(x,q)]
+  \quad\text{s.t.}\quad
+  A(r_\theta) \ge A(M_M)-\epsilon,
+  \label{eq:constrained}
+\end{equation}
+where $c_R$ is routing overhead, $A$ is end-to-end answer accuracy, and
+$\epsilon$ is an allowed loss. We do not solve Eq.~\ref{eq:constrained}
+directly. Training optimizes a scalar surrogate, and a validation-only
+candidate/threshold sweep constructs an empirical cost--accuracy frontier. For
+an operating point claimed under Eq.~\ref{eq:constrained}, we select the
+cheapest validation candidate satisfying the accuracy floor. Historical rows
+retain their original calibration rules and are not claimed as direct
+solutions of Eq.~\ref{eq:constrained}.
+
+\subsection{Cost-Derived Score Function}
+
+For labeled offline data, paired execution defines outcome
+$b(x)=(\mathbb{1}[\hat z_N=z],\mathbb{1}[\hat z_M=z])$, yielding both correct
+(\bc), Mini only (\mo), Nano only (\no), or both wrong (\bw). Each cached answer
+also records its input and output token counts. Given the price snapshot
+$\pi_r^{\mathrm{in}},\pi_r^{\mathrm{out}}$ per million tokens, realized answer
+cost is
+\begin{equation}
+ c_r(x,q)=\frac{\pi_r^{\mathrm{in}}n_{r,x}^{\mathrm{in}}+
+                    \pi_r^{\mathrm{out}}n_{r,x}^{\mathrm{out}}}{10^6}.
+ \label{eq:realized-cost}
+\end{equation}
+We estimate each route's expected cost on the training split,
+\begin{equation}
+ \begin{aligned}
+ \bar c_r&=\mathbb{E}_{x\sim\mathcal D_{\mathrm{train}}}[c_r(x,q)]\\
+ &=\frac{1}{|\mathcal D_{\mathrm{train}}|}
+   \sum_{x\in\mathcal D_{\mathrm{train}}}c_r(x,q)
+ \end{aligned}
+ \label{eq:expected-cost}
+\end{equation}
+and use its inverse as the common cost scale:
+\begin{equation}
+ S_{\mathrm{cost}}(x,r)=
+ \frac{\mathbb{1}[\hat z_r(x,q)=z]}{\bar c_r}.
+ \label{eq:cost-score}
+\end{equation}
+A wrong answer receives zero; a correct answer from a lower-expected-cost route
+receives a larger score. Multiplying all prices by a common currency conversion
+changes score scale but not route ordering.
+
+\begin{table}[t]
+  \centering
+  \small
+  \caption{Cost-derived route score using expected route costs.}
+  \label{tab:score}
+  \begin{tabular}{lccc}
+    \toprule
+    Outcome & $S(x,N)$ & $S(x,M)$ & Preferred route\\
+    \midrule
+    \bc & $1/\bar c_N$ & $1/\bar c_M$ & lower-cost correct model\\
+    \mo & $0$ & $1/\bar c_M$ & Mini\\
+    \no & $1/\bar c_N$ & $0$ & Nano\\
+    \bw & $0$ & $0$ & indifferent; Nano tie-break\\
+    \bottomrule
+  \end{tabular}
+\end{table}
+Table~\ref{tab:score} makes the score semantics explicit without a hand-tuned
+reward table. A critical under-escalation on \mo forfeits all recoverable
+score, while sending \bc to Mini remains correct but earns less whenever
+$\bar c_N<\bar c_M$. Neither route can recover \bw; the deployment hard-label rule uses
+Nano and reports \bw separately. The \emph{conservative accuracy oracle} in
+Tables~\ref{tab:historical-main} and~\ref{tab:fresh} intentionally overrides
+this tie and sends \bw to Mini. That convention supplies an accuracy ceiling
+with conservative escalation; it is neither the cost-optimal oracle nor the
+recommended deployment behavior, and the \bw choice cannot change accuracy.
+Invalid discrete output receives zero score and falls back to Mini
+operationally. The recorded QA runs use the pricing snapshot embedded in their
+artifacts: GPT-4.1 Nano at \$0.10/\$0.40 and Mini at \$0.40/\$1.60 per million
+input/output tokens.
+
+\subsection{Disagreement-Guided Critical-Case Acquisition}
+\label{sec:active-acquisition}
+
+Let $\mathcal U=\{(x,q)\}_{i=1}^{N}$ be a candidate pool with no revealed gold
+answers. We first execute both answer models on every candidate and cache
+$\hat z_N(x,q)$ and $\hat z_M(x,q)$. After applying the task's fixed answer
+normalizer, these observable predictions define
+\begin{equation}
+ \begin{aligned}
+ \mathcal A &= \{x:\hat z_N(x,q)=\hat z_M(x,q)\},\\
+ \mathcal D &= \{x:\hat z_N(x,q)\ne\hat z_M(x,q)\},
+ \end{aligned}
+ \label{eq:agreement-strata}
+\end{equation}
+where $\mathcal A$ and $\mathcal D$ are the agreement and disagreement strata.
+For exact-label tasks equality is literal; a free-form operator must declare
+its equivalence evaluator before acquisition.
+
+Given a human-label budget $B\ll N$, we choose
+$\mathcal S_B=\mathcal S_D\cup\mathcal S_A$, with
+$\mathcal S_D\subseteq\mathcal D$, $\mathcal S_A\subseteq\mathcal A$, and
+$|\mathcal S_D|+|\mathcal S_A|=B$. The policy prioritizes disagreements and
+uses a smaller random agreement sample for coverage. Only after
+$\mathcal S_B$ is fixed do annotators reveal gold $z$ for those tuples.
+Consequently, neither selection nor its tie-breaking can inspect correctness or
+the latent \bc/\mo/\no/\bw bucket. Gold and the cached pair then determine the
+route target and score in Eq.~\ref{eq:cost-score}.
+
+Disagreement is useful because every \mo and \no case must lie in
+$\mathcal D$: one candidate model matches gold and the other does not. These
+are the examples that teach when escalation helps and when Nano is preferable.
+The disagreement stratum is not itself a correctness label, because \bw can
+also disagree. Conversely, agreement examples include ordinary \bc cases that
+teach safe Nano routing, as well as shared \bw errors. Retaining agreement
+coverage therefore controls over-escalation and exposes systematic shared
+failures.
+
+Let $h(x)$ denote the cost of obtaining a human gold answer. Full annotation
+and active annotation cost
+\begin{align}
+ C_{\mathrm{gold}}^{\mathrm{full}} &= \sum_{x\in\mathcal U}h(x),\\
+ C_{\mathrm{gold}}^{\mathrm{active}} &= \sum_{x\in\mathcal S_B}h(x).
+ \label{eq:annotation-cost}
+\end{align}
+With constant annotation cost, the gold-label saving is exactly $1-B/N$.
+Both active and random selection in our matched comparison pay the same paired
+screening cost $\sum_{x\in\mathcal U}(c_N(x)+c_M(x))$. The method therefore
+claims human-annotation efficiency, not a reduction in Nano or Mini screening
+calls. Its value is that the limited gold budget contains more routing-critical
+supervision.
+
+\subsection{Primary Lightweight Soft-Prompt Router}
+
+The primary router uses a frozen encoder rather than a generative LLM. Let
+$E(x,q)$ be DistilBERT embeddings and
+$V\in\mathbb{R}^{p\times d}$ a trainable soft prompt. The input
+$[V;E(x,q)]$ passes through the frozen encoder, and a two-class linear head
+produces $p_\theta(r\mid x)$. Only $V$ and the head are updated. For
+$d=768$ and $p\in\{2,4,8,16\}$, this is 3,074--13,826 trainable parameters.
+The task-specific state is therefore tiny, and the fixed encoder is also
+substantially smaller than the separate 2B discrete router. Inference is one
+encoder pass with no autoregressive route-token generation.
+
+Active acquisition chooses which paired tuples train the router. The cost score
+defines the hard target and the weight for every selected example:
+\begin{equation}
+ y_i=\arg\max_{r\in\{N,M\}}S_{\mathrm{cost}}(x_i,r),
+ \qquad
+ w_i=\frac{1}{\bar c_{y_i}},
+ \label{eq:cost-target-weight}
+\end{equation}
+with Nano used when the route scores tie. The soft prompt is trained only with
+inverse-expected-cost weighted cross-entropy,
+\begin{equation}
+ \mathcal{L}_{\mathrm{WCE}}=
+ \frac{\sum_i w_i\,
+ \ell_{\mathrm{CE}}\!\left(p_\theta(\cdot\mid x_i),y_i\right)}
+ {\sum_i w_i}.
+ \label{eq:weighted-ce}
+\end{equation}
+There are no hand-tuned outcome weights and no auxiliary differentiable loss.
+Because inverse-cost weighting alone does not upweight rare \mo cases, the
+disagreement-guided acquisition stage is responsible for placing enough critical cases
+in the training set. This separates two roles cleanly: acquisition controls
+rare-case coverage, while Eq.~\ref{eq:weighted-ce} applies one auditable cost
+weighting rule to all examples.
+
+Validation enumerates thresholds over $p_\theta(M\mid x)$, selects maximum
+answer accuracy with fewer Mini calls as the tie-break, and reports critical
+misroutes and realized cost. For Eq.~\ref{eq:constrained}, we instead select the
+cheapest validation threshold satisfying the accuracy floor.
+
+\subsection{Independent Reflective Discrete Router}
+
+The discrete method is trained and deployed independently; it is neither an
+ensemble member nor a second stage of the soft-prompt router. A candidate $P$
+combines an instruction with demonstrations sampled across outcomes. The
+2B generative router emits $r_P(x,q)$, while a separate 4B model reflects on
+execution traces during GEPA optimization. The adapter records correctness,
+realized cost, failure type, and $S_{\mathrm{cost}}(x,r_P)$. Feedback
+distinguishes critical under-escalation, unnecessary Mini use, Nano-only
+success, and unrecoverable \bw cases. GEPA proposes policy mutations and
+retains candidates on the validation frontier.
+
+Discrete selection maximizes mean validation route score, then prefers fewer
+critical misroutes, invalid outputs, and unnecessary Mini calls, followed by
+higher answer accuracy. A scored prompt first emits a raw value in
+$[0,100]$. The parser then computes
+\[
+s_P(x)=\operatorname{clip}(\tilde{s}_P(x),0,100)/100\in[0,1]
+\]
+and predicts Mini when $s_P(x)\ge\tau$. Reported thresholds use the
+normalized scale.
+Matched comparisons use the same validation accuracy floor for both routers. 

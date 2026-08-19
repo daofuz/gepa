@@ -1,0 +1,81 @@
+{
+  "policy": {
+    "mini": [
+      "mini_only",
+      "both_wrong"
+    ],
+    "nano": [
+      "both_correct",
+      "nano_only"
+    ]
+  },
+  "available_bucket_counts": {
+    "both_correct": 466,
+    "mini_only": 38,
+    "both_wrong": 31,
+    "nano_only": 6
+  },
+  "label_budget": 100,
+  "test_bucket_counts": {
+    "both_correct": 93,
+    "mini_only": 8,
+    "both_wrong": 6,
+    "nano_only": 1
+  },
+  "baselines": {
+    "all_nano": {
+      "selected_accuracy": 0.8703703703703703,
+      "mini_calls": 0,
+      "mean_utility": 0.6944444444444444
+    },
+    "all_mini": {
+      "selected_accuracy": 0.9351851851851852,
+      "mini_calls": 108,
+      "mean_utility": 0.3222222222222222
+    },
+    "oracle_policy": {
+      "selected_accuracy": 0.9444444444444444,
+      "mini_calls": 14,
+      "mean_utility": 1.0296296296296297
+    }
+  },
+  "repeated_means": {
+    "natural_tfidf_direct": {
+      "threshold": 0.36,
+      "mini_calls": 0.4,
+      "selected_accuracy": 0.8703703703703703,
+      "mean_utility": 0.6914814814814815,
+      "mini_only_recall": 0.0,
+      "both_wrong_mini_rate": 0.0,
+      "unnecessary_mini": 0.4,
+      "critical_misroutes": 8
+    },
+    "balanced_tfidf_direct": {
+      "threshold": 0.42,
+      "mini_calls": 11.4,
+      "selected_accuracy": 0.9,
+      "mean_utility": 0.7855555555555556,
+      "mini_only_recall": 0.4,
+      "both_wrong_mini_rate": 0.39999999999999997,
+      "unnecessary_mini": 5.8,
+      "critical_misroutes": 4.8
+    },
+    "balanced_softprompt_direct": {
+      "threshold": 0.48333333333333334,
+      "mini_calls": 28.333333333333332,
+      "selected_accuracy": 0.8950617283950617,
+      "mean_utility": 0.6651234567901234,
+      "mini_only_recall": 0.375,
+      "both_wrong_mini_rate": 0.6111111111111112,
+      "unnecessary_mini": 21.666666666666668,
+      "critical_misroutes": 5
+    }
+  },
+  "notes": [
+    "TF-IDF results use five seeds; soft-prompt results use three seeds.",
+    "Each run uses 80 fitting labels and 20 calibration labels.",
+    "Balanced calibration uses bucket inverse-propensity weighting."
+  ],
+  "status": "invalid_due_duplicate_review_leakage",
+  "superseded_by": "leakage_safe_strategy_summary.json"
+}

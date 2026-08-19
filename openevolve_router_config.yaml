@@ -1,0 +1,70 @@
+max_iterations: 30
+checkpoint_interval: 5
+log_level: "INFO"
+random_seed: 42
+language: "python"
+diff_based_evolution: false
+max_code_length: 30000
+
+llm:
+  api_base: "http://localhost:11434/v1"
+  models:
+    - name: "qwen3.5:latest"
+      weight: 1.0
+      temperature: 0.7
+      max_tokens: 4096
+      timeout: 300
+      retries: 3
+
+database:
+  population_size: 80
+  archive_size: 40
+  num_islands: 4
+  migration_interval: 8
+  migration_rate: 0.15
+  feature_dimensions:
+    - "mean_score"
+    - "mini_route_rate"
+    - "critical_misroute_rate"
+    - "unnecessary_mini_rate"
+  feature_bins: 10
+  elite_selection_ratio: 0.15
+  exploration_ratio: 0.35
+  exploitation_ratio: 0.50
+
+evaluator:
+  timeout: 1800
+  max_retries: 2
+  parallel_evaluations: 1
+  cascade_evaluation: false
+  enable_artifacts: true
+
+prompt:
+  template_dir: "openevolve_router_templates"
+  num_top_programs: 3
+  num_diverse_programs: 2
+  include_artifacts: true
+  system_message: |
+    You are improving a hybrid LLM router for MMLU-Pro computer science questions.
+
+    The evolved Python program contains:
+    - ROUTER_PROMPT: the system prompt for a small router model that must output exactly "nano" or "mini".
+    - route_easy_case(question, options, category="", source=""): a deterministic pre-router that may return "nano", "mini", or "defer".
+
+    Objective:
+    Maximize the evaluator combined_score. The combined_score is exactly GEPA's aggregate mean_score: the average per-question RoutingAdapter score under --score-mode risk_averse_utility. Do not optimize raw accuracy directly; optimize the GEPA score table.
+
+    Constraints:
+    - Preserve ROUTER_PROMPT and route_easy_case names.
+    - route_easy_case must be valid Python with no imports, file/network access, classes, loops, try/with, raise, global, or nonlocal.
+    - route_easy_case should directly route only obvious cases; return "defer" whenever uncertain.
+    - The LLM router prompt must force exactly one token: nano or mini.
+    - Follow the GEPA score function exactly. Safe nano routes matter because both_correct+nano scores higher than both_correct+mini. Critical mini-only under-routing is heavily punished.
+
+    Useful routing knowledge:
+    - nano is usually safe for short definition, acronym, standard fact, and very simple code-tracing questions.
+    - mini is safer for NOT/EXCEPT wording, multi-statement Roman numeral choices, formal logic, cache/memory/protocol details, graph algorithms, probability, matrix/rank, recursion edge cases, and close distractors.
+    - When both models are likely wrong, do not learn a blanket rule that damages recoverable mini-only cases.
+    - The only training objective is GEPA mean_score; mini/nano route rates are diagnostics and diversity features, not direct fitness terms.
+
+

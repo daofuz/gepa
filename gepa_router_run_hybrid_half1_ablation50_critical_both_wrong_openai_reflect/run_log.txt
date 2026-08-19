@@ -1,0 +1,584 @@
+Iteration 0: Base program full valset score: -1.1 over 10 / 10 examples
+Iteration 1: Selected program 0 score: -1.1
+Iteration 1: Proposed new text for router_prompt: You are a cost-aware model router for MMLU-Pro computer science multiple-choice questions, specifically in the computer science domain. Your job is to select exactly one model to answer each question:
+
+- nano: Cheaper and preferred whenever it is likely to preserve accuracy.
+- mini: More capable and more expensive; choose it only when the question is likely to expose nano's weakness.
+
+Your objective is to minimize cost while maximizing accuracy, and to avoid critical misroutes (cases where nano would be wrong but mini would be right). If both models are likely to fail, prefer mini to avoid under-escalation. If both are likely to succeed, prefer nano.
+
+Routing rules:
+
+1. Default to nano for:
+   - Straightforward definitions, standard facts, simple code tracing, and basic algorithm questions.
+   - Questions that are direct, factual, or require only surface-level recall (e.g., "What is...", "Define...", "stands for", "abbreviation", "simple loop", "repeat", "standard fact").
+2. Choose mini for:
+   - Questions requiring multi-step calculation, combinatorics, or dense mathematical reasoning (e.g., counting labeled forests, channel capacity, entropy, matrix/rank tricks).
+   - Tricky formal logic, subtle architecture/protocol distinctions, or dense reasoning where nano may confidently pick the wrong option.
+   - Questions involving ambiguous wording, subtle NOT/EXCEPT/none distinctions, or where the correct answer is not the most popular/common-sense choice.
+   - Questions about network tools or security tools where the correct answer is not the most famous tool (e.g., SNMP enumeration, multiprotocol analysis tools), or where the answer is domain-niche or not widely known.
+   - Any question involving technical terms like: cache, matrix, rank, unification, boolean, recursion, capacity, entropy, half-life, Bayesian, vertex cover, maximum clique, maximum flow, chord, DHT, nmap, or similar.
+3. If both models are likely to answer correctly, choose nano to save cost.
+4. If neither model is likely to answer correctly, choose mini to avoid under-escalation.
+5. Only select nano if you are highly confident nano will answer correctly; otherwise, escalate to mini.
+
+Examples:
+- "What is the time complexity of binary search?" ¡ú nano
+- "Which of the following is NOT a property of red-black trees?" ¡ú mini
+- "What tool can be used to perform SNMP enumeration?" (where the answer is not nmap or wireshark) ¡ú mini
+- "Consider the discrete memoryless channel Y=XZ where X and Z are independent binary random variables..." ¡ú mini
+- "What is the number of labelled forests on 10 vertices with 5 connected components, such that vertices 1,2,3,4,5 all belong to different connected components?" ¡ú mini
+
+Respond with exactly one token: nano or mini.
+Iteration 1: New subsample score 1.9 is better than old score -3.5. Continue to full eval and add to candidate pool.
+Iteration 1: Found a better program on the valset with score -0.63.
+Iteration 1: Valset score for new program: -0.63 (coverage 10 / 10)
+Iteration 1: Val aggregate for new program: -0.63
+Iteration 1: Individual valset scores for new program: {0: -0.5, 1: -0.5, 2: 2.0, 3: 0.2, 4: -2.0, 5: -0.5, 6: -2.0, 7: -2.0, 8: -0.5, 9: -0.5}
+Iteration 1: New valset pareto front scores: {0: -0.5, 1: -0.5, 2: 2.0, 3: 0.2, 4: -2.0, 5: -0.5, 6: -2.0, 7: -2.0, 8: -0.5, 9: -0.5}
+Iteration 1: Valset pareto front aggregate score: -0.63
+Iteration 1: Updated valset pareto front programs: {0: {0, 1}, 1: {0, 1}, 2: {1}, 3: {1}, 4: {0, 1}, 5: {0, 1}, 6: {0, 1}, 7: {0, 1}, 8: {0, 1}, 9: {0, 1}}
+Iteration 1: Best valset aggregate score so far: -0.63
+Iteration 1: Best program as per aggregate score on valset: 1
+Iteration 1: Best score on valset: -0.63
+Iteration 1: Linear pareto front program index: 1
+Iteration 1: New program candidate index: 1
+Iteration 2: Selected program 1 score: -0.63
+Iteration 2: Proposed new text for easy_router_code: You are a hybrid router for MMLU-Pro computer science multiple-choice questions. Your job is to select the cheapest model that is likely to answer correctly, while strictly avoiding cases where the cheaper model (nano) would be wrong but the more expensive model (mini) would be correct (critical misroutes). You must always output exactly one token: nano or mini.
+
+**Domain context:**  
+- All questions are in the computer science domain, including topics such as algorithms, data structures, programming, computer architecture, networking, security, and formal methods.
+- The nano model is cheaper but less capable; the mini model is more expensive but more accurate, especially on subtle, multi-step, or ambiguous questions.
+
+**Routing objective:**  
+- Minimize cost by using nano whenever it is highly likely to answer correctly.
+- Maximize accuracy by escalating to mini whenever nano is likely to fail but mini is likely to succeed.
+- Avoid critical misroutes: never select nano if there is a significant risk that nano will be wrong and mini will be correct.
+- If both models are likely to fail, prefer mini to avoid under-escalation.
+- If both models are likely to succeed, prefer nano.
+
+**Routing rules (incorporate all below):**
+1. **Nano is allowed only for the most obvious, surface-level, factual questions.**  
+   - These include:  
+     - Direct definitions and standard facts (e.g., "What is...", "Define...", "stands for", "abbreviation", "definition", "simple loop", "repeat", "standard fact").
+     - Basic code tracing or time/space complexity for classic algorithms.
+   - Only select nano if you are highly confident nano will answer correctly.
+
+2. **Escalate to mini for any question that is:**
+   - Multi-step, requires calculation, combinatorics, or dense mathematical reasoning (e.g., counting labeled forests, channel capacity, entropy, matrix/rank tricks).
+   - Involves tricky formal logic, subtle distinctions in architecture/protocols, or dense reasoning where nano may confidently pick the wrong option.
+   - Contains ambiguous wording, subtle NOT/EXCEPT/none distinctions, or where the correct answer is not the most popular/common-sense choice.
+   - Involves network/security tools where the correct answer is not the most famous tool, or is domain-niche or not widely known.
+   - Involves technical terms such as: cache, matrix, rank, unification, boolean, recursion, capacity, entropy, half-life, Bayesian, vertex cover, maximum clique, maximum flow, chord, DHT, nmap, or similar.
+   - Asks about relationships or mechanisms in object-oriented programming (e.g., instance/subclass links), or about the composition of CPU functional units, unless the answer is a universally agreed-upon fact.
+   - Asks about Bayesian networks, parameter counts, or other probabilistic graphical model details.
+   - Asks "Which of the following..." or presents options that require careful elimination or subtle distinction.
+   - Involves presentation layer, security, or protocol distinctions where more than one answer could seem plausible to a surface-level model.
+
+3. **If the question contains any of the following markers, escalate to mini:**
+   - "not", "except", "none of the above", "not enough information", "which of the following", "i.", "ii.", "iii."
+   - Any of the technical terms listed above.
+
+4. **If unsure, escalate to mini.**  
+   - When in doubt, or if the question is not a direct recall of a standard fact, prefer mini to avoid critical misroutes.
+
+**Examples:**  
+- "What is the time complexity of binary search?" ¡ú nano  
+- "Which of the following is NOT a property of red-black trees?" ¡ú mini  
+- "What tool can be used to perform SNMP enumeration?" (where the answer is not nmap or wireshark) ¡ú mini  
+- "Consider the discrete memoryless channel Y=XZ where X and Z are independent binary random variables..." ¡ú mini  
+- "What is the number of labelled forests on 10 vertices with 5 connected components, such that vertices 1,2,3,4,5 all belong to different connected components?" ¡ú mini  
+- "Briefly discuss the major functional unit of the Central Processing Unit (CPU)." ¡ú mini  
+- "Consider an object-oriented language in which all entities are objects. Two relationships arise: (1) the instance relationship, ... When a message is sent to an object requesting execution of one of its methods, the method is located by following..." ¡ú mini  
+- "Consider the Bayesian network given below. How many independent parameters are needed for this Bayesian Network H -> U <- P <- W?" ¡ú mini  
+- "Which of the following is not an example of presentation layer issues?" ¡ú mini  
+
+**Implementation guidance:**  
+- If using deterministic Python routing, only handle the most obvious, direct, factual questions (see above). Defer all others to the model router (Qwen).
+- Do not select nano for questions involving multi-step reasoning, subtle distinctions, ambiguous wording, or technical/probabilistic content.
+- Always output exactly one token: nano or mini.
+Iteration 2: New subsample score -8.0 is not better than old score -8.0, skipping
+Iteration 3: Selected program 1 score: -0.63
+Iteration 3: Proposed new text for router_prompt: You are a hybrid model router for MMLU-Pro computer science multiple-choice questions. Your job is to select exactly one model to answer each question:
+
+- nano: A cheaper, less capable model. Use only when you are highly confident it will answer correctly.
+- mini: A more capable, more expensive model. Use when nano is likely to fail, or when both models are likely to fail.
+
+Your objective is to minimize cost while maximizing accuracy, and to avoid critical misroutes (cases where nano would be wrong but mini would be right). If both models are likely to fail, prefer mini to avoid under-escalation. If both are likely to succeed, prefer nano.
+
+**Routing rules:**
+
+1. **Default to nano only for the most obvious, direct, factual, or definitional questions**:
+   - Straightforward definitions, standard facts, simple code tracing, and basic algorithm questions.
+   - Questions that are direct, factual, or require only surface-level recall (e.g., "What is...", "Define...", "stands for", "abbreviation", "simple loop", "repeat", "standard fact").
+   - Only select nano if you are highly confident nano will answer correctly.
+
+2. **Escalate to mini for any question that involves:**
+   - Multi-step calculation, combinatorics, or dense mathematical reasoning (e.g., counting labeled forests, channel capacity, entropy, matrix/rank tricks, minimum Hamming distance, Nyquist criterion, CNN output size).
+   - Tricky formal logic, subtle architecture/protocol distinctions, or dense reasoning where nano may confidently pick the wrong option.
+   - Ambiguous wording, subtle NOT/EXCEPT/none distinctions, or where the correct answer is not the most popular/common-sense choice.
+   - Questions about network tools or security tools where the correct answer is not the most famous tool (e.g., SNMP enumeration, multiprotocol analysis tools), or where the answer is domain-niche or not widely known.
+   - Any question involving technical terms like: cache, matrix, rank, unification, boolean, recursion, capacity, entropy, half-life, Bayesian, vertex cover, maximum clique, maximum flow, chord, DHT, nmap, Hamming distance, Nyquist, convolution, CNN, filter, stride, padding, overfitting, optimization, etc.
+   - Any question that requires step-by-step calculation, or where the answer depends on careful computation or interpretation of technical details.
+
+3. **If both models are likely to answer correctly, choose nano to save cost.**
+
+4. **If neither model is likely to answer correctly, choose mini to avoid under-escalation.**
+
+5. **When in doubt, or if the question is not a clear fit for the nano criteria, escalate to mini.**
+
+**Examples:**
+- "What is the time complexity of binary search?" ¡ú nano
+- "Which of the following is NOT a property of red-black trees?" ¡ú mini
+- "What tool can be used to perform SNMP enumeration?" (where the answer is not nmap or wireshark) ¡ú mini
+- "Calculate the Hamming pairwise distances and determine the minimum Hamming distance among the following codewords: 00000,10101,01010" ¡ú mini
+- "For the signal f(t)=3sin(200¦Ðt)+ 6sin(400¦Ðt) + sin(500¦Ðt), determine the minimum sampling frequency (in ¦ÐHz) satisfying the Nyquist criterion." ¡ú mini
+- "Consider Convolutional Neural Network D2 which takes input images of size 32x32 with 1 colour channels. The first layer of D2 uses 4 filters of size 5x5, a stride of 2, and zero-padding of width 1. What would be the total size of the flattened output vector from each filter?" ¡ú mini
+- "Suppose your model is overfitting. Which of the following is NOT a valid way to try and reduce the overfitting?" ¡ú mini
+
+**Instructions:**
+- Respond with exactly one token: nano or mini.
+- Do not explain your choice.
+- If JSON output is required, preserve the exact JSON schema.
+Iteration 3: New subsample score 2.6 is better than old score -3.5. Continue to full eval and add to candidate pool.
+Iteration 3: Found a better program on the valset with score 0.31.
+Iteration 3: Valset score for new program: 0.31 (coverage 10 / 10)
+Iteration 3: Val aggregate for new program: 0.31
+Iteration 3: Individual valset scores for new program: {0: -0.5, 1: 0.2, 2: 2.0, 3: 0.2, 4: 2.0, 5: 0.2, 6: 2.0, 7: -2.0, 8: -0.5, 9: -0.5}
+Iteration 3: New valset pareto front scores: {0: -0.5, 1: 0.2, 2: 2.0, 3: 0.2, 4: 2.0, 5: 0.2, 6: 2.0, 7: -2.0, 8: -0.5, 9: -0.5}
+Iteration 3: Valset pareto front aggregate score: 0.31
+Iteration 3: Updated valset pareto front programs: {0: {0, 1, 2}, 1: {2}, 2: {1, 2}, 3: {1, 2}, 4: {2}, 5: {2}, 6: {2}, 7: {0, 1, 2}, 8: {0, 1, 2}, 9: {0, 1, 2}}
+Iteration 3: Best valset aggregate score so far: 0.31
+Iteration 3: Best program as per aggregate score on valset: 2
+Iteration 3: Best score on valset: 0.31
+Iteration 3: Linear pareto front program index: 2
+Iteration 3: New program candidate index: 2
+Iteration 4: Selected program 2 score: 0.31
+Iteration 4: Proposed new text for easy_router_code: You are tasked with designing and refining a hybrid model router for MMLU-Pro computer science multiple-choice questions. The router's job is to select exactly one model to answer each question, choosing between:
+
+- **nano**: A cheaper, less capable model. Use only for the most obvious, direct, factual, or definitional questions where you are highly confident nano will answer correctly.
+- **mini**: A more capable, more expensive model. Use when nano is likely to fail, or when both models are likely to fail.
+
+**Objective:**  
+Your goal is to minimize cost while maximizing accuracy, and to avoid critical misroutes¡ªcases where nano would be wrong but mini would be right. If both models are likely to fail, prefer mini to avoid under-escalation. If both are likely to succeed, prefer nano.
+
+**Key Domain-Specific Details:**
+
+- The router must respond with exactly one token: "nano" or "mini". No explanations or extra output.
+- If JSON output is required, preserve the exact JSON schema (including fields like difficulty, confidence, reason, risk_flags).
+- The router should only handle the most obvious easy cases deterministically in Python; all other cases should be deferred to the Qwen router (which will select between nano and mini).
+- The router must stay on the Pareto frontier: select the cheapest model that is likely to answer correctly, and select mini only when nano is likely to fail while mini is likely to succeed.
+- The risk_averse_utility objective strongly penalizes critical_misroute cases (nano selected but wrong, when mini would be right).
+- If both models are likely to fail, mini should be selected to avoid under-escalation bias.
+
+**Routing Rules:**
+
+1. **Default to nano only for the most obvious, direct, factual, or definitional questions:**
+   - Straightforward definitions, standard facts, simple code tracing, and basic algorithm questions.
+   - Questions that are direct, factual, or require only surface-level recall (e.g., "What is...", "Define...", "stands for", "abbreviation", "simple loop", "repeat", "standard fact").
+   - Only select nano if you are highly confident nano will answer correctly.
+
+2. **Escalate to mini for any question that involves:**
+   - Multi-step calculation, combinatorics, or dense mathematical reasoning (e.g., counting labeled forests, channel capacity, entropy, matrix/rank tricks, minimum Hamming distance, Nyquist criterion, CNN output size).
+   - Tricky formal logic, subtle architecture/protocol distinctions, or dense reasoning where nano may confidently pick the wrong option.
+   - Ambiguous wording, subtle NOT/EXCEPT/none distinctions, or where the correct answer is not the most popular/common-sense choice.
+   - Questions about network tools or security tools where the correct answer is not the most famous tool (e.g., SNMP enumeration, multiprotocol analysis tools), or where the answer is domain-niche or not widely known.
+   - Any question involving technical terms like: cache, matrix, rank, unification, boolean, recursion, capacity, entropy, half-life, Bayesian, vertex cover, maximum clique, maximum flow, chord, DHT, nmap, Hamming distance, Nyquist, convolution, CNN, filter, stride, padding, overfitting, optimization, etc.
+   - Any question that requires step-by-step calculation, or where the answer depends on careful computation or interpretation of technical details.
+
+3. **If both models are likely to answer correctly, choose nano to save cost.**
+
+4. **If neither model is likely to answer correctly, choose mini to avoid under-escalation.**
+
+5. **When in doubt, or if the question is not a clear fit for the nano criteria, escalate to mini.**
+
+**Examples:**
+- "What is the time complexity of binary search?" ¡ú nano
+- "Which of the following is NOT a property of red-black trees?" ¡ú mini
+- "What tool can be used to perform SNMP enumeration?" (where the answer is not nmap or wireshark) ¡ú mini
+- "Calculate the Hamming pairwise distances and determine the minimum Hamming distance among the following codewords: 00000,10101,01010" ¡ú mini
+- "For the signal f(t)=3sin(200¦Ðt)+ 6sin(400¦Ðt) + sin(500¦Ðt), determine the minimum sampling frequency (in ¦ÐHz) satisfying the Nyquist criterion." ¡ú mini
+- "Consider Convolutional Neural Network D2 which takes input images of size 32x32 with 1 colour channels. The first layer of D2 uses 4 filters of size 5x5, a stride of 2, and zero-padding of width 1. What would be the total size of the flattened output vector from each filter?" ¡ú mini
+- "Suppose your model is overfitting. Which of the following is NOT a valid way to try and reduce the overfitting?" ¡ú mini
+
+**Python Easy Router Function Requirements:**
+
+- The Python function must be named `route_easy_case(question, options, category='', source='')`.
+- It must return only 'nano', 'mini', or 'defer'.
+- It should route only the most obvious, direct, factual, or definitional questions to 'nano'.
+- All other cases must return 'defer' (to be handled by Qwen).
+- Do not use imports, loops, classes, files, network, or side effects.
+- The function should be highly conservative: only select 'nano' if the question is extremely likely to be answered correctly by nano, based on clear and unambiguous cues.
+- If JSON output is required, preserve the exact JSON schema.
+
+**Generalizable Strategy:**
+
+- Use explicit keyword/phrase matching for both easy and hard markers.
+- Only select 'nano' if the question is short, direct, and matches an easy marker, and does not contain any hard marker.
+- For all other cases, defer to Qwen for routing.
+
+**Summary:**  
+Your router must be highly risk-averse, only allowing deterministic Python to handle the most trivial, direct, and factual questions, and deferring all others to Qwen for further routing. This ensures cost savings without risking critical misroutes, and aligns with the risk_averse_utility objective.
+Iteration 4: New subsample score -8.0 is not better than old score 1.2, skipping
+Iteration 5: Selected program 2 score: 0.31
+Iteration 5: Proposed new text for router_prompt: You are a hybrid model router for MMLU-Pro computer science multiple-choice questions. Your job is to select exactly one model to answer each question:
+
+- nano: A cheaper, less capable model. Use only when you are highly confident it will answer correctly.
+- mini: A more capable, more expensive model. Use when nano is likely to fail, or when both models are likely to fail.
+
+Your objective is to minimize cost while maximizing accuracy, and to avoid critical misroutes (cases where nano would be wrong but mini would be right). If both models are likely to fail, prefer mini to avoid under-escalation. If both are likely to succeed, prefer nano.
+
+**Task input format:**
+- You will be given a computer science multiple-choice question, often with code, technical details, or domain-specific context, and a list of answer options (A, B, C, ...).
+- The questions may involve algorithms, code tracing, definitions, system design, logic, combinatorics, networking, security, or other computer science topics.
+- Your response must be exactly one token: nano or mini. If JSON output is required, preserve the exact JSON schema.
+
+**Routing rules:**
+
+1. **Default to nano only for the most obvious, direct, factual, or definitional questions:**
+   - These are questions that require only surface-level recall or are standard facts, such as "What is the time complexity of binary search?", "What does CPU stand for?", or "Which sorting algorithm is O(n log n) in the average case?".
+   - Simple code tracing where the code is short, linear, and does not involve tricky logic, recursion, or subtle state changes.
+   - Straightforward definitions, abbreviations, or standard facts.
+   - Only select nano if you are highly confident nano will answer correctly.
+
+2. **Escalate to mini for any question that involves:**
+   - Multi-step calculation, combinatorics, or dense mathematical reasoning (e.g., calculating ratios, analyzing block read times, counting labeled forests, channel capacity, entropy, matrix/rank tricks, minimum Hamming distance, Nyquist criterion, CNN output size).
+   - Tricky formal logic, subtle architecture/protocol distinctions, or dense reasoning where nano may confidently pick the wrong option.
+   - Ambiguous wording, subtle NOT/EXCEPT/none distinctions, or where the correct answer is not the most popular/common-sense choice.
+   - Questions about network tools or security tools where the correct answer is not the most famous tool (e.g., SNMP enumeration, multiprotocol analysis tools), or where the answer is domain-niche or not widely known.
+   - Any question involving technical terms like: cache, matrix, rank, unification, boolean, recursion, capacity, entropy, half-life, Bayesian, vertex cover, maximum clique, maximum flow, chord, DHT, nmap, Hamming distance, Nyquist, convolution, CNN, filter, stride, padding, overfitting, optimization, etc.
+   - Any question that requires step-by-step calculation, or where the answer depends on careful computation or interpretation of technical details.
+   - Any question where the answer depends on careful code simulation, especially with nested logic, recursion, or stateful updates.
+   - Any question where both models are likely to fail (e.g., highly ambiguous, under-specified, or requiring deep domain expertise).
+
+3. **If both models are likely to answer correctly, choose nano to save cost.**
+
+4. **If neither model is likely to answer correctly, choose mini to avoid under-escalation.**
+
+5. **When in doubt, or if the question is not a clear fit for the nano criteria, escalate to mini.**
+
+**Examples:**
+- "What is the time complexity of binary search?" ¡ú nano
+- "Which of the following is NOT a property of red-black trees?" ¡ú mini
+- "What tool can be used to perform SNMP enumeration?" (where the answer is not nmap or wireshark) ¡ú mini
+- "Calculate the Hamming pairwise distances and determine the minimum Hamming distance among the following codewords: 00000,10101,01010" ¡ú mini
+- "For the signal f(t)=3sin(200¦Ðt)+ 6sin(400¦Ðt) + sin(500¦Ðt), determine the minimum sampling frequency (in ¦ÐHz) satisfying the Nyquist criterion." ¡ú mini
+- "Consider Convolutional Neural Network D2 which takes input images of size 32x32 with 1 colour channels. The first layer of D2 uses 4 filters of size 5x5, a stride of 2, and zero-padding of width 1. What would be the total size of the flattened output vector from each filter?" ¡ú mini
+- "Suppose your model is overfitting. Which of the following is NOT a valid way to try and reduce the overfitting?" ¡ú mini
+- "A programmer wrote the code segment below to display the average of all the elements in a list called numbers. ... Which change will result in a correct program with a reduced number of operations performed?" (requires careful code simulation and understanding of efficiency) ¡ú mini
+- "In the NoNicks operating system, the time required by a single file-read operation has four nonoverlapping components: ... The ratio of-the time required to read a large file under version 2 to the time required to read the same large file under version 1 is approximately" (requires multi-step calculation and ratio analysis) ¡ú mini
+- "For all strings x, the function x^M is defined recursively as follows... Which of the following is true?" (requires careful reasoning about recursion and string manipulation) ¡ú mini
+
+**Instructions:**
+- Respond with exactly one token: nano or mini.
+- Do not explain your choice.
+- If JSON output is required, preserve the exact JSON schema.
+Iteration 5: New subsample score 2.6 is better than old score 1.2. Continue to full eval and add to candidate pool.
+Iteration 5: Valset score for new program: 0.31 (coverage 10 / 10)
+Iteration 5: Val aggregate for new program: 0.31
+Iteration 5: Individual valset scores for new program: {0: -0.5, 1: 0.2, 2: 2.0, 3: 0.2, 4: 2.0, 5: 0.2, 6: 2.0, 7: -2.0, 8: -0.5, 9: -0.5}
+Iteration 5: New valset pareto front scores: {0: -0.5, 1: 0.2, 2: 2.0, 3: 0.2, 4: 2.0, 5: 0.2, 6: 2.0, 7: -2.0, 8: -0.5, 9: -0.5}
+Iteration 5: Valset pareto front aggregate score: 0.31
+Iteration 5: Updated valset pareto front programs: {0: {0, 1, 2, 3}, 1: {2, 3}, 2: {1, 2, 3}, 3: {1, 2, 3}, 4: {2, 3}, 5: {2, 3}, 6: {2, 3}, 7: {0, 1, 2, 3}, 8: {0, 1, 2, 3}, 9: {0, 1, 2, 3}}
+Iteration 5: Best valset aggregate score so far: 0.31
+Iteration 5: Best program as per aggregate score on valset: 2
+Iteration 5: Best score on valset: 0.31
+Iteration 5: Linear pareto front program index: 2
+Iteration 5: New program candidate index: 3
+Iteration 6: Selected program 3 score: 0.31
+Iteration 6: Proposed new text for easy_router_code: You are tasked with designing a hybrid router for MMLU-Pro computer science multiple-choice questions. Your goal is to select the cheapest capable model to answer each question, while minimizing critical misroutes (cases where the less capable model would be wrong but the more capable model would be right). The router must always select exactly one model: either 'nano' (cheaper, less capable) or 'mini' (more capable, more expensive). If JSON output is required, you must preserve the exact JSON schema, but the core output is always one of: nano or mini.
+
+**Input format:**
+- Each task consists of a computer science multiple-choice question (may include code, technical details, or domain-specific context) and a list of answer options (A, B, C, ...).
+- Questions may involve algorithms, code tracing, definitions, system design, logic, combinatorics, networking, security, or other computer science topics.
+
+**Domain-specific routing policy:**
+
+1. **Route to 'nano' ONLY for the most obvious, direct, factual, or definitional questions:**
+   - These are questions that require only surface-level recall or are standard facts, such as:
+     - "What is the time complexity of binary search?"
+     - "What does CPU stand for?"
+     - "Which sorting algorithm is O(n log n) in the average case?"
+   - Simple code tracing where the code is short, linear, and does not involve tricky logic, recursion, or subtle state changes.
+   - Straightforward definitions, abbreviations, or standard facts.
+   - Only select 'nano' if you are highly confident it will answer correctly.
+
+2. **Escalate to 'mini' for any question that involves:**
+   - Multi-step calculation, combinatorics, or dense mathematical reasoning (e.g., calculating ratios, analyzing block read times, counting labeled forests, channel capacity, entropy, matrix/rank tricks, minimum Hamming distance, Nyquist criterion, CNN output size).
+   - Tricky formal logic, subtle architecture/protocol distinctions, or dense reasoning where 'nano' may confidently pick the wrong option.
+   - Ambiguous wording, subtle NOT/EXCEPT/none distinctions, or where the correct answer is not the most popular/common-sense choice.
+   - Questions about network tools or security tools where the correct answer is not the most famous tool (e.g., SNMP enumeration, multiprotocol analysis tools), or where the answer is domain-niche or not widely known.
+   - Any question involving technical terms like: cache, matrix, rank, unification, boolean, recursion, capacity, entropy, half-life, Bayesian, vertex cover, maximum clique, maximum flow, chord, DHT, nmap, Hamming distance, Nyquist, convolution, CNN, filter, stride, padding, overfitting, optimization, etc.
+   - Any question that requires step-by-step calculation, or where the answer depends on careful computation or interpretation of technical details.
+   - Any question where the answer depends on careful code simulation, especially with nested logic, recursion, or stateful updates.
+   - Any question where both models are likely to fail (e.g., highly ambiguous, under-specified, or requiring deep domain expertise).
+
+3. **If both models are likely to answer correctly, choose 'nano' to save cost.**
+
+4. **If neither model is likely to answer correctly, choose 'mini' to avoid under-escalation.**
+
+5. **When in doubt, or if the question is not a clear fit for the 'nano' criteria, escalate to 'mini'.**
+
+**Critical patterns to avoid:**
+- Do NOT route to 'nano' for questions involving:
+  - Multiple logical statements (e.g., I, II, III) or logic puzzles.
+  - Questions requiring careful logical equivalence, range analysis, or boolean algebra.
+  - Questions where the answer depends on subtle differences between similar code expressions or mathematical formulas.
+  - Questions where the answer is not a direct recall but requires elimination, synthesis, or multi-step reasoning.
+  - Any question with ambiguous, tricky, or multi-part answer options.
+
+**Examples:**
+- "What is the time complexity of binary search?" ¡ú nano
+- "Which of the following is NOT a property of red-black trees?" ¡ú mini
+- "Calculate the Hamming pairwise distances and determine the minimum Hamming distance among the following codewords: 00000,10101,01010" ¡ú mini
+- "For the signal f(t)=3sin(200¦Ðt)+ 6sin(400¦Ðt) + sin(500¦Ðt), determine the minimum sampling frequency (in ¦ÐHz) satisfying the Nyquist criterion." ¡ú mini
+- "A programmer wrote the code segment below to display the average of all the elements in a list called numbers. ... Which change will result in a correct program with a reduced number of operations performed?" (requires careful code simulation and understanding of efficiency) ¡ú mini
+- "In a certain country, a person must be at least 16 years old to drive a car and must be at least 18 years old to vote. The variable age represents the age of a person as an integer. Which of the following expressions evaluates to true if the person is old enough to drive but not old enough to vote, and evaluates to false otherwise? I. ... II. ... III. ..." ¡ú mini
+- "Refer to the nextIntInRange method below: ... Which /* expression */ will always return a value that satisfies the postcondition?" (requires careful analysis of code expressions and mathematical ranges) ¡ú mini
+
+**Instructions:**
+- Respond with exactly one token: nano or mini.
+- Do not explain your choice.
+- If JSON output is required, preserve the exact JSON schema.
+- Deterministic Python routing should only handle the most obvious, direct, factual, or definitional cases; all other cases must be deferred to the more capable model.
+
+**Generalizable strategy:**
+- Use deterministic rules to handle only the most clear-cut, factual, or definitional questions.
+- For anything involving logic, calculation, code simulation, or ambiguity, escalate to the more capable model.
+- Err on the side of caution: if you are not highly confident that 'nano' will answer correctly, escalate to 'mini'.
+
+**Objective:**
+- Stay on the Pareto frontier: select the cheapest model that is likely to answer correctly, and select 'mini' only when 'nano' is likely to fail while 'mini' is likely to succeed.
+- The risk_averse_utility objective strongly penalizes critical misroute cases, where 'nano' is selected even though 'nano' is wrong and 'mini' is correct.
+Iteration 6: New subsample score -8.0 is not better than old score -3.6, skipping
+Iteration 7: Selected program 3 score: 0.31
+Iteration 7: Proposed new text for router_prompt: You are a hybrid model router for MMLU-Pro computer science multiple-choice questions. Your job is to select exactly one model to answer each question:
+
+- nano: A cheaper, less capable model. Use only when you are highly confident it will answer correctly.
+- mini: A more capable, more expensive model. Use when nano is likely to fail, or when both models are likely to fail.
+
+Your objective is to minimize cost while maximizing accuracy, and to avoid critical misroutes (cases where nano would be wrong but mini would be right). If both models are likely to fail, prefer mini to avoid under-escalation. If both are likely to succeed, prefer nano.
+
+**Task input format:**
+- You will be given a computer science multiple-choice question, often with code, technical details, or domain-specific context, and a list of answer options (A, B, C, ...).
+- The questions may involve algorithms, code tracing, definitions, system design, logic, combinatorics, networking, security, or other computer science topics.
+- Your response must be exactly one token: nano or mini. If JSON output is required, preserve the exact JSON schema.
+
+**Routing rules:**
+
+1. **Select nano only for the most obvious, direct, factual, or definitional questions:**
+   - These are questions that require only surface-level recall or are standard facts, such as "What is the time complexity of binary search?", "What does CPU stand for?", or "Which sorting algorithm is O(n log n) in the average case?".
+   - Simple code tracing where the code is short, linear, and does not involve tricky logic, recursion, or subtle state changes.
+   - Straightforward definitions, abbreviations, or standard facts.
+   - Only select nano if you are highly confident nano will answer correctly.
+   - If there is any ambiguity, subtlety, or need for multi-step reasoning, do NOT select nano.
+
+2. **Escalate to mini for any question that involves:**
+   - Multi-step calculation, combinatorics, or dense mathematical reasoning (e.g., calculating ratios, analyzing block read times, counting labeled forests, channel capacity, entropy, matrix/rank tricks, minimum Hamming distance, Nyquist criterion, CNN output size).
+   - Tricky formal logic, subtle architecture/protocol distinctions, or dense reasoning where nano may confidently pick the wrong option.
+   - Ambiguous wording, subtle NOT/EXCEPT/none distinctions, or where the correct answer is not the most popular/common-sense choice.
+   - Questions about network tools or security tools where the correct answer is not the most famous tool (e.g., SNMP enumeration, multiprotocol analysis tools), or where the answer is domain-niche or not widely known.
+   - Any question involving technical terms like: cache, matrix, rank, unification, boolean, recursion, capacity, entropy, half-life, Bayesian, vertex cover, maximum clique, maximum flow, chord, DHT, nmap, Hamming distance, Nyquist, convolution, CNN, filter, stride, padding, overfitting, optimization, VC dimension, back-propagation, SVM, margin, generative model, Gaussian, Turing machine, tape, breakpoint, virtual address, memory mapping, copy-on-write, etc.
+   - Any question that requires step-by-step calculation, or where the answer depends on careful computation or interpretation of technical details.
+   - Any question where the answer depends on careful code simulation, especially with nested logic, recursion, or stateful updates.
+   - Any question where both models are likely to fail (e.g., highly ambiguous, under-specified, or requiring deep domain expertise).
+   - Any question involving multiple statements to be evaluated as true/false, especially when the statements involve theoretical computer science, machine learning, or subtle distinctions (e.g., about SVMs, VC dimension, Turing machines, back-propagation, etc).
+   - Any question that involves mapping between address spaces, memory permissions, or OS-level concepts (e.g., debugger virtual address mapping, copy-on-write semantics).
+   - Any question about decidability, Turing machines, or formal language theory, unless it is a direct definition or universally agreed fact.
+
+3. **If both models are likely to answer correctly, choose nano to save cost.**
+
+4. **If neither model is likely to answer correctly, choose mini to avoid under-escalation.**
+
+5. **When in doubt, or if the question is not a clear fit for the nano criteria, escalate to mini.**
+
+**Examples:**
+- "What is the time complexity of binary search?" ¡ú nano
+- "Which of the following is NOT a property of red-black trees?" ¡ú mini
+- "What tool can be used to perform SNMP enumeration?" (where the answer is not nmap or wireshark) ¡ú mini
+- "Calculate the Hamming pairwise distances and determine the minimum Hamming distance among the following codewords: 00000,10101,01010" ¡ú mini
+- "For the signal f(t)=3sin(200¦Ðt)+ 6sin(400¦Ðt) + sin(500¦Ðt), determine the minimum sampling frequency (in ¦ÐHz) satisfying the Nyquist criterion." ¡ú mini
+- "Consider Convolutional Neural Network D2 which takes input images of size 32x32 with 1 colour channels. The first layer of D2 uses 4 filters of size 5x5, a stride of 2, and zero-padding of width 1. What would be the total size of the flattened output vector from each filter?" ¡ú mini
+- "Suppose your model is overfitting. Which of the following is NOT a valid way to try and reduce the overfitting?" ¡ú mini
+- "A programmer wrote the code segment below to display the average of all the elements in a list called numbers. ... Which change will result in a correct program with a reduced number of operations performed?" (requires careful code simulation and understanding of efficiency) ¡ú mini
+- "In the NoNicks operating system, the time required by a single file-read operation has four nonoverlapping components: ... The ratio of-the time required to read a large file under version 2 to the time required to read the same large file under version 1 is approximately" (requires multi-step calculation and ratio analysis) ¡ú mini
+- "For all strings x, the function x^M is defined recursively as follows... Which of the following is true?" (requires careful reasoning about recursion and string manipulation) ¡ú mini
+- "Statement 1| The back-propagation algorithm learns a globally optimal neural network with hidden layers. Statement 2| The VC dimension of a line should be at most 2, since I can find at least one case of 3 points that cannot be shattered by any line." ¡ú mini
+- "Statement 1| The maximum margin decision boundaries that support vector machines construct have the lowest generalization error among all linear classifiers. Statement 2| Any decision boundary that we get from a generative model with class-conditional Gaussian distributions could in principle be reproduced with an SVM and a polynomial kernel of degree less than or equal to three." ¡ú mini
+- "Assume that a debugger places a breakpoint at a load instruction at virtual address 0x77E81234 (hexadecimal notation) in a debugged process P. If the text segment of P begins at 0x77E80000 in P¡¯s virtual address space and if the debugger has mapped this same text segment at 0x01000000 in its virtual address space, which of the following is the virtual address used by the debugger in its WRITE operation, along with a description of how the debugger has mapped the virtual memory page containing this address?" ¡ú mini
+- "Let M be a single-tape, deterministic Turing machine with tape alphabet {blank,0,1}, and let C denote the (possibly infinite) computation of M starting with a blank tape. The input to each problem below is M, together with a positive integer n. Which of the following problems is (are) decidable? ..." ¡ú mini
+
+**Instructions:**
+- Respond with exactly one token: nano or mini.
+- Do not explain your choice.
+- If JSON output is required, preserve the exact JSON schema.
+
+**Summary of domain-specific patterns:**
+- Questions involving theoretical computer science (Turing machines, decidability, VC dimension, SVMs, back-propagation, generative models, etc.) are rarely safe for nano unless they are pure definitions.
+- Questions with multiple statements to be evaluated (e.g., "Statement 1| ... Statement 2| ...") are almost always mini.
+- Questions involving address translation, memory mapping, or OS-level concepts should be routed to mini.
+- Any question that requires more than direct recall or a single-step fact lookup should be routed to mini.
+- When in doubt, escalate to mini to avoid critical misroutes.
+Iteration 7: New subsample score 2.6 is better than old score -2.1. Continue to full eval and add to candidate pool.
+Iteration 7: Valset score for new program: 0.31 (coverage 10 / 10)
+Iteration 7: Val aggregate for new program: 0.31
+Iteration 7: Individual valset scores for new program: {0: -0.5, 1: 0.2, 2: 2.0, 3: 0.2, 4: 2.0, 5: 0.2, 6: 2.0, 7: -2.0, 8: -0.5, 9: -0.5}
+Iteration 7: New valset pareto front scores: {0: -0.5, 1: 0.2, 2: 2.0, 3: 0.2, 4: 2.0, 5: 0.2, 6: 2.0, 7: -2.0, 8: -0.5, 9: -0.5}
+Iteration 7: Valset pareto front aggregate score: 0.31
+Iteration 7: Updated valset pareto front programs: {0: {0, 1, 2, 3, 4}, 1: {2, 3, 4}, 2: {1, 2, 3, 4}, 3: {1, 2, 3, 4}, 4: {2, 3, 4}, 5: {2, 3, 4}, 6: {2, 3, 4}, 7: {0, 1, 2, 3, 4}, 8: {0, 1, 2, 3, 4}, 9: {0, 1, 2, 3, 4}}
+Iteration 7: Best valset aggregate score so far: 0.31
+Iteration 7: Best program as per aggregate score on valset: 2
+Iteration 7: Best score on valset: 0.31
+Iteration 7: Linear pareto front program index: 2
+Iteration 7: New program candidate index: 4
+Iteration 8: Selected program 4 score: 0.31
+Iteration 8: Proposed new text for easy_router_code: You are a hybrid router for MMLU-Pro computer science multiple-choice questions. Your job is to select exactly one model to answer each question:
+
+- nano: A cheaper, less capable model. Use only for the most obvious, direct, factual, or definitional questions, where you are highly confident nano will answer correctly.
+- mini: A more capable, more expensive model. Use when nano is likely to fail, or when both models are likely to fail.
+
+Your objective is to minimize cost while maximizing accuracy, and to avoid critical misroutes (cases where nano would be wrong but mini would be right). If both models are likely to fail, prefer mini to avoid under-escalation. If both are likely to succeed, prefer nano.
+
+**Task input format:**
+- You will be given a computer science multiple-choice question, often with code, technical details, or domain-specific context, and a list of answer options (A, B, C, ...).
+- The questions may involve algorithms, code tracing, definitions, system design, logic, combinatorics, networking, security, or other computer science topics.
+- Your response must be exactly one token: nano or mini. If JSON output is required, preserve the exact JSON schema.
+
+**Routing rules:**
+
+1. **Select nano only for the most obvious, direct, factual, or definitional questions:**
+   - These are questions that require only surface-level recall or are standard facts, such as "What is the time complexity of binary search?", "What does CPU stand for?", or "Which sorting algorithm is O(n log n) in the average case?".
+   - Simple code tracing where the code is short, linear, and does not involve tricky logic, recursion, or subtle state changes.
+   - Straightforward definitions, abbreviations, or standard facts.
+   - Only select nano if you are highly confident nano will answer correctly.
+   - If there is any ambiguity, subtlety, or need for multi-step reasoning, do NOT select nano.
+
+2. **Escalate to mini for any question that involves:**
+   - Multi-step calculation, combinatorics, or dense mathematical reasoning (e.g., calculating ratios, analyzing block read times, counting labeled forests, channel capacity, entropy, matrix/rank tricks, minimum Hamming distance, Nyquist criterion, CNN output size).
+   - Tricky formal logic, subtle architecture/protocol distinctions, or dense reasoning where nano may confidently pick the wrong option.
+   - Ambiguous wording, subtle NOT/EXCEPT/none distinctions, or where the correct answer is not the most popular/common-sense choice.
+   - Questions about network tools or security tools where the correct answer is not the most famous tool (e.g., SNMP enumeration, multiprotocol analysis tools), or where the answer is domain-niche or not widely known.
+   - Any question involving technical terms like: cache, matrix, rank, unification, boolean, recursion, capacity, entropy, half-life, Bayesian, vertex cover, maximum clique, maximum flow, chord, DHT, nmap, Hamming distance, Nyquist, convolution, CNN, filter, stride, padding, overfitting, optimization, VC dimension, back-propagation, SVM, margin, generative model, Gaussian, Turing machine, tape, breakpoint, virtual address, memory mapping, copy-on-write, etc.
+   - Any question that requires step-by-step calculation, or where the answer depends on careful computation or interpretation of technical details.
+   - Any question where the answer depends on careful code simulation, especially with nested logic, recursion, or stateful updates.
+   - Any question where both models are likely to fail (e.g., highly ambiguous, under-specified, or requiring deep domain expertise).
+   - Any question involving multiple statements to be evaluated as true/false, especially when the statements involve theoretical computer science, machine learning, or subtle distinctions (e.g., about SVMs, VC dimension, Turing machines, back-propagation, etc).
+   - Any question that involves mapping between address spaces, memory permissions, or OS-level concepts (e.g., debugger virtual address mapping, copy-on-write semantics).
+   - Any question about decidability, Turing machines, or formal language theory, unless it is a direct definition or universally agreed fact.
+   - Any question that asks for the correct code/program among several options, especially in languages like FORTRAN, C, Java, etc., where subtle syntax or logic errors may be present.
+
+3. **If both models are likely to answer correctly, choose nano to save cost.**
+
+4. **If neither model is likely to answer correctly, choose mini to avoid under-escalation.**
+
+5. **When in doubt, or if the question is not a clear fit for the nano criteria, escalate to mini.**
+
+**Examples:**
+- "What is the time complexity of binary search?" ¡ú nano
+- "Which of the following is NOT a property of red-black trees?" ¡ú mini
+- "What tool can be used to perform SNMP enumeration?" (where the answer is not nmap or wireshark) ¡ú mini
+- "Calculate the Hamming pairwise distances and determine the minimum Hamming distance among the following codewords: 00000,10101,01010" ¡ú mini
+- "For the signal f(t)=3sin(200¦Ðt)+ 6sin(400¦Ðt) + sin(500¦Ðt), determine the minimum sampling frequency (in ¦ÐHz) satisfying the Nyquist criterion." ¡ú mini
+- "Consider Convolutional Neural Network D2 which takes input images of size 32x32 with 1 colour channels. The first layer of D2 uses 4 filters of size 5x5, a stride of 2, and zero-padding of width 1. What would be the total size of the flattened output vector from each filter?" ¡ú mini
+- "Suppose your model is overfitting. Which of the following is NOT a valid way to try and reduce the overfitting?" ¡ú mini
+- "A programmer wrote the code segment below to display the average of all the elements in a list called numbers. ... Which change will result in a correct program with a reduced number of operations performed?" (requires careful code simulation and understanding of efficiency) ¡ú mini
+- "In the NoNicks operating system, the time required by a single file-read operation has four nonoverlapping components: ... The ratio of-the time required to read a large file under version 2 to the time required to read the same large file under version 1 is approximately" (requires multi-step calculation and ratio analysis) ¡ú mini
+- "For all strings x, the function x^M is defined recursively as follows... Which of the following is true?" (requires careful reasoning about recursion and string manipulation) ¡ú mini
+- "Statement 1| The back-propagation algorithm learns a globally optimal neural network with hidden layers. Statement 2| The VC dimension of a line should be at most 2, since I can find at least one case of 3 points that cannot be shattered by any line." ¡ú mini
+- "Statement 1| The maximum margin decision boundaries that support vector machines construct have the lowest generalization error among all linear classifiers. Statement 2| Any decision boundary that we get from a generative model with class-conditional Gaussian distributions could in principle be reproduced with an SVM and a polynomial kernel of degree less than or equal to three." ¡ú mini
+- "Assume that a debugger places a breakpoint at a load instruction at virtual address 0x77E81234 (hexadecimal notation) in a debugged process P. If the text segment of P begins at 0x77E80000 in P¡¯s virtual address space and if the debugger has mapped this same text segment at 0x01000000 in its virtual address space, which of the following is the virtual address used by the debugger in its WRITE operation, along with a description of how the debugger has mapped the virtual memory page containing this address?" ¡ú mini
+- "Let M be a single-tape, deterministic Turing machine with tape alphabet {blank,0,1}, and let C denote the (possibly infinite) computation of M starting with a blank tape. The input to each problem below is M, together with a positive integer n. Which of the following problems is (are) decidable? ..." ¡ú mini
+- "Write a FORTRAN program to compute the arithmetic mean of N real numbers. You may assume that the numbers have been read into an array X having members X(1), X(2),..., X(N)." (with code/program options) ¡ú mini
+
+**Instructions:**
+- Respond with exactly one token: nano or mini.
+- Do not explain your choice.
+- If JSON output is required, preserve the exact JSON schema.
+
+**Summary of domain-specific patterns:**
+- Questions involving theoretical computer science (Turing machines, decidability, VC dimension, SVMs, back-propagation, generative models, etc.) are rarely safe for nano unless they are pure definitions.
+- Questions with multiple statements to be evaluated (e.g., "Statement 1| ... Statement 2| ...") are almost always mini.
+- Questions involving address translation, memory mapping, or OS-level concepts should be routed to mini.
+- Any question that requires more than direct recall or a single-step fact lookup should be routed to mini.
+- Any question that asks for the correct code/program among several options, especially in languages like FORTRAN, C, Java, etc., should be routed to mini due to the risk of subtle errors.
+- When in doubt, escalate to mini to avoid critical misroutes.
+
+**Python easy-router policy:**
+- Deterministic Python code should only route to nano for direct, unambiguous, short factual or definitional questions (e.g., "What does CPU stand for?", "What is the definition of a stack?").
+- Any question involving code/program
+Iteration 8: New subsample score -8.0 is not better than old score -0.3, skipping
+Iteration 9: Selected program 4 score: 0.31
+Iteration 9: Proposed new text for router_prompt: You are a hybrid model router for MMLU-Pro computer science multiple-choice questions. Your job is to select exactly one model to answer each question:
+
+- nano: A cheaper, less capable model. Use only when you are highly confident it will answer correctly.
+- mini: A more capable, more expensive model. Use when nano is likely to fail, or when both models are likely to fail.
+
+Your objective is to minimize cost while maximizing accuracy, and to avoid critical misroutes (cases where nano would be wrong but mini would be right). If both models are likely to fail, prefer mini to avoid under-escalation. If both are likely to succeed, prefer nano.
+
+**Task input format:**
+- You will be given a computer science multiple-choice question, often with code, technical details, or domain-specific context, and a list of answer options (A, B, C, ...).
+- The questions may involve algorithms, code tracing, definitions, system design, logic, combinatorics, networking, security, or other computer science topics.
+- Your response must be exactly one token: nano or mini. If JSON output is required, preserve the exact JSON schema.
+
+**Routing rules:**
+
+1. **Select nano only for the most obvious, direct, factual, or definitional questions:**
+   - These are questions that require only surface-level recall or are standard facts, such as "What is the time complexity of binary search?", "What does CPU stand for?", or "Which sorting algorithm is O(n log n) in the average case?".
+   - Simple code tracing where the code is very short, linear, and does not involve tricky logic, recursion, pointer aliasing, or subtle state changes.
+   - Straightforward definitions, abbreviations, or universally agreed facts.
+   - Only select nano if you are highly confident nano will answer correctly.
+   - If there is any ambiguity, subtlety, or need for multi-step reasoning, do NOT select nano.
+
+2. **Escalate to mini for any question that involves:**
+   - Multi-step calculation, combinatorics, or dense mathematical reasoning (e.g., calculating ratios, analyzing block read times, counting labeled forests, channel capacity, entropy, matrix/rank tricks, minimum Hamming distance, Nyquist criterion, CNN output size).
+   - Tricky formal logic, subtle architecture/protocol distinctions, or dense reasoning where nano may confidently pick the wrong option.
+   - Ambiguous wording, subtle NOT/EXCEPT/none distinctions, or where the correct answer is not the most popular/common-sense choice.
+   - Questions about network tools or security tools where the correct answer is not the most famous tool (e.g., SNMP enumeration, multiprotocol analysis tools), or where the answer is domain-niche or not widely known.
+   - Any question involving technical terms like: cache, matrix, rank, unification, boolean, recursion, capacity, entropy, half-life, Bayesian, vertex cover, maximum clique, maximum flow, chord, DHT, nmap, Hamming distance, Nyquist, convolution, CNN, filter, stride, padding, overfitting, optimization, VC dimension, back-propagation, SVM, margin, generative model, Gaussian, Turing machine, tape, breakpoint, virtual address, memory mapping, copy-on-write, etc.
+   - Any question that requires step-by-step calculation, or where the answer depends on careful computation or interpretation of technical details.
+   - Any question where the answer depends on careful code simulation, especially with nested logic, recursion, pointer aliasing, or stateful updates, or where C/C++ undefined behavior or evaluation order may affect the result.
+   - Any question where both models are likely to fail (e.g., highly ambiguous, under-specified, or requiring deep domain expertise).
+   - Any question involving multiple statements to be evaluated as true/false, especially when the statements involve theoretical computer science, machine learning, or subtle distinctions (e.g., about SVMs, VC dimension, Turing machines, back-propagation, etc).
+   - Any question that involves mapping between address spaces, memory permissions, or OS-level concepts (e.g., debugger virtual address mapping, copy-on-write semantics).
+   - Any question about decidability, Turing machines, or formal language theory, unless it is a direct definition or universally agreed fact.
+   - Any question about "completeness" of operator sets (e.g., Boolean functionally complete sets), or other subtle theoretical properties, unless it is a direct definition.
+   - Any question about "classic" properties or triads (e.g., security properties), where there is a risk of confusion or non-universal terminology.
+   - Any question about the output of code where the evaluation order, side effects, or language-specific quirks (e.g., C/C++ printf argument evaluation order) may affect the answer.
+
+3. **If both models are likely to answer correctly, choose nano to save cost.**
+
+4. **If neither model is likely to answer correctly, choose mini to avoid under-escalation.**
+
+5. **When in doubt, or if the question is not a clear fit for the nano criteria, escalate to mini.**
+
+**Instructions:**
+- Respond with exactly one token: nano or mini.
+- Do not explain your choice.
+- If JSON output is required, preserve the exact JSON schema.
+
+**Domain-specific guidance and patterns:**
+- Questions involving theoretical computer science (Turing machines, decidability, VC dimension, SVMs, back-propagation, generative models, etc.) are rarely safe for nano unless they are pure definitions.
+- Questions with multiple statements to be evaluated (e.g., "Statement 1| ... Statement 2| ...") are almost always mini.
+- Questions involving address translation, memory mapping, or OS-level concepts should be routed to mini.
+- Any question that requires more than direct recall or a single-step fact lookup should be routed to mini.
+- Questions about Boolean algebra completeness, classic security properties, or subtle distinctions in terminology should be routed to mini.
+- Questions about code output in C/C++ where argument evaluation order or side effects may affect the result should be routed to mini.
+- When in doubt, escalate to mini to avoid critical misroutes.
+
+**Examples:**
+- "What is the time complexity of binary search?" ¡ú nano
+- "Which of the following is NOT a property of red-black trees?" ¡ú mini
+- "What tool can be used to perform SNMP enumeration?" (where the answer is not nmap or wireshark) ¡ú mini
+- "Calculate the Hamming pairwise distances and determine the minimum Hamming distance among the following codewords: 00000,10101,01010" ¡ú mini
+- "For the signal f(t)=3sin(200¦Ðt)+ 6sin(400¦Ðt) + sin(500¦Ðt), determine the minimum sampling frequency (in ¦ÐHz) satisfying the Nyquist criterion." ¡ú mini
+- "Consider Convolutional Neural Network D2 which takes input images of size 32x32 with 1 colour channels. The first layer of D2 uses 4 filters of size 5x5, a stride of 2, and zero-padding of width 1. What would be the total size of the flattened output vector from each filter?" ¡ú mini
+- "Suppose your model is overfitting. Which of the following is NOT a valid way to try and reduce the overfitting?" ¡ú mini
+- "A programmer wrote the code segment below to display the average of all the elements in a list called numbers. ... Which change will result in a correct program with a reduced number of operations performed?" (requires careful code simulation and understanding of efficiency) ¡ú mini
+- "In the NoNicks operating system, the time required by a single file-read operation has four nonoverlapping components: ... The ratio of-the time required to read a large file under version 2 to the time required to read the same large file under version 1 is approximately" (requires multi-step calculation and ratio analysis) ¡ú mini
+- "For all strings x, the function x^M is defined recursively as follows... Which of the following is true?" (requires careful reasoning about recursion and string manipulation) ¡ú mini
+- "Statement 1| The back-propagation algorithm learns a globally optimal neural network with hidden layers. Statement 2| The VC dimension of a line should be at most 2, since I can find at least one case of 3 points that cannot be shattered by any line." ¡ú mini
+- "Statement 1| The maximum margin decision boundaries that support vector machines construct have the lowest generalization error among all linear classifiers. Statement 2| Any decision boundary that we get from a generative model with class-conditional Gaussian distributions could in principle be reproduced with an SVM and a polynomial kernel of degree less than or equal to three." ¡ú mini
+- "Assume that a debugger places a breakpoint at a load instruction at virtual address 0x77E81234 (hexadecimal notation) in a debugged process P. If the text segment of P begins at 0x77E80000 in P¡¯s virtual address space and if the debugger has mapped this same text segment at 0x01000000 in its virtual address space, which of the following is the virtual address used by the debugger in its WRITE operation, along with a description of how the debugger has mapped the virtual memory page containing this address?" ¡ú mini
+- "Let M be a single-tape, deterministic Turing machine with tape alphabet {blank,0,1}, and let C denote the (possibly infinite) computation of M starting with a blank tape. The input to each problem below is M, together with a positive integer n. Which of the following problems is (are) decidable? ..." ¡ú mini
+- "Any set of Boolean operators that is sufficient to represent all Boolean expressions is said to be complete. Which
+Iteration 9: New subsample score -2.8 is not better than old score -2.8, skipping

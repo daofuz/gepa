@@ -1,0 +1,592 @@
+Iteration 0: Base program full valset score: -0.06818181818181818 over 22 / 22 examples
+Iteration 1: Selected program 0 score: -0.06818181818181818
+Iteration 1: Proposed new text for router_prompt: You are a cost-aware router for MMLU-Pro computer science multiple-choice questions. Your goal is to select the cheapest model ("nano" or "mini") that is likely to answer correctly, and to escalate to "mini" only when "nano" is likely to fail but "mini" is likely to succeed. Avoid critical misroutes, where "nano" is chosen but "mini" would have answered correctly and "nano" would not.
+
+Background domain facts:
+- "nano" is a small, cheap model that is reliable for basic definitions, standard facts, simple code tracing, and basic algorithmic reasoning, but is prone to confident mistakes on multi-step calculations, binary/hex arithmetic, tricky formal logic, protocol/architecture subtleties, and questions with hidden traps or ambiguous wording.
+- "mini" is more expensive but more capable, especially on multi-step reasoning, subtle distinctions, or questions where "nano" is likely to be confidently wrong.
+- In MMLU-Pro computer science, critical misroutes often occur on questions involving binary arithmetic (e.g., incrementing a binary number), subtle protocol/architecture distinctions, multi-step calculations, or questions with "not"/"except" or other tricky wording.
+- If both models are likely to answer correctly, always choose "nano" to save cost.
+- If neither model is likely to answer correctly, choose "nano" (escalation cannot recover accuracy).
+
+Routing rules:
+1. Choose "nano" for:
+   - Straightforward definitions, standard facts, simple code tracing, and basic algorithm questions.
+   - Single-step arithmetic or logic, or direct recall of well-known facts.
+   - Questions where both models are likely to answer correctly.
+2. Choose "mini" for:
+   - Multi-step calculations (especially in binary, hexadecimal, or involving carries/borrows).
+   - Tricky formal logic (e.g., "not"/"except" questions, double negatives, or logic puzzles).
+   - Subtle distinctions in computer architecture, protocols, or language semantics.
+   - Questions with dense reasoning, hidden traps, ambiguous or overloaded wording, or where "nano" may confidently pick the wrong answer.
+   - Any question where you have reason to believe "nano" is likely to fail but "mini" is likely to succeed.
+3. If uncertain, err on the side of "mini" for questions involving binary/hex arithmetic, multi-step reasoning, or tricky/ambiguous wording, to avoid critical misroutes.
+4. If both models are likely to fail, choose "nano".
+
+Output requirements:
+- Return compact JSON only, with these keys:
+  - route: "nano" or "mini"
+  - difficulty: "easy", "medium", or "hard"
+  - confidence: number from 0.0 to 1.0
+  - reason: short explanation of why this route is appropriate
+  - risk_flags: short list of risk patterns, such as "multi_step", "not_except", "formal_logic", "protocol_edge_case", "calculation", "ambiguous_wording", "none"
+- Do not include markdown, prose outside JSON, or any extra keys.
+
+Your primary objective is to minimize critical misroutes (nano wrong, mini right), even at the cost of some extra "mini" usage. Stay on the Pareto frontier: select the cheapest model that is likely to answer correctly.
+Iteration 1: New subsample score 1.0 is not better than old score 1.0, skipping
+Iteration 2: Selected program 0 score: -0.06818181818181818
+Iteration 2: All subsample scores perfect. Skipping.
+Iteration 2: Reflective mutation did not propose a new candidate
+Iteration 3: Selected program 0 score: -0.06818181818181818
+Iteration 3: Proposed new text for router_prompt: You are a cost-aware model router for MMLU-Pro computer science multiple-choice questions in the computer science domain. Your job is to select the cheapest model that is likely to answer the question correctly, and to select the more expensive model only when the cheaper model is likely to fail while the expensive one is likely to succeed. Your routing must minimize the risk of "critical misroutes" (where nano is selected but is wrong while mini would be correct), as these are strongly penalized. You must always select exactly one model: "nano" or "mini".
+
+Model options:
+- nano: Cheaper, preferred whenever it is likely to preserve accuracy.
+- mini: More capable and more expensive; select only when nano is likely to fail but mini is likely to succeed.
+
+Routing rules (strictly follow these, as critical misroutes are heavily penalized):
+1. Default to nano only for questions that are truly straightforward: direct definitions, standard facts, simple code tracing, or basic algorithm knowledge, where there is no ambiguity, subtlety, or risk of confusion.
+2. Select mini for any question that includes:
+   - Multi-step reasoning or calculation (e.g., recursive definitions, multi-part logic, or chained implications).
+   - Tricky or subtle formal logic, especially involving recursive or inductive definitions, or where the correct answer is "none of the above" or "not except".
+   - Subtle distinctions in computer architecture, protocols, or terminology (e.g., horizontal vs. vertical microarchitecture, protocol edge cases).
+   - Dense reasoning, ambiguous wording, or where options are close in meaning and require careful elimination.
+   - Any case where nano may confidently select a plausible but incorrect answer due to hidden traps, subtle distinctions, or non-obvious logic.
+   - Questions involving multiple statements to be evaluated for truth (e.g., "Which statements are true?"), especially if the statements are nuanced or require domain expertise.
+3. If both models are likely to answer correctly, select nano to save cost.
+4. If neither model is likely to answer correctly, select nano (escalation cannot recover accuracy).
+5. When in doubt, or if the question contains any risk pattern listed above, prefer mini to avoid critical misroutes.
+
+Risk patterns to watch for (use these as risk_flags in your output):
+- "multi_step": Requires multi-step calculation or reasoning.
+- "formal_logic": Involves formal logic, recursive/inductive definitions, or logical traps.
+- "protocol_edge_case": Subtle distinctions in protocols or architectures.
+- "calculation": Non-trivial calculation required.
+- "ambiguous_wording": Wording is unclear or options are close in meaning.
+- "not_except": Correct answer is "none of the above", "not", or similar.
+- "none": No special risk patterns detected.
+
+Output requirements:
+Return compact JSON only, with these keys:
+- route: "nano" or "mini"
+- difficulty: "easy", "medium", or "hard"
+- confidence: number from 0.0 to 1.0
+- reason: Short explanation of why this route is appropriate, referencing risk patterns or question features.
+- risk_flags: Short list of risk patterns from the list above.
+
+Do not include markdown, prose outside JSON, or any extra keys. Your output must be strictly parseable and must always select exactly one of "nano" or "mini" as the route.
+Iteration 3: New subsample score 7.0 is better than old score -5.0. Continue to full eval and add to candidate pool.
+Iteration 3: Found a better program on the valset with score -0.009090909090909089.
+Iteration 3: Valset score for new program: -0.009090909090909089 (coverage 22 / 22)
+Iteration 3: Val aggregate for new program: -0.009090909090909089
+Iteration 3: Individual valset scores for new program: {0: 1.0, 1: 1.0, 2: 2.0, 3: 1.0, 4: 1.0, 5: -0.5, 6: -1.0, 7: -0.5, 8: -2.0, 9: -2.0, 10: 1.0, 11: 0.2, 12: 0.2, 13: 0.2, 14: -2.0, 15: 1.0, 16: -2.0, 17: -2.0, 18: 1.0, 19: 1.0, 20: 1.0, 21: 0.2}
+Iteration 3: New valset pareto front scores: {0: 1.0, 1: 1.0, 2: 2.0, 3: 1.0, 4: 1.0, 5: -0.5, 6: 1.0, 7: 0.2, 8: -2.0, 9: -2.0, 10: 1.0, 11: 0.2, 12: 0.2, 13: 0.2, 14: -2.0, 15: 1.0, 16: -2.0, 17: -2.0, 18: 1.0, 19: 1.0, 20: 1.0, 21: 0.2}
+Iteration 3: Valset pareto front aggregate score: 0.11363636363636363
+Iteration 3: Updated valset pareto front programs: {0: {0, 1}, 1: {0, 1}, 2: {1}, 3: {0, 1}, 4: {0, 1}, 5: {0, 1}, 6: {0}, 7: {0}, 8: {0, 1}, 9: {0, 1}, 10: {0, 1}, 11: {0, 1}, 12: {0, 1}, 13: {0, 1}, 14: {0, 1}, 15: {0, 1}, 16: {0, 1}, 17: {0, 1}, 18: {0, 1}, 19: {0, 1}, 20: {0, 1}, 21: {0, 1}}
+Iteration 3: Best valset aggregate score so far: -0.009090909090909089
+Iteration 3: Best program as per aggregate score on valset: 1
+Iteration 3: Best score on valset: -0.009090909090909089
+Iteration 3: Linear pareto front program index: 1
+Iteration 3: New program candidate index: 1
+Iteration 4: Selected program 0 score: -0.06818181818181818
+Iteration 4: Proposed new text for router_prompt: You are a cost-aware router for MMLU-Pro computer science multiple-choice questions. Your job is to select the cheapest model ("nano" or "mini") that is likely to answer the question correctly, and only escalate to "mini" when "nano" is likely to fail but "mini" is likely to succeed. Your routing must minimize critical misroutes (where "nano" is chosen but is wrong and "mini" would be correct), while also avoiding unnecessary use of "mini".
+
+Background and domain-specific notes:
+- "nano" is a cheaper, less capable model. "mini" is more capable and more expensive.
+- Most MMLU-Pro computer science questions are multiple-choice, and may involve definitions, code tracing, algorithmic reasoning, formal logic, protocol/architecture distinctions, or multi-step calculations.
+- Critical misroutes (choosing "nano" when it is wrong but "mini" would be correct) are heavily penalized.
+- If both models are likely to fail, prefer "nano" (cost-saving).
+- If both models are likely to succeed, prefer "nano" (cost-saving).
+- Only escalate to "mini" when the question has patterns where "nano" is likely to make confident errors but "mini" is likely to succeed.
+
+Routing rules:
+1. Default to "nano" for:
+   - Direct definitions, standard facts, simple code tracing, and basic algorithm questions.
+   - Single-step reasoning or direct recall.
+2. Escalate to "mini" if the question shows any of these risk patterns:
+   - Multi-step calculations, especially iterative updates (e.g., repeated application of an algorithm, sequential state updates, or chained arithmetic).
+   - Tricky or subtle formal logic (e.g., "not except", double negatives, or logical traps).
+   - Subtle distinctions in computer architecture, protocols, or distributed systems (e.g., Chord DHT successor/predecessor, protocol edge cases).
+   - Dense or layered reasoning, or where the answer depends on careful tracking of multiple variables or states.
+   - Hidden traps, ambiguous wording, or options that are close in meaning or value.
+   - Any situation where "nano" may confidently pick the wrong answer due to oversimplification or missing a subtlety.
+3. If neither model is likely to answer correctly, select "nano" (escalation cannot recover accuracy).
+4. If both models are likely to answer correctly, select "nano" (to save cost).
+
+Output format:
+Return compact JSON only, with these keys:
+- route: "nano" or "mini"
+- difficulty: "easy", "medium", or "hard"
+- confidence: number from 0.0 to 1.0
+- reason: short explanation of why this route is appropriate
+- risk_flags: short list of risk patterns, such as "multi_step", "not_except", "formal_logic", "protocol_edge_case", "calculation", "ambiguous_wording", "none"
+
+Do not include markdown, prose outside JSON, or any extra keys.
+
+Examples of risk_flags:
+- "multi_step": multi-step calculation or iterative update
+- "calculation": non-trivial arithmetic or algorithmic computation
+- "formal_logic": tricky logical structure, double negatives, or "not except"
+- "protocol_edge_case": subtlety in protocol/architecture/distributed systems
+- "ambiguous_wording": unclear or tricky phrasing
+- "none": no special risk detected
+
+Your goal: Select "mini" only when "nano" is likely to fail but "mini" is likely to succeed, based on the above rules and patterns. Otherwise, select "nano".
+Iteration 4: New subsample score 5.2 is better than old score 1.2. Continue to full eval and add to candidate pool.
+Iteration 4: Valset score for new program: -0.06818181818181818 (coverage 22 / 22)
+Iteration 4: Val aggregate for new program: -0.06818181818181818
+Iteration 4: Individual valset scores for new program: {0: 1.0, 1: 1.0, 2: -2.0, 3: 1.0, 4: 1.0, 5: -0.5, 6: 1.0, 7: 0.2, 8: -2.0, 9: -2.0, 10: 1.0, 11: 0.2, 12: 0.2, 13: 0.2, 14: -2.0, 15: 1.0, 16: -2.0, 17: -2.0, 18: 1.0, 19: 1.0, 20: 1.0, 21: 0.2}
+Iteration 4: New valset pareto front scores: {0: 1.0, 1: 1.0, 2: 2.0, 3: 1.0, 4: 1.0, 5: -0.5, 6: 1.0, 7: 0.2, 8: -2.0, 9: -2.0, 10: 1.0, 11: 0.2, 12: 0.2, 13: 0.2, 14: -2.0, 15: 1.0, 16: -2.0, 17: -2.0, 18: 1.0, 19: 1.0, 20: 1.0, 21: 0.2}
+Iteration 4: Valset pareto front aggregate score: 0.11363636363636363
+Iteration 4: Updated valset pareto front programs: {0: {0, 1, 2}, 1: {0, 1, 2}, 2: {1}, 3: {0, 1, 2}, 4: {0, 1, 2}, 5: {0, 1, 2}, 6: {0, 2}, 7: {0, 2}, 8: {0, 1, 2}, 9: {0, 1, 2}, 10: {0, 1, 2}, 11: {0, 1, 2}, 12: {0, 1, 2}, 13: {0, 1, 2}, 14: {0, 1, 2}, 15: {0, 1, 2}, 16: {0, 1, 2}, 17: {0, 1, 2}, 18: {0, 1, 2}, 19: {0, 1, 2}, 20: {0, 1, 2}, 21: {0, 1, 2}}
+Iteration 4: Best valset aggregate score so far: -0.009090909090909089
+Iteration 4: Best program as per aggregate score on valset: 1
+Iteration 4: Best score on valset: -0.009090909090909089
+Iteration 4: Linear pareto front program index: 1
+Iteration 4: New program candidate index: 2
+Iteration 5: Selected program 2 score: -0.06818181818181818
+Iteration 5: Proposed new text for router_prompt: You are a cost-aware router for MMLU-Pro computer science multiple-choice questions. Your job is to select the cheapest model ("nano" or "mini") that is likely to answer the question correctly, and only escalate to "mini" when "nano" is likely to fail but "mini" is likely to succeed. Your routing must minimize critical misroutes (where "nano" is chosen but is wrong and "mini" would be correct), while also avoiding unnecessary use of "mini".
+
+Domain-specific notes and background:
+- "nano" is a cheaper, less capable model. "mini" is more capable and more expensive.
+- Most MMLU-Pro computer science questions are multiple-choice, and may involve definitions, code tracing, algorithmic reasoning, formal logic, protocol/architecture distinctions, or multi-step calculations.
+- Critical misroutes (choosing "nano" when it is wrong but "mini" would be correct) are heavily penalized.
+- If both models are likely to fail, prefer "nano" (cost-saving).
+- If both models are likely to succeed, prefer "nano" (cost-saving).
+- Only escalate to "mini" when the question has patterns where "nano" is likely to make confident errors but "mini" is likely to succeed.
+- Many questions involve subtle factual distinctions, nuanced technical statements, or options that are close in meaning/value. "Nano" is prone to confidently hallucinate or oversimplify in such cases, while "mini" is more reliable.
+- Statement-based questions (e.g., "Statement 1| ... Statement 2| ...") with options that combine truth values or partial truths are especially risky for "nano", even if they appear to test factual recall.
+
+Routing rules:
+1. Default to "nano" for:
+   - Direct definitions, standard facts, simple code tracing, and basic algorithm questions.
+   - Single-step reasoning or direct recall.
+2. Escalate to "mini" if the question shows any of these risk patterns:
+   - Multi-step calculations, especially iterative updates (e.g., repeated application of an algorithm, sequential state updates, or chained arithmetic).
+   - Tricky or subtle formal logic (e.g., "not except", double negatives, or logical traps).
+   - Subtle distinctions in computer architecture, protocols, or distributed systems (e.g., Chord DHT successor/predecessor, protocol edge cases).
+   - Dense or layered reasoning, or where the answer depends on careful tracking of multiple variables or states.
+   - Hidden traps, ambiguous wording, or options that are close in meaning or value.
+   - Statement-based questions with multiple assertions, especially when options include "partially true", "undetermined", or nuanced combinations of truth values.
+   - Any situation where "nano" may confidently pick the wrong answer due to oversimplification, missing a subtlety, or hallucinating a fact.
+3. If neither model is likely to answer correctly, select "nano" (escalation cannot recover accuracy).
+4. If both models are likely to answer correctly, select "nano" (to save cost).
+
+Output format:
+Return compact JSON only, with these keys:
+- route: "nano" or "mini"
+- difficulty: "easy", "medium", or "hard"
+- confidence: number from 0.0 to 1.0
+- reason: short explanation of why this route is appropriate
+- risk_flags: short list of risk patterns, such as "multi_step", "not_except", "formal_logic", "protocol_edge_case", "calculation", "ambiguous_wording", "statement_combo", "none"
+
+Do not include markdown, prose outside JSON, or any extra keys.
+
+Examples of risk_flags:
+- "multi_step": multi-step calculation or iterative update
+- "calculation": non-trivial arithmetic or algorithmic computation
+- "formal_logic": tricky logical structure, double negatives, or "not except"
+- "protocol_edge_case": subtlety in protocol/architecture/distributed systems
+- "ambiguous_wording": unclear or tricky phrasing
+- "statement_combo": question involves multiple statements with nuanced or partial truth options
+- "none": no special risk detected
+
+Your goal: Select "mini" only when "nano" is likely to fail but "mini" is likely to succeed, based on the above rules and patterns. Otherwise, select "nano".
+Iteration 5: New subsample score -0.6 is not better than old score -0.6, skipping
+Iteration 6: Selected program 2 score: -0.06818181818181818
+Iteration 6: Proposed new text for router_prompt: You are a cost-aware router for MMLU-Pro computer science multiple-choice questions. Your job is to select the cheapest model ("nano" or "mini") that is likely to answer the question correctly, and only escalate to "mini" when "nano" is likely to fail but "mini" is likely to succeed. Your routing must minimize critical misroutes (where "nano" is chosen but is wrong and "mini" would be correct), while also avoiding unnecessary use of "mini".
+
+Domain and task-specific notes:
+- "nano" is a cheaper, less capable model. "mini" is more capable and more expensive.
+- Most MMLU-Pro computer science questions are multiple-choice, and may involve definitions, code tracing, algorithmic reasoning, formal logic, protocol/architecture distinctions, or multi-step calculations.
+- Critical misroutes (choosing "nano" when it is wrong but "mini" would be correct) are heavily penalized. Avoid these even at the cost of slightly higher usage of "mini".
+- If both models are likely to fail, prefer "nano" (cost-saving).
+- If both models are likely to succeed, prefer "nano" (cost-saving).
+- Only escalate to "mini" when the question has patterns where "nano" is likely to make confident errors but "mini" is likely to succeed.
+
+Routing rules:
+1. Default to "nano" for:
+   - Direct definitions, standard facts, simple code tracing, and basic algorithm questions.
+   - Single-step reasoning or direct recall.
+2. Escalate to "mini" if the question shows any of these risk patterns:
+   - Multi-step calculations, especially iterative updates (e.g., repeated application of an algorithm, sequential state updates, or chained arithmetic).
+   - Tricky or subtle formal logic (e.g., "not except", double negatives, or logical traps).
+   - Subtle distinctions in computer architecture, protocols, or distributed systems (e.g., Chord DHT successor/predecessor, protocol edge cases).
+   - Dense or layered reasoning, or where the answer depends on careful tracking of multiple variables or states.
+   - Hidden traps, ambiguous wording, or options that are close in meaning or value.
+   - Any situation where "nano" may confidently pick the wrong answer due to oversimplification, missing a subtlety, or confusing similar options.
+   - Questions about the significance or function of foundational computer science concepts (such as "assembler language", "hash function construction", or "security property") where "nano" is known to make common, confident errors.
+   - Questions involving cryptography, security, or protocol analysis, especially if the options are nuanced or require distinguishing between similar attacks or properties.
+3. If neither model is likely to answer correctly, select "nano" (escalation cannot recover accuracy).
+4. If both models are likely to answer correctly, select "nano" (to save cost).
+
+Output format:
+Return compact JSON only, with these keys:
+- route: "nano" or "mini"
+- difficulty: "easy", "medium", or "hard"
+- confidence: number from 0.0 to 1.0
+- reason: short explanation of why this route is appropriate
+- risk_flags: short list of risk patterns, such as "multi_step", "not_except", "formal_logic", "protocol_edge_case", "calculation", "ambiguous_wording", "none"
+
+Do not include markdown, prose outside JSON, or any extra keys.
+
+Examples of risk_flags:
+- "multi_step": multi-step calculation or iterative update
+- "calculation": non-trivial arithmetic or algorithmic computation
+- "formal_logic": tricky logical structure, double negatives, or "not except"
+- "protocol_edge_case": subtlety in protocol/architecture/distributed systems
+- "ambiguous_wording": unclear or tricky phrasing
+- "none": no special risk detected
+
+Your goal: Select "mini" only when "nano" is likely to fail but "mini" is likely to succeed, based on the above rules and patterns. Otherwise, select "nano".
+
+Special guidance based on observed failure patterns:
+- For questions about the significance or definition of foundational terms (e.g., "assembler language", "hash function construction", "MAC insecurity"), escalate to "mini" if the options are nuanced or if "nano" is known to make confident but incorrect choices on such items.
+- For cryptography, protocol, or security questions, be alert for subtle distinctions or attacks (e.g., length-extension, construction flaws) and escalate to "mini" if the answer requires distinguishing between similar technical options.
+- When in doubt about whether "nano" will confidently make a common error and "mini" will likely succeed, prefer "mini" to avoid critical misroutes.
+
+You must always output exactly one of "nano" or "mini" as the route.
+Iteration 6: New subsample score 1.2 is better than old score -2.8. Continue to full eval and add to candidate pool.
+Iteration 6: Valset score for new program: -0.19545454545454544 (coverage 22 / 22)
+Iteration 6: Val aggregate for new program: -0.19545454545454544
+Iteration 6: Individual valset scores for new program: {0: 1.0, 1: 0.2, 2: -2.0, 3: 1.0, 4: 1.0, 5: -0.5, 6: -1.0, 7: 0.2, 8: -2.0, 9: -2.0, 10: 1.0, 11: 0.2, 12: 0.2, 13: 0.2, 14: -2.0, 15: 1.0, 16: -2.0, 17: -2.0, 18: 1.0, 19: 1.0, 20: 1.0, 21: 0.2}
+Iteration 6: New valset pareto front scores: {0: 1.0, 1: 1.0, 2: 2.0, 3: 1.0, 4: 1.0, 5: -0.5, 6: 1.0, 7: 0.2, 8: -2.0, 9: -2.0, 10: 1.0, 11: 0.2, 12: 0.2, 13: 0.2, 14: -2.0, 15: 1.0, 16: -2.0, 17: -2.0, 18: 1.0, 19: 1.0, 20: 1.0, 21: 0.2}
+Iteration 6: Valset pareto front aggregate score: 0.11363636363636363
+Iteration 6: Updated valset pareto front programs: {0: {0, 1, 2, 3}, 1: {0, 1, 2}, 2: {1}, 3: {0, 1, 2, 3}, 4: {0, 1, 2, 3}, 5: {0, 1, 2, 3}, 6: {0, 2}, 7: {0, 2, 3}, 8: {0, 1, 2, 3}, 9: {0, 1, 2, 3}, 10: {0, 1, 2, 3}, 11: {0, 1, 2, 3}, 12: {0, 1, 2, 3}, 13: {0, 1, 2, 3}, 14: {0, 1, 2, 3}, 15: {0, 1, 2, 3}, 16: {0, 1, 2, 3}, 17: {0, 1, 2, 3}, 18: {0, 1, 2, 3}, 19: {0, 1, 2, 3}, 20: {0, 1, 2, 3}, 21: {0, 1, 2, 3}}
+Iteration 6: Best valset aggregate score so far: -0.009090909090909089
+Iteration 6: Best program as per aggregate score on valset: 1
+Iteration 6: Best score on valset: -0.009090909090909089
+Iteration 6: Linear pareto front program index: 1
+Iteration 6: New program candidate index: 3
+Iteration 7: Selected program 2 score: -0.06818181818181818
+Iteration 7: Proposed new text for router_prompt: You are a cost-aware router for MMLU-Pro computer science multiple-choice questions. Your job is to select the cheapest model ("nano" or "mini") that is likely to answer the question correctly, and only escalate to "mini" when "nano" is likely to fail but "mini" is likely to succeed. Your routing must minimize critical misroutes (where "nano" is chosen but is wrong and "mini" would be correct), while also avoiding unnecessary use of "mini". Critical misroutes are heavily penalized, so err on the side of escalating to "mini" if there is any significant risk that "nano" will confidently answer incorrectly while "mini" would be correct.
+
+Domain and task-specific notes:
+- "nano" is a cheaper, less capable model. "mini" is more capable and more expensive.
+- Most MMLU-Pro computer science questions are multiple-choice, and may involve definitions, code tracing, algorithmic reasoning, formal logic, protocol/architecture distinctions, or multi-step calculations.
+- Many questions that appear to be "definition" or "fact recall" actually require subtle discrimination between closely related options, or involve terminology where "nano" is prone to confusion or confident errors.
+- "nano" is especially likely to fail on questions with: subtle distinctions between similar terms (e.g., malware types, protocol names), options that are all plausible, or where the correct answer is not the most obvious or salient one.
+- "mini" often succeeds on these subtle or tricky cases, especially when the difference between options is nuanced or requires up-to-date or less common factual knowledge.
+
+Routing rules:
+1. Default to "nano" only for:
+   - Direct definitions, standard facts, simple code tracing, and basic algorithm questions where the correct answer is unambiguous, the options are not closely related, and there is no plausible distractor that could confuse "nano".
+   - Single-step reasoning or direct recall with no ambiguity or subtlety.
+2. Escalate to "mini" if the question shows any of these risk patterns:
+   - Options are closely related, or require distinguishing between similar technical terms (e.g., types of malware, protocol variants, class relationships, etc.).
+   - The question involves subtle distinctions, edge cases, or nuanced factual knowledge (e.g., "which is LEAST likely", "all except", or "not" phrasing).
+   - The question contains ambiguous wording, hidden traps, or options that are all plausible.
+   - Multi-step calculations, iterative updates, or dense/layered reasoning.
+   - Tricky or subtle formal logic (e.g., double negatives, logical traps).
+   - Subtle distinctions in computer architecture, protocols, or distributed systems (e.g., Chord DHT successor/predecessor, protocol edge cases).
+   - Any situation where "nano" may confidently pick the wrong answer due to oversimplification, missing a subtlety, or being misled by plausible distractors.
+3. If neither model is likely to answer correctly, select "nano" (escalation cannot recover accuracy).
+4. If both models are likely to answer correctly, select "nano" (to save cost).
+
+Output format:
+Return compact JSON only, with these keys:
+- route: "nano" or "mini"
+- difficulty: "easy", "medium", or "hard"
+- confidence: number from 0.0 to 1.0
+- reason: short explanation of why this route is appropriate
+- risk_flags: short list of risk patterns, such as "multi_step", "not_except", "formal_logic", "protocol_edge_case", "calculation", "ambiguous_wording", "closely_related_options", "subtle_distinction", "none"
+
+Do not include markdown, prose outside JSON, or any extra keys.
+
+Examples of risk_flags:
+- "multi_step": multi-step calculation or iterative update
+- "calculation": non-trivial arithmetic or algorithmic computation
+- "formal_logic": tricky logical structure, double negatives, or "not except"
+- "protocol_edge_case": subtlety in protocol/architecture/distributed systems
+- "ambiguous_wording": unclear or tricky phrasing
+- "closely_related_options": options are similar or easily confused
+- "subtle_distinction": subtle or nuanced factual/technical difference
+- "none": no special risk detected
+
+Your goal: Select "mini" whenever there is any significant risk that "nano" will confidently answer incorrectly while "mini" would be correct, especially for questions with subtle distinctions, closely related options, or plausible distractors. Otherwise, select "nano".
+Iteration 7: New subsample score -1.0 is better than old score -5.0. Continue to full eval and add to candidate pool.
+Iteration 7: Exception during optimization: Remote end closed connection without response
+Traceback (most recent call last):
+  File "C:\Users\25875\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\gepa\core\engine.py", line 563, in run
+    new_idx, _ = self._run_full_eval_and_add(
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        new_program=proposal.candidate,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        state=state,
+        ^^^^^^^^^^^^
+        parent_program_idx=proposal.parent_program_ids,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\25875\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\gepa\core\engine.py", line 153, in _run_full_eval_and_add
+    valset_evaluation = self._evaluate_on_valset(new_program, state)
+  File "C:\Users\25875\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\gepa\core\engine.py", line 135, in _evaluate_on_valset
+    outputs_by_val_idx, scores_by_val_idx, objective_by_val_idx, num_actual_evals = state.cached_evaluate_full(
+                                                                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        program, list(val_ids), valset.fetch, self.evaluator
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\25875\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\gepa\core\state.py", line 621, in cached_evaluate_full
+    outputs, scores, objective_scores = evaluator(batch, candidate)
+                                        ~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\25875\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\gepa\core\engine.py", line 96, in evaluator
+    eval_result = adapter.evaluate(batch, program, capture_traces=False)
+  File "C:\Users\25875\gepa\optimize_ollama_router_gepa.py", line 661, in evaluate
+    raw = self.router_lm(messages)
+  File "C:\Users\25875\gepa\optimize_ollama_router_gepa.py", line 515, in __call__
+    content = self._chat_once(messages, self.num_predict)
+  File "C:\Users\25875\gepa\optimize_ollama_router_gepa.py", line 548, in _chat_once
+    with urllib.request.urlopen(request, timeout=self.timeout) as response:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3568.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 189, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3568.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 489, in open
+    response = self._open(req, data)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3568.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 506, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3568.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 466, in _call_chain
+    result = func(*args)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3568.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 1348, in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3568.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 1323, in do_open
+    r = h.getresponse()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3568.0_x64__qbz5n2kfra8p0\Lib\http\client.py", line 1450, in getresponse
+    response.begin()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3568.0_x64__qbz5n2kfra8p0\Lib\http\client.py", line 336, in begin
+    version, status, reason = self._read_status()
+                              ~~~~~~~~~~~~~~~~~^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3568.0_x64__qbz5n2kfra8p0\Lib\http\client.py", line 305, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+                             " response")
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+Loading gepa state from run dir
+Iteration 6: Base program full valset score: -0.06818181818181818 over 22 / 22 examples
+Iteration 7: Selected program 2 score: -0.06818181818181818
+Iteration 7: Proposed new text for router_prompt: You are a cost-aware router for MMLU-Pro computer science multiple-choice questions. Your job is to select the cheapest model ("nano" or "mini") that is likely to answer the question correctly, and only escalate to "mini" when "nano" is likely to fail but "mini" is likely to succeed. Your routing must minimize critical misroutes (where "nano" is chosen but is wrong and "mini" would be correct), while also avoiding unnecessary use of "mini".
+
+Background and domain-specific notes:
+- "nano" is a cheaper, less capable model. "mini" is more capable and more expensive.
+- Most MMLU-Pro computer science questions are multiple-choice, and may involve definitions, code tracing, algorithmic reasoning, formal logic, protocol/architecture distinctions, or multi-step calculations.
+- Critical misroutes (choosing "nano" when it is wrong but "mini" would be correct) are heavily penalized. Avoid these even at the cost of using "mini" more often.
+- If both models are likely to fail, prefer "nano" (cost-saving).
+- If both models are likely to succeed, prefer "nano" (cost-saving).
+- Only escalate to "mini" when the question has patterns where "nano" is likely to make confident errors but "mini" is likely to succeed.
+
+Routing rules (updated for risk aversion and observed failure patterns):
+1. Default to "nano" for:
+   - Direct, unambiguous definitions or standard facts with no close distractors.
+   - Simple code tracing or basic algorithm questions with only one clear answer.
+   - Single-step reasoning or direct recall.
+2. Escalate to "mini" if the question shows any of these risk patterns:
+   - Multi-step calculations, especially iterative updates (e.g., repeated application of an algorithm, sequential state updates, or chained arithmetic).
+   - Tricky or subtle formal logic (e.g., "not except", double negatives, or logical traps).
+   - Subtle distinctions in computer architecture, protocols, or distributed systems (e.g., Chord DHT successor/predecessor, protocol edge cases).
+   - Dense or layered reasoning, or where the answer depends on careful tracking of multiple variables or states.
+   - Hidden traps, ambiguous wording, or options that are close in meaning or value.
+   - Any situation where "nano" may confidently pick the wrong answer due to oversimplification, missing a subtlety, or confusing similar terms.
+   - Questions involving security, malware, or phishing, especially where options are similar or require distinguishing between closely related terms (e.g., types of Trojans, phishing indicators).
+   - Questions where the correct answer is a subtle exception or requires distinguishing between nearly identical options.
+3. If neither model is likely to answer correctly, select "nano" (escalation cannot recover accuracy).
+4. If both models are likely to answer correctly, select "nano" (to save cost).
+
+Additional guidance:
+- Be especially cautious with "definition" questions in security, malware, or protocol domains, as "nano" often confuses similar terms or picks plausible but incorrect answers. Escalate to "mini" if options are numerous, similar, or require fine-grained distinctions.
+- If the question asks for the "least likely," "not," "except," or similar negative logic, treat as risky and escalate to "mini" unless the answer is obvious and unambiguous.
+- If the question involves method resolution order, inheritance, or object-oriented relationships with multiple similar options, escalate to "mini" unless the answer is uniquely clear.
+- When in doubt, and if any risk pattern is present, prefer "mini" to avoid critical misroutes.
+
+Output format:
+Return compact JSON only, with these keys:
+- route: "nano" or "mini"
+- difficulty: "easy", "medium", or "hard"
+- confidence: number from 0.0 to 1.0
+- reason: short explanation of why this route is appropriate
+- risk_flags: short list of risk patterns, such as "multi_step", "not_except", "formal_logic", "protocol_edge_case", "calculation", "ambiguous_wording", "none"
+
+Do not include markdown, prose outside JSON, or any extra keys.
+
+Examples of risk_flags:
+- "multi_step": multi-step calculation or iterative update
+- "calculation": non-trivial arithmetic or algorithmic computation
+- "formal_logic": tricky logical structure, double negatives, or "not except"
+- "protocol_edge_case": subtlety in protocol/architecture/distributed systems
+- "ambiguous_wording": unclear or tricky phrasing
+- "none": no special risk detected
+
+Your goal: Select "mini" only when "nano" is likely to fail but "mini" is likely to succeed, based on the above rules and patterns. Otherwise, select "nano". Avoid critical misroutes at all costs, especially for questions with subtle distinctions, negative logic, or security/malware/protocol definitions.
+Iteration 7: New subsample score -1.0 is better than old score -5.0. Continue to full eval and add to candidate pool.
+Iteration 7: Valset score for new program: -0.19545454545454544 (coverage 22 / 22)
+Iteration 7: Val aggregate for new program: -0.19545454545454544
+Iteration 7: Individual valset scores for new program: {0: 1.0, 1: 0.2, 2: -2.0, 3: 1.0, 4: 1.0, 5: -0.5, 6: -1.0, 7: 0.2, 8: -2.0, 9: -2.0, 10: 1.0, 11: 0.2, 12: 0.2, 13: 0.2, 14: -2.0, 15: 1.0, 16: -2.0, 17: -2.0, 18: 1.0, 19: 1.0, 20: 1.0, 21: 0.2}
+Iteration 7: New valset pareto front scores: {0: 1.0, 1: 1.0, 2: 2.0, 3: 1.0, 4: 1.0, 5: -0.5, 6: 1.0, 7: 0.2, 8: -2.0, 9: -2.0, 10: 1.0, 11: 0.2, 12: 0.2, 13: 0.2, 14: -2.0, 15: 1.0, 16: -2.0, 17: -2.0, 18: 1.0, 19: 1.0, 20: 1.0, 21: 0.2}
+Iteration 7: Valset pareto front aggregate score: 0.11363636363636363
+Iteration 7: Updated valset pareto front programs: {0: {0, 1, 2, 3, 4}, 1: {0, 1, 2}, 2: {1}, 3: {0, 1, 2, 3, 4}, 4: {0, 1, 2, 3, 4}, 5: {0, 1, 2, 3, 4}, 6: {0, 2}, 7: {0, 2, 3, 4}, 8: {0, 1, 2, 3, 4}, 9: {0, 1, 2, 3, 4}, 10: {0, 1, 2, 3, 4}, 11: {0, 1, 2, 3, 4}, 12: {0, 1, 2, 3, 4}, 13: {0, 1, 2, 3, 4}, 14: {0, 1, 2, 3, 4}, 15: {0, 1, 2, 3, 4}, 16: {0, 1, 2, 3, 4}, 17: {0, 1, 2, 3, 4}, 18: {0, 1, 2, 3, 4}, 19: {0, 1, 2, 3, 4}, 20: {0, 1, 2, 3, 4}, 21: {0, 1, 2, 3, 4}}
+Iteration 7: Best valset aggregate score so far: -0.009090909090909089
+Iteration 7: Best program as per aggregate score on valset: 1
+Iteration 7: Best score on valset: -0.009090909090909089
+Iteration 7: Linear pareto front program index: 1
+Iteration 7: New program candidate index: 4
+Iteration 8: Selected program 2 score: -0.06818181818181818
+Iteration 8: Proposed new text for router_prompt: You are a cost-aware router for MMLU-Pro computer science multiple-choice questions. Your job is to select the cheapest model ("nano" or "mini") that is likely to answer the question correctly, and only escalate to "mini" when "nano" is likely to fail but "mini" is likely to succeed. Your routing must minimize critical misroutes (where "nano" is chosen but is wrong and "mini" would be correct), while also avoiding unnecessary use of "mini". Critical misroutes are heavily penalized; unnecessary escalation to "mini" is penalized, but less so.
+
+Background and domain-specific notes:
+- "nano" is a cheaper, less capable model. "mini" is more capable and more expensive.
+- Most MMLU-Pro computer science questions are multiple-choice, and may involve definitions, code tracing, algorithmic reasoning, formal logic, protocol/architecture distinctions, or multi-step calculations.
+- Critical misroutes (choosing "nano" when it is wrong but "mini" would be correct) are heavily penalized.
+- If both models are likely to fail, prefer "nano" (cost-saving).
+- If both models are likely to succeed, prefer "nano" (cost-saving).
+- Only escalate to "mini" when the question has patterns where "nano" is likely to make confident errors but "mini" is likely to succeed.
+
+Routing rules:
+1. Default to "nano" for:
+   - Direct definitions, standard facts, simple code tracing, and basic algorithm questions.
+   - Single-step reasoning or direct recall.
+2. Escalate to "mini" if the question shows any of these risk patterns:
+   - Multi-step calculations, especially iterative updates (e.g., repeated application of an algorithm, sequential state updates, or chained arithmetic).
+   - Tricky or subtle formal logic (e.g., "not except", double negatives, or logical traps).
+   - Subtle distinctions in computer architecture, protocols, or distributed systems (e.g., Chord DHT successor/predecessor, protocol edge cases).
+   - Dense or layered reasoning, or where the answer depends on careful tracking of multiple variables or states.
+   - Hidden traps, ambiguous wording, or options that are close in meaning or value.
+   - Any situation where "nano" may confidently pick the wrong answer due to oversimplification or missing a subtlety.
+   - Questions that require distinguishing between superficially similar technical terms, or where the correct answer depends on a nuanced understanding of terminology or methodology (e.g., "whitebox" vs "coverage-based" fuzzing, or protocol subtleties).
+   - Questions where "nano" is likely to confuse a plausible but incorrect answer for the correct one, especially in areas where "mini" is known to outperform "nano" (such as subtle distinctions in software testing, distributed systems, or advanced theoretical computer science).
+3. If neither model is likely to answer correctly, select "nano" (escalation cannot recover accuracy).
+4. If both models are likely to answer correctly, select "nano" (to save cost).
+
+Output format:
+Return compact JSON only, with these keys:
+- route: "nano" or "mini"
+- difficulty: "easy", "medium", or "hard"
+- confidence: number from 0.0 to 1.0
+- reason: short explanation of why this route is appropriate
+- risk_flags: short list of risk patterns, such as "multi_step", "not_except", "formal_logic", "protocol_edge_case", "calculation", "ambiguous_wording", "none"
+
+Do not include markdown, prose outside JSON, or any extra keys.
+
+Examples of risk_flags:
+- "multi_step": multi-step calculation or iterative update
+- "calculation": non-trivial arithmetic or algorithmic computation
+- "formal_logic": tricky logical structure, double negatives, or "not except"
+- "protocol_edge_case": subtlety in protocol/architecture/distributed systems
+- "ambiguous_wording": unclear or tricky phrasing
+- "none": no special risk detected
+
+Your goal: Select "mini" only when "nano" is likely to fail but "mini" is likely to succeed, based on the above rules and patterns. Otherwise, select "nano".
+
+Additional guidance:
+- Be especially cautious with questions about software testing methodologies (e.g., fuzzing styles), distributed systems, or protocol/architecture distinctions, as "nano" is prone to confident errors in these areas while "mini" is more reliable.
+- If the question involves options that are all plausible or technically similar, or where the correct answer hinges on a subtle technical distinction (rather than a direct recall), escalate to "mini".
+- If the question is a direct recall of a standard fact, definition, or involves only a single-step calculation or code tracing, prefer "nano".
+- If the question is ambiguous, has tricky wording, or could be interpreted in multiple ways, escalate to "mini".
+- When in doubt, err on the side of escalating to "mini" if a critical misroute is plausible, especially in areas where "nano" is known to make confident but incorrect choices and "mini" is more accurate.
+Iteration 8: New subsample score 0.2 is not better than old score 0.2, skipping
+Iteration 9: Selected program 1 score: -0.009090909090909089
+Iteration 9: Proposed new text for router_prompt: You are a cost-aware model router for MMLU-Pro computer science multiple-choice questions. Your task is to select the cheapest model ("nano" or "mini") that is likely to answer the question correctly, and to select the more expensive model only when the cheaper model is likely to fail while the expensive one is likely to succeed. Your routing must minimize the risk of "critical misroutes" (where nano is selected but is wrong while mini would be correct), as these are strongly penalized. You must always select exactly one model: "nano" or "mini".
+
+Model options:
+- nano: Cheaper, preferred whenever it is likely to preserve accuracy.
+- mini: More capable and more expensive; select only when nano is likely to fail but mini is likely to succeed.
+
+Routing rules (strictly follow these, as critical misroutes are heavily penalized):
+
+1. Select "nano" only for questions that are truly straightforward: direct definitions, standard facts, simple code tracing, or basic algorithm knowledge, where there is no ambiguity, subtlety, or risk of confusion. Examples include:
+   - Well-known definitions (e.g., "What is a stack?")
+   - Standard computational complexity facts (e.g., "K-fold cross-validation is linear in K")
+   - Simple cause-and-effect in ML (e.g., "If training loss increases with epochs, what could be wrong?")
+   - Basic, unambiguous code tracing
+
+2. Select "mini" for any question that includes any of the following risk patterns:
+   - "multi_step": Requires multi-step reasoning or calculation (e.g., recursive definitions, multi-part logic, chained implications, or evaluating several statements for truth).
+   - "formal_logic": Involves formal logic, recursive/inductive definitions, or logical traps.
+   - "protocol_edge_case": Subtle distinctions in computer architecture, protocols, or terminology (e.g., horizontal vs. vertical microarchitecture, protocol edge cases, memory management subtleties).
+   - "calculation": Non-trivial calculation required.
+   - "ambiguous_wording": Wording is unclear, options are close in meaning, or require careful elimination.
+   - "not_except": Correct answer is "none of the above", "not", "except", or similar.
+   - Any case where nano may confidently select a plausible but incorrect answer due to hidden traps, subtle distinctions, or non-obvious logic.
+   - Questions involving multiple statements to be evaluated for truth (e.g., "Which statements are true?"), especially if the statements are nuanced or require domain expertise.
+
+3. If both models are likely to answer correctly, select "nano" to save cost.
+
+4. If neither model is likely to answer correctly, select "nano" (escalation cannot recover accuracy).
+
+5. When in doubt, or if the question contains any risk pattern listed above, prefer "mini" to avoid critical misroutes.
+
+6. For questions about popular tools, libraries, or technologies, be cautious: if the answer is not the most universally recognized option, or if the options are all plausible, treat as ambiguous and prefer "mini".
+
+7. For questions with many options that are similar (e.g., lists of tools, protocols, or algorithms), or where the correct answer is not the most obvious, treat as ambiguous and prefer "mini".
+
+Risk patterns to watch for (use these as risk_flags in your output):
+- "multi_step": Requires multi-step calculation or reasoning.
+- "formal_logic": Involves formal logic, recursive/inductive definitions, or logical traps.
+- "protocol_edge_case": Subtle distinctions in protocols or architectures.
+- "calculation": Non-trivial calculation required.
+- "ambiguous_wording": Wording is unclear or options are close in meaning.
+- "not_except": Correct answer is "none of the above", "not", or similar.
+- "none": No special risk patterns detected.
+
+Output requirements:
+Return compact JSON only, with these keys:
+- route: "nano" or "mini"
+- difficulty: "easy", "medium", or "hard"
+- confidence: number from 0.0 to 1.0
+- reason: Short explanation of why this route is appropriate, referencing risk patterns or question features.
+- risk_flags: Short list of risk patterns from the list above.
+
+Do not include markdown, prose outside JSON, or any extra keys. Your output must be strictly parseable and must always select exactly one of "nano" or "mini" as the route.
+Iteration 9: New subsample score 4.2 is not better than old score 4.2, skipping
+Iteration 10: Selected program 1 score: -0.009090909090909089
+Iteration 10: Proposed new text for router_prompt: You are a cost-aware router for MMLU-Pro computer science multiple-choice questions. Your job is to select the cheapest model ("nano") that is likely to answer the question correctly, and to select the more expensive model ("mini") only when nano is likely to fail but mini is likely to succeed. Your routing must minimize the risk of "critical misroutes" (where nano is selected but is wrong while mini would be correct), as these are strongly penalized. Always select exactly one model: "nano" or "mini".
+
+Model options:
+- nano: Cheaper, preferred whenever it is likely to preserve accuracy.
+- mini: More capable and more expensive; select only when nano is likely to fail but mini is likely to succeed.
+
+Routing rules (strictly follow these, as critical misroutes are heavily penalized):
+1. Select nano if and only if the question is truly straightforward: direct definitions, standard facts, simple code tracing, or basic algorithm knowledge, with no ambiguity, subtlety, or risk of confusion. Also select nano for standard formula application or direct arithmetic if the formula and calculation are unambiguous and well-known (e.g., "maximum edges in a planar graph with n vertices").
+2. Select mini for any question that includes any of the following risk patterns:
+   - Multi-step reasoning or calculation (e.g., recursive definitions, multi-part logic, chained implications, or dependency analysis).
+   - Tricky or subtle formal logic, especially involving recursive or inductive definitions, or where the correct answer is "none of the above", "not", or similar.
+   - Subtle distinctions in computer architecture, protocols, or terminology (e.g., protocol edge cases, microarchitecture distinctions).
+   - Dense reasoning, ambiguous wording, or where options are close in meaning and require careful elimination.
+   - Any case where nano may confidently select a plausible but incorrect answer due to hidden traps, subtle distinctions, or non-obvious logic.
+   - Questions involving multiple statements to be evaluated for truth (e.g., "Which statements are true?"), especially if the statements are nuanced or require domain expertise.
+   - Any question requiring dependency analysis (e.g., parallel assignment scheduling, critical path analysis).
+   - Any question where the calculation involves several chained steps, algebraic manipulation, or non-trivial application of formulas.
+3. If both models are likely to answer correctly, select nano to save cost.
+4. If neither model is likely to answer correctly, select nano (escalation cannot recover accuracy).
+5. When in doubt, or if the question contains any risk pattern listed below, prefer mini to avoid critical misroutes.
+
+Risk patterns to watch for (use these as risk_flags in your output):
+- "multi_step": Requires multi-step calculation or reasoning.
+- "formal_logic": Involves formal logic, recursive/inductive definitions, or logical traps.
+- "protocol_edge_case": Subtle distinctions in protocols or architectures.
+- "calculation": Non-trivial calculation required (multi-step, chained, or non-standard).
+- "ambiguous_wording": Wording is unclear or options are close in meaning.
+- "not_except": Correct answer is "none of the above", "not", or similar.
+- "none": No special risk patterns detected.
+
+Output requirements:
+Return compact JSON only, with these keys:
+- route: "nano" or "mini"
+- difficulty: "easy", "medium", or "hard"
+- confidence: number from 0.0 to 1.0
+- reason: Short explanation of why this route is appropriate, referencing risk patterns or question features.
+- risk_flags: Short list of risk patterns from the list above.
+
+Do not include markdown, prose outside JSON, or any extra keys. Your output must be strictly parseable and must always select exactly one of "nano" or "mini" as the route.
+
+Domain-specific guidance:
+- For questions involving direct application of a well-known formula (e.g., "maximum number of edges in a planar graph with n vertices"), and the calculation is a single arithmetic step, select nano.
+- For questions requiring multi-step algebraic manipulation (e.g., comparing figures of merit for two network topologies, or calculating ratios involving several chained steps), select mini.
+- For questions involving dependency analysis (e.g., scheduling assignments in parallel computing), select mini.
+- For standard unit conversions or direct multiplication with no ambiguity, select nano.
+- For questions where options are very close in value or meaning, or where a small calculation error could lead to the wrong answer, select mini.
+
+When in doubt, err on the side of selecting mini to avoid critical misroutes.
+Iteration 10: New subsample score 4.2 is not better than old score 4.2, skipping

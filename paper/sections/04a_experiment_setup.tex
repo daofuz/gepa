@@ -1,0 +1,118 @@
+\section{Experimental Methodology}
+\label{sec:experiments}
+
+\subsection{Research Questions}
+
+Our experiments address five questions.
+
+\begin{description}[leftmargin=0.9cm,style=nextline]
+  \item[RQ1.] Can outcome-aware prompt routing approach all-Mini answer
+  accuracy while avoiding a meaningful fraction of Mini calls?
+  \item[RQ2.] How does the lightweight soft-prompt router compare with an
+  independent reflective discrete router in cost, size, and failure modes?
+  \item[RQ3.] Under the same paired screening and human-label budget,
+  does disagreement-guided selection discover more routing-critical cases than
+  random annotation, and how does score design affect their use?
+  \item[RQ4.] How do label count, prompt capacity, optimizer steps, and
+  threshold policy affect reliability?
+  \item[RQ5.] Do conclusions obtained on historical splits survive a locked
+  fresh set and a second semantic workload?
+\end{description}
+
+\subsection{Workloads and Paired Outcomes}
+
+\paragraph{SemBench Movie.}
+SemBench evaluates semantic query processing engines over realistic operators
+and modalities \cite{lao2026sembench}. We use its Movie review sentiment
+classification operator at scale factor 2,000. The source contains 2,000 rows
+and 1,865 unique review IDs; the \texttt{scoreSentiment} field supplies the
+gold label but is masked during acquisition. For each screened review we cache
+one GPT-5 Nano and one GPT-5 Mini prediction before revealing gold for the
+selected subset. After deduplication, 812 reviews form the historical
+pool and 200 additional reviews form the locked fresh set, for 1,012 paired
+examples in total.
+
+Historical experiments reserve the same 40 validation and 82 test examples
+per seed; training examples are selected from the remaining pool. The
+historical test has 72 \bc, 5 \mo, 1 \no, and 4 \bw examples. The fresh set was
+manifested before either answer-model output was collected and contains 167
+\bc, 16 \mo, 3 \no, and 14 \bw examples. Its manifest SHA-256, training recipe,
+seeds, epoch selection, and threshold policy were locked before 400 API calls
+were issued. All calls completed without errors. Later analyses on these 200
+rows are explicitly marked post-hoc and are not described as untouched.
+
+\paragraph{MMLU-Pro Computer Science.}
+The second workload contains 410 Computer Science questions from MMLU-Pro,
+which emphasizes reasoning and expands questions to as many as ten options
+\cite{wang2024mmlupro}. We use 165 training, 40 validation, and 205 fixed test
+questions. The answer-model pair is GPT-4.1 Nano/Mini. The benchmark answer is treated as
+an unavailable human label until acquisition has fixed the selected IDs. In
+contrast to the fixed-format Movie operator, QA has variable input/output
+lengths; we therefore
+report realized API cost in addition to model-call fractions. The pre-router
+sees the category, source, question, and options, but not Nano's saved answer.
+
+\begin{table*}[t]
+  \centering
+  \small
+  \caption{Workload and evaluation summary. ``Fresh'' means the manifest and
+  router configuration were locked before answer outcomes were acquired.}
+  \label{tab:workloads}
+  \begin{tabular}{lrrrrrrl}
+    \toprule
+    Workload & Source rows & Paired & Train pool & Validation & Test & Seeds & Status\\
+    \midrule
+    SemBench Movie (historical) & 2,000 & 812 & up to 690 & 40 & 82 & 505/606/707 & exploratory\\
+    SemBench Movie (fresh) & 2,000 & 200 & 0 & 0 & 200 & 505/606/707 & locked once\\
+    MMLU-Pro Computer Science & 410 & 410 & 165 & 40 & 205 & 505/606/707 & fixed test\\
+    \bottomrule
+  \end{tabular}
+\end{table*}
+
+\subsection{Systems and Baselines}
+
+The primary soft-prompt router uses frozen
+\texttt{distilbert-base-}\allowbreak\texttt{uncased}, maximum length 192,
+batch size 8, eight
+epochs, AdamW, and three seeds. Only its prompt vectors and two-class head are
+trainable; routing requires one non-generative encoder pass. Unless stated
+otherwise, it uses eight soft tokens, learning rate $10^{-2}$, no weight decay,
+inverse-expected-cost weighted cross-entropy, and validation maximum-accuracy calibration.
+The residual variant adds a 128-dimensional bottleneck and uses learning rate
+$5\times10^{-3}$ and weight decay $10^{-2}$. Discrete Movie optimization uses
+Qwen3.5-2B for routing, Qwen3.5-4B for reflection, seed 505, nine outcome-enriched demonstrations
+(2/4/2/1 by outcome), reflection minibatches of four, and 20 metric calls.
+Temperature-equivalent generation is deterministic and exact requests are
+cached.
+
+\paragraph{Training objective.}
+Every primary soft-prompt configuration uses only the inverse-expected-cost
+weighted cross-entropy in Eq.~\ref{eq:weighted-ce}; no auxiliary
+differentiable objective or hand-tuned outcome weight is added. The same
+expected costs define the route score used to audit executions and guide the
+independent discrete optimizer. Expected costs are estimated on training data only
+and frozen before validation and test evaluation. QA additionally reports
+realized token cost. Because this objective replaces the earlier hand-tuned
+weights, current soft-prompt numbers are provisional until the matched
+inverse-cost WCE rerun is complete.
+We compare against (i) all-Nano and all-Mini; (ii) a conservative accuracy
+oracle with a BW-to-Mini tie-break; (iii) natural-random training with the same
+label budget; (iv) a two-head router that independently predicts Nano and Mini
+correctness; and (v) an answer-aware cascade that compares a local sentiment prediction with
+Nano's produced answer. The last baseline is not a direct pre-router because it
+must first execute Nano; we include it to quantify the value of answer-side
+evidence. The final version will add matched-budget RouteLLM and FrugalGPT-style
+baselines.
+
+\subsection{Metrics and Selection Discipline}
+
+\emph{Answer accuracy} evaluates the prediction returned by the selected
+answer model. \emph{Mini saving} is one minus the fraction of tuples sent to
+Mini. \emph{Critical recall} is the fraction of \mo tuples sent to Mini.
+\emph{Both-wrong Mini rate} reports routing behavior on unrecoverable \bw cases. For QA,
+\emph{cost saving} compares realized answer-model token cost with all-Mini;
+router overhead is reported separately once latency measurement is complete.
+Multi-seed values are population mean $\pm$ standard deviation. We never select
+a method by test performance when labeling a result as locked. Historical
+tables summarize the experiment log as it exists and should be interpreted as
+hypothesis generation rather than an unbiased final model selection.

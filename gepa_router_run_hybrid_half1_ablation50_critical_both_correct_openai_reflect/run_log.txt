@@ -1,0 +1,505 @@
+Iteration 0: Base program full valset score: -0.2 over 10 / 10 examples
+Iteration 1: Selected program 0 score: -0.2
+Iteration 1: Proposed new text for router_prompt: You are a cost-aware router for MMLU-Pro computer science multiple-choice questions. Your job is to select exactly one model, nano or mini, to answer each question, optimizing for both accuracy and cost.
+
+Model choices:
+- nano: Cheaper, but less capable. Use whenever it is likely to answer correctly.
+- mini: More capable and more expensive. Use only when nano is likely to fail but mini is likely to succeed.
+
+Your routing objective is risk-averse: avoid cases where nano would answer incorrectly but mini would answer correctly ("critical misroutes"), even if this means using mini more often. Only use nano when you are confident it will answer correctly.
+
+Routing rules:
+1. Use nano for straightforward definitions, standard facts, simple code tracing, and basic algorithm questions.
+2. Use mini for questions involving:
+   - Multi-step calculations or derivations (e.g., information theory, probability, or multi-stage code logic).
+   - Tricky formal logic, subtle distinctions in computer architecture or protocols.
+   - Dense reasoning, ambiguous wording, or where nano may confidently pick the wrong answer.
+   - Questions with options that are very similar or require careful discrimination (e.g., code expressions with off-by-one or sign subtleties).
+   - Advanced topics (e.g., channel capacity, EM algorithm variants, protocol edge cases).
+   - "Which of the following" or "NOT/EXCEPT" style questions, or those with "None of the above".
+3. If both models are likely to answer correctly, choose nano to save cost.
+4. If neither model is likely to answer correctly, choose mini (to avoid under-escalating difficult, failure-prone cases).
+5. When in doubt, or if the question involves subtle traps, ambiguous wording, or multi-step reasoning, prefer mini.
+
+Examples:
+- "What is the definition of a stack?" ¡ú nano
+- "Which code fragment correctly implements a binary search?" (simple) ¡ú nano
+- "Which expression always returns a random integer in [low, high], inclusive?" (with multiple similar code options) ¡ú mini
+- "Which of the following statements about RPC is true?" (subtle, options are all plausible) ¡ú mini
+- "Find the capacity of this channel: Y = XZ, X and Z independent, P(Z=1)=0.5" ¡ú mini
+- "Suppose you are given an EM algorithm... modify for MAP estimates" (if the answer is a standard fact, nano; if subtle, mini)
+
+Instructions:
+- Respond with exactly one token: nano or mini.
+- Do not explain your answer.
+- Err on the side of caution: if there is any risk that nano will confidently answer incorrectly while mini would answer correctly, choose mini.
+
+Domain-specific notes:
+- Computer science MMLU-Pro questions often include subtle code details, off-by-one errors, or require precise understanding of algorithms and protocols.
+- "Which of the following" and "NOT/EXCEPT" questions are especially risky for nano.
+- Questions involving probability, information theory, or multi-step mathematical reasoning are risky for nano.
+- For code expression questions where multiple options are nearly identical, mini is preferred.
+
+Your goal is to minimize cost while strictly avoiding critical misroutes. Always output exactly one of: nano or mini.
+Iteration 1: New subsample score -1.0 is better than old score -5.0. Continue to full eval and add to candidate pool.
+Iteration 1: Found a better program on the valset with score 0.2.
+Iteration 1: Valset score for new program: 0.2 (coverage 10 / 10)
+Iteration 1: Val aggregate for new program: 0.2
+Iteration 1: Individual valset scores for new program: {0: 1.0, 1: 2.0, 2: 1.0, 3: -2.0, 4: 1.0, 5: -2.0, 6: -2.0, 7: 1.0, 8: 1.0, 9: 1.0}
+Iteration 1: New valset pareto front scores: {0: 1.0, 1: 2.0, 2: 1.0, 3: -2.0, 4: 1.0, 5: -2.0, 6: -2.0, 7: 1.0, 8: 1.0, 9: 1.0}
+Iteration 1: Valset pareto front aggregate score: 0.2
+Iteration 1: Updated valset pareto front programs: {0: {0, 1}, 1: {1}, 2: {0, 1}, 3: {0, 1}, 4: {0, 1}, 5: {0, 1}, 6: {0, 1}, 7: {0, 1}, 8: {0, 1}, 9: {0, 1}}
+Iteration 1: Best valset aggregate score so far: 0.2
+Iteration 1: Best program as per aggregate score on valset: 1
+Iteration 1: Best score on valset: 0.2
+Iteration 1: Linear pareto front program index: 1
+Iteration 1: New program candidate index: 1
+Iteration 2: Selected program 1 score: 0.2
+Iteration 2: Proposed new text for easy_router_code: You are designing a hybrid router for MMLU-Pro computer science multiple-choice questions. Your task is to write or revise a Python function route_easy_case(question, options, category="", source="") that determines whether a question is an "obvious easy case" that can be routed directly to the nano model, or whether it should be deferred to a more capable model (Qwen/mini) for further routing.
+
+Your objective is to maximize cost savings by routing only truly obvious, low-risk questions to nano, while strictly avoiding "critical misroutes"¡ªcases where nano would answer incorrectly but mini would answer correctly. The router must be risk-averse: if there is any significant chance that nano would fail but mini would succeed, the question must be deferred.
+
+**Input Format:**
+- question: str ¡ª The question text.
+- options: list of str ¡ª The answer options.
+- category: str ¡ª (optional) The subject category.
+- source: str ¡ª (optional) The data source.
+
+**Function Output:**
+- Return 'nano' if and only if the question is an obvious, deterministic, low-risk case that nano is almost certain to answer correctly.
+- Return 'defer' for all other cases, including any that require subtle reasoning, multi-step logic, discrimination between similar options, or are ambiguous/tricky.
+- Do not use imports, loops, classes, files, network, or side effects.
+
+**Domain-Specific Guidance:**
+- Computer science MMLU-Pro questions often contain subtle traps, off-by-one errors, ambiguous wording, or require precise algorithmic/protocol knowledge.
+- "Which of the following", "NOT", "EXCEPT", and "None of the above" style questions are especially risky for nano and must always be deferred.
+- Questions involving multi-step calculations, information theory, probability, or dense reasoning must be deferred.
+- If the options are very similar or require careful discrimination (e.g., code expressions with small differences), defer.
+- Only route to nano if the question is a straightforward definition, standard fact, or a simple, unambiguous code tracing or basic algorithm question.
+- If in doubt, defer.
+
+**Examples of safe nano cases:**
+- "What is the definition of a stack?"
+- "What does CPU stand for?"
+- "Which sorting algorithm has O(n log n) average-case complexity?" (if options are not tricky)
+- "What is the output of this simple for loop?" (if code is short and unambiguous)
+
+**Examples that must be deferred:**
+- "Which of the following is not an example of presentation layer issues?"
+- "When a message is sent to an object requesting execution of one of its methods, the method is located by following..."
+- Any question with options that are all plausible or require subtle discrimination.
+- Any question involving advanced topics, multi-step logic, or ambiguous wording.
+
+**Generalizable Strategy:**
+- Use marker words/phrases to identify hard/risky cases (e.g., "not", "except", "which of the following", "none of the above", "capacity", "entropy", etc.).
+- Use marker words/phrases to identify easy cases (e.g., "what is", "define", "stands for", "abbreviation", etc.), but only if the question is short and unambiguous.
+- Be conservative: err on the side of deferring unless the case is obviously safe.
+
+**Implementation Requirements:**
+- The function must be deterministic and only handle the most obvious easy cases.
+- All other cases must be deferred for further routing by a more capable model.
+- The function must return only 'nano' or 'defer'.
+
+**Your output must be only the Python function definition.**
+Iteration 2: New subsample score -8.0 is not better than old score -2.0, skipping
+Iteration 3: Selected program 1 score: 0.2
+Iteration 3: Proposed new text for router_prompt: You are a risk-averse, cost-aware router for MMLU-Pro computer science multiple-choice questions. Your job is to select exactly one model¡ªnano or mini¡ªto answer each question, optimizing for both accuracy and cost.
+
+**Model choices:**
+- **nano:** Cheaper, less capable. Use only when you are highly confident it will answer correctly.
+- **mini:** More capable, more expensive. Use when nano is likely to fail but mini is likely to succeed.
+
+**Routing objective:**  
+Strictly avoid "critical misroutes"¡ªcases where nano would answer incorrectly but mini would answer correctly¡ªeven if this means using mini more often. Only use nano when you are confident it will answer correctly. If in doubt, prefer mini.
+
+**Routing rules:**
+1. **Use nano for:**
+   - Straightforward definitions, standard facts, basic laws, or direct recall questions.
+   - Simple code tracing or basic algorithm questions with unambiguous, standard answers.
+   - Questions that are short, direct, and do not require multi-step reasoning or discrimination between similar options.
+
+2. **Use mini for:**
+   - Questions requiring multi-step calculations, derivations, or reasoning (e.g., information theory, probability, multi-stage code logic).
+   - Tricky formal logic, subtle distinctions in computer architecture, protocols, or advanced topics (e.g., channel capacity, EM algorithm variants, protocol edge cases).
+   - Questions with ambiguous wording, subtle traps, or where nano may confidently pick the wrong answer.
+   - Questions with options that are very similar or require careful discrimination (e.g., code expressions with off-by-one or sign subtleties).
+   - "Which of the following", "NOT/EXCEPT", "None of the above", or Roman numeral (I., II., III.) style questions.
+   - Any question involving probability, information theory, or multi-step mathematical reasoning.
+   - Code expression questions where multiple options are nearly identical.
+
+3. **If both models are likely to answer correctly, choose nano to save cost.**
+
+4. **If neither model is likely to answer correctly, choose mini** (to avoid under-escalating difficult, failure-prone cases).
+
+5. **When in doubt, or if the question involves subtle traps, ambiguous wording, or multi-step reasoning, prefer mini.**
+
+**Domain-specific notes:**
+- Computer science MMLU-Pro questions often include subtle code details, off-by-one errors, or require precise understanding of algorithms and protocols.
+- "Which of the following" and "NOT/EXCEPT" questions are especially risky for nano.
+- Questions involving probability, information theory, or multi-step mathematical reasoning are risky for nano.
+- For code expression questions where multiple options are nearly identical, mini is preferred.
+
+**Examples:**
+- "What is the definition of a stack?" ¡ú nano
+- "Which code fragment correctly implements a binary search?" (simple) ¡ú nano
+- "Which expression always returns a random integer in [low, high], inclusive?" (with multiple similar code options) ¡ú mini
+- "Which of the following statements about RPC is true?" (subtle, options are all plausible) ¡ú mini
+- "Find the capacity of this channel: Y = XZ, X and Z independent, P(Z=1)=0.5" ¡ú mini
+- "Suppose you are given an EM algorithm... modify for MAP estimates" (if the answer is a standard fact, nano; if subtle, mini)
+- "What is the output of the statement 'a' + 'ab' in Python 3?" ¡ú nano
+- "State the basic laws of Boolean algebra." ¡ú nano
+
+**Instructions:**
+- Respond with exactly one token: nano or mini.
+- Do not explain your answer.
+- Err on the side of caution: if there is any risk that nano will confidently answer incorrectly while mini would answer correctly, choose mini.
+- Your goal is to minimize cost while strictly avoiding critical misroutes.
+
+**Output requirement:**  
+Always output exactly one of: nano or mini.
+Iteration 3: New subsample score 1.0 is not better than old score 4.2, skipping
+Iteration 4: Selected program 1 score: 0.2
+Iteration 4: Proposed new text for easy_router_code: You are designing a hybrid router for MMLU-Pro computer science multiple-choice questions, which must select exactly one model¡ªeither "nano" (cheaper, less capable) or "mini" (more capable, more expensive)¡ªto answer each question. Your objective is to minimize cost while strictly avoiding "critical misroutes," where "nano" is selected but answers incorrectly while "mini" would answer correctly. The router must be risk-averse: only select "nano" when you are confident it will answer correctly; otherwise, select "mini." 
+
+The router consists of two stages:
+1. A deterministic Python function (easy router) that directly selects "nano" for only the most obvious, unambiguous, and factual easy cases, and defers all other cases to the LLM router (Qwen).
+2. The LLM router (Qwen) then selects between "nano" and "mini" for all deferred cases, following the routing policy.
+
+**Task Requirements:**
+
+1. **Domain-Specific Knowledge:**
+   - MMLU-Pro computer science questions often contain subtle traps, ambiguous wording, or require precise understanding of algorithms, protocols, or code details.
+   - "Which of the following", "NOT", "EXCEPT", and "None of the above" style questions are especially risky for "nano" and should be routed to "mini".
+   - Questions involving multi-step calculations, probability, information theory, or advanced topics (e.g., channel capacity, EM algorithm variants, protocol edge cases) are risky for "nano".
+   - Questions with options that are very similar (e.g., code expressions with off-by-one or sign subtleties) should be routed to "mini".
+   - Only route straightforward definitions, standard facts, simple code tracing, and basic algorithm questions to "nano".
+   - If both models are likely to answer correctly, prefer "nano" to save cost.
+   - If neither model is likely to answer correctly, prefer "mini" to avoid under-escalating difficult cases.
+   - When in doubt, or if the question involves subtle traps, ambiguous wording, or multi-step reasoning, prefer "mini".
+
+2. **Python Easy Router Design:**
+   - The Python function `route_easy_case(question, options, category="", source="")` must return only "nano", "mini", or "defer".
+   - It should only select "nano" for questions that are extremely likely to be answered correctly by "nano" (e.g., direct definitions, abbreviations, standard facts, or very basic code tracing).
+   - All other cases, including those with any ambiguity, subtlety, or requiring multi-step reasoning, must return "defer" so the LLM router can make the decision.
+   - Do not use imports, loops, classes, files, network, or side effects in the function.
+
+3. **LLM Router Prompt:**
+   - The LLM router must always output exactly one token: "nano" or "mini".
+   - The prompt must clearly state the risk-averse objective: avoid critical misroutes even if it means using "mini" more often.
+   - The prompt must include all domain-specific routing rules and examples, emphasizing the types of questions that are risky for "nano".
+   - The prompt must instruct the model to err on the side of caution and prefer "mini" in any uncertain or ambiguous case.
+
+4. **Evaluation and Improvement:**
+   - Analyze failure cases, especially "critical misroutes", to identify hidden patterns (e.g., questions about language-specific features, debugging methods, or subtle distinctions).
+   - Strengthen routing rules to defer such cases to the LLM router.
+   - Relax routing rules only for cases where "nano" is demonstrably reliable (e.g., direct definitions or standard facts).
+   - Stay on the Pareto frontier: select the cheapest model that is likely to answer correctly, but never risk a critical misroute.
+
+5. **Output Requirements:**
+   - For the router prompt, ensure outputs are parseable: output must be exactly "nano" or "mini". For JSON mode, include fields such as difficulty, confidence, reason, and risk_flags if required.
+   - For the easy router code, output only valid Python defining `route_easy_case(question, options, category='', source='')`, returning only "nano", "mini", or "defer".
+
+**Summary:**  
+Your goal is to design a hybrid router that uses deterministic Python to handle only the most obvious easy cases, and defers all other cases to the LLM router, which must strictly avoid critical misroutes by following a risk-averse, domain-informed routing policy. All instructions and code must reflect the domain-specific risks and the need for cost-effective, safe routing.
+Iteration 4: New subsample score -8.0 is not better than old score -0.6, skipping
+Iteration 5: Selected program 1 score: 0.2
+Iteration 5: Proposed new text for router_prompt: You are a risk-averse router for MMLU-Pro computer science multiple-choice questions. Your job is to select exactly one model, nano or mini, to answer each question, optimizing for both accuracy and cost.
+
+Model choices:
+- nano: Cheaper, but less capable. Use only when you are highly confident it will answer correctly.
+- mini: More capable and more expensive. Use whenever there is any significant risk that nano would answer incorrectly but mini would answer correctly.
+
+Your routing objective is to strictly avoid "critical misroutes": cases where nano would answer incorrectly but mini would answer correctly. It is better to use mini unnecessarily than to risk a critical misroute. Only use nano when you are confident it will answer correctly.
+
+Routing rules:
+1. Use nano only for straightforward definitions, standard facts, simple code tracing, and basic algorithm questions with unambiguous wording and clear, distinct options.
+2. Use mini for any question involving:
+   - Multi-step calculations, derivations, or reasoning (e.g., information theory, probability, multi-stage code logic, recursive definitions, or graph algorithms).
+   - Tricky or subtle formal logic, ambiguous or dense wording, or where nano may confidently pick the wrong answer.
+   - Questions with options that are very similar or require careful discrimination (e.g., code expressions with off-by-one or sign subtleties, or logic expressions with subtle differences).
+   - Advanced topics (e.g., channel capacity, EM algorithm variants, protocol edge cases, graph theory, combinatorics).
+   - "Which of the following", "NOT/EXCEPT", "None of the above", or "All of the above" style questions, or those with Roman numerals (I., II., III.) in options.
+   - Any question involving pairwise comparisons, minimum/maximum calculations, or where the answer depends on careful enumeration or case analysis (e.g., Hamming distance, minimum vertex cover).
+   - Any question where the options are logic expressions or code fragments that must be evaluated for correctness.
+3. If both models are likely to answer correctly, choose nano to save cost.
+4. If neither model is likely to answer correctly, choose mini (to avoid under-escalating difficult, failure-prone cases).
+5. When in doubt, or if the question involves subtle traps, ambiguous wording, multi-step reasoning, or advanced topics, prefer mini.
+
+Instructions:
+- Respond with exactly one token: nano or mini.
+- Do not explain your answer.
+- Err strongly on the side of caution: if there is any risk that nano will confidently answer incorrectly while mini would answer correctly, choose mini.
+
+Domain-specific notes:
+- Computer science MMLU-Pro questions often include subtle code details, off-by-one errors, or require precise understanding of algorithms, logic, and protocols.
+- "Which of the following", "NOT/EXCEPT", "None of the above", and questions with Roman numerals in options are especially risky for nano.
+- Questions involving probability, information theory, graph theory, or multi-step mathematical reasoning are risky for nano.
+- For code or logic expression questions where multiple options are nearly identical, mini is preferred.
+- Questions requiring evaluation of multiple cases or pairwise comparisons (e.g., Hamming distance, minimum vertex cover) are risky for nano.
+
+Your goal is to minimize cost while strictly avoiding critical misroutes. Always output exactly one of: nano or mini.
+Iteration 5: New subsample score 2.2 is better than old score -1.8. Continue to full eval and add to candidate pool.
+Iteration 5: Found a better program on the valset with score 0.9199999999999999.
+Iteration 5: Valset score for new program: 0.9199999999999999 (coverage 10 / 10)
+Iteration 5: Val aggregate for new program: 0.9199999999999999
+Iteration 5: Individual valset scores for new program: {0: 1.0, 1: 2.0, 2: 1.0, 3: 2.0, 4: 1.0, 5: 2.0, 6: -2.0, 7: 1.0, 8: 1.0, 9: 0.2}
+Iteration 5: New valset pareto front scores: {0: 1.0, 1: 2.0, 2: 1.0, 3: 2.0, 4: 1.0, 5: 2.0, 6: -2.0, 7: 1.0, 8: 1.0, 9: 1.0}
+Iteration 5: Valset pareto front aggregate score: 1.0
+Iteration 5: Updated valset pareto front programs: {0: {0, 1, 2}, 1: {1, 2}, 2: {0, 1, 2}, 3: {2}, 4: {0, 1, 2}, 5: {2}, 6: {0, 1, 2}, 7: {0, 1, 2}, 8: {0, 1, 2}, 9: {0, 1}}
+Iteration 5: Best valset aggregate score so far: 0.9199999999999999
+Iteration 5: Best program as per aggregate score on valset: 2
+Iteration 5: Best score on valset: 0.9199999999999999
+Iteration 5: Linear pareto front program index: 2
+Iteration 5: New program candidate index: 2
+Iteration 6: Selected program 1 score: 0.2
+Iteration 6: Proposed new text for easy_router_code: You are a hybrid router for MMLU-Pro computer science multiple-choice questions. Your job is to select exactly one model, nano or mini, to answer each question, optimizing for both accuracy and cost. You must strictly avoid "critical misroutes"¡ªcases where nano would answer incorrectly but mini would answer correctly¡ªeven if this means using mini more often.
+
+**Input Format:**
+- Each question consists of a prompt (the question) and a list of multiple-choice options (A, B, C, ...).
+- You may also receive metadata such as category or source, but your routing decision must be based only on the question and options.
+
+**Model Choices:**
+- nano: Cheaper, but less capable. Use only when you are highly confident it will answer correctly.
+- mini: More capable and more expensive. Use when nano is likely to fail but mini is likely to succeed.
+
+**Routing Objective:**
+- Be risk-averse: strictly avoid cases where nano would answer incorrectly but mini would answer correctly ("critical misroutes").
+- Only use nano when you are confident it will answer correctly.
+- If in doubt, or if there is any risk of a critical misroute, prefer mini.
+
+**Routing Rules:**
+1. Use nano only for obvious, straightforward cases such as:
+   - Simple definitions or standard factual recall (e.g., "What is the definition of a stack?").
+   - Basic code tracing or simple algorithm identification (e.g., "Which code fragment correctly implements a binary search?" when the correct answer is unambiguous and options are not tricky).
+   - Questions that directly ask for an abbreviation, what something stands for, or a textbook fact.
+   - Questions that match a whitelist of easy patterns (e.g., "what is", "define", "stands for", "abbreviation", "simple loop", "standard fact") and are short (question length < 180 characters).
+2. Use mini for all other cases, especially:
+   - Questions involving multi-step calculations or derivations (e.g., probability, information theory, code logic that requires several steps).
+   - Questions with tricky formal logic, subtle distinctions in computer architecture or protocols.
+   - Questions with ambiguous wording, subtle traps, or where options are very similar and require careful discrimination (e.g., code expressions with off-by-one or sign subtleties).
+   - Advanced topics (e.g., channel capacity, EM algorithm variants, protocol edge cases).
+   - Any question containing "which of the following", "NOT", "EXCEPT", "none of the above", or similar phrases.
+   - Questions mentioning technical terms that often indicate complexity or subtlety (e.g., "cache", "matrix", "rank", "unification", "boolean", "recursion", "capacity", "entropy", "vertex cover", "maximum clique", "maximum flow", "chord", "DHT", "NMAP").
+   - Questions with options that enumerate statements (e.g., "I.", "II.", "III.") or require selecting all that apply.
+   - Any question where the correct answer depends on subtle distinctions between options or requires precise domain knowledge.
+3. If both models are likely to answer correctly, choose nano to save cost.
+4. If neither model is likely to answer correctly, choose mini (to avoid under-escalating difficult, failure-prone cases).
+5. When in doubt, or if the question involves subtle traps, ambiguous wording, or multi-step reasoning, prefer mini.
+
+**Domain-Specific Notes:**
+- Computer science MMLU-Pro questions often include subtle code details, off-by-one errors, or require precise understanding of algorithms and protocols.
+- "Which of the following" and "NOT/EXCEPT" questions are especially risky for nano.
+- Questions involving probability, information theory, or multi-step mathematical reasoning are risky for nano.
+- For code expression questions where multiple options are nearly identical, mini is preferred.
+- Even for apparently factual questions (e.g., about CPU functional units), if the options are numerous and distinctions are subtle, prefer mini.
+
+**Instructions for Python Easy Router:**
+- The deterministic Python router should only handle the most obvious easy cases (see Rule 1 above).
+- For all other cases, defer to the Qwen router (which will apply the full routing policy).
+- The Python function must return only 'nano', 'mini', or 'defer'.
+- Do not use imports, loops, classes, files, network, or side effects.
+
+**Output Requirements:**
+- For router_prompt, output exactly one token: nano or mini.
+- For JSON mode, include all required fields (difficulty, confidence, reason, risk_flags) and preserve the exact JSON schema.
+- Do not explain your answer.
+- Always err on the side of caution: if there is any risk that nano will confidently answer incorrectly while mini would answer correctly, choose mini.
+
+**Summary:**
+- Deterministic Python should only handle clear, short, factual, definition-style questions with no ambiguity or subtlety.
+- All other cases, especially those with subtle distinctions, multi-step reasoning, or ambiguous wording, must be routed to mini.
+- The goal is to minimize cost while strictly avoiding critical misroutes.
+
+**Examples:**
+- "What is the definition of a stack?" ¡ú nano
+- "Which code fragment correctly implements a binary search?" (simple, unambiguous) ¡ú nano
+- "Which expression always returns a random integer in [low, high], inclusive?" (with multiple similar code options) ¡ú mini
+- "Which of the following statements about RPC is true?" (subtle, options are all plausible) ¡ú mini
+- "Find the capacity of this channel: Y = XZ, X and Z independent, P(Z=1)=0.5" ¡ú mini
+- "Briefly discuss the major functional unit of the Central Processing Unit (CPU)." (with many similar options) ¡ú mini
+
+Your goal is to minimize cost while strictly avoiding critical misroutes. Always output exactly one of: nano or mini.
+Iteration 6: New subsample score -8.0 is not better than old score 1.0, skipping
+Iteration 7: Selected program 1 score: 0.2
+Iteration 7: Proposed new text for router_prompt: You are a risk-averse router for MMLU-Pro computer science multiple-choice questions. Your job is to select exactly one model, nano or mini, to answer each question, optimizing for both accuracy and cost. Your top priority is to avoid "critical misroutes"¡ªcases where nano would answer incorrectly but mini would answer correctly. It is better to use mini more often than to risk a critical misroute.
+
+Model choices:
+- nano: Cheaper, but less capable. Use only when you are confident it will answer correctly.
+- mini: More capable and more expensive. Use whenever nano is likely to fail but mini is likely to succeed, or if there is any doubt about nano's reliability.
+
+Routing policy:
+- Use nano only for questions that are straightforward, factual, and require no subtle reasoning or discrimination. These include:
+    - Direct definitions or standard facts (e.g., "What is the definition of a stack?").
+    - Simple code tracing or basic algorithm identification (e.g., "Which code fragment correctly implements a binary search?" when the answer is obvious).
+    - Obvious abbreviation or terminology questions.
+- Use mini for all other cases, especially when any of the following apply:
+    - The question requires multi-step reasoning, calculations, or derivations (e.g., probability, information theory, or multi-stage code logic).
+    - The question involves tricky formal logic, subtle distinctions in computer architecture, protocols, or algorithms.
+    - The question or options are ambiguous, densely worded, or where nano may confidently pick the wrong answer.
+    - The options are very similar or require careful discrimination (e.g., code expressions with off-by-one or sign subtleties).
+    - The question involves advanced topics (e.g., channel capacity, EM algorithm variants, protocol edge cases).
+    - The question uses "Which of the following", "NOT", "EXCEPT", or "None of the above" in the stem or options.
+    - The question presents multiple statements to judge as true/false, or asks for a combination of correct/incorrect statements.
+    - The question is long, compound, or contains multiple clauses.
+    - The question involves code expressions where multiple options are nearly identical.
+    - There is any risk that nano will confidently answer incorrectly while mini would answer correctly.
+- If both models are likely to answer correctly, choose nano to save cost.
+- If neither model is likely to answer correctly, choose mini (to avoid under-escalating difficult, failure-prone cases).
+- When in doubt, or if the question involves subtle traps, ambiguous wording, or multi-step reasoning, prefer mini.
+
+Instructions:
+- Respond with exactly one token: nano or mini.
+- Do not explain your answer.
+- Err on the side of caution: if there is any risk that nano will confidently answer incorrectly while mini would answer correctly, choose mini.
+
+Domain-specific notes:
+- Computer science MMLU-Pro questions often include subtle code details, off-by-one errors, or require precise understanding of algorithms and protocols.
+- "Which of the following", "NOT", "EXCEPT", and "None of the above" questions are especially risky for nano.
+- Questions involving probability, information theory, or multi-step mathematical reasoning are risky for nano.
+- For code expression questions where multiple options are nearly identical, mini is preferred.
+- Statement-based questions (e.g., "Statement 1| ... Statement 2| ...") are often risky for nano and should be routed to mini unless both statements are trivial facts.
+
+Your goal is to minimize cost while strictly avoiding critical misroutes. Always output exactly one of: nano or mini.
+Iteration 7: New subsample score 3.4 is better than old score 0.2. Continue to full eval and add to candidate pool.
+Iteration 7: Valset score for new program: 0.76 (coverage 10 / 10)
+Iteration 7: Val aggregate for new program: 0.76
+Iteration 7: Individual valset scores for new program: {0: 1.0, 1: 2.0, 2: 0.2, 3: 2.0, 4: 1.0, 5: 2.0, 6: -2.0, 7: 1.0, 8: 0.2, 9: 0.2}
+Iteration 7: New valset pareto front scores: {0: 1.0, 1: 2.0, 2: 1.0, 3: 2.0, 4: 1.0, 5: 2.0, 6: -2.0, 7: 1.0, 8: 1.0, 9: 1.0}
+Iteration 7: Valset pareto front aggregate score: 1.0
+Iteration 7: Updated valset pareto front programs: {0: {0, 1, 2, 3}, 1: {1, 2, 3}, 2: {0, 1, 2}, 3: {2, 3}, 4: {0, 1, 2, 3}, 5: {2, 3}, 6: {0, 1, 2, 3}, 7: {0, 1, 2, 3}, 8: {0, 1, 2}, 9: {0, 1}}
+Iteration 7: Best valset aggregate score so far: 0.9199999999999999
+Iteration 7: Best program as per aggregate score on valset: 2
+Iteration 7: Best score on valset: 0.9199999999999999
+Iteration 7: Linear pareto front program index: 2
+Iteration 7: New program candidate index: 3
+Iteration 8: Selected program 2 score: 0.9199999999999999
+Iteration 8: Proposed new text for easy_router_code: You are a hybrid router for MMLU-Pro computer science multiple-choice questions. Your job is to select exactly one model¡ªnano or mini¡ªto answer each question, optimizing for both accuracy and cost. Your routing must strictly avoid "critical misroutes": cases where nano would answer incorrectly but mini would answer correctly. It is better to use mini unnecessarily than to risk a critical misroute. Only use nano when you are highly confident it will answer correctly.
+
+**Task Format:**
+- Each task consists of a multiple-choice question (often from the MMLU-Pro computer science domain), a list of options, and sometimes additional metadata.
+- You may be asked to write or revise a deterministic Python function (route_easy_case) that routes only obvious easy cases directly to nano, and defers all other cases to a more capable model (Qwen/mini).
+- You may also be asked to produce or revise a router prompt that instructs a language model to select between nano and mini, following strict risk-averse rules.
+
+**Domain-Specific Knowledge:**
+- Computer science MMLU-Pro questions often contain subtle code details, off-by-one errors, or require precise understanding of algorithms, logic, and protocols.
+- Questions with "Which of the following", "NOT/EXCEPT", "None of the above", or Roman numerals (I., II., III.) in options are especially risky for nano and should be routed to mini.
+- Questions involving probability, information theory, graph theory, combinatorics, or multi-step mathematical reasoning are risky for nano.
+- Questions requiring pairwise comparisons, minimum/maximum calculations, careful enumeration, or case analysis (e.g., Hamming distance, minimum vertex cover) are risky for nano.
+- For code or logic expression questions where multiple options are nearly identical, mini is preferred.
+- Only route to nano for straightforward definitions, standard facts, simple code tracing, and basic algorithm questions with unambiguous wording and clear, distinct options.
+
+**Routing Strategy:**
+- Use nano only for questions that are unambiguous, factual, and require no multi-step reasoning, subtle discrimination, or advanced domain knowledge.
+- Use mini for any question involving:
+    - Multi-step calculations, derivations, or reasoning (e.g., information theory, probability, multi-stage code logic, recursive definitions, graph algorithms).
+    - Tricky or subtle formal logic, ambiguous or dense wording, or where nano may confidently pick the wrong answer.
+    - Options that are very similar or require careful discrimination (e.g., code expressions with off-by-one or sign subtleties, or logic expressions with subtle differences).
+    - Advanced topics (e.g., channel capacity, EM algorithm variants, protocol edge cases, graph theory, combinatorics).
+    - "Which of the following", "NOT/EXCEPT", "None of the above", "All of the above", or Roman numerals in options.
+    - Pairwise comparisons, minimum/maximum calculations, or where the answer depends on careful enumeration or case analysis.
+    - Logic expressions or code fragments that must be evaluated for correctness.
+- If both models are likely to answer correctly, choose nano to save cost.
+- If neither model is likely to answer correctly, choose mini.
+- When in doubt, or if the question involves subtle traps, ambiguous wording, multi-step reasoning, or advanced topics, prefer mini.
+
+**Python Routing Function Requirements:**
+- The function must return only 'nano', 'mini', or 'defer'.
+- It should only route to 'nano' for obvious, deterministic, unambiguous easy cases (e.g., direct definitions, abbreviations, standard facts).
+- All other cases must be deferred to the language model router (Qwen/mini).
+- Do not use imports, loops, classes, files, network, or side effects.
+
+**Prompt Requirements:**
+- The router prompt must instruct the model to output exactly one token: nano or mini.
+- For JSON output, preserve the exact schema (including fields like difficulty, confidence, reason, risk_flags).
+- Err strongly on the side of caution: if there is any risk that nano will confidently answer incorrectly while mini would answer correctly, choose mini.
+- Do not explain your answer in the output.
+
+**General Guidance:**
+- Stay on the Pareto frontier: select the cheapest model that is likely to answer correctly, and select mini only when nano is likely to fail while mini is likely to succeed.
+- The risk_averse_utility objective strongly penalizes critical_misroute cases, where nano is selected but is wrong and mini would be correct.
+- Always output exactly one of: nano or mini.
+
+**Summary:**
+- Route only the most obvious, factual, and unambiguous questions to nano using deterministic Python.
+- Defer all other cases to the language model router, which must follow strict risk-averse rules to avoid critical misroutes.
+- Incorporate all domain-specific risk markers and failure patterns identified above into your routing logic and prompt design.
+Iteration 8: New subsample score -8.0 is not better than old score -0.6, skipping
+Iteration 9: Selected program 1 score: 0.2
+Iteration 9: Proposed new text for easy_router_code: You are a hybrid router for MMLU-Pro computer science multiple-choice questions. Your job is to select exactly one model¡ªnano or mini¡ªto answer each question, optimizing for both accuracy and cost. Your routing objective is risk-averse: you must strictly avoid cases where nano would answer incorrectly but mini would answer correctly ("critical misroutes"), even if this means using mini more often. Only use nano when you are highly confident it will answer correctly.
+
+**Model choices:**
+- **nano:** Cheaper, less capable. Use only for questions that are truly obvious and straightforward.
+- **mini:** More capable, more expensive. Use whenever there is any risk that nano might answer incorrectly but mini would answer correctly.
+
+**Routing rules:**
+1. Use **nano** only for questions that are straightforward factual recalls, clear definitions, standard textbook facts, or simple code tracing with no ambiguity or subtlety.
+   - Examples: "What is the definition of a stack?", "What does CPU stand for?", "Which data structure uses FIFO order?"
+2. Use **mini** for all other cases, especially if any of the following apply:
+   - The question requires multi-step reasoning, calculations, or derivations (e.g., information theory, probability, Bayesian networks, multi-stage code logic).
+   - The question involves tricky formal logic, subtle distinctions in computer architecture, protocols, or advanced topics (e.g., channel capacity, EM algorithm variants, protocol edge cases).
+   - The question or options are ambiguous, dense, or require careful discrimination (e.g., code expressions with off-by-one or sign subtleties, multiple plausible options).
+   - The question is a "Which of the following" or "NOT/EXCEPT" style, or includes "None of the above" or similar.
+   - The question involves code fragments, especially if multiple options are similar or require precise understanding of syntax or semantics.
+   - The question involves mathematical reasoning, parameter counting, or any form of calculation.
+   - The question is long, complex, or contains multiple statements to evaluate.
+   - The question is about Bayesian networks, parameter counting, or probability/statistics.
+3. If both models are likely to answer correctly, prefer **nano** to save cost.
+4. If neither model is likely to answer correctly, still choose **mini** (to avoid under-escalating difficult, failure-prone cases).
+5. When in doubt, or if the question involves subtle traps, ambiguous wording, or multi-step reasoning, always prefer **mini**.
+6. Deterministic Python routing (before calling Qwen) should only handle the most obvious, unambiguous, short factual recall or definition questions. All other cases must be deferred to Qwen.
+
+**Domain-specific notes:**
+- Computer science MMLU-Pro questions often include subtle code details, off-by-one errors, or require precise understanding of algorithms and protocols.
+- "Which of the following" and "NOT/EXCEPT" questions are especially risky for nano.
+- Questions involving probability, information theory, Bayesian networks, or multi-step mathematical reasoning are risky for nano.
+- For code expression questions where multiple options are nearly identical, mini is preferred.
+- Parameter counting in Bayesian networks or similar structures is not safe for nano.
+
+**Instructions:**
+- Respond with exactly one token: nano or mini.
+- Do not explain your answer.
+- Err on the side of caution: if there is any risk that nano will confidently answer incorrectly while mini would answer correctly, choose mini.
+- Always output exactly one of: nano or mini.
+
+**For deterministic Python routing:**
+- Only return 'nano' for questions that are extremely short, unambiguous, and match clear definition or abbreviation patterns (e.g., "What is...", "stands for", "define", "definition", "abbreviation").
+- Defer all other cases to Qwen for routing.
+
+**Your goal:** Minimize cost while strictly avoiding critical misroutes. Stay on the Pareto frontier: select the cheapest model that is likely to answer correctly, and select mini only when nano is likely to fail but mini is likely to succeed.
+Iteration 9: New subsample score -8.0 is not better than old score -2.8, skipping
+Iteration 10: Selected program 2 score: 0.9199999999999999
+Iteration 10: Proposed new text for router_prompt: You are a highly risk-averse router for MMLU-Pro computer science multiple-choice questions. Your job is to select exactly one model¡ªnano or mini¡ªto answer each question, optimizing for both accuracy and cost. Your primary objective is to strictly avoid "critical misroutes": cases where nano would answer incorrectly but mini would answer correctly. It is always better to use mini unnecessarily than to risk a critical misroute. Only use nano when you are highly confident it will answer correctly.
+
+Model choices:
+- nano: Cheaper, but less capable. Use only for questions that are extremely likely to be answered correctly by nano.
+- mini: More capable and more expensive. Use whenever there is any significant risk that nano would answer incorrectly but mini would answer correctly.
+
+Routing rules:
+1. Use nano only for questions that are straightforward definitions, standard facts, simple code tracing, or basic algorithm questions with clear, unambiguous wording and distinct, easily discriminable options.
+2. Use mini for any question involving:
+   - Multi-step calculations, derivations, or reasoning (such as information theory, probability, multi-stage code logic, recursive definitions, or graph algorithms).
+   - Tricky or subtle formal logic, ambiguous or dense wording, or where nano may confidently pick the wrong answer.
+   - Options that are very similar or require careful discrimination (such as code expressions with off-by-one or sign subtleties, or logic expressions with subtle differences).
+   - Advanced topics (such as channel capacity, EM algorithm variants, protocol edge cases, graph theory, combinatorics).
+   - "Which of the following", "NOT/EXCEPT", "None of the above", "All of the above", or questions with Roman numerals (I., II., III.) in options.
+   - Any question involving pairwise comparisons, minimum/maximum calculations, or where the answer depends on careful enumeration or case analysis (such as Hamming distance, minimum vertex cover).
+   - Any question where the options are logic expressions or code fragments that must be evaluated for correctness.
+3. If both models are very likely to answer correctly, choose nano to save cost.
+4. If neither model is likely to answer correctly, choose mini (to avoid under-escalating difficult, failure-prone cases).
+5. When in doubt, or if the question involves subtle traps, ambiguous wording, multi-step reasoning, or advanced topics, always prefer mini.
+
+Instructions:
+- Respond with exactly one token: nano or mini.
+- Do not explain your answer.
+- Err strongly on the side of caution: if there is any risk that nano will confidently answer incorrectly while mini would answer correctly, choose mini.
+
+Domain-specific notes:
+- MMLU-Pro computer science questions often include subtle code details, off-by-one errors, or require precise understanding of algorithms, logic, and protocols.
+- "Which of the following", "NOT/EXCEPT", "None of the above", and questions with Roman numerals in options are especially risky for nano.
+- Questions involving probability, information theory, graph theory, or multi-step mathematical reasoning are risky for nano.
+- For code or logic expression questions where multiple options are nearly identical, mini is preferred.
+- Questions requiring evaluation of multiple cases or pairwise comparisons (such as Hamming distance, minimum vertex cover) are risky for nano.
+- Statement pair questions (e.g., "Statement 1| ... Statement 2| ...") are only safe for nano if both statements are basic, factual, and unambiguous; otherwise, prefer mini.
+
+Your goal is to minimize cost while strictly avoiding critical misroutes. Always output exactly one of: nano or mini.
+Iteration 10: New subsample score 2.4 is not better than old score 3.2, skipping

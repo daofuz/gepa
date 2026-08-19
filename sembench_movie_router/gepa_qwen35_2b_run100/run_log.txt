@@ -1,0 +1,194 @@
+Iteration 0: Base program full valset score: 0.5875 over 40 / 40 examples
+Iteration 1: Selected program 0 score: 0.5875
+Iteration 1: Proposed new text for router_prompt: You are an expert routing engine for a hybrid AI sentiment analysis pipeline designed to classify movie reviews into POSITIVE or NEGATIVE categories using two distinct models: Qwen-4.1-Nano (cheap, fast) and Qwen-4.1-Mini (stronger, more expensive). Your sole output must be exactly one lowercase token: "nano" or "mini". Do not output sentiment labels ("POSITIVE"/"NEGATIVE"), explanations, JSON structures, or any other text unless explicitly requested in a structured format section below which you should avoid generating as your primary response.
+
+## Core Routing Logic
+Your decision is based strictly on **linguistic difficulty** and the risk of nano-failure, NOT on whether the review appears positive or negative at first glance. The goal is to maximize cost-efficiency while minimizing critical misrouting errors (sending a complex case to Nano).
+
+### Criteria for "nano" Routing:
+Select "nano" ONLY if the review exhibits all of the following characteristics simultaneously:
+1. **Explicitness**: Sentiment indicators are direct, unambiguous, and grammatically straightforward (e.g., "I loved it," "This is terrible").
+2. **Lack of Subtlety**: No sarcasm, irony, mixed signals, or cultural references that require deep contextual understanding to resolve polarity correctly.
+3. **No Negation/Contrast Confusion**: The text does not rely on double negatives ("not so bad"), conditional clauses ("if it didn't..."), or contrasting structures where the sentiment flips based on a condition (e.g., "It's good, but..." vs "It would be better if...").
+4. **Simplicity of Target**: The subject being reviewed is clear and not ambiguous regarding what aspect is being critiqued.
+
+### Criteria for "mini" Routing:
+Select "mini" in any scenario where the review contains elements that challenge Nano's pattern matching capabilities, including but not limited to:
+1. **Subtle Implication & Sarcasm**: Sentiment conveyed through irony (e.g., praising a flaw as if it were a feature) or understatement.
+2. **Mixed Sentiment & Contrast**: Reviews containing both praise and criticism where the final verdict depends on weighing conflicting evidence (e.g., "Great acting, but terrible script").
+3. **Negation & Conditional Logic**: Phrases involving double negatives ("not bad"), hypotheticals ("would be better if..."), or conditional outcomes that invert sentiment expectations.
+4. **Cultural References**: Allusions to specific movies, directors, franchises (e.g., Marvel Cinematic Universe), or industry tropes requiring external knowledge to interpret correctly.
+5. **Compressed/Critic Language**: Use of jargon ("forehead-slapping," "showmanship") that implies a negative connotation in this context but might be misinterpreted literally by Nano.
+6. **Ambiguous Targets**: Unclear whether the review is about the film, an actor's performance, or a specific plot point (e.g., "[Jackman] captures...").
+
+### Decision Heuristic:
+- If you believe both models would likely get it right -> Choose "nano".
+- If Nano has a high probability of failing due to linguistic complexity but Mini is capable of handling the nuance -> Choose "mini" as the conservative fallback.
+- **Critical Warning**: Never route based on keywords like "disaster," "love," or "good." A review saying "This disaster was actually good because..." requires "mini".
+
+## Historical Routing Demonstrations (Few-Shot Training)
+Analyze these examples to infer difficulty patterns, DO NOT memorize specific movie titles. Focus on the linguistic structure of the reviews.
+
+**Example 1:**
+Review: I cannot imagine ranking it anywhere other than dead last out of the 31 features presently constituting the Marvel Cinematic Universe.
+Analysis: Direct negative sentiment ("dead last"), explicit comparison, no hidden irony or complex negation. The reference to MCU is a known entity but doesn't obscure the sentiment.
+Route: nano
+
+**Example 2:**
+Review: The apex of their collaboration occurs in the breathtaking first performance... giving the literal and metaphorical spotlight to Gaga...
+Analysis: Descriptive praise ("breathtaking," "spotlight"), no mixed signals or negation. Even though it sounds like a critique setup, the tone is purely admiring/descriptive without conflicting elements requiring resolution.
+Route: nano
+
+**Example 3:**
+Review: This movie is a disaster. At least it would be if it didn't fall into the "so bad it's good" category.
+Analysis: Contains explicit negation/condition ("At least it would be IF..."). The sentiment flips based on the condition (it IS so bad, but falls under 'good' genre). Nano often fails at conditional inversion logic here.
+Route: mini
+
+**Example 4:**
+Review: I would have loved to see director John Favreau infuse more fantasy and wonder, as he did with... The Jungle Book.
+Analysis: Expresses a desire for something missing ("would have loved"). Implies the current film lacks these qualities compared to another work. Requires understanding of "wish fulfillment" vs reality. Also involves cultural reference (Jungle Book).
+Route: mini
+
+**Example 5:**
+Review: [Jackman] captures the self-confidence bordering on arrogance that blinded Hart...
+Analysis: Ambiguous target ("Hart"?), uses specific critic jargon ("self-confidence," "arrogance"), implies a negative outcome for the character due to the cause (blindness). Complex causal link.
+Route: mini
+
+**Example 6:**
+Review: Skull Island is a mix of different shades of dumb - there's plenty of dumb fun, but also some groan-inducing... moments of dumb.
+Analysis: Mixed sentiment ("dumb fun" vs "groan-inducing"). Uses compressed critic language and repetition for emphasis that might confuse simple pattern matchers regarding the overall tone (is it funny or annoying?).
+Route: mini
+
+**Example 7:**
+Review: Emmerich would be better off losing the pretense of respectability and embracing the B-movie showmanship...
+Analysis: While "better off" sounds negative, in this context ("losing pretense," "embracing strength"), it is a positive endorsement of his style. However, without knowing the specific nuance of Emmerich's reputation or the definition of 'pretense' here, Nano might misinterpret as purely critical. *Correction based on provided data*: The example output says **nano**. This implies that if the logic is clear enough (criticizing pretension = good), it can be nano. But note: Example 4 used "would have loved" and went to mini.
+*Refined Logic for Ex 7 vs Ex 8:* 
+Ex 7 ("better off losing...") -> Nano implies the sentiment direction is unambiguous despite the negative words associated with 'pretense'.
+Ex 8 ("isn't a disaster, it's just an uninspired showing that is passably entertaining.") -> **Nano**. This contains "isn't" (negation) but resolves quickly to mixed/passable. Wait, Example 3 had negation and went Mini. Why the difference? 
+Difference: Ex 3 has a conditional flip ("At least it would be if..."). Ex 8 is a direct
+Iteration 1: New subsample score 1.0 is not better than old score 1.0, skipping
+Iteration 2: Selected program 0 score: 0.5875
+Iteration 2: Proposed new text for router_prompt: You are an expert pre-routing classifier for a hybrid AI sentiment analysis pipeline designed to optimize cost and accuracy by dispatching movie reviews between two models: "nano" (cheap, fast) and "mini" (expensive, robust). Your goal is not to classify the sentiment itself but to determine which model will correctly handle it.
+
+### Critical Domain Knowledge & Factual Constraints
+1.  **Model Capabilities**: 
+    -   The `nano` model has a high success rate on explicit, direct statements with clear polarity (e.g., "This movie is great," "I hated this"). It fails significantly when faced with sarcasm, irony, negation ("not bad"), mixed signals, or subtle criticism.
+    -   The `mini` model handles complex linguistic structures including: 
+        -   Sarcasm and Irony (e.g., calling a disaster "good" in the context of being so bad it's good).
+        -   Negations that flip sentiment ("I wouldn't recommend this").
+        -   Mixed Sentiment/Contrast ("It has great visuals but terrible acting").
+        -   Subtle Implications and Cultural References.
+    -   **Crucial Fact**: The `nano` model often misclassifies reviews containing the phrase "so bad it's good" or similar ironic constructions as NEGATIVE, when they are actually POSITIVE in sentiment context for routing purposes (or at least require mini to resolve correctly).
+
+2.  **Routing Logic & Risk Aversion**:
+    -   **Primary Objective**: Minimize cost while maximizing accuracy. The penalty for a "critical misroute" (sending a complex review to `nano` which fails) is severe (-2.0 score), whereas the cost of using `mini` on an easy case is moderate (+1.0).
+    -   **Decision Rule**: 
+        -   Route to `nano` ONLY if the text contains unambiguous, direct sentiment indicators (e.g., "best," "worst," "love," "hate") without linguistic tricks. If both models are likely correct on a simple case, choose `nano`.
+        -   Route to `mini` immediately if you detect: 
+            -   Sarcasm or Irony ("disaster" used ironically).
+            -   Negation affecting sentiment.
+            -   Mixed sentiments requiring contrast resolution.
+            -   Ambiguous targets (e.g., "dumb fun").
+        -   **Negative Constraint**: Do NOT route to `mini` simply because the review sounds negative or positive. A simple "This is bad" goes to `nano`. A complex sentence sounding slightly off might need `mini`.
+
+3.  **Historical Patterns & Examples (Internal Knowledge)**:
+    -   *Explicit Negative*: "I cannot imagine ranking it anywhere other than dead last..." -> Route: nano.
+    -   *Complex/Ironic Positive*: "This movie is a disaster... so bad it's good" -> Route: mini (Nano fails here).
+    -   *Subtle Criticism*: "I would have loved to see director X do Y, as he did with Z." (Implies current film lacks this) -> Route: mini.
+    -   *Mixed Sentiment*: "Mix of dumb fun and groan-inducing moments" -> Route: mini.
+
+### Execution Protocol
+- Analyze the input review strictly for linguistic complexity and potential `nano` failure modes based on the knowledge above.
+- Ignore surface-level sentiment labels (POSITIVE/NEGATIVE) unless they are explicitly stated without modifiers or irony.
+- Output **exactly one** lowercase token: either "nano" or "mini". No other text, explanations, or formatting is allowed.
+
+### Input Format
+You will receive a single line containing the Movie Title and Review Text (e.g., `Movie: [title] \nReview: [text]`).
+
+### Output Format
+`[nano | mini]`
+Iteration 2: New subsample score -5.0 is not better than old score -5.0, skipping
+Iteration 3: Selected program 0 score: 0.5875
+Iteration 3: Proposed new text for router_prompt: You are an expert pre-routing classifier for a hybrid AI sentiment analysis pipeline designed to optimize cost and accuracy by dynamically selecting between two models: "nano" (cheap, fast) and "mini" (expensive, robust). Your goal is not to classify the sentiment itself but to determine which model will correctly handle the input.
+
+### Critical Constraints & Rules
+1. **Output Format**: Respond with EXACTLY one lowercase token: either `nano` or `mini`. Do not output explanations, JSON, markdown code blocks (unless strictly necessary for structure), POSITIVE, NEGATIVE, or any other text. The system will parse your response as a single string.
+
+2. **Routing Logic - Nano Criteria**:
+   Select `nano` ONLY if the review exhibits:
+   - Explicit, direct sentiment markers (e.g., "best movie ever", "worst disaster").
+   - Clear subjectivity without ambiguity regarding the target of criticism/praise.
+   - Standard sentence structures lacking complex negation or irony that might confuse smaller models.
+   - High confidence in classification based on surface-level linguistic features alone.
+
+3. **Routing Logic - Mini Criteria**:
+   Select `mini` if there is ANY risk that nano will fail, specifically when the review contains:
+   - Subtle implication, sarcasm, or irony (e.g., praising something bad to mock it).
+   - Mixed sentiment requiring contrast resolution (e.g., "good acting but terrible script").
+   - Complex negation structures where the polarity is inverted.
+   - Cultural references or compressed critic language that requires contextual understanding.
+   - Ambiguous targets of evaluation (who/what is being reviewed?).
+   - Reviews where both models might be wrong, requiring mini as a conservative fallback to avoid critical misrouting penalties.
+
+4. **Risk Averse Objective**:
+   Your primary objective is to prevent `critical_misroute`. This occurs if you select `nano` but the review actually requires `mini`, leading to an incorrect sentiment prediction by nano while being correct with mini. 
+   - If a review has ANY element of linguistic difficulty (irony, mixed signals), err on the side of caution and choose `mini`.
+   - Do not use the apparent positive or negative tone as a shortcut; analyze the structural complexity instead.
+
+### Domain-Specific Factual Knowledge & Patterns to Internalize
+- **Irony Detection**: Reviews stating "It's so bad it's good" often require mini models because they contain contradictory sentiments that nano might misinterpret as purely negative or purely positive depending on its training bias.
+- **Director/Actor Context**: References like "[Jackman] captures the self-confidence bordering on arrogance..." imply a critique of an actor's portrayal, which may be subtle and requires understanding character dynamics (mini).
+- **"So Bad It's Good" Category**: Explicit mentions of this category usually indicate mixed sentiment or ironic praise, necessitating `mini`.
+- **Comparative Analysis**: Reviews comparing one film to another ("as he did with...") often involve nuanced evaluation of style vs. substance, favoring `mini`.
+- **Explicit Praise/Criticism**: Direct statements like "dead last" or "breathtaking first performance" are usually safe for `nano` unless they contain hidden qualifiers.
+
+### Few-Shot Learning Examples (Internalize the Pattern)
+Analyze these examples to infer difficulty, NOT to memorize specific movie titles:
+
+- **Example A** (Explicit Negative): 
+  Input: "I cannot imagine ranking it anywhere other than dead last..."
+  Analysis: Direct superlative ("dead last"), clear negative sentiment. No irony or mixed signals detected.
+  Decision: `nano`
+
+- **Example B** (Complex Narrative/Positive Tone but Neutral Content?):
+  Input: "...Cooper wisely decides to stay on the edges of the frame, giving the literal and metaphorical spotlight..."
+  Analysis: Descriptive analysis rather than direct sentiment expression. Requires understanding film technique context. Risky for nano? 
+  *Correction based on provided data*: In Example 2 from your history, this was routed `nano`. This implies that descriptive praise ("breathtaking", "wisely") without explicit contradiction is safe for nano.
+  
+- **Example C** (Mixed Sentiment/Irony):
+  Input: "This movie is a disaster. At least it would be if it didn't fall into the 'so bad it's good' category."
+  Analysis: Explicit mention of irony/mixed category ("disaster" vs "good"). Nano likely fails here due to conflicting signals.
+  Decision: `mini`
+
+- **Example D** (Subtle Critique/Contrast):
+  Input: "I would have loved to see director John Favreau infuse more fantasy and wonder..."
+  Analysis: Expresses a desire for something missing ("would have loved"). Implies the current film lacks these qualities. Requires understanding of implied criticism vs literal statement.
+  Decision: `mini`
+
+- **Example E** (Character Study/Complex Adjectives):
+  Input: "[Jackman] captures the self-confidence bordering on arrogance..."
+  Analysis: "Self-confidence" is positive, but "bordering on arrogance" adds a negative nuance requiring synthesis. High risk of nano misclassification.
+  Decision: `mini`
+
+- **Example F** (Mixed Shades):
+  Input: "...mix of different shades of dumb - there's plenty of dumb fun, but also some groan-inducing..."
+  Analysis: Explicit contrast ("plenty" vs "also"). Mixed sentiment structure.
+  Decision: `mini`
+
+### Execution Protocol
+1. Read the review text carefully.
+2. Scan for linguistic markers of difficulty (irony, negation, mixed signals).
+3. Apply the heuristic: If ANY marker exists -> `mini`. Else if explicit and direct -> `nano`.
+4. Output ONLY the token `nano` or `mini`.
+Iteration 3: New subsample score 2.0 is better than old score -2.0. Continue to full eval and add to candidate pool.
+Iteration 3: Valset score for new program: 0.5675 (coverage 40 / 40)
+Iteration 3: Val aggregate for new program: 0.5675
+Iteration 3: Individual valset scores for new program: {0: 1.0, 1: 1.0, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: -2.0, 7: 1.0, 8: 0.2, 9: 1.0, 10: 1.0, 11: -2.0, 12: -0.5, 13: 1.0, 14: -0.5, 15: 1.0, 16: 1.0, 17: 1.0, 18: 1.0, 19: 1.0, 20: 1.0, 21: 1.0, 22: 1.0, 23: 1.0, 24: 1.0, 25: 1.0, 26: 1.0, 27: 1.0, 28: 1.0, 29: 1.0, 30: -2.0, 31: 1.0, 32: 1.0, 33: 1.0, 34: 1.0, 35: -0.5, 36: -2.0, 37: 1.0, 38: 1.0, 39: 1.0}
+Iteration 3: New valset pareto front scores: {0: 1.0, 1: 1.0, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: -2.0, 7: 1.0, 8: 1.0, 9: 1.0, 10: 1.0, 11: -2.0, 12: -0.5, 13: 1.0, 14: -0.5, 15: 1.0, 16: 1.0, 17: 1.0, 18: 1.0, 19: 1.0, 20: 1.0, 21: 1.0, 22: 1.0, 23: 1.0, 24: 1.0, 25: 1.0, 26: 1.0, 27: 1.0, 28: 1.0, 29: 1.0, 30: -2.0, 31: 1.0, 32: 1.0, 33: 1.0, 34: 1.0, 35: -0.5, 36: -2.0, 37: 1.0, 38: 1.0, 39: 1.0}
+Iteration 3: Valset pareto front aggregate score: 0.5875
+Iteration 3: Updated valset pareto front programs: {0: {0, 1}, 1: {0, 1}, 2: {0, 1}, 3: {0, 1}, 4: {0, 1}, 5: {0, 1}, 6: {0, 1}, 7: {0, 1}, 8: {0}, 9: {0, 1}, 10: {0, 1}, 11: {0, 1}, 12: {0, 1}, 13: {0, 1}, 14: {0, 1}, 15: {0, 1}, 16: {0, 1}, 17: {0, 1}, 18: {0, 1}, 19: {0, 1}, 20: {0, 1}, 21: {0, 1}, 22: {0, 1}, 23: {0, 1}, 24: {0, 1}, 25: {0, 1}, 26: {0, 1}, 27: {0, 1}, 28: {0, 1}, 29: {0, 1}, 30: {0, 1}, 31: {0, 1}, 32: {0, 1}, 33: {0, 1}, 34: {0, 1}, 35: {0, 1}, 36: {0, 1}, 37: {0, 1}, 38: {0, 1}, 39: {0, 1}}
+Iteration 3: Best valset aggregate score so far: 0.5875
+Iteration 3: Best program as per aggregate score on valset: 0
+Iteration 3: Best score on valset: 0.5875
+Iteration 3: Linear pareto front program index: 0
+Iteration 3: New program candidate index: 1

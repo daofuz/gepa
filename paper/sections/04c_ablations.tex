@@ -1,0 +1,198 @@
+\subsection{RQ3: Active Acquisition and Score Design}
+
+\paragraph{Matched hidden-gold acquisition.}
+We replay the proposed workflow on the first 200 Computer Science questions
+using 50 selection seeds. The pool contains 142 \bc, 19 \mo, 8 \no, and
+31 \bw examples, but these buckets and the benchmark answers are hidden until
+selection finishes. Both disagreement-guided and random acquisition first
+screen all 200 candidates with Nano and Mini and then request exactly 100 gold
+labels. The disagreement policy ranks $\mathcal D$ before $\mathcal A$ and
+randomizes within each stratum; the baseline samples uniformly from the full
+pool. Thus both methods make 200 Nano calls, 200 Mini calls, and 100 human-label
+requests. They differ only in which candidates receive gold.
+
+Table~\ref{tab:agreement-acquisition} shows that the observable split changes
+the labeled training mix. It recovers all 19
+\mo and all 8 \no cases in every replay, while random annotation covers
+53.1\% and 54.8\%, respectively. Both policies save 50\% of human labels
+relative to labeling all 200 screened candidates. Neither saves answer-model
+screening cost, which is deliberately held fixed.
+
+\begin{table}[t]
+  \centering
+  \small
+  \caption{Run-both-then-label acquisition on 200 Computer Science candidates.
+  Each method obtains 100 gold labels after the same 200 paired screens; values
+  average 50 selection seeds.}
+  \label{tab:agreement-acquisition}
+  \begin{tabular}{lrrrrr}
+    \toprule
+    Selection & \bc & \mo & \no & \bw & \mo recall\\
+    \midrule
+    Random & 70.92 & 10.08 & 4.38 & 14.62 & 53.1\%\\
+    Disagreement-guided & 55.14 & 19.00 & 8.00 & 17.86 & 100.0\%\\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\paragraph{Active acquisition coverage.}
+At a fixed 100-label budget over five leakage-safe SemBench resamples, the
+observable policy changes which outcomes become labeled before any router is
+trained. Table~\ref{tab:active-acquisition} shows that it more than triples
+Mini-only coverage and increases Nano-only coverage fivefold relative to random
+acquisition. Selection first separates model agreements from disagreements and uses only
+observable prediction-side signals for tie-breaking, never the hidden outcome
+bucket. This establishes label-efficiency
+for rare-outcome discovery; the current downstream direct router still
+collapses toward all-Nano, so a matched inverse-cost WCE rerun remains
+necessary.
+
+\begin{table}[t]
+  \centering
+  \small
+  \caption{Mean outcome composition under a 100-label acquisition budget
+  across five leakage-safe SemBench resamples.}
+  \label{tab:active-acquisition}
+  \begin{tabular}{lrrrr}
+    \toprule
+    Acquisition & \bc & \mo & \no & \bw\\
+    \midrule
+    Random & 88.4 & 6.2 & 0.8 & 4.6\\
+    Disagreement-guided & 67.2 & 21.0 & 4.0 & 7.8\\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+To isolate the downstream value of critical-case coverage, we also compare
+random historical labels with an oracle outcome-controlled mixture. The latter
+uses revealed buckets and is a diagnostic training composition, not an
+implementable acquisition rule. With 100 random labels, the plain eight-token
+router reaches 91.06\%
+accuracy and 53.33\% critical recall. The 50/46/3/1 enriched mixture reaches
+93.50\% and 93.33\% critical recall. The residual architecture narrows but does
+not remove the gap: random training reaches 93.09\% accuracy and 86.67\%
+critical recall, while enrichment reaches 93.50\% and 93.33\%. Enrichment uses
+more Mini calls because the optimization finally sees enough recoverable
+failures to recognize them.
+
+Within enriched data, the \bw count matters. With a four-token prompt, the
+50/46/3/1 mixture yields 93.09\% accuracy, 27.24\% saving, and 86.67\% critical
+recall. Holding 46 \mo and 3 \no examples fixed but increasing \bw from 1 to 5
+drops accuracy to 91.46\% and critical recall to 46.67\%. \bw is a noisy
+conservative target: neither answer model is correct, so text features that
+predict it need not align with recoverable difficulty.
+
+\begin{table}[t]
+  \centering
+  \small
+  \caption{Natural versus outcome-enriched 100-label training on the historical
+  Movie test.}
+  \label{tab:sampling}
+  \begin{tabular}{lrrr}
+    \toprule
+    Router / sampling & Accuracy & Saving & Critical recall\\
+    \midrule
+    Plain / random & 91.06\% & 42.68\% & 53.33\%\\
+    Plain / enriched & 93.50\% & 15.85\% & 93.33\%\\
+    Residual / random & 93.09\% & 23.58\% & 86.67\%\\
+    Residual / enriched & 93.50\% & 17.07\% & 93.33\%\\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{RQ4: Prompt Capacity and Label Budget}
+
+We cross three label budgets with four prompt lengths while fixing all other
+settings (Table~\ref{tab:size-grid}). The best prompt length changes with
+sample size: eight tokens lead at 50 and 100 labels, whereas sixteen lead at
+200. More capacity is not monotonically better. At 100 labels, moving from 8 to
+16 tokens drops accuracy from 93.50\% to 91.46\%, raises apparent saving to
+51.22\%, and reduces critical recall from 93.33\% to 60.00\%. This is not a
+benign cost trade-off; it is under-escalation.
+
+Longer prompts also change the number of update opportunities per parameter.
+We therefore match approximately 200 optimizer steps for the 16-token, 50- and
+100-label settings. The 50-label result is unchanged at 92.28\% accuracy. The
+100-label result improves from 91.46\% to 92.28\% and critical recall from
+60.00\% to 73.33\%, but remains below the eight-token configuration. Update
+count explains part, but not all, of the interaction between prompt capacity and
+sample size.
+
+\begin{table}[t]
+  \centering
+  \small
+  \caption{Train size $\times$ soft-prompt length on historical Movie data.
+  Each cell is mean answer accuracy / Mini saving (\%).}
+  \label{tab:size-grid}
+  \begin{tabular}{lrrrr}
+    \toprule
+    Labels & 2 tok & 4 tok & 8 tok & 16 tok\\
+    \midrule
+    50  & 92.28/50.41 & 92.28/36.59 & \textbf{93.50}/23.58 & 92.28/34.96\\
+    100 & 92.68/30.49 & 93.09/27.24 & \textbf{93.50}/15.85 & 91.46/51.22\\
+    200 & 92.68/39.43 & 92.68/32.11 & 93.09/41.46 & \textbf{93.50}/27.24\\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{RQ5: Computer Science QA}
+
+Computer Science is a harder routing environment. All-Mini answers 80.49\% of
+the 205 test questions correctly at a realized cost of \$0.23048; all-Nano
+answers 71.22\% at \$0.05960. The outcome oracle reaches 83.90\% at \$0.08243,
+so complementary Nano-only successes again create theoretical headroom.
+
+The strongest accuracy-first learned result is a five-fold out-of-fold soft
+prompt ensemble. Its global threshold exactly matches all-Mini accuracy, but
+routes 200 of 205 questions to Mini and saves only 1.29\% of answer-model cost.
+A local Qwen3.5-2B router obtains 80.00\% accuracy and 4.26\% saving, missing one
+of 26 critical cases. Seeding GEPA with Mini-biased demonstrations creates a
+more aggressive policy: it sends 140 questions to Mini, reaches 78.54\%, and
+saves 17.65\% of cost. The non-Mini-biased GEPA run collapses to all-Nano.
+These results mirror Movie: prompt optimization can move the operating point,
+but scarce critical outcomes make preserving the all-Mini target expensive.
+
+\begin{table}[t]
+  \centering
+  \small
+  \caption{MMLU-Pro Computer Science fixed test (205 questions). Cost saving is
+  relative to the \$0.23048 all-Mini answer-model cost.}
+  \label{tab:qa}
+  \begin{tabular}{lrrr}
+    \toprule
+    Method & Accuracy & Mini rate & Cost saving\\
+    \midrule
+    All Nano & 71.22\% & 0.00\% & 74.14\%\\
+    All Mini & 80.49\% & 100.00\% & 0.00\%\\
+    Outcome oracle & 83.90\% & 12.68\% & 64.24\%\\
+    OOF soft-prompt ensemble & 80.49\% & 97.56\% & 1.29\%\\
+    Local Qwen hard router & 80.00\% & 93.66\% & 4.26\%\\
+    GEPA, Mini-biased seed & 78.54\% & 68.29\% & 17.65\%\\
+    GEPA, default seed & 71.22\% & 0.00\% & 74.14\%\\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Interim Answers and Remaining Experiments}
+
+The present evidence answers RQ1 cautiously: historical savings are real on the
+recorded split, but no direct router both matches all-Mini and produces a useful,
+stable fresh saving. For RQ2, soft prompts dominate the current discrete GEPA
+budget on historical accuracy, while both fail under rare-event shift. RQ3 shows that, after the same full paired screen, disagreement-guided
+selection uses a fixed human-label budget to recover substantially more
+one-model-only cases than random annotation. The current downstream router does
+not yet exploit all of that coverage; a matched
+inverse-expected-cost WCE rerun is still required. RQ4 rejects a
+monotonic ``more tokens or labels is better'' hypothesis. RQ5 shows that the
+fresh and second-task results are materially less optimistic than historical
+Movie selection.
+
+\todo{Before submission, execute the pre-registered final matrix: (1) train the lightweight soft-prompt with inverse-expected-cost WCE and rerun
+the discrete method on identical splits under the shared cost score; (2)
+draw a new 300--500 review manifest from the remaining unpaired SemBench IDs;
+(3) run GEPA hard and scored routing for three seeds and at least three
+metric-call budgets; (4) add matched-Mini-budget random, FrugalGPT-style
+confidence, and RouteLLM baselines; (5) repeat on at least two additional
+semantic operators, including one join or map; (6) measure router latency and
+dollar overhead; and (7) report paired bootstrap confidence intervals, McNemar
+tests against all-Mini, and sensitivity to price snapshots and utility
+normalization. The already-consumed 200-row set must not be relabeled as fresh.}

@@ -1,0 +1,140 @@
+{
+  "notes": [
+    "Token counts use tiktoken with model-specific encodings and approximate modern chat message overhead.",
+    "Costs use OpenAI public prices per 1M tokens: gpt-4.1-mini input $0.40/output $1.60; gpt-4.1-nano input $0.10/output $0.40.",
+    "Router/optimizer overhead is excluded; this is answer-generation prompt plus completion cost."
+  ],
+  "pricing_per_1m_tokens": {
+    "gpt-4.1-mini": {
+      "input": 0.4,
+      "output": 1.6
+    },
+    "gpt-4.1-nano": {
+      "input": 0.1,
+      "output": 0.4
+    }
+  },
+  "full_dataset": [
+    {
+      "scenario": "all_mini",
+      "questions": 410,
+      "accuracy": 0.8048780487804879,
+      "correct": 330,
+      "nano_routes": 0,
+      "mini_routes": 410,
+      "input_tokens": 631448,
+      "output_tokens": 110539,
+      "total_tokens": 741987,
+      "cost_usd": 0.42944160000000003,
+      "cost_per_1000_questions": 1.0474185365853659,
+      "baseline": "all_mini",
+      "cost_delta_vs_baseline": 0.0,
+      "cost_savings_vs_baseline": 0.0,
+      "accuracy_delta_vs_baseline": 0.0
+    },
+    {
+      "scenario": "all_nano",
+      "questions": 410,
+      "accuracy": 0.7341463414634146,
+      "correct": 301,
+      "nano_routes": 410,
+      "mini_routes": 0,
+      "input_tokens": 631448,
+      "output_tokens": 125423,
+      "total_tokens": 756871,
+      "cost_usd": 0.11331400000000007,
+      "cost_per_1000_questions": 0.2763756097560977,
+      "baseline": "all_mini",
+      "cost_delta_vs_baseline": -0.31612759999999995,
+      "cost_savings_vs_baseline": 0.7361364152890636,
+      "accuracy_delta_vs_baseline": -0.07073170731707323
+    },
+    {
+      "scenario": "oracle_router",
+      "questions": 410,
+      "accuracy": 0.8439024390243902,
+      "correct": 346,
+      "nano_routes": 365,
+      "mini_routes": 45,
+      "input_tokens": 631448,
+      "output_tokens": 121711,
+      "total_tokens": 753159,
+      "cost_usd": 0.15163230000000005,
+      "cost_per_1000_questions": 0.36983487804878057,
+      "baseline": "all_mini",
+      "cost_delta_vs_baseline": -0.2778093,
+      "cost_savings_vs_baseline": 0.6469082175550761,
+      "accuracy_delta_vs_baseline": 0.03902439024390236
+    }
+  ],
+  "gepa_50_subset": [
+    {
+      "scenario": "all_mini_on_gepa50",
+      "questions": 100,
+      "accuracy": 0.56,
+      "correct": 56,
+      "nano_routes": 0,
+      "mini_routes": 100,
+      "input_tokens": 154495,
+      "output_tokens": 27344,
+      "total_tokens": 181839,
+      "cost_usd": 0.10554840000000003,
+      "cost_per_1000_questions": 1.0554840000000003,
+      "baseline": "all_mini_on_gepa50",
+      "cost_delta_vs_baseline": 0.0,
+      "cost_savings_vs_baseline": 0.0,
+      "accuracy_delta_vs_baseline": 0.0
+    },
+    {
+      "scenario": "all_nano_on_gepa50",
+      "questions": 100,
+      "accuracy": 0.44,
+      "correct": 44,
+      "nano_routes": 100,
+      "mini_routes": 0,
+      "input_tokens": 154495,
+      "output_tokens": 33999,
+      "total_tokens": 188494,
+      "cost_usd": 0.029049100000000005,
+      "cost_per_1000_questions": 0.29049100000000005,
+      "baseline": "all_mini_on_gepa50",
+      "cost_delta_vs_baseline": -0.07649930000000002,
+      "cost_savings_vs_baseline": 0.7247793429365107,
+      "accuracy_delta_vs_baseline": -0.12000000000000005
+    },
+    {
+      "scenario": "oracle_on_gepa50",
+      "questions": 100,
+      "accuracy": 0.72,
+      "correct": 72,
+      "nano_routes": 72,
+      "mini_routes": 28,
+      "input_tokens": 154495,
+      "output_tokens": 30517,
+      "total_tokens": 185012,
+      "cost_usd": 0.050441300000000015,
+      "cost_per_1000_questions": 0.5044130000000001,
+      "baseline": "all_mini_on_gepa50",
+      "cost_delta_vs_baseline": -0.05510710000000001,
+      "cost_savings_vs_baseline": 0.5221026562221691,
+      "accuracy_delta_vs_baseline": 0.15999999999999992
+    },
+    {
+      "scenario": "gepa_best_on_gepa50",
+      "questions": 100,
+      "accuracy": 0.46,
+      "correct": 46,
+      "nano_routes": 97,
+      "mini_routes": 3,
+      "input_tokens": 154495,
+      "output_tokens": 31255,
+      "total_tokens": 185750,
+      "cost_usd": 0.03127370000000001,
+      "cost_per_1000_questions": 0.3127370000000001,
+      "baseline": "all_mini_on_gepa50",
+      "cost_delta_vs_baseline": -0.07427470000000003,
+      "cost_savings_vs_baseline": 0.7037027562710567,
+      "accuracy_delta_vs_baseline": -0.10000000000000003
+    }
+  ]
+}

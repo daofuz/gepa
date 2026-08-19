@@ -1,0 +1,76 @@
+{
+  "status": "leakage_safe_final",
+  "unique_reviews": 412,
+  "duplicate_rows_excluded": 129,
+  "available_unique_outcomes": {
+    "both_correct": 360,
+    "mini_only": 26,
+    "both_wrong": 21,
+    "nano_only": 5
+  },
+  "policy": {
+    "mini": [
+      "mini_only",
+      "both_wrong"
+    ],
+    "nano": [
+      "both_correct",
+      "nano_only"
+    ]
+  },
+  "label_budget": 100,
+  "test_counts": {
+    "both_correct": 72,
+    "mini_only": 5,
+    "both_wrong": 4,
+    "nano_only": 1
+  },
+  "baselines": {
+    "all_nano": {
+      "accuracy": 0.8902439024390244,
+      "mini_calls": 0,
+      "mean_utility": 0.7439024390243902
+    },
+    "all_mini": {
+      "accuracy": 0.9390243902439024,
+      "mini_calls": 82,
+      "mean_utility": 0.2951219512195122
+    },
+    "oracle_policy": {
+      "accuracy": 0.9512195121951219,
+      "mini_calls": 9,
+      "mean_utility": 1.0219512195121951
+    }
+  },
+  "observable_active_acquisition": {
+    "mean_labeled_counts": {
+      "both_correct": 67.2,
+      "mini_only": 21,
+      "nano_only": 4,
+      "both_wrong": 7.8
+    },
+    "cross_entropy_router": {
+      "selected_accuracy": 0.8902439024390244,
+      "mini_calls": 0,
+      "mini_only_recall": 0.0,
+      "both_wrong_mini_rate": 0.0,
+      "mean_utility": 0.7439024390243902,
+      "unnecessary_mini": 0
+    },
+    "utility_weighted_router": {
+      "selected_accuracy": 0.8902439024390244,
+      "mini_calls": 0,
+      "mini_only_recall": 0.0,
+      "both_wrong_mini_rate": 0.0,
+      "mean_utility": 0.7439024390243902,
+      "unnecessary_mini": 0
+    }
+  },
+  "conclusion": "Active balancing finds critical labels, but leakage-safe direct routers do not generalize criticality from row text at 100 labels. Prefer the nano-first verifier cascade.",
+  "supersedes": [
+    "balanced_direct_router_summary.json",
+    "balanced_direct_router_100label_repeated.json",
+    "natural_direct_router_100label_repeated.json",
+    "balanced_softprompt_direct_router_100label_repeated.json"
+  ]
+}

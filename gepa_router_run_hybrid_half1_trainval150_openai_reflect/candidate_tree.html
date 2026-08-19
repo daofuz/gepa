@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEPA Candidate Tree</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; width: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f8f9fa; display: flex; flex-direction: column; }
+  #header { background: #fff; border-bottom: 1px solid #dee2e6; padding: 12px 20px; display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+  #header h1 { font-size: 18px; font-weight: 600; color: #212529; }
+  .legend { display: flex; gap: 14px; font-size: 13px; color: #495057; }
+  .legend-item { display: flex; align-items: center; gap: 4px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid #adb5bd; }
+  #graph-container { flex: 1 1 auto; width: 100%; overflow: auto; padding: 20px; text-align: center; }
+  #graph-container svg { width: 100%; height: 100%; }
+  #tooltip {
+    display: none; position: fixed; background: #fff; border: 1px solid #dee2e6;
+    border-radius: 8px; padding: 14px 16px; max-width: 560px; max-height: 70vh; overflow-y: auto;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18); z-index: 1000; font-size: 13px; line-height: 1.5;
+  }
+  #tooltip .tt-header { font-weight: 700; font-size: 15px; margin-bottom: 6px; color: #212529; }
+  #tooltip .tt-meta { color: #6c757d; margin-bottom: 4px; }
+  #tooltip .tt-hint { color: #adb5bd; font-size: 11px; font-style: italic; margin-bottom: 10px; }
+  #tooltip .tt-comp-name { font-weight: 600; color: #495057; margin-top: 10px; border-bottom: 1px solid #e9ecef; padding-bottom: 2px; }
+  #tooltip .tt-comp-text {
+    white-space: pre-wrap; word-break: break-word; background: #f8f9fa;
+    border: 1px solid #e9ecef; border-radius: 4px; padding: 8px 10px; margin-top: 4px;
+    font-family: "SF Mono", SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px;
+    max-height: 200px; overflow-y: auto;
+  }
+  .role-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-left: 6px; }
+  .role-best { background: #00e5ff33; color: #006064; }
+  .role-pareto { background: #ff980033; color: #e65100; }
+  .role-seed { background: #e0e0e0; color: #424242; }
+</style>
+</head>
+<body>
+<div id="header">
+  <h1>GEPA Candidate Tree</h1>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:cyan"></div> Best</div>
+    <div class="legend-item"><div class="legend-dot" style="background:orange"></div> Pareto Front</div>
+    <div class="legend-item"><div class="legend-dot" style="background:lightgray"></div> Other</div>
+  </div>
+</div>
+<div id="graph-container"><p>Loading graph&hellip;</p></div>
+<div id="tooltip"></div>
+
+<script type="module">
+const NODES = [{"idx": 0, "score": 0.1233, "parents": "seed", "role": "Best", "components": {"easy_router_code": "def route_easy_case(question, options, category=\"\", source=\"\"):\n    \"\"\"Return 'nano' for obvious easy cases; return 'defer' for the Qwen router.\"\"\"\n    text = (question + \"\\n\" + \"\\n\".join(options)).lower()\n\n    hard_markers = [\n        \"not\", \"except\", \"none of the above\", \"not enough information\",\n        \"which of the following\", \"i.\", \"ii.\", \"iii.\",\n        \"cache\", \"matrix\", \"rank\", \"unification\", \"boolean\", \"recurs\",\n        \"capacity\", \"entropy\", \"half-life\", \"bayesian\", \"vertex cover\",\n        \"maximum clique\", \"maximum flow\", \"chord\", \"dht\", \"nmap\",\n    ]\n    if any(marker in text for marker in hard_markers):\n        return \"defer\"\n\n    easy_markers = [\n        \"what is\", \"what are\", \"define\", \"definition\", \"stands for\",\n        \"abbreviation\", \"simple loop\", \"repeat\", \"standard fact\",\n    ]\n    if len(question) < 180 and any(marker in text for marker in easy_markers):\n        return \"nano\"\n\n    return \"defer\"\n", "router_prompt": "You are a cost-aware model router for MMLU-Pro computer science questions.\n\nChoose exactly one model:\n- nano: cheaper and preferred whenever it is likely to preserve accuracy.\n- mini: more capable and more expensive; choose it only when the question is likely to expose nano's weakness.\n\nRouting rules:\n1. Default to nano for straightforward definitions, standard facts, simple code tracing, and basic algorithm questions.\n2. Choose mini for questions with multi-step calculation, tricky formal logic, subtle architecture/protocol distinctions, or dense reasoning where nano may confidently pick the wrong option.\n3. If both models are likely to answer correctly, choose nano to save cost.\n4. If neither model is likely to answer correctly, choose mini under this objective; the router should avoid under-escalating difficult failure-prone cases.\n\nExamples:\n- Basic definition or common concept -> nano\n- Simple loop count or direct AP-style CS concept -> nano\n- Cache simulation, matrix/rank trick, unification, or precise protocol edge case -> mini\n- Ambiguous wording with a subtle NOT/EXCEPT distinction -> mini\n\nRespond with exactly one token: nano or mini."}},
+{"idx": 1, "score": 0.0967, "parents": "0", "role": "Pareto Front", "components": {"easy_router_code": "def route_easy_case(question, options, category=\"\", source=\"\"):\n    \"\"\"Return 'nano' for obvious easy cases; return 'defer' for the Qwen router.\"\"\"\n    text = (question + \"\\n\" + \"\\n\".join(options)).lower()\n\n    hard_markers = [\n        \"not\", \"except\", \"none of the above\", \"not enough information\",\n        \"which of the following\", \"i.\", \"ii.\", \"iii.\",\n        \"cache\", \"matrix\", \"rank\", \"unification\", \"boolean\", \"recurs\",\n        \"capacity\", \"entropy\", \"half-life\", \"bayesian\", \"vertex cover\",\n        \"maximum clique\", \"maximum flow\", \"chord\", \"dht\", \"nmap\",\n    ]\n    if any(marker in text for marker in hard_markers):\n        return \"defer\"\n\n    easy_markers = [\n        \"what is\", \"what are\", \"define\", \"definition\", \"stands for\",\n        \"abbreviation\", \"simple loop\", \"repeat\", \"standard fact\",\n    ]\n    if len(question) < 180 and any(marker in text for marker in easy_markers):\n        return \"nano\"\n\n    return \"defer\"\n", "router_prompt": "You are a cost-aware model router for MMLU-Pro computer science multiple-choice questions, specifically in the computer science domain. Your job is to select exactly one model to answer each question:\n\n- nano: Cheaper and preferred whenever it is likely to preserve accuracy.\n- mini: More capable and more expensive; choose it only when the question is likely to expose nano's weakness.\n\nYour routing must strictly follow these rules and objectives:\n\n1. **Default to nano** for questions that are straightforward definitions, standard facts, simple code tracing, or basic algorithm questions. These are cases where nano is highly likely to answer correctly and there is little ambiguity or subtlety.\n2. **Choose mini** for questions that require multi-step calculation, tricky formal logic, subtle distinctions in computer architecture or protocols, or dense reasoning where nano may confidently pick the wrong option. This includes:\n   - Questions with ambiguous wording, especially those involving NOT/EXCEPT/None of the above.\n   - Questions involving cache simulation, matrix/rank tricks, unification, or protocol edge cases.\n   - Questions with options that are all plausible or require distinguishing between closely related technical terms.\n   - Cases where the question is open to interpretation or requires domain-specific nuance.\n3. **If both models are likely to answer correctly, always choose nano** to save cost.\n4. **If neither model is likely to answer correctly, choose mini** under this objective; the router should avoid under-escalating difficult, failure-prone cases.\n5. **Critical misroutes are strongly penalized:** Never select nano if nano is likely to be wrong and mini is likely to be correct. It is better to over-escalate to mini than to risk a critical misroute.\n6. **Unnecessary escalation is also penalized:** Do not select mini for questions that nano can answer with high confidence and accuracy.\n\n**Examples:**\n- \"What is the definition of a stack?\" \u2192 nano\n- \"Which of the following is a property of a binary search tree?\" \u2192 nano\n- \"How many times does the following loop execute?\" (simple loop) \u2192 nano\n- \"Which of the following is NOT a valid sorting algorithm?\" (with subtle distractors) \u2192 mini\n- \"A cache of size X with block size Y and access pattern Z: what is the hit rate?\" \u2192 mini\n- \"A/an ___________ is a program that steals your logins & passwords for instant messaging applications.\" (with many plausible malware types as options) \u2192 mini\n\n**Domain-specific notes:**\n- Many computer science questions use technical jargon and may have distractor options that are plausible but incorrect. If the options are all closely related, or the question is about security/malware types, protocol distinctions, or subtle terminology, prefer mini.\n- Questions that look like \"fill in the blank\" with many plausible options (e.g., types of malware, protocol names, etc.) are often failure-prone for nano and should be routed to mini.\n- If the question is a direct recall of a standard fact or definition, nano is usually sufficient.\n- If the question requires calculation (e.g., Amdahl's law, Fourier coefficients, etc.) but the calculation is straightforward and the numbers are simple, nano may suffice. If the calculation is multi-step or involves tricky reasoning, use mini.\n- For ambiguous or tricky wording, or where the question could be interpreted in multiple ways, use mini.\n\n**Output requirement:**  \nRespond with exactly one token: nano or mini. Do not provide any explanation or additional text.\n\n**Your goal:**  \nStay on the Pareto frontier: select the cheapest model that is likely to answer correctly, and select mini only when nano is likely to fail while mini is likely to succeed. Avoid critical misroutes (nano wrong, mini right) at all costs, even if it means sometimes escalating unnecessarily.\n\n**Summary Table:**\n\n| Question Type / Pattern                                    | Route |\n|------------------------------------------------------------|-------|\n| Basic definition, standard fact, simple code tracing       | nano  |\n| Simple loop count, direct AP-style CS concept              | nano  |\n| Cache simulation, matrix/rank trick, unification           | mini  |\n| Subtle protocol/architecture distinction                   | mini  |\n| Ambiguous wording, NOT/EXCEPT/None of the above            | mini  |\n| Fill-in-the-blank with many plausible technical options    | mini  |\n| Multi-step calculation with risk of error                  | mini  |\n| Both models likely correct                                 | nano  |\n| Neither model likely correct                               | mini  |\n\n**Remember:**  \nIf in doubt, escalate to mini to avoid a critical misroute. Only select nano when you are confident it will answer correctly.\n\nRespond with exactly one token: nano or mini."}},
+{"idx": 2, "score": 0.0167, "parents": "1", "role": "", "components": {"easy_router_code": "def route_easy_case(question, options, category=\"\", source=\"\"):\n    \"\"\"Return 'nano' for obvious easy cases; return 'defer' for the Qwen router.\"\"\"\n    text = (question + \"\\n\" + \"\\n\".join(options)).lower()\n\n    hard_markers = [\n        \"not\", \"except\", \"none of the above\", \"not enough information\",\n        \"which of the following\", \"i.\", \"ii.\", \"iii.\",\n        \"cache\", \"matrix\", \"rank\", \"unification\", \"boolean\", \"recurs\",\n        \"capacity\", \"entropy\", \"half-life\", \"bayesian\", \"vertex cover\",\n        \"maximum clique\", \"maximum flow\", \"chord\", \"dht\", \"nmap\",\n    ]\n    if any(marker in text for marker in hard_markers):\n        return \"defer\"\n\n    easy_markers = [\n        \"what is\", \"what are\", \"define\", \"definition\", \"stands for\",\n        \"abbreviation\", \"simple loop\", \"repeat\", \"standard fact\",\n    ]\n    if len(question) < 180 and any(marker in text for marker in easy_markers):\n        return \"nano\"\n\n    return \"defer\"\n", "router_prompt": "You are a cost-aware model router for MMLU-Pro computer science multiple-choice questions. Your job is to select exactly one model to answer each question:\n\n- nano: Cheaper and preferred whenever it is likely to preserve accuracy.\n- mini: More capable and more expensive; choose it only when the question is likely to expose nano's weakness.\n\nYour routing must strictly follow these rules and objectives:\n\n1. **Default to nano** for questions that are straightforward definitions, standard facts, simple code tracing, or basic algorithm questions. These are cases where nano is highly likely to answer correctly and there is little ambiguity or subtlety.\n2. **Choose mini** for questions that require multi-step calculation, tricky formal logic, subtle distinctions in computer architecture or protocols, or dense reasoning where nano may confidently pick the wrong option. This includes:\n   - Questions with ambiguous wording, especially those involving NOT/EXCEPT/None of the above.\n   - Questions involving cache simulation, matrix/rank tricks, unification, or protocol edge cases.\n   - Questions with options that are all plausible or require distinguishing between closely related technical terms.\n   - Cases where the question is open to interpretation or requires domain-specific nuance.\n3. **If both models are likely to answer correctly, always choose nano** to save cost.\n4. **If neither model is likely to answer correctly, choose mini** under this objective; the router should avoid under-escalating difficult, failure-prone cases.\n5. **Critical misroutes are strongly penalized:** Never select nano if nano is likely to be wrong and mini is likely to be correct. It is better to over-escalate to mini than to risk a critical misroute.\n6. **Unnecessary escalation is also penalized:** Do not select mini for questions that nano can answer with high confidence and accuracy.\n\n**Domain-specific guidance and patterns:**\n\n- Many computer science questions use technical jargon and may have distractor options that are plausible but incorrect. If the options are all closely related, or the question is about security/malware types, protocol distinctions, or subtle terminology, prefer mini.\n- Questions that look like \"fill in the blank\" with many plausible options (e.g., types of malware, protocol names, etc.) are often failure-prone for nano and should be routed to mini.\n- If the question is a direct recall of a standard fact or definition, nano is usually sufficient.\n- If the question requires calculation (e.g., Amdahl's law, Fourier coefficients, etc.) but the calculation is straightforward and the numbers are simple, nano may suffice. If the calculation is multi-step or involves tricky reasoning, use mini.\n- For ambiguous or tricky wording, or where the question could be interpreted in multiple ways, use mini.\n- Questions involving unification (e.g., \"Which pairs of these expressions is (are) pairs of unifiable expressions?\") should be routed to mini, unless you are certain it is a trivial case.\n- Questions about default attributes or behaviors in legacy programming languages (e.g., PL/I variable defaults) are often direct recall and can be routed to nano if the options are not all highly plausible or nuanced.\n- Questions about the function or importance of a specific instruction (e.g., \"Why is BALR important in IBM/360-370 computers?\") can often be routed to nano if the correct answer is a standard fact and the distractors are clearly irrelevant.\n\n**Examples:**\n- \"What is the definition of a stack?\" \u2192 nano\n- \"Which of the following is a property of a binary search tree?\" \u2192 nano\n- \"How many times does the following loop execute?\" (simple loop) \u2192 nano\n- \"Which of the following is NOT a valid sorting algorithm?\" (with subtle distractors) \u2192 mini\n- \"A cache of size X with block size Y and access pattern Z: what is the hit rate?\" \u2192 mini\n- \"A/an ___________ is a program that steals your logins & passwords for instant messaging applications.\" (with many plausible malware types as options) \u2192 mini\n- \"Two expressions E and F are said to be unifiable if there are substitutions for the variables of E and F that make the expressions lexically identical. In the following three expressions, only w, x, y, and z are variables. I. f(w,w) II. f(x,1) III. f(y,g(z)) Which pairs of these expressions is (are) pairs of unifiable expressions?\" \u2192 mini\n- \"Explain what the computer takes as the attributes of the following variables by Default Rules of PL/I, if full explicit declarations are not provided by the programmer...\" \u2192 nano (unless options are all highly plausible and nuanced)\n- \"Explain and discuss why the branch and link register (BALR) instruction is usually one of the most important instructions of the IBM/360-370 computers?\" \u2192 nano (unless options are all highly plausible and nuanced)\n- \"Suppose Host A wants to send a large file to Host B. The path from Host A to Host B has three links, of rates R1 = 500 kbps, R2 = 2 Mbps, and R3 = Mbps. Assuming no other traffic in the network, what is the throughput for the file transfer? (in kbps)\" \u2192 nano\n\n**Summary Table:**\n\n| Question Type / Pattern                                    | Route |\n|------------------------------------------------------------|-------|\n| Basic definition, standard fact, simple code tracing       | nano  |\n| Simple loop count, direct AP-style CS concept              | nano  |\n| Cache simulation, matrix/rank trick, unification           | mini  |\n| Subtle protocol/architecture distinction                   | mini  |\n| Ambiguous wording, NOT/EXCEPT/None of the above            | mini  |\n| Fill-in-the-blank with many plausible technical options    | mini  |\n| Multi-step calculation with risk of error                  | mini  |\n| Both models likely correct                                 | nano  |\n| Neither model likely correct                               | mini  |\n\n**Remember:**  \nIf in doubt, escalate to mini to avoid a critical misroute. Only select nano when you are confident it will answer correctly.\n\n**Output requirement:**  \nRespond with exactly one token: nano or mini. Do not provide any explanation or additional text."}}];
+const DOT = `digraph G {
+    rankdir=TB;
+    node [style=filled, shape=circle, fontsize=14, width=0.6, height=0.6];
+    0 [label="0\\n(0.12)", fillcolor=cyan, tooltip=" "];
+    1 [label="1\\n(0.10)", fillcolor=orange, tooltip=" "];
+    2 [label="2\\n(0.02)", fillcolor=lightgray, tooltip=" "];
+    0 -> 1;
+    1 -> 2;
+}`;
+
+const nodeMap = {};
+NODES.forEach(n => { nodeMap[n.idx] = n; });
+
+let pinnedIdx = null;   // non-null when tooltip is click-pinned (scrollable)
+let hoverIdx = null;    // non-null when hovering over a node
+
+function renderTooltip(idx) {
+  const n = nodeMap[idx];
+  if (!n) return "";
+  let roleBadge = "";
+  if (n.role === "Best") roleBadge = '<span class="role-badge role-best">BEST</span>';
+  else if (n.role === "Pareto Front") roleBadge = '<span class="role-badge role-pareto">PARETO</span>';
+  else if (n.role === "Seed") roleBadge = '<span class="role-badge role-seed">SEED</span>';
+
+  let comps = "";
+  for (const [name, text] of Object.entries(n.components)) {
+    const escaped = text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    comps += '<div class="tt-comp-name">' + name + '</div><div class="tt-comp-text">' + escaped + '</div>';
+  }
+
+  return '<div class="tt-header">Candidate ' + n.idx + roleBadge + '</div>' +
+    '<div class="tt-meta">Score: <strong>' + n.score + '</strong>&nbsp;&nbsp;|&nbsp;&nbsp;Parent(s): ' + n.parents +
+    '</div><div class="tt-hint">' + (pinnedIdx === idx ? 'Click node again to dismiss' : 'Click to pin &amp; scroll') + '</div>' +
+    comps;
+}
+
+function positionTooltip(x, y) {
+  const tt = document.getElementById("tooltip");
+  let tx = x + 16, ty = y + 16;
+  const r = tt.getBoundingClientRect();
+  if (tx + r.width > window.innerWidth - 8) tx = x - r.width - 16;
+  if (ty + r.height > window.innerHeight - 8) ty = y - r.height - 16;
+  if (tx < 8) tx = 8;
+  if (ty < 8) ty = 8;
+  tt.style.left = tx + "px";
+  tt.style.top = ty + "px";
+}
+
+function showTooltip(idx, x, y) {
+  const tt = document.getElementById("tooltip");
+  tt.innerHTML = renderTooltip(idx);
+  tt.style.display = "block";
+  positionTooltip(x, y);
+}
+
+function hideTooltip() {
+  pinnedIdx = null;
+  hoverIdx = null;
+  document.getElementById("tooltip").style.display = "none";
+}
+
+// Click outside tooltip and outside nodes dismisses pinned tooltip
+document.addEventListener("mousedown", function(e) {
+  const tt = document.getElementById("tooltip");
+  if (pinnedIdx !== null && tt.style.display === "block"
+      && !tt.contains(e.target) && !e.target.closest(".node")) {
+    hideTooltip();
+  }
+});
+
+async function render() {
+  const { instance } = await import("https://cdn.jsdelivr.net/npm/@viz-js/viz@3.11.0/lib/viz-standalone.mjs");
+  const viz = await instance();
+  const svg = viz.renderSVGElement(DOT);
+  const container = document.getElementById("graph-container");
+  container.innerHTML = "";
+  container.appendChild(svg);
+
+  // Attach hover listeners and strip native <title> tooltips to avoid double tooltips
+  svg.querySelectorAll(".node").forEach(node => {
+    const title = node.querySelector("title");
+    if (!title) return;
+    const idx = parseInt(title.textContent, 10);
+    if (isNaN(idx)) return;
+    title.remove();  // remove native SVG tooltip
+    node.style.cursor = "pointer";
+    // Hover: show tooltip following the mouse (non-interactive)
+    node.addEventListener("mouseenter", e => {
+      if (pinnedIdx !== null) return;  // don't override a pinned tooltip
+      hoverIdx = idx;
+      showTooltip(idx, e.clientX, e.clientY);
+    });
+    node.addEventListener("mousemove", e => {
+      if (pinnedIdx !== null || hoverIdx !== idx) return;
+      positionTooltip(e.clientX, e.clientY);
+    });
+    node.addEventListener("mouseleave", () => {
+      if (pinnedIdx !== null) return;
+      hoverIdx = null;
+      document.getElementById("tooltip").style.display = "none";
+    });
+    // Click: pin the tooltip so user can scroll it
+    node.addEventListener("click", e => {
+      e.stopPropagation();
+      if (pinnedIdx === idx) { hideTooltip(); return; }
+      pinnedIdx = idx;
+      showTooltip(idx, e.clientX, e.clientY);
+    });
+  });
+  // Also strip <title> from edges and the graph itself
+  svg.querySelectorAll(".edge title").forEach(t => t.remove());
+  const graphTitle = svg.querySelector(":scope > title");
+  if (graphTitle) graphTitle.remove();
+}
+
+render().catch(err => {
+  document.getElementById("graph-container").innerHTML =
+    "<p style='color:red'>Failed to render graph: " + err.message + "</p>" +
+    "<pre>" + DOT.replace(/</g,"&lt;") + "</pre>";
+});
+</script>
+</body>
+</html>

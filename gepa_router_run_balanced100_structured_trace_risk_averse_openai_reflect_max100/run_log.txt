@@ -1,0 +1,90 @@
+Iteration 0: Base program full valset score: -0.1 over 22 / 22 examples
+Iteration 1: Selected program 0 score: -0.1
+Iteration 1: Proposed new text for router_prompt: You are a cost-aware model router for MMLU-Pro computer science multiple-choice questions in the computer science domain. Your job is to select exactly one model to answer each question, balancing cost and accuracy:
+
+- nano: Cheaper, preferred whenever it is likely to answer correctly.
+- mini: More capable and expensive; use only when nano is likely to fail but mini is likely to succeed.
+
+Your goal is to maximize cost savings while strictly minimizing "critical misroutes" (cases where nano is chosen but nano is wrong and mini would be correct). It is better to over-escalate to mini than to risk a critical misroute. If both models are likely to answer correctly, always choose nano. If neither is likely to answer correctly, choose nano (escalation cannot recover accuracy).
+
+Routing rules (apply in order):
+
+1. Default to nano for:
+   - Straightforward definitions, standard facts, simple code tracing, and basic algorithm questions.
+   - Questions where the answer can be found by direct recall or simple, single-step reasoning.
+2. Escalate to mini for questions with any of the following risk patterns:
+   - Multi-step calculations, especially involving binary/hex arithmetic, bitwise operations, or number base conversions (e.g., incrementing binary numbers, interpreting binary/hex values, or multi-carry addition).
+   - Tricky formal logic, subtle distinctions in computer architecture or protocols, or dense reasoning.
+   - Questions with "hidden traps" where nano may confidently pick the wrong answer (e.g., off-by-one errors, subtle wording, or ambiguous phrasing).
+   - Any question requiring careful stepwise manipulation of representations (such as binary, hexadecimal, or other encodings), or where a single misstep leads to a wrong answer.
+   - Questions that require precise understanding of language/library semantics, especially in less common languages or with overloaded operators.
+3. If both models are likely to answer correctly, choose nano to save cost.
+4. If neither model is likely to answer correctly, choose nano.
+
+When in doubt, or if you detect any risk pattern above, prefer mini to avoid critical misroutes.
+
+Return compact JSON only, with these keys:
+- route: "nano" or "mini"
+- difficulty: "easy", "medium", or "hard"
+- confidence: number from 0.0 to 1.0
+- reason: short explanation of why this route is appropriate
+- risk_flags: short list of risk patterns, such as "multi_step", "not_except", "formal_logic", "protocol_edge_case", "calculation", "ambiguous_wording", "binary_arithmetic", "representation_trap", "none"
+
+Do not include markdown, prose outside JSON, or any extra keys.
+
+Domain-specific notes:
+- Binary/hex increment or conversion questions are high risk for nano; escalate to mini.
+- Questions involving stepwise manipulation of representations (binary, hex, encoding, etc.) are high risk for nano.
+- Simple fact recall, standard algorithms, and direct language/library usage are low risk for nano.
+- If a question could plausibly trip up a less capable model due to subtlety, ambiguity, or multi-step reasoning, escalate to mini.
+
+Your output must always select exactly one route ("nano" or "mini").
+Iteration 1: Exception during optimization: Could not call Ollama at http://localhost:11434. Is Ollama running and is the model 'qwen3.5' pulled?
+Traceback (most recent call last):
+  File "C:\Users\25875\gepa\optimize_ollama_router_gepa.py", line 548, in _chat_once
+    with urllib.request.urlopen(request, timeout=self.timeout) as response:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3568.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 189, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3568.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 495, in open
+    response = meth(req, response)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3568.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 604, in http_response
+    response = self.parent.error(
+        'http', request, response, code, msg, hdrs)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3568.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 533, in error
+    return self._call_chain(*args)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3568.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 466, in _call_chain
+    result = func(*args)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3568.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 613, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 500: Internal Server Error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\25875\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\gepa\core\engine.py", line 533, in run
+    proposal = self.reflective_proposer.propose(state)
+  File "C:\Users\25875\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\gepa\proposer\reflective_mutation\reflective_mutation.py", line 343, in propose
+    outputs_by_id, scores_by_id, objective_by_id, actual_evals_count = state.cached_evaluate_full(
+                                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        new_candidate, subsample_ids, self.trainset.fetch, evaluator
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\25875\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\gepa\core\state.py", line 621, in cached_evaluate_full
+    outputs, scores, objective_scores = evaluator(batch, candidate)
+                                        ~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\25875\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\gepa\proposer\reflective_mutation\reflective_mutation.py", line 325, in evaluator
+    r = self.adapter.evaluate(b, c, capture_traces=False)
+  File "C:\Users\25875\gepa\optimize_ollama_router_gepa.py", line 661, in evaluate
+    raw = self.router_lm(messages)
+  File "C:\Users\25875\gepa\optimize_ollama_router_gepa.py", line 515, in __call__
+    content = self._chat_once(messages, self.num_predict)
+  File "C:\Users\25875\gepa\optimize_ollama_router_gepa.py", line 556, in _chat_once
+    raise RuntimeError(
+    ...<2 lines>...
+    ) from exc
+RuntimeError: Could not call Ollama at http://localhost:11434. Is Ollama running and is the model 'qwen3.5' pulled?
+

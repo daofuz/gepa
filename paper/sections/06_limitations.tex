@@ -1,0 +1,59 @@
+\section{Limitations and Reproducibility}
+\label{sec:limitations}
+
+\paragraph{Scope.}
+The completed semantic-operator experiment is a binary sentiment classifier and
+the second workload is multiple-choice QA. This is insufficient to claim that
+the learned policy generalizes to semantic joins, maps, extraction, free-form
+generation, or multi-model pools. Each workload uses one Mini/Nano pair, and
+provider updates can change outcome labels. A final VLDB submission should add
+at least two operators and one open-weight answer-model pair.
+
+\paragraph{Selection and statistical power.}
+The historical 82-row Movie test was examined repeatedly while architectures,
+losses, sampling mixtures, and prompt lengths were developed. It is therefore a
+development test, not a clean estimator of the final chosen system. The
+200-row manifest was genuinely untouched for one locked run, but became
+consumed afterward. Its 16 critical cases still provide limited power, and the
+40-row validation split contains only four. We disclose this chronology and do
+not convert post-hoc variants into fresh claims. The next evaluation must be
+pre-registered and drawn from still-unpaired reviews.
+
+\paragraph{Acquisition assumptions.}
+Disagreement-guided acquisition assumes that both candidate models can screen
+the unlabeled pool and that the task supplies a fixed way to compare their
+answers. It reduces human gold-annotation demand, not paired answer-model
+calls. For free-form generation, semantic equivalence errors can corrupt the
+agreement split; that evaluator must be fixed before selection. The policy can
+also miss systematic shared failures because an agree-but-wrong pair is not
+prioritized. Our benchmark experiments replay cached outputs and mask the
+provided answers until selection; they estimate which human labels would have
+been requested rather than measuring a new annotation campaign.
+
+\paragraph{Objective choice.}
+Inverse expected route cost removes hand-tuned outcome constants, but its
+training-split estimate can shift across workloads, providers, and price
+snapshots. A route-level mean also hides per-example length variation, and
+inverse-cost weighting does not itself emphasize rare recoverable failures.
+Our active acquisition stage must supply those critical cases. We therefore
+report the full outcome matrix and will test price perturbations, alternative
+cost estimators, and explicit quality constraints.
+
+\paragraph{Cost and systems integration.}
+Movie results report Mini calls, not end-to-end dollars or latency. A local
+router is not free, and an answer-aware cascade always incurs a Nano call.
+Before submission we will measure wall-clock routing overhead, batch
+throughput, serialized prompt bytes, and realized token cost under a common
+execution harness. We will also evaluate how tuple-level errors propagate to
+query-level counts and ratios, which is the data-management consequence of the
+operator decision.
+
+\paragraph{Artifact plan.}
+The repository already records split JSON files, locked manifests, paired
+answer caches, prompt candidates, exact-request router caches, per-example
+traces, and summary JSON/CSV files. The submission artifact will add a single
+environment specification, immutable model/version identifiers, commands for
+every table, and checks that no review ID crosses a split. It will separate
+exploratory and locked outputs and include the fresh-manifest hash. Because
+PVLDB Volume 20 requires an artifact link with the initial EA\&B submission,
+the placeholder in the top matter must be replaced before submission.

@@ -1,0 +1,1952 @@
+{
+  "protocol": {
+    "status": "post-hoc held-out diagnostic; not a fresh final test",
+    "router": "frozen DistilBERT, 8 soft tokens, two correctness heads, inverse-cost weighted BCE",
+    "operating_point": "validation-max-accuracy checkpoint and threshold; held-out 200",
+    "questions": {
+      "scaling": "D gold disagreements + 25 gold agreements, D in [5, 15, 25, 35, 'all']; random controls at matched total label counts",
+      "augment": "d25_a25 gold base + N unlabeled agreement rows with consistency loss (q_nano - q_mini)^2, weight 1.0, N in [100, 300, 'all']"
+    },
+    "augment_labels": "gold of augmented rows never used; agreement bit is observable from cached preds",
+    "priors": {
+      "none": "{}",
+      "mean_prob_l1": "{'mean_prob': 1.0}"
+    },
+    "reuse": "random50 from sembench_prior_mo_random.json; d25_a25 from sembench_active_selection.json (disagree_oracle; identical salt and training path)",
+    "answer_model_api_calls": 0
+  },
+  "baselines": {
+    "all_nano": {
+      "count": 200,
+      "bucket_counts": {
+        "mini_only": 16,
+        "both_correct": 167,
+        "nano_only": 3,
+        "both_wrong": 14
+      },
+      "mini_calls": 0,
+      "mini_rate": 0.0,
+      "route_accuracy": 0.85,
+      "selected_accuracy": 0.85,
+      "mean_utility": 0.655,
+      "mini_only_recall": 0.0,
+      "both_wrong_mini_rate": 0.0,
+      "critical_misroutes": 16,
+      "both_wrong_cheap_routes": 14,
+      "unnecessary_mini": 0
+    },
+    "all_mini": {
+      "count": 200,
+      "bucket_counts": {
+        "mini_only": 16,
+        "both_correct": 167,
+        "nano_only": 3,
+        "both_wrong": 14
+      },
+      "mini_calls": 200,
+      "mini_rate": 1.0,
+      "route_accuracy": 0.15,
+      "selected_accuracy": 0.915,
+      "mean_utility": 0.326,
+      "mini_only_recall": 1.0,
+      "both_wrong_mini_rate": 1.0,
+      "critical_misroutes": 0,
+      "both_wrong_cheap_routes": 0,
+      "unnecessary_mini": 170
+    },
+    "oracle": {
+      "count": 200,
+      "bucket_counts": {
+        "mini_only": 16,
+        "both_correct": 167,
+        "nano_only": 3,
+        "both_wrong": 14
+      },
+      "mini_calls": 16,
+      "mini_rate": 0.08,
+      "route_accuracy": 0.93,
+      "selected_accuracy": 0.93,
+      "mean_utility": 0.975,
+      "mini_only_recall": 1.0,
+      "both_wrong_mini_rate": 0.0,
+      "critical_misroutes": 0,
+      "both_wrong_cheap_routes": 14,
+      "unnecessary_mini": 0
+    }
+  },
+  "disagree_available": {
+    "505": 53
+  },
+  "runs": {
+    "d5_a25__none": [
+      {
+        "seed": 505,
+        "train_counts": {
+          "both_correct": 23,
+          "mini_only": 5,
+          "both_wrong": 2
+        },
+        "train_size": 30,
+        "aug_size": 0,
+        "best_epoch": 1,
+        "final_bias_gap": -0.02206050604581833,
+        "operating_point": {
+          "threshold": 0.10562855005264282,
+          "accuracy": 0.915,
+          "mini_rate": 0.99,
+          "mini_saving_vs_all_mini": 0.010000000000000009,
+          "mini_only_recall": 1.0
+        },
+        "frontier": [
+          {
+            "budget": 0.0,
+            "mini_rate": 0.0,
+            "accuracy": 0.85,
+            "mo_recall": 0.0
+          },
+          {
+            "budget": 0.05,
+            "mini_rate": 0.05,
+            "accuracy": 0.85,
+            "mo_recall": 0.0
+          },
+          {
+            "budget": 0.1,
+            "mini_rate": 0.1,
+            "accuracy": 0.85,
+            "mo_recall": 0.0
+          },
+          {
+            "budget": 0.15,
+            "mini_rate": 0.15,
+            "accuracy": 0.855,
+            "mo_recall": 0.0625
+          },
+          {
+            "budget": 0.2,
+            "mini_rate": 0.2,
+            "accuracy": 0.855,
+            "mo_recall": 0.0625
+          },
+          {
+            "budget": 0.25,
+            "mini_rate": 0.25,
+            "accuracy": 0.86,
+            "mo_recall": 0.125
+          },
+          {
+            "budget": 0.3,
+            "mini_rate": 0.3,
+            "accuracy": 0.86,
+            "mo_recall": 0.125
+          },
+          {
+            "budget": 0.35,
+            "mini_rate": 0.35,
+            "accuracy": 0.87,
+            "mo_recall": 0.25
+          },
+          {
+            "budget": 0.4,
+            "mini_rate": 0.4,
+            "accuracy": 0.865,
+            "mo_recall": 0.25
+          },
+          {
+            "budget": 0.45,
+            "mini_rate": 0.45,
+            "accuracy": 0.87,
+            "mo_recall": 0.3125
+          },
+          {
+            "budget": 0.5,
+            "mini_rate": 0.5,
+            "accuracy": 0.875,
+            "mo_recall": 0.375
+          },
+          {
+            "budget": 0.55,
+            "mini_rate": 0.55,
+            "accuracy": 0.875,
+            "mo_recall": 0.4375
+          },
+          {
+            "budget": 0.6,
+            "mini_rate": 0.6,
+            "accuracy": 0.88,
+            "mo_recall": 0.5
+          },
+          {
+            "budget": 0.65,
+            "mini_rate": 0.65,
+            "accuracy": 0.885,
+            "mo_recall": 0.5625
+          },
+          {
+            "budget": 0.7,
+            "mini_rate": 0.7,
+            "accuracy": 0.885,
+            "mo_recall": 0.5625
+          },
+          {
+            "budget": 0.75,
+            "mini_rate": 0.75,
+            "accuracy": 0.89,
+            "mo_recall": 0.625
+          },
+          {
+            "budget": 0.8,
+            "mini_rate": 0.8,
+            "accuracy": 0.9,
+            "mo_recall": 0.75
+          },
+          {
+            "budget": 0.85,
+            "mini_rate": 0.85,
+            "accuracy": 0.9,
+            "mo_recall": 0.8125
+          },
+          {
+            "budget": 0.9,
+            "mini_rate": 0.9,
+            "accuracy": 0.91,
+            "mo_recall": 0.9375
+          },
+          {
+            "budget": 0.95,
+            "mini_rate": 0.95,
+            "accuracy": 0.91,
+            "mo_recall": 0.9375
+          },
+          {
+            "budget": 1.0,
+            "mini_rate": 1.0,
+            "accuracy": 0.915,
+            "mo_recall": 1.0
+          }
+        ],
+        "mean_q_nano": 0.8139556044340134,
+        "mean_q_mini": 0.9576843619346619,
+        "score_stats": {
+          "mean": 0.1437287575006485,
+          "std": 0.01093262330191662
+        }
+      }
+    ],
+    "d5_a25__mean_prob_l1": [
+      {
+        "seed": 505,
+        "train_counts": {
+          "both_correct": 23,
+          "mini_only": 5,
+          "both_wrong": 2
+        },
+        "train_size": 30,
+        "aug_size": 0,
+        "best_epoch": 1,
+        "final_bias_gap": -0.027408896014094353,
+        "operating_point": {
+          "threshold": 0.06440269947052002,
+          "accuracy": 0.915,
+          "mini_rate": 0.99,
+          "mini_saving_vs_all_mini": 0.010000000000000009,
+          "mini_only_recall": 1.0
+        },
+        "frontier": [
+          {
+            "budget": 0.0,
+            "mini_rate": 0.0,
+            "accuracy": 0.85,
+            "mo_recall": 0.0
+          },
+          {
+            "budget": 0.05,
+            "mini_rate": 0.05,
+            "accuracy": 0.85,
+            "mo_recall": 0.0
+          },
+          {
+            "budget": 0.1,
+            "mini_rate": 0.1,
+            "accuracy": 0.85,
+            "mo_recall": 0.0
+          },
+          {
+            "budget": 0.15,
+            "mini_rate": 0.15,
+            "accuracy": 0.85,
+            "mo_recall": 0.0
+          },
+          {
+            "budget": 0.2,
+            "mini_rate": 0.2,
+            "accuracy": 0.85,
+            "mo_recall": 0.0
+          },
+          {
+            "budget": 0.25,
+            "mini_rate": 0.25,
+            "accuracy": 0.86,
+            "mo_recall": 0.125
+          },
+          {
+            "budget": 0.3,
+            "mini_rate": 0.3,
+            "accuracy": 0.87,
+            "mo_recall": 0.25
+          },
+          {
+            "budget": 0.35,
+            "mini_rate": 0.35,
+            "accuracy": 0.87,
+            "mo_recall": 0.25
+          },
+          {
+            "budget": 0.4,
+            "mini_rate": 0.4,
+            "accuracy": 0.865,
+            "mo_recall": 0.25
+          },
+          {
+            "budget": 0.45,
+            "mini_rate": 0.45,
+            "accuracy": 0.875,
+            "mo_recall": 0.375
+          },
+          {
+            "budget": 0.5,
+            "mini_rate": 0.5,
+            "accuracy": 0.875,
+            "mo_recall": 0.375
+          },
+          {
+            "budget": 0.55,
+            "mini_rate": 0.55,
+            "accuracy": 0.88,
+            "mo_recall": 0.4375
+          },
+          {
+            "budget": 0.6,
+            "mini_rate": 0.6,
+            "accuracy": 0.88,
+            "mo_recall": 0.4375
+          },
+          {
+            "budget": 0.65,
+            "mini_rate": 0.65,
+            "accuracy": 0.88,
+            "mo_recall": 0.5
+          },
+          {
+            "budget": 0.7,
+            "mini_rate": 0.7,
+            "accuracy": 0.885,
+            "mo_recall": 0.5625
+          },
+          {
+            "budget": 0.75,
+            "mini_rate": 0.75,
+            "accuracy": 0.895,
+            "mo_recall": 0.6875
+          },
+          {
+            "budget": 0.8,
+            "mini_rate": 0.8,
+            "accuracy": 0.9,
+            "mo_recall": 0.75
+          },
+          {
+            "budget": 0.85,
+            "mini_rate": 0.85,
+            "accuracy": 0.9,
+            "mo_recall": 0.8125
+          },
+          {
+            "budget": 0.9,
+            "mini_rate": 0.9,
+            "accuracy": 0.905,
+            "mo_recall": 0.875
+          },
+          {
+            "budget": 0.95,
+            "mini_rate": 0.95,
+            "accuracy": 0.91,
+            "mo_recall": 0.9375
+          },
+          {
+            "budget": 1.0,
+            "mini_rate": 1.0,
+            "accuracy": 0.915,
+            "mo_recall": 1.0
+          }
+        ],
+        "mean_q_nano": 0.8507128775119781,
+        "mean_q_mini": 0.945181956589222,
+        "score_stats": {
+          "mean": 0.0944690790772438,
+          "std": 0.008495589382796917
+        }
+      }
+    ],
+    "random30__none": [
+      {
+        "seed": 505,
+        "train_counts": {
+          "both_correct": 25,
+          "mini_only": 3,
+          "both_wrong": 2
+        },
+        "train_size": 30,
+        "aug_size": 0,
+        "best_epoch": 1,
+        "final_bias_gap": -0.02678125537931919,
+        "operating_point": {
+          "threshold": 0.058528780937194824,
+          "accuracy": 0.91,
+          "mini_rate": 0.95,
+          "mini_saving_vs_all_mini": 0.050000000000000044,
+          "mini_only_recall": 0.9375
+        },
+        "frontier": [
+          {
+            "budget": 0.0,
+            "mini_rate": 0.0,
+            "accuracy": 0.85,
+            "mo_recall": 0.0
+          },
+          {
+            "budget": 0.05,
+            "mini_rate": 0.05,
+            "accuracy": 0.85,
+            "mo_recall": 0.0
+          },
+          {
+            "budget": 0.1,
+            "mini_rate": 0.1,
+            "accuracy": 0.85,
+            "mo_recall": 0.0
+          },
+          {
+            "budget": 0.15,
+            "mini_rate": 0.15,
+            "accuracy": 0.85,
+            "mo_recall": 0.0
+          },
+          {
+            "budget": 0.2,
+            "mini_rate": 0.2,
+            "accuracy": 0.85,
+            "mo_recall": 0.0
+          },
+          {
+            "budget": 0.25,
+            "mini_rate": 0.25,
+            "accuracy": 0.86,
+            "mo_recall": 0.125
+          },
+          {
+            "budget": 0.3,
+            "mini_rate": 0.3,
+            "accuracy": 0.86,
+            "mo_recall": 0.125
+          },
+          {
+            "budget": 0.35,
+            "mini_rate": 0.35,
+            "accuracy": 0.86,
+            "mo_recall": 0.125
+          },
+          {
+            "budget": 0.4,
+            "mini_rate": 0.4,
+            "accuracy": 0.855,
+            "mo_recall": 0.125
+          },
+          {
+            "budget": 0.45,
+            "mini_rate": 0.45,
+            "accuracy": 0.865,
+            "mo_recall": 0.25
+          },
+          {
+            "budget": 0.5,
+            "mini_rate": 0.5,
+            "accuracy": 0.87,
+            "mo_recall": 0.3125
+          },
+          {
+            "budget": 0.55,
+            "mini_rate": 0.55,
+            "accuracy": 0.87,
+            "mo_recall": 0.3125
+          },
+          {
+            "budget": 0.6,
+            "mini_rate": 0.6,
+            "accuracy": 0.87,
+            "mo_recall": 0.3125
+          },
+          {
+            "budget": 0.65,
+            "mini_rate": 0.65,
+            "accuracy": 0.875,
+            "mo_recall": 0.375
+          },
+          {
+            "budget": 0.7,
+            "mini_rate": 0.7,
+            "accuracy": 0.875,
+            "mo_recall": 0.375
+          },
+          {
+            "budget": 0.75,
+            "mini_rate": 0.75,
+            "accuracy": 0.885,
+            "mo_recall": 0.5
+          },
+          {
+            "budget": 0.8,
+            "mini_rate": 0.8,
+            "accuracy": 0.9,
+            "mo_recall": 0.75
+          },
+          {
+            "budget": 0.85,
+            "mini_rate": 0.85,
+            "accuracy": 0.905,
+            "mo_recall": 0.8125
+          },
+          {
+            "budget": 0.9,
+            "mini_rate": 0.9,
+            "accuracy": 0.91,
+            "mo_recall": 0.875
+          },
+          {
+            "budget": 0.95,
+            "mini_rate": 0.95,
+            "accuracy": 0.91,
+            "mo_recall": 0.9375
+          },
+          {
+            "budget": 1.0,
+            "mini_rate": 1.0,
+            "accuracy": 0.915,
+            "mo_recall": 1.0
+          }
+        ],
+        "mean_q_nano": 0.8657045406103134,
+        "mean_q_mini": 0.9329210394620895,
+        "score_stats": {
+          "mean": 0.06721649885177612,
+          "std": 0.0052031074038401326
+        }
+      }
+    ],
+    "random30__mean_prob_l1": [
+      {
+        "seed": 505,
+        "train_counts": {
+          "both_correct": 25,
+          "mini_only": 3,
+          "both_wrong": 2
+        },
+        "train_size": 30,
+        "aug_size": 0,
+        "best_epoch": 1,
+        "final_bias_gap": -0.02832099236547947,
+        "operating_point": {
+          "threshold": 0.05281633138656616,
+          "accuracy": 0.88,
+          "mini_rate": 0.53,
+          "mini_saving_vs_all_mini": 0.47,
+          "mini_only_recall": 0.375
+        },
+        "frontier": [
+          {
+            "budget": 0.0,
+            "mini_rate": 0.0,
+            "accuracy": 0.85,
+            "mo_recall": 0.0
+          },
+          {
+            "budget": 0.05,
+            "mini_rate": 0.05,
+            "accuracy": 0.855,
+            "mo_recall": 0.0625
+          },
+          {
+            "budget": 0.1,
+            "mini_rate": 0.1,
+            "accuracy": 0.855,
+            "mo_recall": 0.0625
+          },
+          {
+            "budget": 0.15,
+            "mini_rate": 0.15,
+            "accuracy": 0.855,
+            "mo_recall": 0.0625
+          },
+          {
+            "budget": 0.2,
+            "mini_rate": 0.2,
+            "accuracy": 0.86,
+            "mo_recall": 0.125
+          },
+          {
+            "budget": 0.25,
+            "mini_rate": 0.25,
+            "accuracy": 0.86,
+            "mo_recall": 0.125
+          },
+          {
+            "budget": 0.3,
+            "mini_rate": 0.3,
+            "accuracy": 0.87,
+            "mo_recall": 0.25
+          },
+          {
+            "budget": 0.35,
+            "mini_rate": 0.35,
+            "accuracy": 0.87,
+            "mo_recall": 0.25
+          },
+          {
+            "budget": 0.4,
+            "mini_rate": 0.4,
+            "accuracy": 0.875,
+            "mo_recall": 0.3125
+          },
+          {
+            "budget": 0.45,
+            "mini_rate": 0.45,
+            "accuracy": 0.875,
+            "mo_recall": 0.3125
+          },
+          {
+            "budget": 0.5,
+            "mini_rate": 0.5,
+            "accuracy": 0.875,
+            "mo_recall": 0.3125
+          },
+          {
+            "budget": 0.55,
+            "mini_rate": 0.55,
+            "accuracy": 0.88,
+            "mo_recall": 0.375
+          },
+          {
+            "budget": 0.6,
+            "mini_rate": 0.6,
+            "accuracy": 0.88,
+            "mo_recall": 0.4375
+          },
+          {
+            "budget": 0.65,
+            "mini_rate": 0.65,
+            "accuracy": 0.88,
+            "mo_recall": 0.4375
+          },
+          {
+            "budget": 0.7,
+            "mini_rate": 0.7,
+            "accuracy": 0.885,
+            "mo_recall": 0.5625
+          },
+          {
+            "budget": 0.75,
+            "mini_rate": 0.75,
+            "accuracy": 0.89,
+            "mo_recall": 0.625
+          },
+          {
+            "budget": 0.8,
+            "mini_rate": 0.8,
+            "accuracy": 0.895,
+            "mo_recall": 0.6875
+          },
+          {
+            "budget": 0.85,
+            "mini_rate": 0.85,
+            "accuracy": 0.91,
+            "mo_recall": 0.875
+          },
+          {
+            "budget": 0.9,
+            "mini_rate": 0.9,
+            "accuracy": 0.915,
+            "mo_recall": 0.9375
+          },
+          {
+            "budget": 0.95,
+            "mini_rate": 0.95,
+            "accuracy": 0.91,
+            "mo_recall": 0.9375
+          },
+          {
+            "budget": 1.0,
+            "mini_rate": 1.0,
+            "accuracy": 0.915,
+            "mo_recall": 1.0
+          }
+        ],
+        "mean_q_nano": 0.8462040954828263,
+        "mean_q_mini": 0.8993950992822647,
+        "score_stats": {
+          "mean": 0.053191003799438474,
+          "std": 0.0057319597335365345
+        }
+      }
+    ],
+    "d25_a25_aug100__none": [
+      {
+        "seed": 505,
+        "train_counts": {
+          "mini_only": 21,
+          "both_correct": 21,
+          "nano_only": 4,
+          "both_wrong": 4
+        },
+        "train_size": 50,
+        "aug_size": 100,
+        "best_epoch": 2,
+        "final_bias_gap": -0.05456620454788208,
+        "operating_point": {
+          "threshold": -0.21526259183883667,
+          "accuracy": 0.91,
+          "mini_rate": 0.805,
+          "mini_saving_vs_all_mini": 0.19499999999999995,
+          "mini_only_recall": 0.9375
+        },
+        "frontier": [
+          {
+            "budget": 0.0,
+            "mini_rate": 0.0,
+            "accuracy": 0.85,
+            "mo_recall": 0.0
+          },
+          {
+            "budget": 0.05,
+            "mini_rate": 0.05,
+            "accuracy": 0.85,
+            "mo_recall": 0.0
+          },
+          {
+            "budget": 0.1,
+            "mini_rate": 0.1,
+            "accuracy": 0.855,
+            "mo_recall": 0.0625
+          },
+          {
+            "budget": 0.15,
+            "mini_rate": 0.15,
+            "accuracy": 0.855,
+            "mo_recall": 0.0625
+          },
+          {
+            "budget": 0.2,
+            "mini_rate": 0.2,
+            "accuracy": 0.86,
+            "mo_recall": 0.1875
+          },
+          {
+            "budget": 0.25,
+            "mini_rate": 0.25,
+            "accuracy": 0.87,
+            "mo_recall": 0.3125
+          },
+          {
+            "budget": 0.3,
+            "mini_rate": 0.3,
+            "accuracy": 0.875,
+            "mo_recall": 0.375
+          },
+          {
+            "budget": 0.35,
+            "mini_rate": 0.35,
+            "accuracy": 0.88,
+            "mo_recall": 0.4375
+          },
+          {
+            "budget": 0.4,
+            "mini_rate": 0.4,
+            "accuracy": 0.89,
+            "mo_recall": 0.5625
+          },
+          {
+            "budget": 0.45,
+            "mini_rate": 0.45,
+            "accuracy": 0.9,
+            "mo_recall": 0.6875
+          },
+          {
+            "budget": 0.5,
+            "mini_rate": 0.5,
+            "accuracy": 0.9,
+            "mo_recall": 0.75
+          },
+          {
+            "budget": 0.55,
+            "mini_rate": 0.55,
+            "accuracy": 0.905,
+            "mo_recall": 0.875
+          },
+          {
+            "budget": 0.6,
+            "mini_rate": 0.6,
+            "accuracy": 0.905,
+            "mo_recall": 0.875
+          },
+          {
+            "budget": 0.65,
+            "mini_rate": 0.65,
+            "accuracy": 0.905,
+            "mo_recall": 0.875
+          },
+          {
+            "budget": 0.7,
+            "mini_rate": 0.7,
+            "accuracy": 0.905,
+            "mo_recall": 0.875
+          },
+          {
+            "budget": 0.75,
+            "mini_rate": 0.75,
+            "accuracy": 0.905,
+            "mo_recall": 0.875
+          },
+          {
+            "budget": 0.8,
+            "mini_rate": 0.8,
+            "accuracy": 0.91,
+            "mo_recall": 0.9375
+          },
+          {
+            "budget": 0.85,
+            "mini_rate": 0.85,
+            "accuracy": 0.91,
+            "mo_recall": 0.9375
+          },
+          {
+            "budget": 0.9,
+            "mini_rate": 0.9,
+            "accuracy": 0.91,
+            "mo_recall": 0.9375
+          },
+          {
+            "budget": 0.95,
+            "mini_rate": 0.95,
+            "accuracy": 0.915,
+            "mo_recall": 1.0
+          },
+          {
+            "budget": 1.0,
+            "mini_rate": 1.0,
+            "accuracy": 0.915,
+            "mo_recall": 1.0
+          }
+        ],
+        "mean_q_nano": 0.633999103307724,
+        "mean_q_mini": 0.4399480375647545,
+        "score_stats": {
+          "mean": -0.19405106574296951,
+          "std": 0.026448919796704065
+        }
+      }
+    ],
+    "d25_a25_aug100__mean_prob_l1": [
+      {
+        "seed": 505,
+        "train_counts": {
+          "mini_only": 21,
+          "both_correct": 21,
+          "nano_only": 4,
+          "both_wrong": 4
+        },
+        "train_size": 50,
+        "aug_size": 100,
+        "best_epoch": 2,
+        "final_bias_gap": -0.01671287976205349,
+        "operating_point": {
+          "threshold": 0.07617098093032837,
+          "accuracy": 0.86,
+          "mini_rate": 0.16,
+          "mini_saving_vs_all_mini": 0.84,
+          "mini_only_recall": 0.125
+        },
+        "frontier": [
+          {
+            "budget": 0.0,
+            "mini_rate": 0.0,
+            "accuracy": 0.85,
+            "mo_recall": 0.0
+          },
+          {
+            "budget": 0.05,
+            "mini_rate": 0.05,
+            "accuracy": 0.85,
+            "mo_recall": 0.0
+          },
+          {
+            "budget": 0.1,
+            "mini_rate": 0.1,
+            "accuracy": 0.855,
+            "mo_recall": 0.0625
+          },
+          {
+            "budget": 0.15,
+            "mini_rate": 0.15,
+            "accuracy": 0.86,
+            "mo_recall": 0.125
+          },
+          {
+            "budget": 0.2,
+            "mini_rate": 0.2,
+            "accuracy": 0.86,
+            "mo_recall": 0.125
+          },
+          {
+            "budget": 0.25,
+            "mini_rate": 0.25,
+            "accuracy": 0.86,
+            "mo_recall": 0.125
+          },
+          {
+            "budget": 0.3,
+            "mini_rate": 0.3,
+            "accuracy": 0.86,
+            "mo_recall": 0.125
+          },
+          {
+            "budget": 0.35,
+            "mini_rate": 0.35,
+            "accuracy": 0.865,
+            "mo_recall": 0.1875
+          },
+          {
+            "budget": 0.4,
+            "mini_rate": 0.4,
+            "accuracy": 0.875,
+            "mo_recall": 0.3125
+          },
+          {
+            "budget": 0.45,
+            "mini_rate": 0.45,
+            "accuracy": 0.885,
+            "mo_recall": 0.4375
+          },
+          {
+            "budget": 0.5,
+            "mini_rate": 0.5,
+            "accuracy": 0.885,
+            "mo_recall": 0.5
+          },
+          {
+            "budget": 0.55,
+            "mini_rate": 0.55,
+            "accuracy": 0.885,
+            "mo_recall": 0.5
+          },
+          {
+            "budget": 0.6,
+            "mini_rate": 0.6,
+            "accuracy": 0.89,
+            "mo_recall": 0.5625
+          },
+          {
+            "budget": 0.65,
+            "mini_rate": 0.65,
+            "accuracy": 0.895,
+            "mo_recall": 0.625
+          },
+          {
+            "budget": 0.7,
+            "mini_rate": 0.7,
+            "accuracy": 0.89,
+            "mo_recall": 0.625
+          },
+          {
+            "budget": 0.75,
+            "mini_rate": 0.75,
+            "accuracy": 0.895,
+            "mo_recall": 0.6875
+          },
+          {
+            "budget": 0.8,
+            "mini_rate": 0.8,
+            "accuracy": 0.905,
+            "mo_recall": 0.8125
+          },
+          {
+            "budget": 0.85,
+            "mini_rate": 0.85,
+            "accuracy": 0.91,
+            "mo_recall": 0.875
+          },
+          {
+            "budget": 0.9,
+            "mini_rate": 0.9,
+            "accuracy": 0.905,
+            "mo_recall": 0.875
+          },
+          {
+            "budget": 0.95,
+            "mini_rate": 0.95,
+            "accuracy": 0.91,
+            "mo_recall": 0.9375
+          },
+          {
+            "budget": 1.0,
+            "mini_rate": 1.0,
+            "accuracy": 0.915,
+            "mo_recall": 1.0
+          }
+        ],
+        "mean_q_nano": 0.7830391222238541,
+        "mean_q_mini": 0.834014558494091,
+        "score_stats": {
+          "mean": 0.05097543627023697,
+          "std": 0.028407302271336102
+        }
+      }
+    ]
+  },
+  "summary": {
+    "d25_a25_aug100__mean_prob_l1": {
+      "seeds": [
+        505
+      ],
+      "train_size_mean": 50,
+      "aug_size_mean": 100,
+      "mo_in_train": [
+        21
+      ],
+      "operating_point": {
+        "accuracy": {
+          "mean": 0.86,
+          "std": 0.0
+        },
+        "mini_rate": {
+          "mean": 0.16,
+          "std": 0.0
+        },
+        "mini_saving_vs_all_mini": {
+          "mean": 0.84,
+          "std": 0.0
+        },
+        "mini_only_recall": {
+          "mean": 0.125,
+          "std": 0.0
+        }
+      },
+      "frontier": [
+        {
+          "budget": 0.0,
+          "accuracy_mean": 0.85,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0
+        },
+        {
+          "budget": 0.05,
+          "accuracy_mean": 0.85,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0
+        },
+        {
+          "budget": 0.1,
+          "accuracy_mean": 0.855,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0625
+        },
+        {
+          "budget": 0.15,
+          "accuracy_mean": 0.86,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.125
+        },
+        {
+          "budget": 0.2,
+          "accuracy_mean": 0.86,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.125
+        },
+        {
+          "budget": 0.25,
+          "accuracy_mean": 0.86,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.125
+        },
+        {
+          "budget": 0.3,
+          "accuracy_mean": 0.86,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.125
+        },
+        {
+          "budget": 0.35,
+          "accuracy_mean": 0.865,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.1875
+        },
+        {
+          "budget": 0.4,
+          "accuracy_mean": 0.875,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.3125
+        },
+        {
+          "budget": 0.45,
+          "accuracy_mean": 0.885,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.4375
+        },
+        {
+          "budget": 0.5,
+          "accuracy_mean": 0.885,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.5
+        },
+        {
+          "budget": 0.55,
+          "accuracy_mean": 0.885,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.5
+        },
+        {
+          "budget": 0.6,
+          "accuracy_mean": 0.89,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.5625
+        },
+        {
+          "budget": 0.65,
+          "accuracy_mean": 0.895,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.625
+        },
+        {
+          "budget": 0.7,
+          "accuracy_mean": 0.89,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.625
+        },
+        {
+          "budget": 0.75,
+          "accuracy_mean": 0.895,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.6875
+        },
+        {
+          "budget": 0.8,
+          "accuracy_mean": 0.905,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.8125
+        },
+        {
+          "budget": 0.85,
+          "accuracy_mean": 0.91,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.875
+        },
+        {
+          "budget": 0.9,
+          "accuracy_mean": 0.905,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.875
+        },
+        {
+          "budget": 0.95,
+          "accuracy_mean": 0.91,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.9375
+        },
+        {
+          "budget": 1.0,
+          "accuracy_mean": 0.915,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 1.0
+        }
+      ]
+    },
+    "d25_a25_aug100__none": {
+      "seeds": [
+        505
+      ],
+      "train_size_mean": 50,
+      "aug_size_mean": 100,
+      "mo_in_train": [
+        21
+      ],
+      "operating_point": {
+        "accuracy": {
+          "mean": 0.91,
+          "std": 0.0
+        },
+        "mini_rate": {
+          "mean": 0.805,
+          "std": 0.0
+        },
+        "mini_saving_vs_all_mini": {
+          "mean": 0.19499999999999995,
+          "std": 0.0
+        },
+        "mini_only_recall": {
+          "mean": 0.9375,
+          "std": 0.0
+        }
+      },
+      "frontier": [
+        {
+          "budget": 0.0,
+          "accuracy_mean": 0.85,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0
+        },
+        {
+          "budget": 0.05,
+          "accuracy_mean": 0.85,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0
+        },
+        {
+          "budget": 0.1,
+          "accuracy_mean": 0.855,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0625
+        },
+        {
+          "budget": 0.15,
+          "accuracy_mean": 0.855,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0625
+        },
+        {
+          "budget": 0.2,
+          "accuracy_mean": 0.86,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.1875
+        },
+        {
+          "budget": 0.25,
+          "accuracy_mean": 0.87,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.3125
+        },
+        {
+          "budget": 0.3,
+          "accuracy_mean": 0.875,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.375
+        },
+        {
+          "budget": 0.35,
+          "accuracy_mean": 0.88,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.4375
+        },
+        {
+          "budget": 0.4,
+          "accuracy_mean": 0.89,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.5625
+        },
+        {
+          "budget": 0.45,
+          "accuracy_mean": 0.9,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.6875
+        },
+        {
+          "budget": 0.5,
+          "accuracy_mean": 0.9,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.75
+        },
+        {
+          "budget": 0.55,
+          "accuracy_mean": 0.905,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.875
+        },
+        {
+          "budget": 0.6,
+          "accuracy_mean": 0.905,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.875
+        },
+        {
+          "budget": 0.65,
+          "accuracy_mean": 0.905,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.875
+        },
+        {
+          "budget": 0.7,
+          "accuracy_mean": 0.905,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.875
+        },
+        {
+          "budget": 0.75,
+          "accuracy_mean": 0.905,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.875
+        },
+        {
+          "budget": 0.8,
+          "accuracy_mean": 0.91,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.9375
+        },
+        {
+          "budget": 0.85,
+          "accuracy_mean": 0.91,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.9375
+        },
+        {
+          "budget": 0.9,
+          "accuracy_mean": 0.91,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.9375
+        },
+        {
+          "budget": 0.95,
+          "accuracy_mean": 0.915,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 1.0
+        },
+        {
+          "budget": 1.0,
+          "accuracy_mean": 0.915,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 1.0
+        }
+      ]
+    },
+    "d5_a25__mean_prob_l1": {
+      "seeds": [
+        505
+      ],
+      "train_size_mean": 30,
+      "aug_size_mean": 0,
+      "mo_in_train": [
+        5
+      ],
+      "operating_point": {
+        "accuracy": {
+          "mean": 0.915,
+          "std": 0.0
+        },
+        "mini_rate": {
+          "mean": 0.99,
+          "std": 0.0
+        },
+        "mini_saving_vs_all_mini": {
+          "mean": 0.010000000000000009,
+          "std": 0.0
+        },
+        "mini_only_recall": {
+          "mean": 1.0,
+          "std": 0.0
+        }
+      },
+      "frontier": [
+        {
+          "budget": 0.0,
+          "accuracy_mean": 0.85,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0
+        },
+        {
+          "budget": 0.05,
+          "accuracy_mean": 0.85,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0
+        },
+        {
+          "budget": 0.1,
+          "accuracy_mean": 0.85,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0
+        },
+        {
+          "budget": 0.15,
+          "accuracy_mean": 0.85,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0
+        },
+        {
+          "budget": 0.2,
+          "accuracy_mean": 0.85,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0
+        },
+        {
+          "budget": 0.25,
+          "accuracy_mean": 0.86,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.125
+        },
+        {
+          "budget": 0.3,
+          "accuracy_mean": 0.87,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.25
+        },
+        {
+          "budget": 0.35,
+          "accuracy_mean": 0.87,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.25
+        },
+        {
+          "budget": 0.4,
+          "accuracy_mean": 0.865,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.25
+        },
+        {
+          "budget": 0.45,
+          "accuracy_mean": 0.875,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.375
+        },
+        {
+          "budget": 0.5,
+          "accuracy_mean": 0.875,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.375
+        },
+        {
+          "budget": 0.55,
+          "accuracy_mean": 0.88,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.4375
+        },
+        {
+          "budget": 0.6,
+          "accuracy_mean": 0.88,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.4375
+        },
+        {
+          "budget": 0.65,
+          "accuracy_mean": 0.88,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.5
+        },
+        {
+          "budget": 0.7,
+          "accuracy_mean": 0.885,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.5625
+        },
+        {
+          "budget": 0.75,
+          "accuracy_mean": 0.895,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.6875
+        },
+        {
+          "budget": 0.8,
+          "accuracy_mean": 0.9,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.75
+        },
+        {
+          "budget": 0.85,
+          "accuracy_mean": 0.9,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.8125
+        },
+        {
+          "budget": 0.9,
+          "accuracy_mean": 0.905,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.875
+        },
+        {
+          "budget": 0.95,
+          "accuracy_mean": 0.91,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.9375
+        },
+        {
+          "budget": 1.0,
+          "accuracy_mean": 0.915,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 1.0
+        }
+      ]
+    },
+    "d5_a25__none": {
+      "seeds": [
+        505
+      ],
+      "train_size_mean": 30,
+      "aug_size_mean": 0,
+      "mo_in_train": [
+        5
+      ],
+      "operating_point": {
+        "accuracy": {
+          "mean": 0.915,
+          "std": 0.0
+        },
+        "mini_rate": {
+          "mean": 0.99,
+          "std": 0.0
+        },
+        "mini_saving_vs_all_mini": {
+          "mean": 0.010000000000000009,
+          "std": 0.0
+        },
+        "mini_only_recall": {
+          "mean": 1.0,
+          "std": 0.0
+        }
+      },
+      "frontier": [
+        {
+          "budget": 0.0,
+          "accuracy_mean": 0.85,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0
+        },
+        {
+          "budget": 0.05,
+          "accuracy_mean": 0.85,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0
+        },
+        {
+          "budget": 0.1,
+          "accuracy_mean": 0.85,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0
+        },
+        {
+          "budget": 0.15,
+          "accuracy_mean": 0.855,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0625
+        },
+        {
+          "budget": 0.2,
+          "accuracy_mean": 0.855,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0625
+        },
+        {
+          "budget": 0.25,
+          "accuracy_mean": 0.86,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.125
+        },
+        {
+          "budget": 0.3,
+          "accuracy_mean": 0.86,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.125
+        },
+        {
+          "budget": 0.35,
+          "accuracy_mean": 0.87,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.25
+        },
+        {
+          "budget": 0.4,
+          "accuracy_mean": 0.865,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.25
+        },
+        {
+          "budget": 0.45,
+          "accuracy_mean": 0.87,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.3125
+        },
+        {
+          "budget": 0.5,
+          "accuracy_mean": 0.875,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.375
+        },
+        {
+          "budget": 0.55,
+          "accuracy_mean": 0.875,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.4375
+        },
+        {
+          "budget": 0.6,
+          "accuracy_mean": 0.88,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.5
+        },
+        {
+          "budget": 0.65,
+          "accuracy_mean": 0.885,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.5625
+        },
+        {
+          "budget": 0.7,
+          "accuracy_mean": 0.885,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.5625
+        },
+        {
+          "budget": 0.75,
+          "accuracy_mean": 0.89,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.625
+        },
+        {
+          "budget": 0.8,
+          "accuracy_mean": 0.9,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.75
+        },
+        {
+          "budget": 0.85,
+          "accuracy_mean": 0.9,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.8125
+        },
+        {
+          "budget": 0.9,
+          "accuracy_mean": 0.91,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.9375
+        },
+        {
+          "budget": 0.95,
+          "accuracy_mean": 0.91,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.9375
+        },
+        {
+          "budget": 1.0,
+          "accuracy_mean": 0.915,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 1.0
+        }
+      ]
+    },
+    "random30__mean_prob_l1": {
+      "seeds": [
+        505
+      ],
+      "train_size_mean": 30,
+      "aug_size_mean": 0,
+      "mo_in_train": [
+        3
+      ],
+      "operating_point": {
+        "accuracy": {
+          "mean": 0.88,
+          "std": 0.0
+        },
+        "mini_rate": {
+          "mean": 0.53,
+          "std": 0.0
+        },
+        "mini_saving_vs_all_mini": {
+          "mean": 0.47,
+          "std": 0.0
+        },
+        "mini_only_recall": {
+          "mean": 0.375,
+          "std": 0.0
+        }
+      },
+      "frontier": [
+        {
+          "budget": 0.0,
+          "accuracy_mean": 0.85,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0
+        },
+        {
+          "budget": 0.05,
+          "accuracy_mean": 0.855,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0625
+        },
+        {
+          "budget": 0.1,
+          "accuracy_mean": 0.855,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0625
+        },
+        {
+          "budget": 0.15,
+          "accuracy_mean": 0.855,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0625
+        },
+        {
+          "budget": 0.2,
+          "accuracy_mean": 0.86,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.125
+        },
+        {
+          "budget": 0.25,
+          "accuracy_mean": 0.86,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.125
+        },
+        {
+          "budget": 0.3,
+          "accuracy_mean": 0.87,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.25
+        },
+        {
+          "budget": 0.35,
+          "accuracy_mean": 0.87,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.25
+        },
+        {
+          "budget": 0.4,
+          "accuracy_mean": 0.875,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.3125
+        },
+        {
+          "budget": 0.45,
+          "accuracy_mean": 0.875,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.3125
+        },
+        {
+          "budget": 0.5,
+          "accuracy_mean": 0.875,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.3125
+        },
+        {
+          "budget": 0.55,
+          "accuracy_mean": 0.88,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.375
+        },
+        {
+          "budget": 0.6,
+          "accuracy_mean": 0.88,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.4375
+        },
+        {
+          "budget": 0.65,
+          "accuracy_mean": 0.88,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.4375
+        },
+        {
+          "budget": 0.7,
+          "accuracy_mean": 0.885,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.5625
+        },
+        {
+          "budget": 0.75,
+          "accuracy_mean": 0.89,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.625
+        },
+        {
+          "budget": 0.8,
+          "accuracy_mean": 0.895,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.6875
+        },
+        {
+          "budget": 0.85,
+          "accuracy_mean": 0.91,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.875
+        },
+        {
+          "budget": 0.9,
+          "accuracy_mean": 0.915,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.9375
+        },
+        {
+          "budget": 0.95,
+          "accuracy_mean": 0.91,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.9375
+        },
+        {
+          "budget": 1.0,
+          "accuracy_mean": 0.915,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 1.0
+        }
+      ]
+    },
+    "random30__none": {
+      "seeds": [
+        505
+      ],
+      "train_size_mean": 30,
+      "aug_size_mean": 0,
+      "mo_in_train": [
+        3
+      ],
+      "operating_point": {
+        "accuracy": {
+          "mean": 0.91,
+          "std": 0.0
+        },
+        "mini_rate": {
+          "mean": 0.95,
+          "std": 0.0
+        },
+        "mini_saving_vs_all_mini": {
+          "mean": 0.050000000000000044,
+          "std": 0.0
+        },
+        "mini_only_recall": {
+          "mean": 0.9375,
+          "std": 0.0
+        }
+      },
+      "frontier": [
+        {
+          "budget": 0.0,
+          "accuracy_mean": 0.85,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0
+        },
+        {
+          "budget": 0.05,
+          "accuracy_mean": 0.85,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0
+        },
+        {
+          "budget": 0.1,
+          "accuracy_mean": 0.85,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0
+        },
+        {
+          "budget": 0.15,
+          "accuracy_mean": 0.85,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0
+        },
+        {
+          "budget": 0.2,
+          "accuracy_mean": 0.85,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.0
+        },
+        {
+          "budget": 0.25,
+          "accuracy_mean": 0.86,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.125
+        },
+        {
+          "budget": 0.3,
+          "accuracy_mean": 0.86,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.125
+        },
+        {
+          "budget": 0.35,
+          "accuracy_mean": 0.86,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.125
+        },
+        {
+          "budget": 0.4,
+          "accuracy_mean": 0.855,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.125
+        },
+        {
+          "budget": 0.45,
+          "accuracy_mean": 0.865,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.25
+        },
+        {
+          "budget": 0.5,
+          "accuracy_mean": 0.87,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.3125
+        },
+        {
+          "budget": 0.55,
+          "accuracy_mean": 0.87,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.3125
+        },
+        {
+          "budget": 0.6,
+          "accuracy_mean": 0.87,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.3125
+        },
+        {
+          "budget": 0.65,
+          "accuracy_mean": 0.875,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.375
+        },
+        {
+          "budget": 0.7,
+          "accuracy_mean": 0.875,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.375
+        },
+        {
+          "budget": 0.75,
+          "accuracy_mean": 0.885,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.5
+        },
+        {
+          "budget": 0.8,
+          "accuracy_mean": 0.9,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.75
+        },
+        {
+          "budget": 0.85,
+          "accuracy_mean": 0.905,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.8125
+        },
+        {
+          "budget": 0.9,
+          "accuracy_mean": 0.91,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.875
+        },
+        {
+          "budget": 0.95,
+          "accuracy_mean": 0.91,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 0.9375
+        },
+        {
+          "budget": 1.0,
+          "accuracy_mean": 0.915,
+          "accuracy_std": 0.0,
+          "mo_recall_mean": 1.0
+        }
+      ]
+    }
+  }
+}

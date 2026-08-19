@@ -1,0 +1,366 @@
+train=100 validation=40 historical_test=82 heldout=200
+router=qwen3.5:2b reflection=qwen3.5:4b max_metric_calls=4
+Running GEPA optimization...
+Iteration 0: Base program full valset score: 0.5875 over 40 / 40 examples
+GEPA candidates=1 selected=0
+Evaluating initial candidate...
+{
+  "candidate": "initial",
+  "historical_test": {
+    "count": 82,
+    "bucket_counts": {
+      "both_correct": 72,
+      "mini_only": 5,
+      "both_wrong": 4,
+      "nano_only": 1
+    },
+    "mini_calls": 0,
+    "mini_rate": 0.0,
+    "route_accuracy": 0.8902439024390244,
+    "selected_accuracy": 0.8902439024390244,
+    "mean_utility": 0.7439024390243902,
+    "mini_only_recall": 0.0,
+    "both_wrong_mini_rate": 0.0,
+    "critical_misroutes": 5,
+    "both_wrong_cheap_routes": 4,
+    "unnecessary_mini": 0,
+    "mini_saving_vs_all_mini": 1.0,
+    "invalid_routes": 0,
+    "raw_route_counts": {
+      "nano": 82
+    },
+    "mean_gepa_score": 0.7439024390243902
+  },
+  "heldout_200_posthoc": {
+    "count": 200,
+    "bucket_counts": {
+      "mini_only": 16,
+      "both_correct": 167,
+      "nano_only": 3,
+      "both_wrong": 14
+    },
+    "mini_calls": 0,
+    "mini_rate": 0.0,
+    "route_accuracy": 0.85,
+    "selected_accuracy": 0.85,
+    "mean_utility": 0.655,
+    "mini_only_recall": 0.0,
+    "both_wrong_mini_rate": 0.0,
+    "critical_misroutes": 16,
+    "both_wrong_cheap_routes": 14,
+    "unnecessary_mini": 0,
+    "mini_saving_vs_all_mini": 1.0,
+    "invalid_routes": 0,
+    "raw_route_counts": {
+      "nano": 200
+    },
+    "mean_gepa_score": 0.655
+  }
+}
+Evaluating gepa candidate...
+{
+  "candidate": "gepa",
+  "historical_test": {
+    "count": 82,
+    "bucket_counts": {
+      "both_correct": 72,
+      "mini_only": 5,
+      "both_wrong": 4,
+      "nano_only": 1
+    },
+    "mini_calls": 0,
+    "mini_rate": 0.0,
+    "route_accuracy": 0.8902439024390244,
+    "selected_accuracy": 0.8902439024390244,
+    "mean_utility": 0.7439024390243902,
+    "mini_only_recall": 0.0,
+    "both_wrong_mini_rate": 0.0,
+    "critical_misroutes": 5,
+    "both_wrong_cheap_routes": 4,
+    "unnecessary_mini": 0,
+    "mini_saving_vs_all_mini": 1.0,
+    "invalid_routes": 0,
+    "raw_route_counts": {
+      "nano": 82
+    },
+    "mean_gepa_score": 0.7439024390243902
+  },
+  "heldout_200_posthoc": {
+    "count": 200,
+    "bucket_counts": {
+      "mini_only": 16,
+      "both_correct": 167,
+      "nano_only": 3,
+      "both_wrong": 14
+    },
+    "mini_calls": 0,
+    "mini_rate": 0.0,
+    "route_accuracy": 0.85,
+    "selected_accuracy": 0.85,
+    "mean_utility": 0.655,
+    "mini_only_recall": 0.0,
+    "both_wrong_mini_rate": 0.0,
+    "critical_misroutes": 16,
+    "both_wrong_cheap_routes": 14,
+    "unnecessary_mini": 0,
+    "mini_saving_vs_all_mini": 1.0,
+    "invalid_routes": 0,
+    "raw_route_counts": {
+      "nano": 200
+    },
+    "mean_gepa_score": 0.655
+  }
+}
+{
+  "selected_candidate_index": 0,
+  "gepa_val_aggregate_scores": [
+    0.5875
+  ],
+  "evaluations": {
+    "initial": {
+      "validation": {
+        "count": 40,
+        "bucket_counts": {
+          "both_correct": 32,
+          "mini_only": 4,
+          "nano_only": 1,
+          "both_wrong": 3
+        },
+        "mini_calls": 0,
+        "mini_rate": 0.0,
+        "route_accuracy": 0.825,
+        "selected_accuracy": 0.825,
+        "mean_utility": 0.5875,
+        "mini_only_recall": 0.0,
+        "both_wrong_mini_rate": 0.0,
+        "critical_misroutes": 4,
+        "both_wrong_cheap_routes": 3,
+        "unnecessary_mini": 0,
+        "mini_saving_vs_all_mini": 1.0,
+        "invalid_routes": 0,
+        "raw_route_counts": {
+          "nano": 40
+        },
+        "mean_gepa_score": 0.5875
+      },
+      "historical_test": {
+        "count": 82,
+        "bucket_counts": {
+          "both_correct": 72,
+          "mini_only": 5,
+          "both_wrong": 4,
+          "nano_only": 1
+        },
+        "mini_calls": 0,
+        "mini_rate": 0.0,
+        "route_accuracy": 0.8902439024390244,
+        "selected_accuracy": 0.8902439024390244,
+        "mean_utility": 0.7439024390243902,
+        "mini_only_recall": 0.0,
+        "both_wrong_mini_rate": 0.0,
+        "critical_misroutes": 5,
+        "both_wrong_cheap_routes": 4,
+        "unnecessary_mini": 0,
+        "mini_saving_vs_all_mini": 1.0,
+        "invalid_routes": 0,
+        "raw_route_counts": {
+          "nano": 82
+        },
+        "mean_gepa_score": 0.7439024390243902
+      },
+      "heldout_200_posthoc": {
+        "count": 200,
+        "bucket_counts": {
+          "mini_only": 16,
+          "both_correct": 167,
+          "nano_only": 3,
+          "both_wrong": 14
+        },
+        "mini_calls": 0,
+        "mini_rate": 0.0,
+        "route_accuracy": 0.85,
+        "selected_accuracy": 0.85,
+        "mean_utility": 0.655,
+        "mini_only_recall": 0.0,
+        "both_wrong_mini_rate": 0.0,
+        "critical_misroutes": 16,
+        "both_wrong_cheap_routes": 14,
+        "unnecessary_mini": 0,
+        "mini_saving_vs_all_mini": 1.0,
+        "invalid_routes": 0,
+        "raw_route_counts": {
+          "nano": 200
+        },
+        "mean_gepa_score": 0.655
+      }
+    },
+    "gepa": {
+      "validation": {
+        "count": 40,
+        "bucket_counts": {
+          "both_correct": 32,
+          "mini_only": 4,
+          "nano_only": 1,
+          "both_wrong": 3
+        },
+        "mini_calls": 0,
+        "mini_rate": 0.0,
+        "route_accuracy": 0.825,
+        "selected_accuracy": 0.825,
+        "mean_utility": 0.5875,
+        "mini_only_recall": 0.0,
+        "both_wrong_mini_rate": 0.0,
+        "critical_misroutes": 4,
+        "both_wrong_cheap_routes": 3,
+        "unnecessary_mini": 0,
+        "mini_saving_vs_all_mini": 1.0,
+        "invalid_routes": 0,
+        "raw_route_counts": {
+          "nano": 40
+        },
+        "mean_gepa_score": 0.5875
+      },
+      "historical_test": {
+        "count": 82,
+        "bucket_counts": {
+          "both_correct": 72,
+          "mini_only": 5,
+          "both_wrong": 4,
+          "nano_only": 1
+        },
+        "mini_calls": 0,
+        "mini_rate": 0.0,
+        "route_accuracy": 0.8902439024390244,
+        "selected_accuracy": 0.8902439024390244,
+        "mean_utility": 0.7439024390243902,
+        "mini_only_recall": 0.0,
+        "both_wrong_mini_rate": 0.0,
+        "critical_misroutes": 5,
+        "both_wrong_cheap_routes": 4,
+        "unnecessary_mini": 0,
+        "mini_saving_vs_all_mini": 1.0,
+        "invalid_routes": 0,
+        "raw_route_counts": {
+          "nano": 82
+        },
+        "mean_gepa_score": 0.7439024390243902
+      },
+      "heldout_200_posthoc": {
+        "count": 200,
+        "bucket_counts": {
+          "mini_only": 16,
+          "both_correct": 167,
+          "nano_only": 3,
+          "both_wrong": 14
+        },
+        "mini_calls": 0,
+        "mini_rate": 0.0,
+        "route_accuracy": 0.85,
+        "selected_accuracy": 0.85,
+        "mean_utility": 0.655,
+        "mini_only_recall": 0.0,
+        "both_wrong_mini_rate": 0.0,
+        "critical_misroutes": 16,
+        "both_wrong_cheap_routes": 14,
+        "unnecessary_mini": 0,
+        "mini_saving_vs_all_mini": 1.0,
+        "invalid_routes": 0,
+        "raw_route_counts": {
+          "nano": 200
+        },
+        "mean_gepa_score": 0.655
+      }
+    }
+  },
+  "baselines": {
+    "historical_test": {
+      "all_nano": {
+        "count": 82,
+        "bucket_counts": {
+          "both_correct": 72,
+          "mini_only": 5,
+          "both_wrong": 4,
+          "nano_only": 1
+        },
+        "mini_calls": 0,
+        "mini_rate": 0.0,
+        "route_accuracy": 0.8902439024390244,
+        "selected_accuracy": 0.8902439024390244,
+        "mean_utility": 0.7439024390243902,
+        "mini_only_recall": 0.0,
+        "both_wrong_mini_rate": 0.0,
+        "critical_misroutes": 5,
+        "both_wrong_cheap_routes": 4,
+        "unnecessary_mini": 0
+      },
+      "all_mini": {
+        "count": 82,
+        "bucket_counts": {
+          "both_correct": 72,
+          "mini_only": 5,
+          "both_wrong": 4,
+          "nano_only": 1
+        },
+        "mini_calls": 82,
+        "mini_rate": 1.0,
+        "route_accuracy": 0.10975609756097561,
+        "selected_accuracy": 0.9390243902439024,
+        "mean_utility": 0.2951219512195122,
+        "mini_only_recall": 1.0,
+        "both_wrong_mini_rate": 1.0,
+        "critical_misroutes": 0,
+        "both_wrong_cheap_routes": 0,
+        "unnecessary_mini": 73
+      }
+    },
+    "heldout_200": {
+      "all_nano": {
+        "count": 200,
+        "bucket_counts": {
+          "mini_only": 16,
+          "both_correct": 167,
+          "nano_only": 3,
+          "both_wrong": 14
+        },
+        "mini_calls": 0,
+        "mini_rate": 0.0,
+        "route_accuracy": 0.85,
+        "selected_accuracy": 0.85,
+        "mean_utility": 0.655,
+        "mini_only_recall": 0.0,
+        "both_wrong_mini_rate": 0.0,
+        "critical_misroutes": 16,
+        "both_wrong_cheap_routes": 14,
+        "unnecessary_mini": 0
+      },
+      "all_mini": {
+        "count": 200,
+        "bucket_counts": {
+          "mini_only": 16,
+          "both_correct": 167,
+          "nano_only": 3,
+          "both_wrong": 14
+        },
+        "mini_calls": 200,
+        "mini_rate": 1.0,
+        "route_accuracy": 0.15,
+        "selected_accuracy": 0.915,
+        "mean_utility": 0.326,
+        "mini_only_recall": 1.0,
+        "both_wrong_mini_rate": 1.0,
+        "critical_misroutes": 0,
+        "both_wrong_cheap_routes": 0,
+        "unnecessary_mini": 170
+      }
+    }
+  },
+  "cache": {
+    "router_hits": 413,
+    "router_misses": 311,
+    "router_uncached_elapsed_seconds": 770.7734285999959,
+    "reflection_hits": 0,
+    "reflection_misses": 0,
+    "reflection_uncached_elapsed_seconds": 0.0
+  }
+}
+Saved sembench_movie_router\gepa_qwen35_2b_router_smoke.json

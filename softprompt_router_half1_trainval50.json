@@ -1,0 +1,1528 @@
+{
+  "args": {
+    "mini_file": "computer science_result_mini.json",
+    "nano_file": "computer science_result_nano.json",
+    "mini_cost_model": "gpt-4.1-mini",
+    "nano_cost_model": "gpt-4.1-nano",
+    "hf_model": "distilbert-base-uncased",
+    "allow_download": false,
+    "limit": 0,
+    "sampling": "balanced",
+    "target_train_counts": "mini_only=25,nano_only=10,both_correct=10,both_wrong=5",
+    "target_val_counts": "mini_only=10,nano_only=6,both_correct=17,both_wrong=17",
+    "split_file": "routing_split_half1_sweep_trainval50_withcritical_seed0.json",
+    "train_ratio": 0.8,
+    "seed": 0,
+    "score_mode": "risk_averse_utility",
+    "include_nano_answer": false,
+    "nano_response_max_chars": 1600,
+    "soft_prompt_tokens": 16,
+    "max_length": 384,
+    "epochs": 20,
+    "batch_size": 8,
+    "learning_rate": 0.01,
+    "weight_decay": 0.0,
+    "class_weight": true,
+    "train_backbone": false,
+    "device": "auto",
+    "output": "softprompt_router_half1_trainval50.json",
+    "save_model": "outputs\\softprompt_router_half1_trainval50.pt"
+  },
+  "device": "cpu",
+  "selected_count": 50,
+  "train_count": 40,
+  "val_count": 10,
+  "selected_outcome_counts": {
+    "mini_only": 19,
+    "nano_only": 1,
+    "both_correct": 20,
+    "both_wrong": 10
+  },
+  "train_outcome_counts": {
+    "mini_only": 14,
+    "nano_only": 1,
+    "both_correct": 15,
+    "both_wrong": 10
+  },
+  "val_outcome_counts": {
+    "mini_only": 5,
+    "nano_only": 0,
+    "both_correct": 5,
+    "both_wrong": 0
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 1.031477189064026,
+      "train_mean_score": -0.425,
+      "train_accuracy": 0.4,
+      "val_mean_score": -0.5,
+      "val_accuracy": 0.5,
+      "val_nano_routes": 10,
+      "val_mini_routes": 0
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.7157120823860168,
+      "train_mean_score": 0.9,
+      "train_accuracy": 0.725,
+      "val_mean_score": 1.1,
+      "val_accuracy": 1.0,
+      "val_nano_routes": 0,
+      "val_mini_routes": 10
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.6945073127746582,
+      "train_mean_score": 0.7274999999999998,
+      "train_accuracy": 0.65,
+      "val_mean_score": -0.42000000000000004,
+      "val_accuracy": 0.6,
+      "val_nano_routes": 5,
+      "val_mini_routes": 5
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.6735392928123474,
+      "train_mean_score": 0.9049999999999999,
+      "train_accuracy": 0.7,
+      "val_mean_score": -0.019999999999999928,
+      "val_accuracy": 0.7,
+      "val_nano_routes": 4,
+      "val_mini_routes": 6
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.6143967509269714,
+      "train_mean_score": 0.6849999999999998,
+      "train_accuracy": 0.65,
+      "val_mean_score": 0.14000000000000004,
+      "val_accuracy": 0.7,
+      "val_nano_routes": 6,
+      "val_mini_routes": 4
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.5966210901737213,
+      "train_mean_score": 0.9525,
+      "train_accuracy": 0.725,
+      "val_mean_score": 0.06000000000000005,
+      "val_accuracy": 0.7,
+      "val_nano_routes": 5,
+      "val_mini_routes": 5
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.5462846755981445,
+      "train_mean_score": 0.9149999999999998,
+      "train_accuracy": 0.7,
+      "val_mean_score": -0.33999999999999997,
+      "val_accuracy": 0.6,
+      "val_nano_routes": 6,
+      "val_mini_routes": 4
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.48507717847824094,
+      "train_mean_score": 1.0150000000000001,
+      "train_accuracy": 0.725,
+      "val_mean_score": 0.38000000000000006,
+      "val_accuracy": 0.8,
+      "val_nano_routes": 3,
+      "val_mini_routes": 7
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.4557670533657074,
+      "train_mean_score": 0.9149999999999998,
+      "train_accuracy": 0.7,
+      "val_mean_score": -0.42000000000000004,
+      "val_accuracy": 0.6,
+      "val_nano_routes": 5,
+      "val_mini_routes": 5
+    },
+    {
+      "epoch": 10,
+      "train_loss": 0.4428576648235321,
+      "train_mean_score": 1.0325000000000002,
+      "train_accuracy": 0.725,
+      "val_mean_score": 0.38000000000000006,
+      "val_accuracy": 0.8,
+      "val_nano_routes": 3,
+      "val_mini_routes": 7
+    },
+    {
+      "epoch": 11,
+      "train_loss": 0.510158896446228,
+      "train_mean_score": 0.9725000000000001,
+      "train_accuracy": 0.725,
+      "val_mean_score": 0.38000000000000006,
+      "val_accuracy": 0.8,
+      "val_nano_routes": 3,
+      "val_mini_routes": 7
+    },
+    {
+      "epoch": 12,
+      "train_loss": 0.41252492368221283,
+      "train_mean_score": 0.78,
+      "train_accuracy": 0.675,
+      "val_mean_score": -0.25999999999999995,
+      "val_accuracy": 0.6,
+      "val_nano_routes": 7,
+      "val_mini_routes": 3
+    },
+    {
+      "epoch": 13,
+      "train_loss": 0.3586804836988449,
+      "train_mean_score": 1.08,
+      "train_accuracy": 0.725,
+      "val_mean_score": 0.38000000000000006,
+      "val_accuracy": 0.8,
+      "val_nano_routes": 3,
+      "val_mini_routes": 7
+    },
+    {
+      "epoch": 14,
+      "train_loss": 0.2644674003124237,
+      "train_mean_score": 1.1325,
+      "train_accuracy": 0.75,
+      "val_mean_score": 0.38000000000000006,
+      "val_accuracy": 0.8,
+      "val_nano_routes": 3,
+      "val_mini_routes": 7
+    },
+    {
+      "epoch": 15,
+      "train_loss": 0.21044464111328126,
+      "train_mean_score": 1.1500000000000001,
+      "train_accuracy": 0.75,
+      "val_mean_score": 0.38000000000000006,
+      "val_accuracy": 0.8,
+      "val_nano_routes": 3,
+      "val_mini_routes": 7
+    },
+    {
+      "epoch": 16,
+      "train_loss": 0.19802792966365815,
+      "train_mean_score": 1.1500000000000001,
+      "train_accuracy": 0.75,
+      "val_mean_score": 0.38000000000000006,
+      "val_accuracy": 0.8,
+      "val_nano_routes": 3,
+      "val_mini_routes": 7
+    },
+    {
+      "epoch": 17,
+      "train_loss": 0.1519253984093666,
+      "train_mean_score": 1.1500000000000001,
+      "train_accuracy": 0.75,
+      "val_mean_score": 0.38000000000000006,
+      "val_accuracy": 0.8,
+      "val_nano_routes": 3,
+      "val_mini_routes": 7
+    },
+    {
+      "epoch": 18,
+      "train_loss": 0.10487784743309021,
+      "train_mean_score": 1.1500000000000001,
+      "train_accuracy": 0.75,
+      "val_mean_score": -0.019999999999999928,
+      "val_accuracy": 0.7,
+      "val_nano_routes": 4,
+      "val_mini_routes": 6
+    },
+    {
+      "epoch": 19,
+      "train_loss": 0.10992658287286758,
+      "train_mean_score": 1.1500000000000001,
+      "train_accuracy": 0.75,
+      "val_mean_score": 0.78,
+      "val_accuracy": 0.9,
+      "val_nano_routes": 2,
+      "val_mini_routes": 8
+    },
+    {
+      "epoch": 20,
+      "train_loss": 0.08359309881925583,
+      "train_mean_score": 1.1500000000000001,
+      "train_accuracy": 0.75,
+      "val_mean_score": 0.38000000000000006,
+      "val_accuracy": 0.8,
+      "val_nano_routes": 3,
+      "val_mini_routes": 7
+    }
+  ],
+  "best_val_mean_score": 1.1,
+  "train_summary": {
+    "count": 40,
+    "score_mode": "risk_averse_utility",
+    "mean_score": 0.9,
+    "final_accuracy": 0.725,
+    "cost_saving_rate_vs_all_mini": 0.07056519188872123,
+    "nano_routes": 5,
+    "mini_routes": 35,
+    "failure_counts": {
+      "unnecessary_expensive_route": 11,
+      "correct_escalation": 14,
+      "both_failed_expensive": 10,
+      "successful_saving": 5
+    },
+    "target_counts": {
+      "nano": 16,
+      "mini": 24
+    },
+    "traces": [
+      {
+        "question_id": 10373,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10384,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10386,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10389,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10391,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10393,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10395,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10399,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 0.2,
+        "selected_correct": false,
+        "failure_type": "both_failed_expensive",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10406,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10411,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10414,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10422,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10428,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 0.2,
+        "selected_correct": false,
+        "failure_type": "both_failed_expensive",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10434,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10435,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 0.2,
+        "selected_correct": false,
+        "failure_type": "both_failed_expensive",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10436,
+        "route": "mini",
+        "target_route": "nano",
+        "score": -1.0,
+        "selected_correct": false,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10458,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 0.2,
+        "selected_correct": false,
+        "failure_type": "both_failed_expensive",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10461,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10464,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10466,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10470,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10473,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10476,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10487,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 0.2,
+        "selected_correct": false,
+        "failure_type": "both_failed_expensive",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10489,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10496,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 0.2,
+        "selected_correct": false,
+        "failure_type": "both_failed_expensive",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10499,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10502,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10506,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 0.2,
+        "selected_correct": false,
+        "failure_type": "both_failed_expensive",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10508,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10517,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10521,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10527,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10533,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 0.2,
+        "selected_correct": false,
+        "failure_type": "both_failed_expensive",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10541,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 0.2,
+        "selected_correct": false,
+        "failure_type": "both_failed_expensive",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10545,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10552,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10554,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10558,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 0.2,
+        "selected_correct": false,
+        "failure_type": "both_failed_expensive",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10564,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      }
+    ]
+  },
+  "val_summary": {
+    "count": 10,
+    "score_mode": "risk_averse_utility",
+    "mean_score": 1.1,
+    "final_accuracy": 1.0,
+    "cost_saving_rate_vs_all_mini": 0.0,
+    "nano_routes": 0,
+    "mini_routes": 10,
+    "failure_counts": {
+      "correct_escalation": 5,
+      "unnecessary_expensive_route": 5
+    },
+    "target_counts": {
+      "mini": 5,
+      "nano": 5
+    },
+    "traces": [
+      {
+        "question_id": 10374,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10405,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10408,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10419,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10468,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10493,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10505,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10524,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10536,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10555,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      }
+    ]
+  },
+  "all_summary": {
+    "count": 50,
+    "score_mode": "risk_averse_utility",
+    "mean_score": 0.9400000000000003,
+    "final_accuracy": 0.78,
+    "cost_saving_rate_vs_all_mini": 0.05481647830367531,
+    "nano_routes": 5,
+    "mini_routes": 45,
+    "failure_counts": {
+      "unnecessary_expensive_route": 16,
+      "correct_escalation": 19,
+      "both_failed_expensive": 10,
+      "successful_saving": 5
+    },
+    "target_counts": {
+      "nano": 21,
+      "mini": 29
+    },
+    "traces": [
+      {
+        "question_id": 10373,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10384,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10386,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10389,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10391,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10393,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10395,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10399,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 0.2,
+        "selected_correct": false,
+        "failure_type": "both_failed_expensive",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10406,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10411,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10414,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10422,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10428,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 0.2,
+        "selected_correct": false,
+        "failure_type": "both_failed_expensive",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10434,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10435,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 0.2,
+        "selected_correct": false,
+        "failure_type": "both_failed_expensive",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10436,
+        "route": "mini",
+        "target_route": "nano",
+        "score": -1.0,
+        "selected_correct": false,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": false,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10458,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 0.2,
+        "selected_correct": false,
+        "failure_type": "both_failed_expensive",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10461,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10464,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10466,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10470,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10473,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10476,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10487,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 0.2,
+        "selected_correct": false,
+        "failure_type": "both_failed_expensive",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10489,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10496,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 0.2,
+        "selected_correct": false,
+        "failure_type": "both_failed_expensive",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10499,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10502,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10506,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 0.2,
+        "selected_correct": false,
+        "failure_type": "both_failed_expensive",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10508,
+        "route": "nano",
+        "target_route": "nano",
+        "score": 1.0,
+        "selected_correct": true,
+        "failure_type": "successful_saving",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10517,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10521,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10527,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10533,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 0.2,
+        "selected_correct": false,
+        "failure_type": "both_failed_expensive",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10541,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 0.2,
+        "selected_correct": false,
+        "failure_type": "both_failed_expensive",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10545,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10552,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10554,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10558,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 0.2,
+        "selected_correct": false,
+        "failure_type": "both_failed_expensive",
+        "mini_correct": false,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10564,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10374,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10405,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10408,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10419,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10468,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10493,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10505,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10524,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      },
+      {
+        "question_id": 10536,
+        "route": "mini",
+        "target_route": "nano",
+        "score": 0.2,
+        "selected_correct": true,
+        "failure_type": "unnecessary_expensive_route",
+        "mini_correct": true,
+        "nano_correct": true
+      },
+      {
+        "question_id": 10555,
+        "route": "mini",
+        "target_route": "mini",
+        "score": 2.0,
+        "selected_correct": true,
+        "failure_type": "correct_escalation",
+        "mini_correct": true,
+        "nano_correct": false
+      }
+    ]
+  },
+  "train_probabilities": [
+    [
+      0.4771444797515869,
+      0.5228555202484131
+    ],
+    [
+      0.440272718667984,
+      0.5597272515296936
+    ],
+    [
+      0.4935181140899658,
+      0.5064818859100342
+    ],
+    [
+      0.4428321421146393,
+      0.5571678876876831
+    ],
+    [
+      0.44236472249031067,
+      0.5576353073120117
+    ],
+    [
+      0.44670671224594116,
+      0.5532932281494141
+    ],
+    [
+      0.4420527517795563,
+      0.5579472184181213
+    ],
+    [
+      0.48437047004699707,
+      0.5156295299530029
+    ],
+    [
+      0.4598311483860016,
+      0.540168821811676
+    ],
+    [
+      0.42829766869544983,
+      0.5717023611068726
+    ],
+    [
+      0.5231027603149414,
+      0.476897269487381
+    ],
+    [
+      0.4755220413208008,
+      0.5244778990745544
+    ],
+    [
+      0.3815363943576813,
+      0.6184636354446411
+    ],
+    [
+      0.501742959022522,
+      0.4982570707798004
+    ],
+    [
+      0.44323432445526123,
+      0.5567657351493835
+    ],
+    [
+      0.4324481189250946,
+      0.567551851272583
+    ],
+    [
+      0.40487101674079895,
+      0.5951289534568787
+    ],
+    [
+      0.4355514645576477,
+      0.5644485354423523
+    ],
+    [
+      0.42894232273101807,
+      0.5710576772689819
+    ],
+    [
+      0.3948770761489868,
+      0.6051228642463684
+    ],
+    [
+      0.46337342262268066,
+      0.5366265773773193
+    ],
+    [
+      0.41639599204063416,
+      0.5836040377616882
+    ],
+    [
+      0.5241583585739136,
+      0.4758417010307312
+    ],
+    [
+      0.43576472997665405,
+      0.564235270023346
+    ],
+    [
+      0.45372098684310913,
+      0.5462790727615356
+    ],
+    [
+      0.47103723883628845,
+      0.5289627313613892
+    ],
+    [
+      0.41998860239982605,
+      0.5800113677978516
+    ],
+    [
+      0.5140014886856079,
+      0.4859984815120697
+    ],
+    [
+      0.46441638469696045,
+      0.5355836749076843
+    ],
+    [
+      0.5065791010856628,
+      0.49342092871665955
+    ],
+    [
+      0.4502987265586853,
+      0.5497012734413147
+    ],
+    [
+      0.43013206124305725,
+      0.5698679089546204
+    ],
+    [
+      0.4933048486709595,
+      0.5066950917243958
+    ],
+    [
+      0.4606368839740753,
+      0.5393631458282471
+    ],
+    [
+      0.44004589319229126,
+      0.559954047203064
+    ],
+    [
+      0.44297653436660767,
+      0.5570234060287476
+    ],
+    [
+      0.44804665446281433,
+      0.5519533753395081
+    ],
+    [
+      0.4443170726299286,
+      0.5556829571723938
+    ],
+    [
+      0.43191495537757874,
+      0.5680850744247437
+    ],
+    [
+      0.47952941060066223,
+      0.5204706192016602
+    ]
+  ],
+  "val_probabilities": [
+    [
+      0.42989251017570496,
+      0.5701074600219727
+    ],
+    [
+      0.42585307359695435,
+      0.5741469860076904
+    ],
+    [
+      0.3993696868419647,
+      0.6006302833557129
+    ],
+    [
+      0.4489251971244812,
+      0.5510748624801636
+    ],
+    [
+      0.4121474623680115,
+      0.5878525376319885
+    ],
+    [
+      0.47975078225135803,
+      0.5202491879463196
+    ],
+    [
+      0.4492271840572357,
+      0.5507727861404419
+    ],
+    [
+      0.4642634689807892,
+      0.5357365608215332
+    ],
+    [
+      0.487623929977417,
+      0.512376070022583
+    ],
+    [
+      0.4849088788032532,
+      0.5150911211967468
+    ]
+  ],
+  "model_config": {
+    "hf_model": "distilbert-base-uncased",
+    "soft_prompt_tokens": 16,
+    "train_backbone": false,
+    "trainable_parameter_count": 13826,
+    "total_parameter_count": 66376706
+  }
+}

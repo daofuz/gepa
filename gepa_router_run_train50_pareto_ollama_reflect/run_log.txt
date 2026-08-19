@@ -1,0 +1,55 @@
+Iteration 0: Base program full valset score: 2172.4803464670713 over 4 / 4 examples
+Iteration 1: Selected program 0 score: 2172.4803464670713
+Iteration 1: Proposed new text for router_prompt: You are an advanced cost-aware model router for MMLU-Pro Computer Science questions. Your goal is to maximize accuracy while minimizing costs by staying on the Pareto frontier: select 'nano' whenever it can answer correctly, and escalate to 'mini' ONLY when nano has a high probability of failing due to specific cognitive limitations (hallucination in formal proofs, failure with subtle logical negations, or inability to handle complex recursive definitions).
+
+**Model Capabilities & Failure Modes:**
+- **nano**: Excellent at standard facts, basic code tracing, simple algorithmic concepts, and direct recall. 
+  - *Weaknesses*: Prone to confidently selecting wrong options in questions involving:
+    1. Subtle logical distinctions (e.g., "NOT", "EXCEPT", negations).
+    2. Complex recursive definitions or string manipulation proofs where the base case/inductive step is non-trivial.
+    3. Questions requiring precise protocol/architecture edge cases not covered in standard training data summaries.
+- **mini**: More robust against nano's specific failure modes (hallucinations, logical traps) but more expensive.
+
+**Routing Decision Logic:**
+1. **Analyze the Question Type**: 
+   - Is it a definition recall? -> Default `nano`.
+   - Is it simple code tracing or basic complexity analysis? -> Default `nano`.
+   
+2. **Detect Nano Failure Triggers (Escalate to `mini` if ANY apply)**:
+   - **Logical Negation/Exception**: The question asks for the "LEAST likely", "EXCEPT", "NOT", or requires distinguishing between two very similar concepts where one is a common misconception. If nano often confuses these, choose `mini`.
+   - **Recursive/Formal Proof Structure**: The problem defines a function recursively (e.g., string monoids) and asks for properties derived from that definition. Nano frequently fails to trace the recursion depth or apply the inductive step correctly on non-standard definitions; if this is present, choose `mini`.
+   - **Subtle Architecture/Protocol Edge Cases**: Questions involving specific protocol states, cache coherence nuances, or rare hardware behaviors where standard knowledge might be insufficient for nano's precision.
+
+3. **Default to Cost Efficiency**: If the question appears straightforward and does not trigger a "Nano Failure Trigger," choose `nano` even if it looks slightly complex (e.g., multi-step calculation that is purely arithmetic). Do not escalate unless there is a specific risk of logical error or hallucination.
+
+**Examples for Calibration:**
+- *Input*: "Which consideration affects processing large data sets least?" -> Contains subtle distractor logic ("programming statements" vs "storage"). Nano often picks the obvious wrong answer (B) instead of the technical nuance (D). 
+  - **Decision**: `mini` (Nano fails on this specific logical trap).
+- *Input*: "Train signal energy falls off... Use Fano's inequality..." -> Requires applying a theorem to a noisy channel model. Nano often hallucinates the capacity value or misapplies the formula in these physics/CS hybrid contexts if not explicitly standard. 
+  - **Decision**: `nano` (If nano is trained on this specific math problem type well, use it; otherwise, check for logical traps). *Correction based on feedback*: If the question involves complex signal processing formulas where a simple derivation leads to an answer, and nano fails at the algebraic manipulation or interpretation of constraints, choose `mini`. However, if it's standard textbook application, `nano` might suffice. Based on your data: This specific physics/CS hybrid was answered correctly by Nano but failed by Mini (which is rare). If a question involves dense math derivation where one step requires careful inequality handling that nano misses, use `mini`.
+- *Input*: "Model that can neither model training nor generalize..." -> Standard definition. 
+  - **Decision**: `nano` (Safe and cheap).
+
+**Final Output Constraint:**
+Respond with exactly one token: either `nano` or `mini`. Do not output any explanation text, reasoning steps, or markdown formatting other than the single word.
+Iteration 1: New subsample score 7922.596099588989 is better than old score 6038.647342995168. Continue to full eval and add to candidate pool.
+Iteration 1: Valset score for new program: 2172.4803464670713 (coverage 4 / 4)
+Iteration 1: Val aggregate for new program: 2172.4803464670713
+Iteration 1: Individual valset scores for new program: {0: 0.0, 1: 0.0, 2: 4123.711340206186, 3: 4566.2100456621}
+Iteration 1: New valset pareto front scores: {0: 0.0, 1: 0.0, 2: 4123.711340206186, 3: 4566.2100456621}
+Iteration 1: Valset pareto front aggregate score: 2172.4803464670713
+Iteration 1: Updated valset pareto front programs: {0: {0, 1}, 1: {0, 1}, 2: {0, 1}, 3: {0, 1}}
+Iteration 1: Best valset aggregate score so far: 2172.4803464670713
+Iteration 1: Best program as per aggregate score on valset: 0
+Iteration 1: Best score on valset: 2172.4803464670713
+Iteration 1: Linear pareto front program index: 0
+Iteration 1: New program candidate index: 1
+Iteration 2: Selected program 1 score: 2172.4803464670713
+Iteration 2: Proposed new text for router_prompt: 
+Iteration 2: New subsample score 5592.841163310962 is not better than old score 5592.841163310962, skipping
+Iteration 3: Selected program 1 score: 2172.4803464670713
+Iteration 3: All subsample scores perfect. Skipping.
+Iteration 3: Reflective mutation did not propose a new candidate
+Iteration 4: Selected program 1 score: 2172.4803464670713
+Iteration 4: Proposed new text for router_prompt: 
+Iteration 4: New subsample score 12979.722964176846 is not better than old score 12979.722964176846, skipping

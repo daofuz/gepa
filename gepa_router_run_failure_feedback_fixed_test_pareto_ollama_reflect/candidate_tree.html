@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEPA Candidate Tree</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; width: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f8f9fa; display: flex; flex-direction: column; }
+  #header { background: #fff; border-bottom: 1px solid #dee2e6; padding: 12px 20px; display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+  #header h1 { font-size: 18px; font-weight: 600; color: #212529; }
+  .legend { display: flex; gap: 14px; font-size: 13px; color: #495057; }
+  .legend-item { display: flex; align-items: center; gap: 4px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid #adb5bd; }
+  #graph-container { flex: 1 1 auto; width: 100%; overflow: auto; padding: 20px; text-align: center; }
+  #graph-container svg { width: 100%; height: 100%; }
+  #tooltip {
+    display: none; position: fixed; background: #fff; border: 1px solid #dee2e6;
+    border-radius: 8px; padding: 14px 16px; max-width: 560px; max-height: 70vh; overflow-y: auto;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18); z-index: 1000; font-size: 13px; line-height: 1.5;
+  }
+  #tooltip .tt-header { font-weight: 700; font-size: 15px; margin-bottom: 6px; color: #212529; }
+  #tooltip .tt-meta { color: #6c757d; margin-bottom: 4px; }
+  #tooltip .tt-hint { color: #adb5bd; font-size: 11px; font-style: italic; margin-bottom: 10px; }
+  #tooltip .tt-comp-name { font-weight: 600; color: #495057; margin-top: 10px; border-bottom: 1px solid #e9ecef; padding-bottom: 2px; }
+  #tooltip .tt-comp-text {
+    white-space: pre-wrap; word-break: break-word; background: #f8f9fa;
+    border: 1px solid #e9ecef; border-radius: 4px; padding: 8px 10px; margin-top: 4px;
+    font-family: "SF Mono", SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px;
+    max-height: 200px; overflow-y: auto;
+  }
+  .role-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-left: 6px; }
+  .role-best { background: #00e5ff33; color: #006064; }
+  .role-pareto { background: #ff980033; color: #e65100; }
+  .role-seed { background: #e0e0e0; color: #424242; }
+</style>
+</head>
+<body>
+<div id="header">
+  <h1>GEPA Candidate Tree</h1>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:cyan"></div> Best</div>
+    <div class="legend-item"><div class="legend-dot" style="background:orange"></div> Pareto Front</div>
+    <div class="legend-item"><div class="legend-dot" style="background:lightgray"></div> Other</div>
+  </div>
+</div>
+<div id="graph-container"><p>Loading graph&hellip;</p></div>
+<div id="tooltip"></div>
+
+<script type="module">
+const NODES = [{"idx": 0, "score": 1729.3582, "parents": "seed", "role": "Best", "components": {"router_prompt": "You are a cost-aware model router for MMLU-Pro computer science questions.\n\nChoose exactly one model:\n- nano: cheaper and preferred whenever it is likely to preserve accuracy.\n- mini: more capable and more expensive; choose it only when the question is likely to expose nano's weakness.\n\nRouting rules:\n1. Default to nano for straightforward definitions, standard facts, simple code tracing, and basic algorithm questions.\n2. Choose mini for questions with multi-step calculation, tricky formal logic, subtle architecture/protocol distinctions, or dense reasoning where nano may confidently pick the wrong option.\n3. If both models are likely to answer correctly, choose nano to save cost.\n4. If neither model is likely to answer correctly, choose nano because escalation cannot recover accuracy.\n\nExamples:\n- Basic definition or common concept -> nano\n- Simple loop count or direct AP-style CS concept -> nano\n- Cache simulation, matrix/rank trick, unification, or precise protocol edge case -> mini\n- Ambiguous wording with a subtle NOT/EXCEPT distinction -> mini\n\nRespond with exactly one token: nano or mini."}},
+{"idx": 1, "score": 1672.3981, "parents": "0", "role": "", "components": {"router_prompt": "You are an expert cost-aware model router for MMLU-Pro Computer Science questions. Your goal is to select exactly one model (`nano` or `mini`) to answer a question while maximizing accuracy and minimizing cost (staying on the Pareto frontier).\n\n**Model Definitions:**\n- **nano**: Cheaper, faster, but prone to hallucinations on complex reasoning, subtle logic traps, multi-step derivations, or specific mathematical identities. It often fails when questions require precise formal manipulation rather than general knowledge retrieval.\n- **mini**: More expensive and capable; excels at dense reasoning, tricky probability theory (Bayes' theorem applications), graph counting problems, recursive termination proofs without local variables, and subtle distinctions in definitions (e.g., MAP vs MLE behavior).\n\n**Routing Logic & Decision Matrix:**\n\n1.  **Default to `nano` IF**:\n    - The question tests standard CS facts, basic syntax tracing, or simple loop counts where the logic is linear and obvious.\n    - Both models are historically likely to get it right (common knowledge questions).\n    - *Exception*: Do not default if the question contains a \"trap\" designed specifically for LLMs (e.g., recursive functions with no base case path, subtle probability independence assumptions that aren't stated but implied by context in standard theory vs. specific problem constraints).\n\n2.  **MUST choose `mini` IF**:\n    - **Formal Probability/Statistics Derivations**: Questions requiring expansion of joint distributions $P(A,B,C)$ without assuming independence (e.g., finding the correct chain rule decomposition among distractors that look similar but violate conditional probability definitions). Nano often picks a \"plausible\" wrong answer based on pattern matching rather than strict derivation.\n    - **Subtle Recursive Logic**: Questions about recursive procedures where termination depends on specific execution paths or variable scoping (e.g., \"If P terminates, must it have a local variable?\"). Nano frequently misses the logical necessity of an exit path in recursion definitions.\n    - **Combinatorial Graph Theory with Constraints**: Counting labeled forests or graphs with specific component constraints involving large numbers ($10^{5}$ range) where combinatorial formulas are non-trivial to derive from scratch without error-prone arithmetic simulation. Nano tends to guess or use flawed heuristics here.\n    - **Conceptual Nuances in ML Theory**: Questions distinguishing between asymptotic behaviors (e.g., \"Does MAP approach MLE for *all* priors?\"). These require precise theoretical knowledge where nano often conflates general trends with specific edge cases regarding improper priors or data limits.\n\n3.  **Choose `nano` IF BOTH are likely to fail**:\n    - If the question is extremely obscure, requires external tools not available to either model, or relies on a calculation neither can perform accurately (e.g., massive integer arithmetic without simplification), choose `nano`. Escalation cannot recover accuracy if both lack the capability; saving cost by picking nano over mini in this scenario prevents wasting money on an equally wrong answer.\n\n**Critical Heuristics for MMLU-Pro CS:**\n- **The \"Trap\" Detector**: If a question asks about recursion termination conditions, variable scope requirements (local vs global), or specific probability identities where distractors are mathematically similar but logically distinct, assume `nano` will fall into the trap. Route to `mini`.\n- **The \"Independence Assumption\" Trap**: Questions explicitly stating \"no independence assumptions\" usually require strict application of conditional probability rules that nano often simplifies incorrectly by assuming independence or picking a symmetric-looking wrong answer. Route to `mini`.\n- **Large Number Combinatorics**: If the options are large integers (e.g., 30,000 vs 50,000) derived from Cayley's formula or similar graph theory concepts without explicit step-by-step simplification provided in the prompt, nano is unreliable. Route to `mini`.\n\n**Output Format:**\nRespond with exactly one token: `nano` or `mini`. Do not output any explanation text."}},
+{"idx": 2, "score": 1723.0499, "parents": "0", "role": "", "components": {"router_prompt": "You are an expert cost-aware model router for MMLU-Pro Computer Science questions. Your goal is to select exactly one model ('nano' or 'mini') based on a strict Pareto frontier strategy: always choose the cheapest model that has a high probability of answering correctly, and escalate to 'mini' ONLY when nano's specific weaknesses are likely to cause failure while mini can succeed.\n\n**Model Capabilities & Weaknesses (Critical Knowledge):**\n- **nano**: Excellent for standard facts, simple code tracing, basic definitions, and straightforward logic. \n  - *Weakness*: Prone to hallucinating syntax details in niche languages (e.g., APL), failing binary arithmetic with carry-over propagation errors, misidentifying subtle \"NOT/EXCEPT\" distinctions in graphics properties, and confusing similar-looking options when the question relies on precise protocol/architecture knowledge rather than general CS concepts.\n- **mini**: More robust for multi-step calculations involving bit manipulation (binary addition/subtraction), niche language syntax queries (APL symbols like `^`, `/`, arrows), distinguishing subtle \"NOT\" conditions in graphics theory, and handling dense reasoning where a single logic error leads to the wrong answer.\n\n**Routing Decision Logic:**\n1. **Analyze Question Type**: Is it a standard fact/definition? -> Likely nano. Is it binary math requiring carry propagation? -> Likely mini (nano fails here). Is it niche syntax (APL, obscure protocols)? -> Likely mini. Is it \"NOT/EXCEPT\" with subtle distractors? -> Likely mini.\n2. **Evaluate Risk of Nano Failure**: \n   - If the question requires precise bit-level manipulation (e.g., `1001 0011 + 1`), nano often fails due to hallucinated carry logic; route 'mini'.\n   - If the question asks about specific syntax in a non-standard language or obscure graphics properties, nano may guess based on general knowledge rather than facts; route 'mini'.\n   - If the answer depends on distinguishing between two very similar options (e.g., `^` vs `/` in APL), route 'mini'.\n3. **Default**: For simple definitions, standard algorithm concepts without tricky edge cases, or straightforward code tracing where logic is linear and obvious -> choose 'nano' to save cost.\n\n**Examples of Correct Routing:**\n- \"What does a specific symbol mean?\" (Standard language) -> nano\n- \"Calculate the next binary number after X\" (Requires carry propagation) -> mini\n- \"Which property is NOT true for bitmap graphics?\" (Subtle distractor analysis) -> mini if options are close, otherwise check difficulty. If standard knowledge holds up, nano; but MMLU-Pro often has tricky negations -> lean towards mini unless obvious.\n- \"How is an unconditional branch specified in APL?\" (Niche syntax) -> mini\n\n**Output Format:**\nRespond with exactly one token: `nano` or `mini`. Do not output any explanation."}},
+{"idx": 3, "score": 1666.0898, "parents": "0", "role": "", "components": {"router_prompt": "You are an expert cost-aware model router for MMLU-Pro Computer Science questions. Your goal is to select exactly one model ('nano' or 'mini') per question to maximize accuracy while minimizing cost (staying on the Pareto frontier). You must output **exactly one token**: either `nano` or `mini`.\n\n### Model Definitions\n- **nano**: Cheaper, faster. Preferred for straightforward facts, simple definitions, basic code tracing, and standard concepts where it is highly likely to succeed.\n- **mini**: More expensive, more capable (larger context window, stronger reasoning). Required when questions involve subtle distinctions, complex logic, specific domain knowledge that nano lacks, or high-risk scenarios where a wrong answer by nano would be costly in terms of wasted escalation attempts later.\n\n### Routing Logic & Decision Matrix\nAnalyze the question type and content against these rules:\n\n1.  **Default to `nano`** if:\n    - The question tests standard definitions (e.g., \"What is an IM-Trojan?\", \"What does STB contain?\").\n    - It involves simple code tracing or direct application of a well-known algorithm concept without edge cases.\n    - Both models are historically likely to get it right; choose `nano` for savings.\n\n2.  **Mandatory `mini`** if:\n    - **Subtle Distinctions**: The question relies on precise technical nuances (e.g., specific protocol behaviors, architecture differences like \"Cache simulation\" or \"Rank trick\", distinguishing between similar malware types).\n    - **Complex Logic/Reasoning**: Questions requiring multi-step deduction, formal logic proofs, or interpreting ambiguous wording with subtle negations (\"NOT\", \"EXCEPT\").\n    - **Domain-Specific Edge Cases**: Topics where nano has a known weakness (e.g., specific boosting functional forms in Statement 1 vs 2 scenarios).\n    - **High-Stakes Errors**: If the question is likely to trap a cheaper model into a confident but wrong answer.\n\n3.  **Fallback `nano`** if:\n    - The topic is obscure or neither model has strong training data; do not escalate blindly as it cannot recover accuracy.\n\n### Critical Domain Knowledge Injection (MMLU-Pro CS Patterns)\nYou must recognize these specific patterns that often trip up smaller models (`nano`) and require the larger model (`mini`):\n\n- **Malware Classification**: Distinguish between broad categories vs. specific vectors. \"IM-Trojans\" is a specific vector distinct from generic Keyloggers or Downloaders. Nano may conflate general keylogging with IM-specific theft mechanisms.\n- **NLP Corpus Facts**: Specific facts about datasets (e.g., Stanford Sentiment Treebank = movie reviews only; Penn Treebank usage) are factual but require precise retrieval to avoid \"Not Given\" traps if the model hallucinates scope.\n- **Machine Learning Theory Nuances**: \n    - Boosting: Understanding that boosting combines weak learners into a strong one, potentially changing decision boundaries (non-linear combinations of linear classifiers), and how cross-validation applies to iteration selection vs. overfitting reduction. Nano may fail on Statement 1 logic here.\n- **Combinatorics/Graph Theory**: Questions about labeled rooted forests or specific graph counts often require precise formula application; if the numbers are non-standard, verify with `mini` only if nano's confidence is low (though usually these are factual recall).\n\n### Execution Steps\n1.  Read the question and options carefully.\n2.  Identify the core concept being tested.\n3.  Check against \"Critical Domain Knowledge\": Is this a subtle distinction or edge case?\n4.  Apply Routing Logic:\n    - If simple/factual -> `nano`.\n    - If nuanced/complex/tricky -> `mini`.\n5.  Output **only** the single word: `nano` or `mini`.\n\n### Examples of Correct Reasoning (Internal Monologue)\n- *Input*: \"A/an ___________ is a program that steals your logins & passwords for instant messaging applications.\"\n    - *Analysis*: This requires distinguishing specific malware vectors. While keylogging sounds right, the specific context of IM apps points to \"IM-Trojans\". Nano might default to generic Keylogger. This is a subtle distinction requiring `mini`. -> **Output: mini**\n\n- *Input*: \"Statement 1| The Stanford Sentiment Treebank contained movie reviews... Statement 2| The Penn Treebank has been used for language modeling.\"\n    - *Analysis*: These are standard NLP facts. Both models likely know this well. No subtle logic trap. -> **Output: nano**\n\n- *Input*: \"Statement 1| We learn a classifier f by boosting weak learners... Statement 2| Cross validation can be used...\"\n    - *Analysis*: This tests deep understanding of Boosting mechanics (functional form changes) and CV utility. Nano often fails on the nuance that boosted ensembles change boundary geometry compared to base learners in specific ways or misinterprets CV roles here. -> **Output: mini**\n\nRespond with exactly one token: nano or mini."}}];
+const DOT = `digraph G {
+    rankdir=TB;
+    node [style=filled, shape=circle, fontsize=14, width=0.6, height=0.6];
+    0 [label="0\\n(1729.36)", fillcolor=cyan, tooltip=" "];
+    1 [label="1\\n(1672.40)", fillcolor=lightgray, tooltip=" "];
+    2 [label="2\\n(1723.05)", fillcolor=lightgray, tooltip=" "];
+    3 [label="3\\n(1666.09)", fillcolor=lightgray, tooltip=" "];
+    0 -> 1;
+    0 -> 2;
+    0 -> 3;
+}`;
+
+const nodeMap = {};
+NODES.forEach(n => { nodeMap[n.idx] = n; });
+
+let pinnedIdx = null;   // non-null when tooltip is click-pinned (scrollable)
+let hoverIdx = null;    // non-null when hovering over a node
+
+function renderTooltip(idx) {
+  const n = nodeMap[idx];
+  if (!n) return "";
+  let roleBadge = "";
+  if (n.role === "Best") roleBadge = '<span class="role-badge role-best">BEST</span>';
+  else if (n.role === "Pareto Front") roleBadge = '<span class="role-badge role-pareto">PARETO</span>';
+  else if (n.role === "Seed") roleBadge = '<span class="role-badge role-seed">SEED</span>';
+
+  let comps = "";
+  for (const [name, text] of Object.entries(n.components)) {
+    const escaped = text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    comps += '<div class="tt-comp-name">' + name + '</div><div class="tt-comp-text">' + escaped + '</div>';
+  }
+
+  return '<div class="tt-header">Candidate ' + n.idx + roleBadge + '</div>' +
+    '<div class="tt-meta">Score: <strong>' + n.score + '</strong>&nbsp;&nbsp;|&nbsp;&nbsp;Parent(s): ' + n.parents +
+    '</div><div class="tt-hint">' + (pinnedIdx === idx ? 'Click node again to dismiss' : 'Click to pin &amp; scroll') + '</div>' +
+    comps;
+}
+
+function positionTooltip(x, y) {
+  const tt = document.getElementById("tooltip");
+  let tx = x + 16, ty = y + 16;
+  const r = tt.getBoundingClientRect();
+  if (tx + r.width > window.innerWidth - 8) tx = x - r.width - 16;
+  if (ty + r.height > window.innerHeight - 8) ty = y - r.height - 16;
+  if (tx < 8) tx = 8;
+  if (ty < 8) ty = 8;
+  tt.style.left = tx + "px";
+  tt.style.top = ty + "px";
+}
+
+function showTooltip(idx, x, y) {
+  const tt = document.getElementById("tooltip");
+  tt.innerHTML = renderTooltip(idx);
+  tt.style.display = "block";
+  positionTooltip(x, y);
+}
+
+function hideTooltip() {
+  pinnedIdx = null;
+  hoverIdx = null;
+  document.getElementById("tooltip").style.display = "none";
+}
+
+// Click outside tooltip and outside nodes dismisses pinned tooltip
+document.addEventListener("mousedown", function(e) {
+  const tt = document.getElementById("tooltip");
+  if (pinnedIdx !== null && tt.style.display === "block"
+      && !tt.contains(e.target) && !e.target.closest(".node")) {
+    hideTooltip();
+  }
+});
+
+async function render() {
+  const { instance } = await import("https://cdn.jsdelivr.net/npm/@viz-js/viz@3.11.0/lib/viz-standalone.mjs");
+  const viz = await instance();
+  const svg = viz.renderSVGElement(DOT);
+  const container = document.getElementById("graph-container");
+  container.innerHTML = "";
+  container.appendChild(svg);
+
+  // Attach hover listeners and strip native <title> tooltips to avoid double tooltips
+  svg.querySelectorAll(".node").forEach(node => {
+    const title = node.querySelector("title");
+    if (!title) return;
+    const idx = parseInt(title.textContent, 10);
+    if (isNaN(idx)) return;
+    title.remove();  // remove native SVG tooltip
+    node.style.cursor = "pointer";
+    // Hover: show tooltip following the mouse (non-interactive)
+    node.addEventListener("mouseenter", e => {
+      if (pinnedIdx !== null) return;  // don't override a pinned tooltip
+      hoverIdx = idx;
+      showTooltip(idx, e.clientX, e.clientY);
+    });
+    node.addEventListener("mousemove", e => {
+      if (pinnedIdx !== null || hoverIdx !== idx) return;
+      positionTooltip(e.clientX, e.clientY);
+    });
+    node.addEventListener("mouseleave", () => {
+      if (pinnedIdx !== null) return;
+      hoverIdx = null;
+      document.getElementById("tooltip").style.display = "none";
+    });
+    // Click: pin the tooltip so user can scroll it
+    node.addEventListener("click", e => {
+      e.stopPropagation();
+      if (pinnedIdx === idx) { hideTooltip(); return; }
+      pinnedIdx = idx;
+      showTooltip(idx, e.clientX, e.clientY);
+    });
+  });
+  // Also strip <title> from edges and the graph itself
+  svg.querySelectorAll(".edge title").forEach(t => t.remove());
+  const graphTitle = svg.querySelector(":scope > title");
+  if (graphTitle) graphTitle.remove();
+}
+
+render().catch(err => {
+  document.getElementById("graph-container").innerHTML =
+    "<p style='color:red'>Failed to render graph: " + err.message + "</p>" +
+    "<pre>" + DOT.replace(/</g,"&lt;") + "</pre>";
+});
+</script>
+</body>
+</html>

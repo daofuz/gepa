@@ -1,0 +1,540 @@
+{
+  "config": {
+    "movie_reviews": "C:\\Users\\25875\\gepa\\sembench\\files\\movie\\data\\sf_2000\\Reviews.csv",
+    "movie_cache": "C:\\Users\\25875\\gepa\\sembench_movie_router\\model_outputs.json",
+    "qa_split": "C:\\Users\\25875\\gepa\\routing_split_computer_qa_regret_train165_val40.json",
+    "mini_file": "C:\\Users\\25875\\gepa\\computer science_result_mini.json",
+    "nano_file": "C:\\Users\\25875\\gepa\\computer science_result_nano.json",
+    "hf_model": "distilbert-base-uncased",
+    "prompt_tokens": 4,
+    "epochs": 8,
+    "batch_size": 8,
+    "max_length": 192,
+    "learning_rate": 0.01,
+    "weight_decay": 0.0,
+    "seeds": [
+      505,
+      606,
+      707
+    ],
+    "output": "C:\\Users\\25875\\gepa\\outputs\\movie_router_zero_shot_computer_qa.json",
+    "training_task": "SemBench Movie positive/negative classification",
+    "transfer_task": "Computer Science multiple-choice QA",
+    "loss": "regret-weighted cross entropy",
+    "nano_answer_exposed": false,
+    "openai_api_calls": 0
+  },
+  "qa_test_outcomes": {
+    "both_wrong": 33,
+    "both_correct": 139,
+    "mini_only": 26,
+    "nano_only": 7
+  },
+  "baselines": {
+    "all_nano": {
+      "accuracy": 0.7121951219512195,
+      "cost_saving_rate_vs_all_mini": 0.7413936133287053,
+      "mini_rate": 0.0,
+      "mini_routes": 0,
+      "nano_routes": 205,
+      "critical_recall": 0.0,
+      "critical_misroutes": 26,
+      "both_wrong_mini_rate": 0.0,
+      "failure_counts": {
+        "both_failed_but_cheap": 33,
+        "successful_saving": 139,
+        "critical_misroute": 26,
+        "nano_better_than_mini": 7
+      }
+    },
+    "all_mini": {
+      "accuracy": 0.8048780487804879,
+      "cost_saving_rate_vs_all_mini": 0.0,
+      "mini_rate": 1.0,
+      "mini_routes": 205,
+      "nano_routes": 0,
+      "critical_recall": 1.0,
+      "critical_misroutes": 0,
+      "both_wrong_mini_rate": 1.0,
+      "failure_counts": {
+        "both_failed_expensive": 33,
+        "unnecessary_expensive_route": 146,
+        "correct_escalation": 26
+      }
+    }
+  },
+  "aggregate": {
+    "strict_zero_shot": {
+      "accuracy": {
+        "mean": 0.8032520325203253,
+        "std": 0.002299534247761132
+      },
+      "mini_rate": {
+        "mean": 0.9691056910569106,
+        "std": 0.02591443487887677
+      },
+      "cost_saving_rate_vs_all_mini": {
+        "mean": 0.02945490570403782,
+        "std": 0.0304904661114018
+      },
+      "critical_recall": {
+        "mean": 0.9871794871794872,
+        "std": 0.01813094310734736
+      },
+      "both_wrong_mini_rate": {
+        "mean": 0.9696969696969697,
+        "std": 0.024742320634173493
+      }
+    },
+    "qa_threshold_calibration_only": {
+      "accuracy": {
+        "mean": 0.783739837398374,
+        "std": 0.009198136991044529
+      },
+      "mini_rate": {
+        "mean": 0.7186991869918699,
+        "std": 0.10172677931458245
+      },
+      "cost_saving_rate_vs_all_mini": {
+        "mean": 0.2106871167418719,
+        "std": 0.034425448024678645
+      },
+      "critical_recall": {
+        "mean": 0.7692307692307693,
+        "std": 0.09421114395319914
+      },
+      "both_wrong_mini_rate": {
+        "mean": 0.7575757575757576,
+        "std": 0.1309240545132901
+      }
+    }
+  },
+  "runs": [
+    {
+      "seed": 505,
+      "best_epoch": 8,
+      "movie_threshold": 0.34487801790237427,
+      "qa_calibrated_threshold": 0.44519245624542236,
+      "movie_split": {
+        "train_counts": {
+          "mini_only": 17,
+          "both_correct": 126,
+          "both_wrong": 14,
+          "nano_only": 3
+        },
+        "validation_counts": {
+          "both_correct": 32,
+          "mini_only": 4,
+          "nano_only": 1,
+          "both_wrong": 3
+        },
+        "test_counts": {
+          "both_correct": 72,
+          "mini_only": 5,
+          "both_wrong": 4,
+          "nano_only": 1
+        },
+        "train_unique": 160,
+        "validation_unique": 40,
+        "test_unique": 82,
+        "unique_labeled_reviews": 200,
+        "critical_labeled_reviews": 21
+      },
+      "strict_zero_shot": {
+        "accuracy": 0.8,
+        "cost_saving_rate_vs_all_mini": 0.07145522388059666,
+        "mini_rate": 0.9365853658536586,
+        "mini_routes": 192,
+        "nano_routes": 13,
+        "critical_recall": 0.9615384615384616,
+        "critical_misroutes": 1,
+        "both_wrong_mini_rate": 0.9393939393939394,
+        "failure_counts": {
+          "both_failed_expensive": 31,
+          "unnecessary_expensive_route": 136,
+          "correct_escalation": 25,
+          "critical_misroute": 1,
+          "successful_saving": 10,
+          "both_failed_but_cheap": 2
+        }
+      },
+      "qa_threshold_calibration_only": {
+        "accuracy": 0.7902439024390244,
+        "cost_saving_rate_vs_all_mini": 0.202271346754599,
+        "mini_rate": 0.8390243902439024,
+        "mini_routes": 172,
+        "nano_routes": 33,
+        "critical_recall": 0.8846153846153846,
+        "critical_misroutes": 3,
+        "both_wrong_mini_rate": 0.8787878787878788,
+        "failure_counts": {
+          "both_failed_expensive": 29,
+          "unnecessary_expensive_route": 120,
+          "correct_escalation": 23,
+          "critical_misroute": 3,
+          "successful_saving": 26,
+          "both_failed_but_cheap": 4
+        }
+      },
+      "qa_validation_calibration": {
+        "accuracy": 0.825,
+        "cost_saving_rate_vs_all_mini": 0.06080391260804874,
+        "mini_rate": 0.925,
+        "mini_routes": 37,
+        "nano_routes": 3,
+        "critical_recall": 1.0,
+        "critical_misroutes": 0,
+        "both_wrong_mini_rate": 1.0,
+        "failure_counts": {
+          "unnecessary_expensive_route": 28,
+          "successful_saving": 3,
+          "correct_escalation": 4,
+          "both_failed_expensive": 5
+        }
+      },
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.7738885328173637,
+          "movie_validation_accuracy": 0.9,
+          "movie_validation_mini_rate": 0.3,
+          "movie_threshold": 0.5516820549964905
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.735231264680624,
+          "movie_validation_accuracy": 0.9,
+          "movie_validation_mini_rate": 0.525,
+          "movie_threshold": 0.05196083337068558
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.7794802755117416,
+          "movie_validation_accuracy": 0.9,
+          "movie_validation_mini_rate": 0.925,
+          "movie_threshold": 0.24503172934055328
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.6373751625418663,
+          "movie_validation_accuracy": 0.9,
+          "movie_validation_mini_rate": 0.925,
+          "movie_threshold": 0.13948246836662292
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.6438096672296524,
+          "movie_validation_accuracy": 0.9,
+          "movie_validation_mini_rate": 0.75,
+          "movie_threshold": 0.2037680298089981
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.5747411862015724,
+          "movie_validation_accuracy": 0.925,
+          "movie_validation_mini_rate": 0.85,
+          "movie_threshold": 0.3193603456020355
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.5816282629966736,
+          "movie_validation_accuracy": 0.9,
+          "movie_validation_mini_rate": 0.825,
+          "movie_threshold": 0.22881647944450378
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.5983947709202766,
+          "movie_validation_accuracy": 0.925,
+          "movie_validation_mini_rate": 0.775,
+          "movie_threshold": 0.34487801790237427
+        }
+      ]
+    },
+    {
+      "seed": 606,
+      "best_epoch": 1,
+      "movie_threshold": 0.16536568105220795,
+      "qa_calibrated_threshold": 0.39092162251472473,
+      "movie_split": {
+        "train_counts": {
+          "both_correct": 126,
+          "both_wrong": 14,
+          "mini_only": 17,
+          "nano_only": 3
+        },
+        "validation_counts": {
+          "both_correct": 32,
+          "both_wrong": 3,
+          "nano_only": 1,
+          "mini_only": 4
+        },
+        "test_counts": {
+          "both_correct": 72,
+          "mini_only": 5,
+          "both_wrong": 4,
+          "nano_only": 1
+        },
+        "train_unique": 160,
+        "validation_unique": 40,
+        "test_unique": 82,
+        "unique_labeled_reviews": 200,
+        "critical_labeled_reviews": 21
+      },
+      "strict_zero_shot": {
+        "accuracy": 0.8048780487804879,
+        "cost_saving_rate_vs_all_mini": 0.0,
+        "mini_rate": 1.0,
+        "mini_routes": 205,
+        "nano_routes": 0,
+        "critical_recall": 1.0,
+        "critical_misroutes": 0,
+        "both_wrong_mini_rate": 1.0,
+        "failure_counts": {
+          "both_failed_expensive": 33,
+          "unnecessary_expensive_route": 146,
+          "correct_escalation": 26
+        }
+      },
+      "qa_threshold_calibration_only": {
+        "accuracy": 0.7902439024390244,
+        "cost_saving_rate_vs_all_mini": 0.25642268309614735,
+        "mini_rate": 0.5902439024390244,
+        "mini_routes": 121,
+        "nano_routes": 84,
+        "critical_recall": 0.7692307692307693,
+        "critical_misroutes": 6,
+        "both_wrong_mini_rate": 0.5757575757575758,
+        "failure_counts": {
+          "both_failed_expensive": 19,
+          "unnecessary_expensive_route": 82,
+          "successful_saving": 61,
+          "both_failed_but_cheap": 14,
+          "correct_escalation": 20,
+          "nano_better_than_mini": 3,
+          "critical_misroute": 6
+        }
+      },
+      "qa_validation_calibration": {
+        "accuracy": 0.85,
+        "cost_saving_rate_vs_all_mini": 0.38198975176718797,
+        "mini_rate": 0.55,
+        "mini_routes": 22,
+        "nano_routes": 18,
+        "critical_recall": 0.75,
+        "critical_misroutes": 1,
+        "both_wrong_mini_rate": 0.2,
+        "failure_counts": {
+          "unnecessary_expensive_route": 18,
+          "successful_saving": 11,
+          "correct_escalation": 3,
+          "critical_misroute": 1,
+          "nano_better_than_mini": 2,
+          "both_failed_but_cheap": 4,
+          "both_failed_expensive": 1
+        }
+      },
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 1.4497072968631983,
+          "movie_validation_accuracy": 0.925,
+          "movie_validation_mini_rate": 0.8,
+          "movie_threshold": 0.16536568105220795
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.7266213327646256,
+          "movie_validation_accuracy": 0.925,
+          "movie_validation_mini_rate": 0.825,
+          "movie_threshold": 0.25100839138031006
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.684601902961731,
+          "movie_validation_accuracy": 0.925,
+          "movie_validation_mini_rate": 0.875,
+          "movie_threshold": 0.5555235743522644
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.7044296905398368,
+          "movie_validation_accuracy": 0.9,
+          "movie_validation_mini_rate": 0.925,
+          "movie_threshold": 0.2736490070819855
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.7855617702007294,
+          "movie_validation_accuracy": 0.9,
+          "movie_validation_mini_rate": 0.9,
+          "movie_threshold": 0.19422419369220734
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.7508949924260377,
+          "movie_validation_accuracy": 0.9,
+          "movie_validation_mini_rate": 0.925,
+          "movie_threshold": 0.18768125772476196
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.588639135658741,
+          "movie_validation_accuracy": 0.9,
+          "movie_validation_mini_rate": 0.9,
+          "movie_threshold": 0.07280045002698898
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.6231119267642498,
+          "movie_validation_accuracy": 0.9,
+          "movie_validation_mini_rate": 0.875,
+          "movie_threshold": 0.11533137410879135
+        }
+      ]
+    },
+    {
+      "seed": 707,
+      "best_epoch": 1,
+      "movie_threshold": 0.2365453839302063,
+      "qa_calibrated_threshold": 0.5577988624572754,
+      "movie_split": {
+        "train_counts": {
+          "both_wrong": 14,
+          "both_correct": 126,
+          "nano_only": 3,
+          "mini_only": 17
+        },
+        "validation_counts": {
+          "both_correct": 32,
+          "mini_only": 4,
+          "both_wrong": 3,
+          "nano_only": 1
+        },
+        "test_counts": {
+          "both_wrong": 4,
+          "both_correct": 72,
+          "mini_only": 5,
+          "nano_only": 1
+        },
+        "train_unique": 160,
+        "validation_unique": 40,
+        "test_unique": 82,
+        "unique_labeled_reviews": 200,
+        "critical_labeled_reviews": 21
+      },
+      "strict_zero_shot": {
+        "accuracy": 0.8048780487804879,
+        "cost_saving_rate_vs_all_mini": 0.016909493231516803,
+        "mini_rate": 0.9707317073170731,
+        "mini_routes": 199,
+        "nano_routes": 6,
+        "critical_recall": 1.0,
+        "critical_misroutes": 0,
+        "both_wrong_mini_rate": 0.9696969696969697,
+        "failure_counts": {
+          "both_failed_expensive": 32,
+          "unnecessary_expensive_route": 141,
+          "correct_escalation": 26,
+          "successful_saving": 5,
+          "both_failed_but_cheap": 1
+        }
+      },
+      "qa_threshold_calibration_only": {
+        "accuracy": 0.7707317073170732,
+        "cost_saving_rate_vs_all_mini": 0.17336732037486935,
+        "mini_rate": 0.7268292682926829,
+        "mini_routes": 149,
+        "nano_routes": 56,
+        "critical_recall": 0.6538461538461539,
+        "critical_misroutes": 9,
+        "both_wrong_mini_rate": 0.8181818181818182,
+        "failure_counts": {
+          "both_failed_expensive": 27,
+          "successful_saving": 39,
+          "unnecessary_expensive_route": 105,
+          "correct_escalation": 17,
+          "critical_misroute": 9,
+          "nano_better_than_mini": 2,
+          "both_failed_but_cheap": 6
+        }
+      },
+      "qa_validation_calibration": {
+        "accuracy": 0.85,
+        "cost_saving_rate_vs_all_mini": 0.16927085865411728,
+        "mini_rate": 0.7,
+        "mini_routes": 28,
+        "nano_routes": 12,
+        "critical_recall": 1.0,
+        "critical_misroutes": 0,
+        "both_wrong_mini_rate": 0.6,
+        "failure_counts": {
+          "unnecessary_expensive_route": 21,
+          "successful_saving": 9,
+          "correct_escalation": 4,
+          "nano_better_than_mini": 1,
+          "both_failed_expensive": 3,
+          "both_failed_but_cheap": 2
+        }
+      },
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.9523210227489471,
+          "movie_validation_accuracy": 0.9,
+          "movie_validation_mini_rate": 0.95,
+          "movie_threshold": 0.2365453839302063
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.8636882841587067,
+          "movie_validation_accuracy": 0.9,
+          "movie_validation_mini_rate": 1.0,
+          "movie_threshold": 0.23469574749469757
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.6778859823942185,
+          "movie_validation_accuracy": 0.9,
+          "movie_validation_mini_rate": 1.0,
+          "movie_threshold": 0.10427339375019073
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.7614673793315887,
+          "movie_validation_accuracy": 0.9,
+          "movie_validation_mini_rate": 0.975,
+          "movie_threshold": 0.4780205488204956
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.765851368010044,
+          "movie_validation_accuracy": 0.9,
+          "movie_validation_mini_rate": 0.975,
+          "movie_threshold": 0.38176003098487854
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.7422881789505482,
+          "movie_validation_accuracy": 0.9,
+          "movie_validation_mini_rate": 0.975,
+          "movie_threshold": 0.6414602398872375
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.8036649085581302,
+          "movie_validation_accuracy": 0.9,
+          "movie_validation_mini_rate": 0.975,
+          "movie_threshold": 0.23325739800930023
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.604760679602623,
+          "movie_validation_accuracy": 0.9,
+          "movie_validation_mini_rate": 0.975,
+          "movie_threshold": 0.05217048525810242
+        }
+      ]
+    }
+  ]
+}

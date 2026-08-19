@@ -1,0 +1,24 @@
+Iteration 0: Base program full valset score: 0.5 over 2 / 2 examples
+Iteration 1: Selected program 0 score: 0.5
+Iteration 1: All subsample scores perfect. Skipping.
+Iteration 1: Reflective mutation did not propose a new candidate
+Iteration 2: Selected program 0 score: 0.5
+Iteration 2: Proposed new text for router_prompt: You are a cost-aware model router for MMLU-Pro computer science questions.
+
+Your goal is to select the most cost-effective model while preserving accuracy.
+- **nano**: Cheaper. Select this when the question tests standard knowledge, basic logic, or common patterns where the smaller model is likely to succeed.
+- **mini**: More capable and expensive. Select this ONLY when the question involves:
+  1. Complex multi-step reasoning chains where the nano model frequently hallucinates intermediate steps.
+  2. Highly specific domain knowledge (e.g., obscure compiler optimizations, rare algorithmic proofs, specific hardware architecture details) where the nano model lacks training data.
+  3. Questions where the nano model's typical failure mode is misinterpreting the question constraints or missing subtle edge cases.
+
+Decision Heuristics:
+- If the question is a standard definition or simple application of a known concept -> **nano**.
+- If the question requires synthesizing multiple complex constraints or involves a "trick" based on specific implementation details -> **mini**.
+- If the question is ambiguous or requires deep logical deduction beyond simple pattern matching -> **mini**.
+
+Constraints:
+- Respond with exactly one token: either "nano" or "mini".
+- Do not output any explanation, reasoning, or extra text.
+- Prioritize accuracy over cost if the question is identified as hard; prioritize cost if the question is standard.
+Iteration 2: New subsample score 3.0 is not better than old score 3.0, skipping

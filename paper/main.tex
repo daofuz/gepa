@@ -1,0 +1,103 @@
+﻿% ScoutRoute paper draft. Built on the official VLDB 2027 / PVLDB Vol. 20
+% template. The bundled acmart.cls and pvldb.sty must not be modified.
+\documentclass[sigconf, nonacm]{acmart}
+
+%%% do not modify the following VLDB block %%
+%%% VLDB block start %%%
+\usepackage{pvldb}
+%%% VLDB block end %%%
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{xspace}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+
+\definecolor{RRBlue}{HTML}{1D4ED8}
+\definecolor{RROrange}{HTML}{C2410C}
+\definecolor{RRGreen}{HTML}{047857}
+\definecolor{RRGray}{HTML}{4B5563}
+
+\renewcommand\vldbdoi{XX.XX/XXX.XX}
+\renewcommand\vldbpages{XXX-XXX}
+% TODO(submission): an EA&B submission must provide the artifact URL initially.
+\renewcommand\vldbavailabilityurl{}
+
+\newcommand{\system}{\textsc{ScoutRoute}\xspace}
+\newcommand{\nano}{\textsc{Nano}\xspace}
+\newcommand{\mini}{\textsc{Mini}\xspace}
+\newcommand{\bc}{\textsc{BC}\xspace}
+\newcommand{\mo}{\textsc{MO}\xspace}
+\newcommand{\no}{\textsc{NO}\xspace}
+\newcommand{\bw}{\textsc{BW}\xspace}
+\newcommand{\todo}[1]{\textcolor{red!70!black}{\textbf{TODO:} #1}}
+
+\begin{document}
+
+\title{ScoutRoute: Active Data Acquisition and Cost-Derived Scoring for Lightweight Soft-Prompt Routing [Experiment, Analysis \& Benchmark]}
+
+% PVLDB is single blind. Replace all fields below before submission.
+\author{Author Name(s) --- TODO}
+\affiliation{%
+  \institution{Institution --- TODO}
+  \city{City --- TODO}
+  \country{Country --- TODO}
+}
+\email{author@example.edu}
+
+\begin{abstract}
+Semantic query engines increasingly execute natural-language operators over
+large collections, making language-model choice a database execution decision.
+A small model is inexpensive but occasionally fails on precisely the tuples for
+which a stronger model is correct. These critical cases are rare, so aggregate
+validation accuracy can favor a cheap router that silently loses recoverable
+answer quality. We present \system, an outcome-aware routing framework built
+around two mechanisms. First, disagreement-guided acquisition executes both
+candidate models on an unlabeled pool, prioritizes examples on which their
+answers differ while retaining a coverage sample of agreements, and requests
+human gold labels only for the selected subset. This observable policy enriches
+the rare one-model-only cases that determine routing quality while reducing
+gold-annotation demand. Second, a cost-derived score assigns
+a correct route inverse expected execution cost and an incorrect route zero,
+providing an auditable value for every routing decision.
+
+The primary router is a continuous soft prompt over a frozen compact encoder
+trained only with inverse-expected-cost weighted cross-entropy. Disagreement
+selection supplies the rare recoverable failures; no outcome-specific weight is
+hand tuned. Only
+the prompt embeddings and a two-class head are updated---3,074--13,826
+parameters in our configurations---and online routing requires neither
+autoregressive generation nor a multi-billion-parameter router. We separately
+evaluate reflective discrete instruction optimization as an independent
+alternative that uses the same cost score for feedback. Across SemBench Movie
+and MMLU-Pro Computer Science, our acquisition studies show stronger coverage
+of decision-critical outcomes under a fixed human-label budget. In a 200-item
+Computer Science pool, labeling 100 disagreement-prioritized candidates covers
+all 19 Mini-only cases, whereas random selection covers 53.1\% on average.
+The results motivate data-efficient weighted training and auditable evaluation
+of lightweight routers.
+\end{abstract}
+\maketitle
+
+%%% do not modify the following VLDB block %%
+%%% VLDB block start %%%
+\vldbtopmatter
+%%% VLDB block end %%%
+
+\input{sections/01_introduction}
+\input{sections/02_overview}
+\input{sections/03_methodology}
+\input{sections/04_experiments}
+\input{sections/05_related_work}
+\input{sections/06_limitations}
+\input{sections/07_conclusion}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{main}
+
+\end{document}
+

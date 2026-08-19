@@ -1,0 +1,33 @@
+\section{Conclusion}
+
+We studied lightweight soft-prompt routing as a physical model-selection
+mechanism for semantic operators. \system contributes two methodological
+components: disagreement-guided acquisition that concentrates a limited human
+gold-label budget on routing-critical candidates after a full paired screen,
+and a cost-derived score whose inverse expected route cost supplies the WCE
+weight. The acquired outcomes train a frozen-encoder soft-prompt router with
+only 3,074--13,826 task-specific trainable parameters and no autoregressive
+routing step. Reflective discrete optimization is a separate, substantially
+larger alternative used to test whether the supervision transfers across
+router classes.
+
+On the Computer Science pool, labeling half of the screened candidates after
+disagreement prioritization recovers every Mini-only and Nano-only case, whereas
+random selection misses nearly half. This result supports the acquisition
+mechanism while making its cost boundary explicit: it saves human annotations,
+not Nano or Mini screening calls. The final matrix will verify the combined
+disagreement-guided and inverse-expected-cost WCE pipeline under the shared cost
+score.
+The locked fresh set supplies the central warning: small validation splits and
+rare critical cases make apparently safe savings unstable. Neither additional
+soft-prompt capacity nor a more elaborate discrete policy fixes calibration by
+itself.
+
+The broader systems lesson is that an LLM router should be evaluated like a
+learned query optimization component, not like a standalone classifier. Its
+statistics must be outcome-specific, its operating point must be calibrated
+without test reuse, its overhead must enter the cost model, and its quality must
+be confirmed on data that was not part of prompt development. Completing the
+pre-registered multi-operator evaluation will determine whether \system becomes
+a deployable optimizer or remains a cautionary benchmark for prompt-based
+routing.

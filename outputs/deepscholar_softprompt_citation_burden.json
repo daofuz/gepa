@@ -1,0 +1,3806 @@
+{
+  "method": "frozen_encoder_soft_prompt_router",
+  "router_input": [
+    "paper_title",
+    "paper_abstract"
+  ],
+  "data": {
+    "label_source": "ground_truth_citation_burden_proxy",
+    "label_rule": "full when ground-truth citation count >= median (23)",
+    "proxy_warning": "Citation burden is an offline proxy for required search depth; it is not a measured cheap-vs-full DeepScholar quality comparison.",
+    "citation_count": {
+      "minimum": 8,
+      "median": 23,
+      "maximum": 53,
+      "mean": 25.873015873015873
+    },
+    "label_counts": {
+      "cheap": 30,
+      "full": 33
+    }
+  },
+  "config": {
+    "benchmark": "C:\\Users\\25875\\gepa\\deepscholar\\dataset\\related_works_combined.csv",
+    "citations": "C:\\Users\\25875\\gepa\\deepscholar\\dataset\\citations.csv",
+    "labels_csv": null,
+    "minimum_full_gain": 0.05,
+    "hf_model": "distilbert-base-uncased",
+    "allow_model_download": false,
+    "prompt_tokens": 16,
+    "epochs": 20,
+    "batch_size": 8,
+    "max_length": 256,
+    "learning_rate": 0.01,
+    "weight_decay": 0.0,
+    "overroute_utility": 0.2,
+    "cheap_cost": 1.0,
+    "full_cost": 4.0,
+    "seeds": [
+      505,
+      606,
+      707,
+      808,
+      909
+    ],
+    "device": "auto",
+    "output": "C:\\Users\\25875\\gepa\\outputs\\deepscholar_softprompt_citation_burden.json",
+    "save_model": "C:\\Users\\25875\\gepa\\outputs\\deepscholar_softprompt_citation_burden.pt",
+    "device_used": "cpu"
+  },
+  "aggregate_test": {
+    "accuracy": {
+      "mean": 0.5538461538461539,
+      "std": 0.13234346564680963
+    },
+    "balanced_accuracy": {
+      "mean": 0.55,
+      "std": 0.13286482312670198
+    },
+    "full_precision": {
+      "mean": 0.5866666666666667,
+      "std": 0.1088577052853862
+    },
+    "full_recall": {
+      "mean": 0.6,
+      "std": 0.16659862556700858
+    },
+    "cheap_recall": {
+      "mean": 0.5,
+      "std": 0.18257418583505536
+    },
+    "auc": {
+      "mean": 0.5619047619047619,
+      "std": 0.21748928088893785
+    },
+    "brier": {
+      "mean": 0.2952920881895422,
+      "std": 0.06025025003251258
+    },
+    "full_rate": {
+      "mean": 0.5538461538461539,
+      "std": 0.11305337274383898
+    },
+    "critical_misroutes": {
+      "mean": 2.8,
+      "std": 1.1661903789690602
+    },
+    "unnecessary_full": {
+      "mean": 3.0,
+      "std": 1.0954451150103321
+    },
+    "mean_utility": {
+      "mean": 0.6,
+      "std": 0.12035450594220275
+    },
+    "mean_cost_units": {
+      "mean": 2.6615384615384614,
+      "std": 0.3391601182315171
+    },
+    "cost_vs_all_full": {
+      "mean": 0.6653846153846154,
+      "std": 0.08479002955787927
+    }
+  },
+  "aggregate_baselines": {
+    "all_cheap": {
+      "accuracy": {
+        "mean": 0.46153846153846156,
+        "std": 0.0
+      },
+      "balanced_accuracy": {
+        "mean": 0.5,
+        "std": 0.0
+      },
+      "full_precision": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "full_recall": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "cheap_recall": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "auc": {
+        "mean": 0.5,
+        "std": 0.0
+      },
+      "brier": {
+        "mean": 0.5384615384615384,
+        "std": 0.0
+      },
+      "full_rate": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "critical_misroutes": {
+        "mean": 7.0,
+        "std": 0.0
+      },
+      "unnecessary_full": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "mean_utility": {
+        "mean": 0.46153846153846156,
+        "std": 0.0
+      },
+      "mean_cost_units": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "cost_vs_all_full": {
+        "mean": 0.25,
+        "std": 0.0
+      }
+    },
+    "all_full": {
+      "accuracy": {
+        "mean": 0.5384615384615384,
+        "std": 0.0
+      },
+      "balanced_accuracy": {
+        "mean": 0.5,
+        "std": 0.0
+      },
+      "full_precision": {
+        "mean": 0.5384615384615384,
+        "std": 0.0
+      },
+      "full_recall": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "cheap_recall": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "auc": {
+        "mean": 0.5,
+        "std": 0.0
+      },
+      "brier": {
+        "mean": 0.46153846153846156,
+        "std": 0.0
+      },
+      "full_rate": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "critical_misroutes": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "unnecessary_full": {
+        "mean": 6.0,
+        "std": 0.0
+      },
+      "mean_utility": {
+        "mean": 0.6307692307692307,
+        "std": 0.0
+      },
+      "mean_cost_units": {
+        "mean": 4.0,
+        "std": 0.0
+      },
+      "cost_vs_all_full": {
+        "mean": 1.0,
+        "std": 0.0
+      }
+    },
+    "oracle": {
+      "accuracy": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "balanced_accuracy": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "full_precision": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "full_recall": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "cheap_recall": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "auc": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "brier": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "full_rate": {
+        "mean": 0.5384615384615384,
+        "std": 0.0
+      },
+      "critical_misroutes": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "unnecessary_full": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "mean_utility": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "mean_cost_units": {
+        "mean": 2.6153846153846154,
+        "std": 0.0
+      },
+      "cost_vs_all_full": {
+        "mean": 0.6538461538461539,
+        "std": 0.0
+      }
+    }
+  },
+  "selected_checkpoint_seed": 808,
+  "runs": [
+    {
+      "seed": 505,
+      "split_sizes": {
+        "train": 40,
+        "validation": 10,
+        "test": 13
+      },
+      "split_label_counts": {
+        "train": {
+          "full": 21,
+          "cheap": 19
+        },
+        "validation": {
+          "full": 5,
+          "cheap": 5
+        },
+        "test": {
+          "full": 7,
+          "cheap": 6
+        }
+      },
+      "best_epoch": 3,
+      "threshold": 0.3530300259590149,
+      "validation_selection_key": [
+        0.74,
+        0.8,
+        -6
+      ],
+      "test": {
+        "threshold": 0.3530300259590149,
+        "accuracy": 0.6153846153846154,
+        "balanced_accuracy": 0.6071428571428572,
+        "full_precision": 0.625,
+        "full_recall": 0.7142857142857143,
+        "cheap_recall": 0.5,
+        "auc": 0.7619047619047619,
+        "brier": 0.23859278234629774,
+        "full_rate": 0.6153846153846154,
+        "critical_misroutes": 2,
+        "unnecessary_full": 3,
+        "mean_utility": 0.6615384615384615,
+        "mean_cost_units": 2.8461538461538463,
+        "cost_vs_all_full": 0.7115384615384616,
+        "confusion": {
+          "true_full": 5,
+          "false_full": 3,
+          "true_cheap": 3,
+          "false_cheap": 2
+        }
+      },
+      "baselines": {
+        "all_cheap": {
+          "threshold": 0.5,
+          "accuracy": 0.46153846153846156,
+          "balanced_accuracy": 0.5,
+          "full_precision": 0.0,
+          "full_recall": 0.0,
+          "cheap_recall": 1.0,
+          "auc": 0.5,
+          "brier": 0.5384615384615384,
+          "full_rate": 0,
+          "critical_misroutes": 7,
+          "unnecessary_full": 0,
+          "mean_utility": 0.46153846153846156,
+          "mean_cost_units": 1.0,
+          "cost_vs_all_full": 0.25,
+          "confusion": {
+            "true_full": 0,
+            "false_full": 0,
+            "true_cheap": 6,
+            "false_cheap": 7
+          }
+        },
+        "all_full": {
+          "threshold": 0.5,
+          "accuracy": 0.5384615384615384,
+          "balanced_accuracy": 0.5,
+          "full_precision": 0.5384615384615384,
+          "full_recall": 1.0,
+          "cheap_recall": 0.0,
+          "auc": 0.5,
+          "brier": 0.46153846153846156,
+          "full_rate": 1,
+          "critical_misroutes": 0,
+          "unnecessary_full": 6,
+          "mean_utility": 0.6307692307692307,
+          "mean_cost_units": 4.0,
+          "cost_vs_all_full": 1.0,
+          "confusion": {
+            "true_full": 7,
+            "false_full": 6,
+            "true_cheap": 0,
+            "false_cheap": 0
+          }
+        },
+        "oracle": {
+          "threshold": 0.5,
+          "accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "full_precision": 1.0,
+          "full_recall": 1.0,
+          "cheap_recall": 1.0,
+          "auc": 1.0,
+          "brier": 0.0,
+          "full_rate": 0.5384615384615384,
+          "critical_misroutes": 0,
+          "unnecessary_full": 0,
+          "mean_utility": 1.0,
+          "mean_cost_units": 2.6153846153846154,
+          "cost_vs_all_full": 0.6538461538461539,
+          "confusion": {
+            "true_full": 7,
+            "false_full": 0,
+            "true_cheap": 6,
+            "false_cheap": 0
+          }
+        }
+      },
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.8299808263778686,
+          "threshold": 0.0,
+          "accuracy": 0.5,
+          "balanced_accuracy": 0.5,
+          "full_precision": 0.5,
+          "full_recall": 1.0,
+          "cheap_recall": 0.0,
+          "auc": 0.12,
+          "brier": 0.3110761391138921,
+          "full_rate": 1,
+          "critical_misroutes": 0,
+          "unnecessary_full": 5,
+          "mean_utility": 0.6,
+          "mean_cost_units": 4.0,
+          "cost_vs_all_full": 1.0,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 5,
+            "true_cheap": 0,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.7461740016937256,
+          "threshold": 0.0,
+          "accuracy": 0.5,
+          "balanced_accuracy": 0.5,
+          "full_precision": 0.5,
+          "full_recall": 1.0,
+          "cheap_recall": 0.0,
+          "auc": 0.32,
+          "brier": 0.3063576858335818,
+          "full_rate": 1,
+          "critical_misroutes": 0,
+          "unnecessary_full": 5,
+          "mean_utility": 0.6,
+          "mean_cost_units": 4.0,
+          "cost_vs_all_full": 1.0,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 5,
+            "true_cheap": 0,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.6523937940597534,
+          "threshold": 0.3530300259590149,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.6666666666666666,
+          "full_recall": 0.8,
+          "cheap_recall": 0.6,
+          "auc": 0.64,
+          "brier": 0.26933929487208763,
+          "full_rate": 0.6,
+          "critical_misroutes": 1,
+          "unnecessary_full": 2,
+          "mean_utility": 0.74,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.6501986622810364,
+          "threshold": 0.37540504336357117,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.6666666666666666,
+          "full_recall": 0.8,
+          "cheap_recall": 0.6,
+          "auc": 0.64,
+          "brier": 0.26232997930775226,
+          "full_rate": 0.6,
+          "critical_misroutes": 1,
+          "unnecessary_full": 2,
+          "mean_utility": 0.74,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.5298813939094543,
+          "threshold": 0.4379233419895172,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.6666666666666666,
+          "full_recall": 0.8,
+          "cheap_recall": 0.6,
+          "auc": 0.6,
+          "brier": 0.2706784020489696,
+          "full_rate": 0.6,
+          "critical_misroutes": 1,
+          "unnecessary_full": 2,
+          "mean_utility": 0.74,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.44076722860336304,
+          "threshold": 0.38312357664108276,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.6666666666666666,
+          "full_recall": 0.8,
+          "cheap_recall": 0.6,
+          "auc": 0.6,
+          "brier": 0.2775402112029352,
+          "full_rate": 0.6,
+          "critical_misroutes": 1,
+          "unnecessary_full": 2,
+          "mean_utility": 0.74,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.38972288072109224,
+          "threshold": 0.23798653483390808,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.6666666666666666,
+          "full_recall": 0.8,
+          "cheap_recall": 0.6,
+          "auc": 0.6,
+          "brier": 0.29296580544714446,
+          "full_rate": 0.6,
+          "critical_misroutes": 1,
+          "unnecessary_full": 2,
+          "mean_utility": 0.74,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.34615757763385774,
+          "threshold": 0.21557509899139404,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.6000000000000001,
+          "full_precision": 0.5714285714285714,
+          "full_recall": 0.8,
+          "cheap_recall": 0.4,
+          "auc": 0.56,
+          "brier": 0.307677085510785,
+          "full_rate": 0.7,
+          "critical_misroutes": 1,
+          "unnecessary_full": 3,
+          "mean_utility": 0.66,
+          "mean_cost_units": 3.1,
+          "cost_vs_all_full": 0.775,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.28450881838798525,
+          "threshold": 0.14998292922973633,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.6666666666666666,
+          "full_recall": 0.8,
+          "cheap_recall": 0.6,
+          "auc": 0.6,
+          "brier": 0.3190610919717194,
+          "full_rate": 0.6,
+          "critical_misroutes": 1,
+          "unnecessary_full": 2,
+          "mean_utility": 0.74,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.23254079073667527,
+          "threshold": 0.24394914507865906,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.6666666666666666,
+          "full_recall": 0.8,
+          "cheap_recall": 0.6,
+          "auc": 0.6,
+          "brier": 0.3259574422797657,
+          "full_rate": 0.6,
+          "critical_misroutes": 1,
+          "unnecessary_full": 2,
+          "mean_utility": 0.74,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.21818253695964812,
+          "threshold": 0.13784867525100708,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.6000000000000001,
+          "full_precision": 0.5714285714285714,
+          "full_recall": 0.8,
+          "cheap_recall": 0.4,
+          "auc": 0.56,
+          "brier": 0.3387100021233758,
+          "full_rate": 0.7,
+          "critical_misroutes": 1,
+          "unnecessary_full": 3,
+          "mean_utility": 0.66,
+          "mean_cost_units": 3.1,
+          "cost_vs_all_full": 0.775,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.13387660682201385,
+          "threshold": 0.09293967485427856,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.6000000000000001,
+          "full_precision": 0.5714285714285714,
+          "full_recall": 0.8,
+          "cheap_recall": 0.4,
+          "auc": 0.56,
+          "brier": 0.3588551878690869,
+          "full_rate": 0.7,
+          "critical_misroutes": 1,
+          "unnecessary_full": 3,
+          "mean_utility": 0.66,
+          "mean_cost_units": 3.1,
+          "cost_vs_all_full": 0.775,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.13054015338420868,
+          "threshold": 0.08020912110805511,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.6666666666666666,
+          "full_recall": 0.8,
+          "cheap_recall": 0.6,
+          "auc": 0.6,
+          "brier": 0.36846736739919284,
+          "full_rate": 0.6,
+          "critical_misroutes": 1,
+          "unnecessary_full": 2,
+          "mean_utility": 0.74,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.06970544680953025,
+          "threshold": 0.09088686853647232,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.6000000000000001,
+          "full_precision": 0.5714285714285714,
+          "full_recall": 0.8,
+          "cheap_recall": 0.4,
+          "auc": 0.56,
+          "brier": 0.3573877119045196,
+          "full_rate": 0.7,
+          "critical_misroutes": 1,
+          "unnecessary_full": 3,
+          "mean_utility": 0.66,
+          "mean_cost_units": 3.1,
+          "cost_vs_all_full": 0.775,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.058927581459283826,
+          "threshold": 0.08019372075796127,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.6000000000000001,
+          "full_precision": 0.5714285714285714,
+          "full_recall": 0.8,
+          "cheap_recall": 0.4,
+          "auc": 0.56,
+          "brier": 0.36006256206164344,
+          "full_rate": 0.7,
+          "critical_misroutes": 1,
+          "unnecessary_full": 3,
+          "mean_utility": 0.66,
+          "mean_cost_units": 3.1,
+          "cost_vs_all_full": 0.775,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 16,
+          "train_loss": 0.04616705700755119,
+          "threshold": 0.0323990099132061,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.6666666666666666,
+          "full_recall": 0.8,
+          "cheap_recall": 0.6,
+          "auc": 0.6,
+          "brier": 0.41335847501342715,
+          "full_rate": 0.6,
+          "critical_misroutes": 1,
+          "unnecessary_full": 2,
+          "mean_utility": 0.74,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 17,
+          "train_loss": 0.03748064860701561,
+          "threshold": 0.1065472960472107,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.6666666666666666,
+          "full_recall": 0.8,
+          "cheap_recall": 0.6,
+          "auc": 0.6,
+          "brier": 0.36651187572096267,
+          "full_rate": 0.6,
+          "critical_misroutes": 1,
+          "unnecessary_full": 2,
+          "mean_utility": 0.74,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 18,
+          "train_loss": 0.027218962833285332,
+          "threshold": 0.1402650624513626,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.6666666666666666,
+          "full_recall": 0.8,
+          "cheap_recall": 0.6,
+          "auc": 0.6,
+          "brier": 0.33916365550845184,
+          "full_rate": 0.6,
+          "critical_misroutes": 1,
+          "unnecessary_full": 2,
+          "mean_utility": 0.74,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 19,
+          "train_loss": 0.014351069927215576,
+          "threshold": 0.019183045253157616,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.6666666666666666,
+          "full_recall": 0.8,
+          "cheap_recall": 0.6,
+          "auc": 0.6,
+          "brier": 0.4463918414024408,
+          "full_rate": 0.6,
+          "critical_misroutes": 1,
+          "unnecessary_full": 2,
+          "mean_utility": 0.74,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 20,
+          "train_loss": 0.022057447768747806,
+          "threshold": 0.19243532419204712,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.6666666666666666,
+          "full_recall": 0.8,
+          "cheap_recall": 0.6,
+          "auc": 0.6,
+          "brier": 0.32695562507958276,
+          "full_rate": 0.6,
+          "critical_misroutes": 1,
+          "unnecessary_full": 2,
+          "mean_utility": 0.74,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 1
+          }
+        }
+      ],
+      "test_traces": [
+        {
+          "arxiv_id": "2504.09935v1",
+          "title": "Constrained Auto-Regressive Decoding Constrains Generative Retrieval",
+          "citation_count": 47,
+          "target_route": "full",
+          "full_probability": 0.3315768539905548,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2505.24575v1",
+          "title": "NexusSum: Hierarchical LLM Agents for Long-Form Narrative Summarization",
+          "citation_count": 22,
+          "target_route": "cheap",
+          "full_probability": 0.27736225724220276,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2504.15849v1",
+          "title": "NLCTables: A Dataset for Marrying Natural Language Conditions with Table\n  Discovery",
+          "citation_count": 21,
+          "target_route": "cheap",
+          "full_probability": 0.4010159969329834,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2505.21811v1",
+          "title": "Revisiting Self-attention for Cross-domain Sequential Recommendation",
+          "citation_count": 34,
+          "target_route": "full",
+          "full_probability": 0.4404391944408417,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2506.00333v1",
+          "title": "Test-time Vocabulary Adaptation for Language-driven Object Detection",
+          "citation_count": 9,
+          "target_route": "cheap",
+          "full_probability": 0.4750133752822876,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2504.17519v1",
+          "title": "Replication and Exploration of Generative Retrieval over Dynamic Corpora",
+          "citation_count": 16,
+          "target_route": "cheap",
+          "full_probability": 0.3654872179031372,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2506.00205v1",
+          "title": "Unlocking the Power of Rehearsal in Continual Learning: A Theoretical\n  Perspective",
+          "citation_count": 27,
+          "target_route": "full",
+          "full_probability": 0.30679816007614136,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2504.17448v1",
+          "title": "CHASe: Client Heterogeneity-Aware Data Selection for Effective Federated\n  Active Learning",
+          "citation_count": 32,
+          "target_route": "full",
+          "full_probability": 0.4564779996871948,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2506.00434v1",
+          "title": "Efficient 3D Brain Tumor Segmentation with Axial-Coronal-Sagittal\n  Embedding",
+          "citation_count": 14,
+          "target_route": "cheap",
+          "full_probability": 0.15682046115398407,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2504.14991v1",
+          "title": "Understanding Accuracy-Fairness Trade-offs in Re-ranking through\n  Elasticity in Economics",
+          "citation_count": 26,
+          "target_route": "full",
+          "full_probability": 0.5720992088317871,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2506.02750v1",
+          "title": "Learning Binarized Representations with Pseudo-positive Sample\n  Enhancement for Efficient Graph Collaborative Filtering",
+          "citation_count": 53,
+          "target_route": "full",
+          "full_probability": 0.40107056498527527,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2505.24443v1",
+          "title": "Diversify and Conquer: Open-set Disagreement for Robust Semi-supervised\n  Learning with Outliers",
+          "citation_count": 37,
+          "target_route": "full",
+          "full_probability": 0.4358457028865814,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2505.22616v1",
+          "title": "PS4PRO: Pixel-to-pixel Supervision for Photorealistic Rendering and\n  Optimization",
+          "citation_count": 13,
+          "target_route": "cheap",
+          "full_probability": 0.2902117669582367,
+          "predicted_route": "cheap"
+        }
+      ]
+    },
+    {
+      "seed": 606,
+      "split_sizes": {
+        "train": 40,
+        "validation": 10,
+        "test": 13
+      },
+      "split_label_counts": {
+        "train": {
+          "cheap": 19,
+          "full": 21
+        },
+        "validation": {
+          "full": 5,
+          "cheap": 5
+        },
+        "test": {
+          "full": 7,
+          "cheap": 6
+        }
+      },
+      "best_epoch": 1,
+      "threshold": 0.7715271711349487,
+      "validation_selection_key": [
+        0.76,
+        1.0,
+        -8
+      ],
+      "test": {
+        "threshold": 0.7715271711349487,
+        "accuracy": 0.6923076923076923,
+        "balanced_accuracy": 0.6785714285714286,
+        "full_precision": 0.6666666666666666,
+        "full_recall": 0.8571428571428571,
+        "cheap_recall": 0.5,
+        "auc": 0.8333333333333334,
+        "brier": 0.29722161437187167,
+        "full_rate": 0.6923076923076923,
+        "critical_misroutes": 1,
+        "unnecessary_full": 3,
+        "mean_utility": 0.7384615384615385,
+        "mean_cost_units": 3.076923076923077,
+        "cost_vs_all_full": 0.7692307692307693,
+        "confusion": {
+          "true_full": 6,
+          "false_full": 3,
+          "true_cheap": 3,
+          "false_cheap": 1
+        }
+      },
+      "baselines": {
+        "all_cheap": {
+          "threshold": 0.5,
+          "accuracy": 0.46153846153846156,
+          "balanced_accuracy": 0.5,
+          "full_precision": 0.0,
+          "full_recall": 0.0,
+          "cheap_recall": 1.0,
+          "auc": 0.5,
+          "brier": 0.5384615384615384,
+          "full_rate": 0,
+          "critical_misroutes": 7,
+          "unnecessary_full": 0,
+          "mean_utility": 0.46153846153846156,
+          "mean_cost_units": 1.0,
+          "cost_vs_all_full": 0.25,
+          "confusion": {
+            "true_full": 0,
+            "false_full": 0,
+            "true_cheap": 6,
+            "false_cheap": 7
+          }
+        },
+        "all_full": {
+          "threshold": 0.5,
+          "accuracy": 0.5384615384615384,
+          "balanced_accuracy": 0.5,
+          "full_precision": 0.5384615384615384,
+          "full_recall": 1.0,
+          "cheap_recall": 0.0,
+          "auc": 0.5,
+          "brier": 0.46153846153846156,
+          "full_rate": 1,
+          "critical_misroutes": 0,
+          "unnecessary_full": 6,
+          "mean_utility": 0.6307692307692307,
+          "mean_cost_units": 4.0,
+          "cost_vs_all_full": 1.0,
+          "confusion": {
+            "true_full": 7,
+            "false_full": 6,
+            "true_cheap": 0,
+            "false_cheap": 0
+          }
+        },
+        "oracle": {
+          "threshold": 0.5,
+          "accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "full_precision": 1.0,
+          "full_recall": 1.0,
+          "cheap_recall": 1.0,
+          "auc": 1.0,
+          "brier": 0.0,
+          "full_rate": 0.5384615384615384,
+          "critical_misroutes": 0,
+          "unnecessary_full": 0,
+          "mean_utility": 1.0,
+          "mean_cost_units": 2.6153846153846154,
+          "cost_vs_all_full": 0.6538461538461539,
+          "confusion": {
+            "true_full": 7,
+            "false_full": 0,
+            "true_cheap": 6,
+            "false_cheap": 0
+          }
+        }
+      },
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.7113192200660705,
+          "threshold": 0.7715271711349487,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.6,
+          "brier": 0.32520450954420604,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.8442955136299133,
+          "threshold": 0.3564164638519287,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.56,
+          "brier": 0.2575024479554887,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.692059051990509,
+          "threshold": 0.48544803261756897,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.6,
+          "full_precision": 0.5555555555555556,
+          "full_recall": 1.0,
+          "cheap_recall": 0.2,
+          "auc": 0.44,
+          "brier": 0.2617149339703283,
+          "full_rate": 0.9,
+          "critical_misroutes": 0,
+          "unnecessary_full": 4,
+          "mean_utility": 0.68,
+          "mean_cost_units": 3.7,
+          "cost_vs_all_full": 0.925,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 4,
+            "true_cheap": 1,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.743947422504425,
+          "threshold": 0.5810177326202393,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.52,
+          "brier": 0.2584323716719649,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.6211318492889404,
+          "threshold": 0.46562451124191284,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.52,
+          "brier": 0.2418671124396913,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.6503502368927002,
+          "threshold": 0.5491830110549927,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.52,
+          "brier": 0.2527198859238073,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.7222663879394531,
+          "threshold": 0.4876476228237152,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.52,
+          "brier": 0.25093586136400275,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.8049386501312256,
+          "threshold": 0.7778156995773315,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.56,
+          "brier": 0.3320408977080159,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.6436583638191223,
+          "threshold": 0.19944852590560913,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.56,
+          "brier": 0.31143469921136774,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.5554189026355744,
+          "threshold": 0.7256461977958679,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.52,
+          "brier": 0.29522829644298343,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.5954334795475006,
+          "threshold": 0.628178596496582,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.52,
+          "brier": 0.2608204995399513,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.4791805922985077,
+          "threshold": 0.46612587571144104,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.48,
+          "brier": 0.2528362009080696,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.47436370253562926,
+          "threshold": 0.6908901929855347,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.48,
+          "brier": 0.29046236981346896,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.5192692816257477,
+          "threshold": 0.5607373118400574,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.52,
+          "brier": 0.2792962350934431,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.48443875908851625,
+          "threshold": 0.2765061557292938,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.6,
+          "brier": 0.28324687577393615,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 16,
+          "train_loss": 0.41680140793323517,
+          "threshold": 0.8218274116516113,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.56,
+          "brier": 0.3353850330276047,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 17,
+          "train_loss": 0.33364832401275635,
+          "threshold": 0.17157667875289917,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.52,
+          "brier": 0.35712423222069567,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 18,
+          "train_loss": 0.3608304411172867,
+          "threshold": 0.682519793510437,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.52,
+          "brier": 0.31159629983916765,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 19,
+          "train_loss": 0.30147366523742675,
+          "threshold": 0.2979110777378082,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.56,
+          "brier": 0.2988170024186073,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 20,
+          "train_loss": 0.18014879226684571,
+          "threshold": 0.5230453610420227,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.56,
+          "brier": 0.2878594579401983,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        }
+      ],
+      "test_traces": [
+        {
+          "arxiv_id": "2505.24835v1",
+          "title": "Timing is important: Risk-aware Fund Allocation based on Time-Series\n  Forecasting",
+          "citation_count": 28,
+          "target_route": "full",
+          "full_probability": 0.7816784381866455,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2506.01037v1",
+          "title": "Self-supervised ControlNet with Spatio-Temporal Mamba for Real-world\n  Video Super-resolution",
+          "citation_count": 39,
+          "target_route": "full",
+          "full_probability": 0.7798669934272766,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2505.22552v1",
+          "title": "ClaimPKG: Enhancing Claim Verification via Pseudo-Subgraph Generation\n  with Lightweight Specialized LLM",
+          "citation_count": 13,
+          "target_route": "cheap",
+          "full_probability": 0.7792131304740906,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2506.00832v1",
+          "title": "Counterfactual Activation Editing for Post-hoc Prosody and\n  Mispronunciation Correction in TTS Models",
+          "citation_count": 11,
+          "target_route": "cheap",
+          "full_probability": 0.7514287829399109,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2504.15849v1",
+          "title": "NLCTables: A Dataset for Marrying Natural Language Conditions with Table\n  Discovery",
+          "citation_count": 21,
+          "target_route": "cheap",
+          "full_probability": 0.7767260670661926,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2505.22427v1",
+          "title": "RC-AutoCalib: An End-to-End Radar-Camera Automatic Calibration Network",
+          "citation_count": 20,
+          "target_route": "cheap",
+          "full_probability": 0.7674566507339478,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2505.11554v1",
+          "title": "Multi-Objective Memory Bandwidth Regulation and Cache Partitioning for\n  Multicore Real-Time Systems",
+          "citation_count": 48,
+          "target_route": "full",
+          "full_probability": 0.8013632297515869,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2505.19356v1",
+          "title": "Optimized Text Embedding Models and Benchmarks for Amharic Passage\n  Retrieval",
+          "citation_count": 21,
+          "target_route": "cheap",
+          "full_probability": 0.7564824223518372,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2505.17507v1",
+          "title": "Benchmarking Recommendation, Classification, and Tracing Based on\n  Hugging Face Knowledge Graph",
+          "citation_count": 9,
+          "target_route": "cheap",
+          "full_probability": 0.7837340235710144,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2506.00085v1",
+          "title": "COSMIC: Generalized Refusal Direction Identification in LLM Activations",
+          "citation_count": 37,
+          "target_route": "full",
+          "full_probability": 0.7831485271453857,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2506.02853v1",
+          "title": "Learning Pyramid-structured Long-range Dependencies for 3D Human Pose\n  Estimation",
+          "citation_count": 35,
+          "target_route": "full",
+          "full_probability": 0.7987373471260071,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2504.17448v1",
+          "title": "CHASe: Client Heterogeneity-Aware Data Selection for Effective Federated\n  Active Learning",
+          "citation_count": 32,
+          "target_route": "full",
+          "full_probability": 0.7660448551177979,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2504.09935v1",
+          "title": "Constrained Auto-Regressive Decoding Constrains Generative Retrieval",
+          "citation_count": 47,
+          "target_route": "full",
+          "full_probability": 0.811799943447113,
+          "predicted_route": "full"
+        }
+      ]
+    },
+    {
+      "seed": 707,
+      "split_sizes": {
+        "train": 40,
+        "validation": 10,
+        "test": 13
+      },
+      "split_label_counts": {
+        "train": {
+          "full": 21,
+          "cheap": 19
+        },
+        "validation": {
+          "cheap": 5,
+          "full": 5
+        },
+        "test": {
+          "cheap": 6,
+          "full": 7
+        }
+      },
+      "best_epoch": 3,
+      "threshold": 0.5118014216423035,
+      "validation_selection_key": [
+        0.82,
+        0.8,
+        -5
+      ],
+      "test": {
+        "threshold": 0.5118014216423035,
+        "accuracy": 0.6153846153846154,
+        "balanced_accuracy": 0.6190476190476191,
+        "full_precision": 0.6666666666666666,
+        "full_recall": 0.5714285714285714,
+        "cheap_recall": 0.6666666666666666,
+        "auc": 0.5476190476190477,
+        "brier": 0.24438782116381,
+        "full_rate": 0.46153846153846156,
+        "critical_misroutes": 3,
+        "unnecessary_full": 2,
+        "mean_utility": 0.6461538461538462,
+        "mean_cost_units": 2.3846153846153846,
+        "cost_vs_all_full": 0.5961538461538461,
+        "confusion": {
+          "true_full": 4,
+          "false_full": 2,
+          "true_cheap": 4,
+          "false_cheap": 3
+        }
+      },
+      "baselines": {
+        "all_cheap": {
+          "threshold": 0.5,
+          "accuracy": 0.46153846153846156,
+          "balanced_accuracy": 0.5,
+          "full_precision": 0.0,
+          "full_recall": 0.0,
+          "cheap_recall": 1.0,
+          "auc": 0.5,
+          "brier": 0.5384615384615384,
+          "full_rate": 0,
+          "critical_misroutes": 7,
+          "unnecessary_full": 0,
+          "mean_utility": 0.46153846153846156,
+          "mean_cost_units": 1.0,
+          "cost_vs_all_full": 0.25,
+          "confusion": {
+            "true_full": 0,
+            "false_full": 0,
+            "true_cheap": 6,
+            "false_cheap": 7
+          }
+        },
+        "all_full": {
+          "threshold": 0.5,
+          "accuracy": 0.5384615384615384,
+          "balanced_accuracy": 0.5,
+          "full_precision": 0.5384615384615384,
+          "full_recall": 1.0,
+          "cheap_recall": 0.0,
+          "auc": 0.5,
+          "brier": 0.46153846153846156,
+          "full_rate": 1,
+          "critical_misroutes": 0,
+          "unnecessary_full": 6,
+          "mean_utility": 0.6307692307692307,
+          "mean_cost_units": 4.0,
+          "cost_vs_all_full": 1.0,
+          "confusion": {
+            "true_full": 7,
+            "false_full": 6,
+            "true_cheap": 0,
+            "false_cheap": 0
+          }
+        },
+        "oracle": {
+          "threshold": 0.5,
+          "accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "full_precision": 1.0,
+          "full_recall": 1.0,
+          "cheap_recall": 1.0,
+          "auc": 1.0,
+          "brier": 0.0,
+          "full_rate": 0.5384615384615384,
+          "critical_misroutes": 0,
+          "unnecessary_full": 0,
+          "mean_utility": 1.0,
+          "mean_cost_units": 2.6153846153846154,
+          "cost_vs_all_full": 0.6538461538461539,
+          "confusion": {
+            "true_full": 7,
+            "false_full": 0,
+            "true_cheap": 6,
+            "false_cheap": 0
+          }
+        }
+      },
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 1.054307508468628,
+          "threshold": 0.5360593795776367,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.44,
+          "brier": 0.25316979210674617,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.715866768360138,
+          "threshold": 0.5098541378974915,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.4,
+          "brier": 0.24765436387271383,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.6923720002174377,
+          "threshold": 0.5118014216423035,
+          "accuracy": 0.8,
+          "balanced_accuracy": 0.8,
+          "full_precision": 0.8,
+          "full_recall": 0.8,
+          "cheap_recall": 0.8,
+          "auc": 0.72,
+          "brier": 0.2365317859812933,
+          "full_rate": 0.5,
+          "critical_misroutes": 1,
+          "unnecessary_full": 1,
+          "mean_utility": 0.82,
+          "mean_cost_units": 2.5,
+          "cost_vs_all_full": 0.625,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 1,
+            "true_cheap": 4,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.6964529633522034,
+          "threshold": 0.5229626893997192,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.76,
+          "brier": 0.23270502491398276,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.597638201713562,
+          "threshold": 0.5660204291343689,
+          "accuracy": 0.8,
+          "balanced_accuracy": 0.8,
+          "full_precision": 0.8,
+          "full_recall": 0.8,
+          "cheap_recall": 0.8,
+          "auc": 0.84,
+          "brier": 0.21761536943476667,
+          "full_rate": 0.5,
+          "critical_misroutes": 1,
+          "unnecessary_full": 1,
+          "mean_utility": 0.82,
+          "mean_cost_units": 2.5,
+          "cost_vs_all_full": 0.625,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 1,
+            "true_cheap": 4,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.5388875603675842,
+          "threshold": 0.6168729662895203,
+          "accuracy": 0.8,
+          "balanced_accuracy": 0.8,
+          "full_precision": 1.0,
+          "full_recall": 0.6,
+          "cheap_recall": 1.0,
+          "auc": 0.76,
+          "brier": 0.2067116850171276,
+          "full_rate": 0.3,
+          "critical_misroutes": 2,
+          "unnecessary_full": 0,
+          "mean_utility": 0.8,
+          "mean_cost_units": 1.9,
+          "cost_vs_all_full": 0.475,
+          "confusion": {
+            "true_full": 3,
+            "false_full": 0,
+            "true_cheap": 5,
+            "false_cheap": 2
+          }
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.5093814313411713,
+          "threshold": 0.6962608695030212,
+          "accuracy": 0.8,
+          "balanced_accuracy": 0.8,
+          "full_precision": 1.0,
+          "full_recall": 0.6,
+          "cheap_recall": 1.0,
+          "auc": 0.76,
+          "brier": 0.20935092810204797,
+          "full_rate": 0.3,
+          "critical_misroutes": 2,
+          "unnecessary_full": 0,
+          "mean_utility": 0.8,
+          "mean_cost_units": 1.9,
+          "cost_vs_all_full": 0.475,
+          "confusion": {
+            "true_full": 3,
+            "false_full": 0,
+            "true_cheap": 5,
+            "false_cheap": 2
+          }
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.4598974049091339,
+          "threshold": 0.42669370770454407,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.72,
+          "brier": 0.22699520344054563,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.376407852768898,
+          "threshold": 0.4021185040473938,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.64,
+          "brier": 0.2405310524187546,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.32324804067611695,
+          "threshold": 0.47268879413604736,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.56,
+          "brier": 0.26727970363309844,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.2750231891870499,
+          "threshold": 0.35466480255126953,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.6,
+          "full_precision": 0.5555555555555556,
+          "full_recall": 1.0,
+          "cheap_recall": 0.2,
+          "auc": 0.56,
+          "brier": 0.3169170592973929,
+          "full_rate": 0.9,
+          "critical_misroutes": 0,
+          "unnecessary_full": 4,
+          "mean_utility": 0.68,
+          "mean_cost_units": 3.7,
+          "cost_vs_all_full": 0.925,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 4,
+            "true_cheap": 1,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.20739894211292267,
+          "threshold": 0.19375331699848175,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.6,
+          "full_precision": 0.5555555555555556,
+          "full_recall": 1.0,
+          "cheap_recall": 0.2,
+          "auc": 0.56,
+          "brier": 0.34239919310285205,
+          "full_rate": 0.9,
+          "critical_misroutes": 0,
+          "unnecessary_full": 4,
+          "mean_utility": 0.68,
+          "mean_cost_units": 3.7,
+          "cost_vs_all_full": 0.925,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 4,
+            "true_cheap": 1,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.17190455496311188,
+          "threshold": 0.28510451316833496,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.6,
+          "full_precision": 0.5555555555555556,
+          "full_recall": 1.0,
+          "cheap_recall": 0.2,
+          "auc": 0.56,
+          "brier": 0.36125341592454036,
+          "full_rate": 0.9,
+          "critical_misroutes": 0,
+          "unnecessary_full": 4,
+          "mean_utility": 0.68,
+          "mean_cost_units": 3.7,
+          "cost_vs_all_full": 0.925,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 4,
+            "true_cheap": 1,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.14446413666009902,
+          "threshold": 0.1141057014465332,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.6,
+          "full_precision": 0.5555555555555556,
+          "full_recall": 1.0,
+          "cheap_recall": 0.2,
+          "auc": 0.52,
+          "brier": 0.34244788775023766,
+          "full_rate": 0.9,
+          "critical_misroutes": 0,
+          "unnecessary_full": 4,
+          "mean_utility": 0.68,
+          "mean_cost_units": 3.7,
+          "cost_vs_all_full": 0.925,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 4,
+            "true_cheap": 1,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.12212547659873962,
+          "threshold": 0.36388081312179565,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.6,
+          "full_precision": 0.5555555555555556,
+          "full_recall": 1.0,
+          "cheap_recall": 0.2,
+          "auc": 0.56,
+          "brier": 0.36767464405095307,
+          "full_rate": 0.9,
+          "critical_misroutes": 0,
+          "unnecessary_full": 4,
+          "mean_utility": 0.68,
+          "mean_cost_units": 3.7,
+          "cost_vs_all_full": 0.925,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 4,
+            "true_cheap": 1,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 16,
+          "train_loss": 0.11759336665272713,
+          "threshold": 0.7753921151161194,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.6,
+          "full_precision": 0.6,
+          "full_recall": 0.6,
+          "cheap_recall": 0.6,
+          "auc": 0.52,
+          "brier": 0.37635329015086383,
+          "full_rate": 0.5,
+          "critical_misroutes": 2,
+          "unnecessary_full": 2,
+          "mean_utility": 0.64,
+          "mean_cost_units": 2.5,
+          "cost_vs_all_full": 0.625,
+          "confusion": {
+            "true_full": 3,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 2
+          }
+        },
+        {
+          "epoch": 17,
+          "train_loss": 0.05835504606366158,
+          "threshold": 0.6828057169914246,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.6,
+          "full_precision": 0.6,
+          "full_recall": 0.6,
+          "cheap_recall": 0.6,
+          "auc": 0.52,
+          "brier": 0.3812482744666175,
+          "full_rate": 0.5,
+          "critical_misroutes": 2,
+          "unnecessary_full": 2,
+          "mean_utility": 0.64,
+          "mean_cost_units": 2.5,
+          "cost_vs_all_full": 0.625,
+          "confusion": {
+            "true_full": 3,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 2
+          }
+        },
+        {
+          "epoch": 18,
+          "train_loss": 0.07130647823214531,
+          "threshold": 0.12967436015605927,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.6,
+          "full_precision": 0.5555555555555556,
+          "full_recall": 1.0,
+          "cheap_recall": 0.2,
+          "auc": 0.56,
+          "brier": 0.39129343825687646,
+          "full_rate": 0.9,
+          "critical_misroutes": 0,
+          "unnecessary_full": 4,
+          "mean_utility": 0.68,
+          "mean_cost_units": 3.7,
+          "cost_vs_all_full": 0.925,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 4,
+            "true_cheap": 1,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 19,
+          "train_loss": 0.04632271900773048,
+          "threshold": 0.06685288995504379,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.6,
+          "full_precision": 0.5555555555555556,
+          "full_recall": 1.0,
+          "cheap_recall": 0.2,
+          "auc": 0.52,
+          "brier": 0.4109890678387841,
+          "full_rate": 0.9,
+          "critical_misroutes": 0,
+          "unnecessary_full": 4,
+          "mean_utility": 0.68,
+          "mean_cost_units": 3.7,
+          "cost_vs_all_full": 0.925,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 4,
+            "true_cheap": 1,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 20,
+          "train_loss": 0.034058365225791934,
+          "threshold": 0.15542536973953247,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.6,
+          "full_precision": 0.5555555555555556,
+          "full_recall": 1.0,
+          "cheap_recall": 0.2,
+          "auc": 0.52,
+          "brier": 0.43270501158256114,
+          "full_rate": 0.9,
+          "critical_misroutes": 0,
+          "unnecessary_full": 4,
+          "mean_utility": 0.68,
+          "mean_cost_units": 3.7,
+          "cost_vs_all_full": 0.925,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 4,
+            "true_cheap": 1,
+            "false_cheap": 0
+          }
+        }
+      ],
+      "test_traces": [
+        {
+          "arxiv_id": "2505.22616v1",
+          "title": "PS4PRO: Pixel-to-pixel Supervision for Photorealistic Rendering and\n  Optimization",
+          "citation_count": 13,
+          "target_route": "cheap",
+          "full_probability": 0.46249547600746155,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2505.23452v1",
+          "title": "What About Emotions? Guiding Fine-Grained Emotion Extraction from Mobile\n  App Reviews",
+          "citation_count": 16,
+          "target_route": "cheap",
+          "full_probability": 0.414619117975235,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2505.00552v1",
+          "title": "Graph Spectral Filtering with Chebyshev Interpolation for Recommendation",
+          "citation_count": 40,
+          "target_route": "full",
+          "full_probability": 0.5270869135856628,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2505.24334v1",
+          "title": "KairosAD: A SAM-Based Model for Industrial Anomaly Detection on Embedded\n  Devices",
+          "citation_count": 23,
+          "target_route": "full",
+          "full_probability": 0.40162399411201477,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2505.24835v1",
+          "title": "Timing is important: Risk-aware Fund Allocation based on Time-Series\n  Forecasting",
+          "citation_count": 28,
+          "target_route": "full",
+          "full_probability": 0.5268533825874329,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2505.22194v1",
+          "title": "Refining Datapath for Microscaling ViTs",
+          "citation_count": 37,
+          "target_route": "full",
+          "full_probability": 0.4849715232849121,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2504.11007v1",
+          "title": "Kubernetes in the Cloud vs. Bare Metal: A Comparative Study of Network\n  Costs",
+          "citation_count": 8,
+          "target_route": "cheap",
+          "full_probability": 0.5001712441444397,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2505.22458v1",
+          "title": "Universal Domain Adaptation for Semantic Segmentation",
+          "citation_count": 32,
+          "target_route": "full",
+          "full_probability": 0.5620814561843872,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2505.17507v1",
+          "title": "Benchmarking Recommendation, Classification, and Tracing Based on\n  Hugging Face Knowledge Graph",
+          "citation_count": 9,
+          "target_route": "cheap",
+          "full_probability": 0.43537425994873047,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2504.06975v1",
+          "title": "AWDIT: An Optimal Weak Database Isolation Tester",
+          "citation_count": 25,
+          "target_route": "full",
+          "full_probability": 0.5189554691314697,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2506.02838v1",
+          "title": "TaxAgent: How Large Language Model Designs Fiscal Policy",
+          "citation_count": 17,
+          "target_route": "cheap",
+          "full_probability": 0.5336369872093201,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2506.00382v1",
+          "title": "Spectral Insights into Data-Oblivious Critical Layers in Large Language\n  Models",
+          "citation_count": 15,
+          "target_route": "cheap",
+          "full_probability": 0.5627556443214417,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2504.21282v1",
+          "title": "Birdie: Natural Language-Driven Table Discovery Using Differentiable\n  Search Index",
+          "citation_count": 24,
+          "target_route": "full",
+          "full_probability": 0.49398908019065857,
+          "predicted_route": "cheap"
+        }
+      ]
+    },
+    {
+      "seed": 808,
+      "split_sizes": {
+        "train": 40,
+        "validation": 10,
+        "test": 13
+      },
+      "split_label_counts": {
+        "train": {
+          "cheap": 19,
+          "full": 21
+        },
+        "validation": {
+          "full": 5,
+          "cheap": 5
+        },
+        "test": {
+          "full": 7,
+          "cheap": 6
+        }
+      },
+      "best_epoch": 4,
+      "threshold": 0.5536162853240967,
+      "validation_selection_key": [
+        0.92,
+        1.0,
+        -6
+      ],
+      "test": {
+        "threshold": 0.5536162853240967,
+        "accuracy": 0.3076923076923077,
+        "balanced_accuracy": 0.2976190476190476,
+        "full_precision": 0.375,
+        "full_recall": 0.42857142857142855,
+        "cheap_recall": 0.16666666666666666,
+        "auc": 0.23809523809523808,
+        "brier": 0.29000346178374714,
+        "full_rate": 0.6153846153846154,
+        "critical_misroutes": 4,
+        "unnecessary_full": 5,
+        "mean_utility": 0.38461538461538464,
+        "mean_cost_units": 2.8461538461538463,
+        "cost_vs_all_full": 0.7115384615384616,
+        "confusion": {
+          "true_full": 3,
+          "false_full": 5,
+          "true_cheap": 1,
+          "false_cheap": 4
+        }
+      },
+      "baselines": {
+        "all_cheap": {
+          "threshold": 0.5,
+          "accuracy": 0.46153846153846156,
+          "balanced_accuracy": 0.5,
+          "full_precision": 0.0,
+          "full_recall": 0.0,
+          "cheap_recall": 1.0,
+          "auc": 0.5,
+          "brier": 0.5384615384615384,
+          "full_rate": 0,
+          "critical_misroutes": 7,
+          "unnecessary_full": 0,
+          "mean_utility": 0.46153846153846156,
+          "mean_cost_units": 1.0,
+          "cost_vs_all_full": 0.25,
+          "confusion": {
+            "true_full": 0,
+            "false_full": 0,
+            "true_cheap": 6,
+            "false_cheap": 7
+          }
+        },
+        "all_full": {
+          "threshold": 0.5,
+          "accuracy": 0.5384615384615384,
+          "balanced_accuracy": 0.5,
+          "full_precision": 0.5384615384615384,
+          "full_recall": 1.0,
+          "cheap_recall": 0.0,
+          "auc": 0.5,
+          "brier": 0.46153846153846156,
+          "full_rate": 1,
+          "critical_misroutes": 0,
+          "unnecessary_full": 6,
+          "mean_utility": 0.6307692307692307,
+          "mean_cost_units": 4.0,
+          "cost_vs_all_full": 1.0,
+          "confusion": {
+            "true_full": 7,
+            "false_full": 6,
+            "true_cheap": 0,
+            "false_cheap": 0
+          }
+        },
+        "oracle": {
+          "threshold": 0.5,
+          "accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "full_precision": 1.0,
+          "full_recall": 1.0,
+          "cheap_recall": 1.0,
+          "auc": 1.0,
+          "brier": 0.0,
+          "full_rate": 0.5384615384615384,
+          "critical_misroutes": 0,
+          "unnecessary_full": 0,
+          "mean_utility": 1.0,
+          "mean_cost_units": 2.6153846153846154,
+          "cost_vs_all_full": 0.6538461538461539,
+          "confusion": {
+            "true_full": 7,
+            "false_full": 0,
+            "true_cheap": 6,
+            "false_cheap": 0
+          }
+        }
+      },
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.8974719524383545,
+          "threshold": 0.6032434701919556,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.6,
+          "full_precision": 0.5555555555555556,
+          "full_recall": 1.0,
+          "cheap_recall": 0.2,
+          "auc": 0.4,
+          "brier": 0.2786858813446919,
+          "full_rate": 0.9,
+          "critical_misroutes": 0,
+          "unnecessary_full": 4,
+          "mean_utility": 0.68,
+          "mean_cost_units": 3.7,
+          "cost_vs_all_full": 0.925,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 4,
+            "true_cheap": 1,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.6935098171234131,
+          "threshold": 0.5362542867660522,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.6,
+          "full_precision": 0.5555555555555556,
+          "full_recall": 1.0,
+          "cheap_recall": 0.2,
+          "auc": 0.36,
+          "brier": 0.2608820842131333,
+          "full_rate": 0.9,
+          "critical_misroutes": 0,
+          "unnecessary_full": 4,
+          "mean_utility": 0.68,
+          "mean_cost_units": 3.7,
+          "cost_vs_all_full": 0.925,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 4,
+            "true_cheap": 1,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.6824596881866455,
+          "threshold": 0.5453281402587891,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.6,
+          "full_precision": 0.5555555555555556,
+          "full_recall": 1.0,
+          "cheap_recall": 0.2,
+          "auc": 0.44,
+          "brier": 0.2583731810272706,
+          "full_rate": 0.9,
+          "critical_misroutes": 0,
+          "unnecessary_full": 4,
+          "mean_utility": 0.68,
+          "mean_cost_units": 3.7,
+          "cost_vs_all_full": 0.925,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 4,
+            "true_cheap": 1,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.6025024890899658,
+          "threshold": 0.5536162853240967,
+          "accuracy": 0.9,
+          "balanced_accuracy": 0.9,
+          "full_precision": 0.8333333333333334,
+          "full_recall": 1.0,
+          "cheap_recall": 0.8,
+          "auc": 0.8,
+          "brier": 0.23110113138568744,
+          "full_rate": 0.6,
+          "critical_misroutes": 0,
+          "unnecessary_full": 1,
+          "mean_utility": 0.92,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 1,
+            "true_cheap": 4,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.5466702222824097,
+          "threshold": 0.6400440335273743,
+          "accuracy": 0.8,
+          "balanced_accuracy": 0.8,
+          "full_precision": 0.7142857142857143,
+          "full_recall": 1.0,
+          "cheap_recall": 0.6,
+          "auc": 0.68,
+          "brier": 0.23723369830638888,
+          "full_rate": 0.7,
+          "critical_misroutes": 0,
+          "unnecessary_full": 2,
+          "mean_utility": 0.84,
+          "mean_cost_units": 3.1,
+          "cost_vs_all_full": 0.775,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.4958015263080597,
+          "threshold": 0.534832775592804,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.68,
+          "brier": 0.21174266733547437,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.39970232248306276,
+          "threshold": 0.7233299016952515,
+          "accuracy": 0.8,
+          "balanced_accuracy": 0.8,
+          "full_precision": 0.7142857142857143,
+          "full_recall": 1.0,
+          "cheap_recall": 0.6,
+          "auc": 0.72,
+          "brier": 0.24851639831903444,
+          "full_rate": 0.7,
+          "critical_misroutes": 0,
+          "unnecessary_full": 2,
+          "mean_utility": 0.84,
+          "mean_cost_units": 3.1,
+          "cost_vs_all_full": 0.775,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.34493584036827085,
+          "threshold": 0.5266181826591492,
+          "accuracy": 0.8,
+          "balanced_accuracy": 0.8,
+          "full_precision": 0.7142857142857143,
+          "full_recall": 1.0,
+          "cheap_recall": 0.6,
+          "auc": 0.68,
+          "brier": 0.23208061389355444,
+          "full_rate": 0.7,
+          "critical_misroutes": 0,
+          "unnecessary_full": 2,
+          "mean_utility": 0.84,
+          "mean_cost_units": 3.1,
+          "cost_vs_all_full": 0.775,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.2795277923345566,
+          "threshold": 0.6601232290267944,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.68,
+          "brier": 0.2641872368122339,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.2588431388139725,
+          "threshold": 0.5517443418502808,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.68,
+          "brier": 0.24521886637787932,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.23560252785682678,
+          "threshold": 0.5549850463867188,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.6,
+          "brier": 0.2504384985403226,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.2255128264427185,
+          "threshold": 0.5027745366096497,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.6,
+          "full_precision": 0.5555555555555556,
+          "full_recall": 1.0,
+          "cheap_recall": 0.2,
+          "auc": 0.52,
+          "brier": 0.2851457434304459,
+          "full_rate": 0.9,
+          "critical_misroutes": 0,
+          "unnecessary_full": 4,
+          "mean_utility": 0.68,
+          "mean_cost_units": 3.7,
+          "cost_vs_all_full": 0.925,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 4,
+            "true_cheap": 1,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.18309177011251448,
+          "threshold": 0.906328022480011,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.6666666666666666,
+          "full_recall": 0.8,
+          "cheap_recall": 0.6,
+          "auc": 0.52,
+          "brier": 0.33530093326808713,
+          "full_rate": 0.6,
+          "critical_misroutes": 1,
+          "unnecessary_full": 2,
+          "mean_utility": 0.74,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.17496960014104843,
+          "threshold": 0.6561799049377441,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.6666666666666666,
+          "full_recall": 0.8,
+          "cheap_recall": 0.6,
+          "auc": 0.52,
+          "brier": 0.28172372637341636,
+          "full_rate": 0.6,
+          "critical_misroutes": 1,
+          "unnecessary_full": 2,
+          "mean_utility": 0.74,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.15020353347063065,
+          "threshold": 0.8952483534812927,
+          "accuracy": 0.8,
+          "balanced_accuracy": 0.8,
+          "full_precision": 0.8,
+          "full_recall": 0.8,
+          "cheap_recall": 0.8,
+          "auc": 0.68,
+          "brier": 0.3168291923908337,
+          "full_rate": 0.5,
+          "critical_misroutes": 1,
+          "unnecessary_full": 1,
+          "mean_utility": 0.82,
+          "mean_cost_units": 2.5,
+          "cost_vs_all_full": 0.625,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 1,
+            "true_cheap": 4,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 16,
+          "train_loss": 0.13476412296295165,
+          "threshold": 0.7938920259475708,
+          "accuracy": 0.8,
+          "balanced_accuracy": 0.8,
+          "full_precision": 0.8,
+          "full_recall": 0.8,
+          "cheap_recall": 0.8,
+          "auc": 0.72,
+          "brier": 0.2644350851157389,
+          "full_rate": 0.5,
+          "critical_misroutes": 1,
+          "unnecessary_full": 1,
+          "mean_utility": 0.82,
+          "mean_cost_units": 2.5,
+          "cost_vs_all_full": 0.625,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 1,
+            "true_cheap": 4,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 17,
+          "train_loss": 0.09143808633089065,
+          "threshold": 0.8216714262962341,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.6666666666666666,
+          "full_recall": 0.8,
+          "cheap_recall": 0.6,
+          "auc": 0.68,
+          "brier": 0.30726090962202424,
+          "full_rate": 0.6,
+          "critical_misroutes": 1,
+          "unnecessary_full": 2,
+          "mean_utility": 0.74,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 18,
+          "train_loss": 0.0839085541665554,
+          "threshold": 0.9117183089256287,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.6666666666666666,
+          "full_recall": 0.8,
+          "cheap_recall": 0.6,
+          "auc": 0.68,
+          "brier": 0.3514596162813118,
+          "full_rate": 0.6,
+          "critical_misroutes": 1,
+          "unnecessary_full": 2,
+          "mean_utility": 0.74,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 19,
+          "train_loss": 0.09447593539953232,
+          "threshold": 0.6532276272773743,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.6666666666666666,
+          "full_recall": 0.8,
+          "cheap_recall": 0.6,
+          "auc": 0.64,
+          "brier": 0.2843771148961939,
+          "full_rate": 0.6,
+          "critical_misroutes": 1,
+          "unnecessary_full": 2,
+          "mean_utility": 0.74,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 20,
+          "train_loss": 0.06551966816186905,
+          "threshold": 0.5695025324821472,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.68,
+          "brier": 0.2647992932356131,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        }
+      ],
+      "test_traces": [
+        {
+          "arxiv_id": "2505.22194v1",
+          "title": "Refining Datapath for Microscaling ViTs",
+          "citation_count": 37,
+          "target_route": "full",
+          "full_probability": 0.4665762186050415,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2505.23180v1",
+          "title": "Proximal Algorithm Unrolling: Flexible and Efficient Reconstruction\n  Networks for Single-Pixel Imaging",
+          "citation_count": 40,
+          "target_route": "full",
+          "full_probability": 0.5610257983207703,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2506.02847v1",
+          "title": "CLONE: Customizing LLMs for Efficient Latency-Aware Inference at the\n  Edge",
+          "citation_count": 51,
+          "target_route": "full",
+          "full_probability": 0.5118814706802368,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2505.24443v1",
+          "title": "Diversify and Conquer: Open-set Disagreement for Robust Semi-supervised\n  Learning with Outliers",
+          "citation_count": 37,
+          "target_route": "full",
+          "full_probability": 0.5347803235054016,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2505.17507v1",
+          "title": "Benchmarking Recommendation, Classification, and Tracing Based on\n  Hugging Face Knowledge Graph",
+          "citation_count": 9,
+          "target_route": "cheap",
+          "full_probability": 0.5985444784164429,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2504.21752v1",
+          "title": "VDDP: Verifiable Distributed Differential Privacy under the\n  Client-Server-Verifier Setup",
+          "citation_count": 16,
+          "target_route": "cheap",
+          "full_probability": 0.6306572556495667,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2506.00085v1",
+          "title": "COSMIC: Generalized Refusal Direction Identification in LLM Activations",
+          "citation_count": 37,
+          "target_route": "full",
+          "full_probability": 0.41824036836624146,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2505.24575v1",
+          "title": "NexusSum: Hierarchical LLM Agents for Long-Form Narrative Summarization",
+          "citation_count": 22,
+          "target_route": "cheap",
+          "full_probability": 0.5682243704795837,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2505.22427v1",
+          "title": "RC-AutoCalib: An End-to-End Radar-Camera Automatic Calibration Network",
+          "citation_count": 20,
+          "target_route": "cheap",
+          "full_probability": 0.7716290950775146,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2504.19283v1",
+          "title": "Efficient Serverless Cold Start: Reducing Library Loading Overhead by\n  Profile-guided Optimization",
+          "citation_count": 28,
+          "target_route": "full",
+          "full_probability": 0.5970286726951599,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2505.23452v1",
+          "title": "What About Emotions? Guiding Fine-Grained Emotion Extraction from Mobile\n  App Reviews",
+          "citation_count": 16,
+          "target_route": "cheap",
+          "full_probability": 0.5147834420204163,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2505.20227v1",
+          "title": "Measure Domain's Gap: A Similar Domain Selection Principle for\n  Multi-Domain Recommendation",
+          "citation_count": 32,
+          "target_route": "full",
+          "full_probability": 0.73822021484375,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2506.00333v1",
+          "title": "Test-time Vocabulary Adaptation for Language-driven Object Detection",
+          "citation_count": 9,
+          "target_route": "cheap",
+          "full_probability": 0.5740047097206116,
+          "predicted_route": "full"
+        }
+      ]
+    },
+    {
+      "seed": 909,
+      "split_sizes": {
+        "train": 40,
+        "validation": 10,
+        "test": 13
+      },
+      "split_label_counts": {
+        "train": {
+          "cheap": 19,
+          "full": 21
+        },
+        "validation": {
+          "cheap": 5,
+          "full": 5
+        },
+        "test": {
+          "full": 7,
+          "cheap": 6
+        }
+      },
+      "best_epoch": 8,
+      "threshold": 0.7133402824401855,
+      "validation_selection_key": [
+        0.92,
+        1.0,
+        -6
+      ],
+      "test": {
+        "threshold": 0.7133402824401855,
+        "accuracy": 0.5384615384615384,
+        "balanced_accuracy": 0.5476190476190476,
+        "full_precision": 0.6,
+        "full_recall": 0.42857142857142855,
+        "cheap_recall": 0.6666666666666666,
+        "auc": 0.42857142857142855,
+        "brier": 0.4062547612819845,
+        "full_rate": 0.38461538461538464,
+        "critical_misroutes": 4,
+        "unnecessary_full": 2,
+        "mean_utility": 0.5692307692307692,
+        "mean_cost_units": 2.1538461538461537,
+        "cost_vs_all_full": 0.5384615384615384,
+        "confusion": {
+          "true_full": 3,
+          "false_full": 2,
+          "true_cheap": 4,
+          "false_cheap": 4
+        }
+      },
+      "baselines": {
+        "all_cheap": {
+          "threshold": 0.5,
+          "accuracy": 0.46153846153846156,
+          "balanced_accuracy": 0.5,
+          "full_precision": 0.0,
+          "full_recall": 0.0,
+          "cheap_recall": 1.0,
+          "auc": 0.5,
+          "brier": 0.5384615384615384,
+          "full_rate": 0,
+          "critical_misroutes": 7,
+          "unnecessary_full": 0,
+          "mean_utility": 0.46153846153846156,
+          "mean_cost_units": 1.0,
+          "cost_vs_all_full": 0.25,
+          "confusion": {
+            "true_full": 0,
+            "false_full": 0,
+            "true_cheap": 6,
+            "false_cheap": 7
+          }
+        },
+        "all_full": {
+          "threshold": 0.5,
+          "accuracy": 0.5384615384615384,
+          "balanced_accuracy": 0.5,
+          "full_precision": 0.5384615384615384,
+          "full_recall": 1.0,
+          "cheap_recall": 0.0,
+          "auc": 0.5,
+          "brier": 0.46153846153846156,
+          "full_rate": 1,
+          "critical_misroutes": 0,
+          "unnecessary_full": 6,
+          "mean_utility": 0.6307692307692307,
+          "mean_cost_units": 4.0,
+          "cost_vs_all_full": 1.0,
+          "confusion": {
+            "true_full": 7,
+            "false_full": 6,
+            "true_cheap": 0,
+            "false_cheap": 0
+          }
+        },
+        "oracle": {
+          "threshold": 0.5,
+          "accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "full_precision": 1.0,
+          "full_recall": 1.0,
+          "cheap_recall": 1.0,
+          "auc": 1.0,
+          "brier": 0.0,
+          "full_rate": 0.5384615384615384,
+          "critical_misroutes": 0,
+          "unnecessary_full": 0,
+          "mean_utility": 1.0,
+          "mean_cost_units": 2.6153846153846154,
+          "cost_vs_all_full": 0.6538461538461539,
+          "confusion": {
+            "true_full": 7,
+            "false_full": 0,
+            "true_cheap": 6,
+            "false_cheap": 0
+          }
+        }
+      },
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.9181925654411316,
+          "threshold": 0.7263769507408142,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.625,
+          "full_recall": 1.0,
+          "cheap_recall": 0.4,
+          "auc": 0.72,
+          "brier": 0.3007893430609755,
+          "full_rate": 0.8,
+          "critical_misroutes": 0,
+          "unnecessary_full": 3,
+          "mean_utility": 0.76,
+          "mean_cost_units": 3.4,
+          "cost_vs_all_full": 0.85,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 3,
+            "true_cheap": 2,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.7561051368713378,
+          "threshold": 0.49677079916000366,
+          "accuracy": 0.8,
+          "balanced_accuracy": 0.8,
+          "full_precision": 1.0,
+          "full_recall": 0.6,
+          "cheap_recall": 1.0,
+          "auc": 0.76,
+          "brier": 0.2388098082143788,
+          "full_rate": 0.3,
+          "critical_misroutes": 2,
+          "unnecessary_full": 0,
+          "mean_utility": 0.8,
+          "mean_cost_units": 1.9,
+          "cost_vs_all_full": 0.475,
+          "confusion": {
+            "true_full": 3,
+            "false_full": 0,
+            "true_cheap": 5,
+            "false_cheap": 2
+          }
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.6729180574417114,
+          "threshold": 0.5672670006752014,
+          "accuracy": 0.8,
+          "balanced_accuracy": 0.8,
+          "full_precision": 1.0,
+          "full_recall": 0.6,
+          "cheap_recall": 1.0,
+          "auc": 0.68,
+          "brier": 0.2261296846079425,
+          "full_rate": 0.3,
+          "critical_misroutes": 2,
+          "unnecessary_full": 0,
+          "mean_utility": 0.8,
+          "mean_cost_units": 1.9,
+          "cost_vs_all_full": 0.475,
+          "confusion": {
+            "true_full": 3,
+            "false_full": 0,
+            "true_cheap": 5,
+            "false_cheap": 2
+          }
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.5668674528598785,
+          "threshold": 0.6143198609352112,
+          "accuracy": 0.7,
+          "balanced_accuracy": 0.7,
+          "full_precision": 0.6666666666666666,
+          "full_recall": 0.8,
+          "cheap_recall": 0.6,
+          "auc": 0.72,
+          "brier": 0.2434666716003157,
+          "full_rate": 0.6,
+          "critical_misroutes": 1,
+          "unnecessary_full": 2,
+          "mean_utility": 0.74,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.467321103811264,
+          "threshold": 0.34009745717048645,
+          "accuracy": 0.8,
+          "balanced_accuracy": 0.8,
+          "full_precision": 0.7142857142857143,
+          "full_recall": 1.0,
+          "cheap_recall": 0.6,
+          "auc": 0.84,
+          "brier": 0.20985420530164242,
+          "full_rate": 0.7,
+          "critical_misroutes": 0,
+          "unnecessary_full": 2,
+          "mean_utility": 0.84,
+          "mean_cost_units": 3.1,
+          "cost_vs_all_full": 0.775,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.4081839442253113,
+          "threshold": 0.6749370098114014,
+          "accuracy": 0.8,
+          "balanced_accuracy": 0.8,
+          "full_precision": 0.7142857142857143,
+          "full_recall": 1.0,
+          "cheap_recall": 0.6,
+          "auc": 0.88,
+          "brier": 0.22535877541285682,
+          "full_rate": 0.7,
+          "critical_misroutes": 0,
+          "unnecessary_full": 2,
+          "mean_utility": 0.84,
+          "mean_cost_units": 3.1,
+          "cost_vs_all_full": 0.775,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.3365833073854446,
+          "threshold": 0.19133949279785156,
+          "accuracy": 0.8,
+          "balanced_accuracy": 0.8,
+          "full_precision": 0.7142857142857143,
+          "full_recall": 1.0,
+          "cheap_recall": 0.6,
+          "auc": 0.8,
+          "brier": 0.2268173643423951,
+          "full_rate": 0.7,
+          "critical_misroutes": 0,
+          "unnecessary_full": 2,
+          "mean_utility": 0.84,
+          "mean_cost_units": 3.1,
+          "cost_vs_all_full": 0.775,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.35538214147090913,
+          "threshold": 0.7133402824401855,
+          "accuracy": 0.9,
+          "balanced_accuracy": 0.9,
+          "full_precision": 0.8333333333333334,
+          "full_recall": 1.0,
+          "cheap_recall": 0.8,
+          "auc": 0.88,
+          "brier": 0.1812348057076109,
+          "full_rate": 0.6,
+          "critical_misroutes": 0,
+          "unnecessary_full": 1,
+          "mean_utility": 0.92,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 1,
+            "true_cheap": 4,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 9,
+          "train_loss": 0.2713873594999313,
+          "threshold": 0.22904445230960846,
+          "accuracy": 0.8,
+          "balanced_accuracy": 0.8,
+          "full_precision": 0.7142857142857143,
+          "full_recall": 1.0,
+          "cheap_recall": 0.6,
+          "auc": 0.84,
+          "brier": 0.18707299725783044,
+          "full_rate": 0.7,
+          "critical_misroutes": 0,
+          "unnecessary_full": 2,
+          "mean_utility": 0.84,
+          "mean_cost_units": 3.1,
+          "cost_vs_all_full": 0.775,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 10,
+          "train_loss": 0.24996411204338073,
+          "threshold": 0.6745678186416626,
+          "accuracy": 0.9,
+          "balanced_accuracy": 0.9,
+          "full_precision": 0.8333333333333334,
+          "full_recall": 1.0,
+          "cheap_recall": 0.8,
+          "auc": 0.88,
+          "brier": 0.15743405819538162,
+          "full_rate": 0.6,
+          "critical_misroutes": 0,
+          "unnecessary_full": 1,
+          "mean_utility": 0.92,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 1,
+            "true_cheap": 4,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 11,
+          "train_loss": 0.1744970977306366,
+          "threshold": 0.5114682912826538,
+          "accuracy": 0.9,
+          "balanced_accuracy": 0.9,
+          "full_precision": 0.8333333333333334,
+          "full_recall": 1.0,
+          "cheap_recall": 0.8,
+          "auc": 0.88,
+          "brier": 0.1478347766474583,
+          "full_rate": 0.6,
+          "critical_misroutes": 0,
+          "unnecessary_full": 1,
+          "mean_utility": 0.92,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 1,
+            "true_cheap": 4,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 12,
+          "train_loss": 0.17799309641122818,
+          "threshold": 0.6075515747070312,
+          "accuracy": 0.9,
+          "balanced_accuracy": 0.9,
+          "full_precision": 0.8333333333333334,
+          "full_recall": 1.0,
+          "cheap_recall": 0.8,
+          "auc": 0.88,
+          "brier": 0.15405741967135028,
+          "full_rate": 0.6,
+          "critical_misroutes": 0,
+          "unnecessary_full": 1,
+          "mean_utility": 0.92,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 1,
+            "true_cheap": 4,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 13,
+          "train_loss": 0.17065537050366403,
+          "threshold": 0.29513150453567505,
+          "accuracy": 0.9,
+          "balanced_accuracy": 0.9,
+          "full_precision": 0.8333333333333334,
+          "full_recall": 1.0,
+          "cheap_recall": 0.8,
+          "auc": 0.84,
+          "brier": 0.18024089521975065,
+          "full_rate": 0.6,
+          "critical_misroutes": 0,
+          "unnecessary_full": 1,
+          "mean_utility": 0.92,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 1,
+            "true_cheap": 4,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 14,
+          "train_loss": 0.11242212131619453,
+          "threshold": 0.37590768933296204,
+          "accuracy": 0.9,
+          "balanced_accuracy": 0.9,
+          "full_precision": 0.8333333333333334,
+          "full_recall": 1.0,
+          "cheap_recall": 0.8,
+          "auc": 0.88,
+          "brier": 0.16134503923418397,
+          "full_rate": 0.6,
+          "critical_misroutes": 0,
+          "unnecessary_full": 1,
+          "mean_utility": 0.92,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 1,
+            "true_cheap": 4,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 15,
+          "train_loss": 0.07226083874702453,
+          "threshold": 0.39790815114974976,
+          "accuracy": 0.8,
+          "balanced_accuracy": 0.8,
+          "full_precision": 0.8,
+          "full_recall": 0.8,
+          "cheap_recall": 0.8,
+          "auc": 0.8,
+          "brier": 0.1970925903093065,
+          "full_rate": 0.5,
+          "critical_misroutes": 1,
+          "unnecessary_full": 1,
+          "mean_utility": 0.82,
+          "mean_cost_units": 2.5,
+          "cost_vs_all_full": 0.625,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 1,
+            "true_cheap": 4,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 16,
+          "train_loss": 0.054544531553983686,
+          "threshold": 0.9530434012413025,
+          "accuracy": 0.9,
+          "balanced_accuracy": 0.9,
+          "full_precision": 1.0,
+          "full_recall": 0.8,
+          "cheap_recall": 1.0,
+          "auc": 0.92,
+          "brier": 0.1785798276785679,
+          "full_rate": 0.4,
+          "critical_misroutes": 1,
+          "unnecessary_full": 0,
+          "mean_utility": 0.9,
+          "mean_cost_units": 2.2,
+          "cost_vs_all_full": 0.55,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 0,
+            "true_cheap": 5,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 17,
+          "train_loss": 0.04317411035299301,
+          "threshold": 0.6928569078445435,
+          "accuracy": 0.8,
+          "balanced_accuracy": 0.8,
+          "full_precision": 0.8,
+          "full_recall": 0.8,
+          "cheap_recall": 0.8,
+          "auc": 0.84,
+          "brier": 0.16973776964461387,
+          "full_rate": 0.5,
+          "critical_misroutes": 1,
+          "unnecessary_full": 1,
+          "mean_utility": 0.82,
+          "mean_cost_units": 2.5,
+          "cost_vs_all_full": 0.625,
+          "confusion": {
+            "true_full": 4,
+            "false_full": 1,
+            "true_cheap": 4,
+            "false_cheap": 1
+          }
+        },
+        {
+          "epoch": 18,
+          "train_loss": 0.04096298050135374,
+          "threshold": 0.19906824827194214,
+          "accuracy": 0.8,
+          "balanced_accuracy": 0.8,
+          "full_precision": 0.7142857142857143,
+          "full_recall": 1.0,
+          "cheap_recall": 0.6,
+          "auc": 0.88,
+          "brier": 0.15646569959749104,
+          "full_rate": 0.7,
+          "critical_misroutes": 0,
+          "unnecessary_full": 2,
+          "mean_utility": 0.84,
+          "mean_cost_units": 3.1,
+          "cost_vs_all_full": 0.775,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 2,
+            "true_cheap": 3,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 19,
+          "train_loss": 0.018902122415602206,
+          "threshold": 0.43920496106147766,
+          "accuracy": 0.9,
+          "balanced_accuracy": 0.9,
+          "full_precision": 0.8333333333333334,
+          "full_recall": 1.0,
+          "cheap_recall": 0.8,
+          "auc": 0.92,
+          "brier": 0.14383264606829288,
+          "full_rate": 0.6,
+          "critical_misroutes": 0,
+          "unnecessary_full": 1,
+          "mean_utility": 0.92,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 1,
+            "true_cheap": 4,
+            "false_cheap": 0
+          }
+        },
+        {
+          "epoch": 20,
+          "train_loss": 0.015987990796566008,
+          "threshold": 0.2875159680843353,
+          "accuracy": 0.9,
+          "balanced_accuracy": 0.9,
+          "full_precision": 0.8333333333333334,
+          "full_recall": 1.0,
+          "cheap_recall": 0.8,
+          "auc": 0.92,
+          "brier": 0.1509201517418537,
+          "full_rate": 0.6,
+          "critical_misroutes": 0,
+          "unnecessary_full": 1,
+          "mean_utility": 0.92,
+          "mean_cost_units": 2.8,
+          "cost_vs_all_full": 0.7,
+          "confusion": {
+            "true_full": 5,
+            "false_full": 1,
+            "true_cheap": 4,
+            "false_cheap": 0
+          }
+        }
+      ],
+      "test_traces": [
+        {
+          "arxiv_id": "2505.24334v1",
+          "title": "KairosAD: A SAM-Based Model for Industrial Anomaly Detection on Embedded\n  Devices",
+          "citation_count": 23,
+          "target_route": "full",
+          "full_probability": 0.19850380718708038,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2506.00958v1",
+          "title": "Speaking Beyond Language: A Large-Scale Multimodal Dataset for Learning\n  Nonverbal Cues from Video-Grounded Dialogues",
+          "citation_count": 24,
+          "target_route": "full",
+          "full_probability": 0.07835021615028381,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2504.19283v1",
+          "title": "Efficient Serverless Cold Start: Reducing Library Loading Overhead by\n  Profile-guided Optimization",
+          "citation_count": 28,
+          "target_route": "full",
+          "full_probability": 0.49957597255706787,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2505.22757v1",
+          "title": "Pre-Training Curriculum for Multi-Token Prediction in Language Models",
+          "citation_count": 21,
+          "target_route": "cheap",
+          "full_probability": 0.6906400918960571,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2506.02547v1",
+          "title": "Probabilistic Online Event Downsampling",
+          "citation_count": 11,
+          "target_route": "cheap",
+          "full_probability": 0.7023707628250122,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2505.19356v1",
+          "title": "Optimized Text Embedding Models and Benchmarks for Amharic Passage\n  Retrieval",
+          "citation_count": 21,
+          "target_route": "cheap",
+          "full_probability": 0.227718323469162,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2505.00552v1",
+          "title": "Graph Spectral Filtering with Chebyshev Interpolation for Recommendation",
+          "citation_count": 40,
+          "target_route": "full",
+          "full_probability": 0.9589818120002747,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2504.14243v1",
+          "title": "Unconstrained Monotonic Calibration of Predictions in Deep Ranking\n  Systems",
+          "citation_count": 20,
+          "target_route": "cheap",
+          "full_probability": 0.9803902506828308,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2505.23452v1",
+          "title": "What About Emotions? Guiding Fine-Grained Emotion Extraction from Mobile\n  App Reviews",
+          "citation_count": 16,
+          "target_route": "cheap",
+          "full_probability": 0.07127617299556732,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2504.12900v1",
+          "title": "FashionDPO:Fine-tune Fashion Outfit Generation Model using Direct\n  Preference Optimization",
+          "citation_count": 31,
+          "target_route": "full",
+          "full_probability": 0.2173156887292862,
+          "predicted_route": "cheap"
+        },
+        {
+          "arxiv_id": "2504.09307v1",
+          "title": "Lumos: Efficient Performance Modeling and Estimation for Large-scale LLM\n  Training",
+          "citation_count": 30,
+          "target_route": "full",
+          "full_probability": 0.814963698387146,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2505.22167v1",
+          "title": "Q-VDiT: Towards Accurate Quantization and Distillation of\n  Video-Generation Diffusion Transformers",
+          "citation_count": 17,
+          "target_route": "cheap",
+          "full_probability": 0.9436441659927368,
+          "predicted_route": "full"
+        },
+        {
+          "arxiv_id": "2504.18383v1",
+          "title": "Bridge the Domains: Large Language Models Enhanced Cross-domain\n  Sequential Recommendation",
+          "citation_count": 43,
+          "target_route": "full",
+          "full_probability": 0.892000675201416,
+          "predicted_route": "full"
+        }
+      ]
+    }
+  ]
+}

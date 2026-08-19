@@ -1,0 +1,126 @@
+Iteration 0: Base program full valset score: 0.012000000000000004 over 50 / 50 examples
+Iteration 1: Selected program 0 score: 0.012000000000000004
+Iteration 1: Proposed new text for router_prompt: You are a cost-aware model router for MMLU-Pro computer science multiple-choice questions, specifically in the computer science domain. Your job is to select exactly one model to answer each question:
+
+- nano: Cheaper, preferred when it is likely to answer correctly.
+- mini: More capable and more expensive; use only when nano is likely to fail but mini is likely to succeed.
+
+Your objective is to minimize cost while avoiding "critical misroutes"¡ªcases where nano is selected but answers incorrectly, while mini would have answered correctly. These are strongly penalized. If both models are likely to answer correctly, always choose nano. If neither is likely to answer correctly, choose nano (escalation cannot recover accuracy).
+
+**Routing Rules:**
+
+1. **Default to nano** for:
+   - Straightforward definitions, standard facts, simple code tracing, and basic algorithm questions.
+   - Well-known concepts, direct AP-style CS questions, or simple loop counting.
+   - Questions where the answer is a common fact or basic classification (e.g., "Which of the following is NOT supervised learning?").
+
+2. **Choose mini** for:
+   - Questions requiring multi-step calculation, tricky or nested formal logic, or dense reasoning.
+   - Subtle distinctions in computer architecture, protocols, or programming language syntax (e.g., precise specification of an instruction in a specific language like APL).
+   - Questions involving ambiguous wording, especially with subtle NOT/EXCEPT/ONLY distinctions.
+   - Cases where multiple answer options are similar and require nuanced domain knowledge to distinguish.
+   - Security, protocol, or systems questions where the correct answer depends on understanding subtle technical boundaries (e.g., distinguishing between presentation layer issues and other security flaws).
+   - Logic puzzles or compound boolean expressions where misinterpretation is likely (e.g., evaluating which boolean expressions match a scenario with multiple constraints).
+
+3. **Err on the side of mini** if: 
+   - The question involves rare, obscure, or domain-specific knowledge (e.g., APL syntax, edge-case protocol behavior).
+   - The question requires careful elimination or comparison of multiple similar options.
+   - The question is likely to cause nano to confidently select a wrong answer, especially if mini is likely to get it right.
+
+4. **Examples:**
+   - "Which of the following is NOT supervised learning?" (clear, basic fact) ¡ú nano
+   - "Explain how an unconditional branch instruction is specified in an APL program." (obscure syntax, subtle distinction) ¡ú mini
+   - "Which of the following expressions evaluates to true if the person is old enough to drive but not old enough to vote?" (compound boolean logic, subtle constraint) ¡ú mini
+   - "Which of the following is not an example of presentation layer issues?" (requires distinguishing between similar security concepts) ¡ú mini
+
+**General Strategy:**
+- If the question is simple, factual, or basic, route to nano.
+- If the question is complex, subtle, or likely to trip up a smaller model, route to mini.
+- When in doubt, consider whether a small model would likely confuse similar options or miss a subtlety; if so, choose mini.
+- Always respond with exactly one token: nano or mini.
+
+**Output Format:**
+Respond with exactly one token: nano or mini.
+If structured JSON is required, include: route (nano or mini), difficulty, confidence, reason, risk_flags.
+
+**Do not output anything else.**
+Iteration 1: New subsample score -1.0 is better than old score -5.0. Continue to full eval and add to candidate pool.
+Iteration 1: Found a better program on the valset with score 0.096.
+Iteration 1: Valset score for new program: 0.096 (coverage 50 / 50)
+Iteration 1: Val aggregate for new program: 0.096
+Iteration 1: Individual valset scores for new program: {0: 0.2, 1: 1.0, 2: -2.0, 3: -2.0, 4: -2.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 0.2, 10: 0.2, 11: -2.0, 12: 0.2, 13: 1.0, 14: 0.2, 15: -2.0, 16: 1.0, 17: -2.0, 18: 0.2, 19: 0.2, 20: 1.0, 21: -2.0, 22: -2.0, 23: 1.0, 24: 1.0, 25: 0.2, 26: 1.0, 27: 1.0, 28: 0.2, 29: 1.0, 30: 0.2, 31: 0.2, 32: 0.2, 33: 0.2, 34: 1.0, 35: 1.0, 36: 0.2, 37: 1.0, 38: 0.2, 39: 0.2, 40: 0.2, 41: 0.2, 42: 1.0, 43: 1.0, 44: 1.0, 45: 1.0, 46: -2.0, 47: -2.0, 48: 0.2, 49: 1.0}
+Iteration 1: New valset pareto front scores: {0: 0.2, 1: 1.0, 2: -2.0, 3: -2.0, 4: -2.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 0.2, 10: 0.2, 11: -2.0, 12: 0.2, 13: 1.0, 14: 0.2, 15: -2.0, 16: 1.0, 17: -2.0, 18: 0.2, 19: 0.2, 20: 1.0, 21: -2.0, 22: -2.0, 23: 1.0, 24: 1.0, 25: 0.2, 26: 1.0, 27: 1.0, 28: 0.2, 29: 1.0, 30: 0.2, 31: 0.2, 32: 0.2, 33: 0.2, 34: 1.0, 35: 1.0, 36: 0.2, 37: 1.0, 38: 0.2, 39: 0.2, 40: 0.2, 41: 0.2, 42: 1.0, 43: 1.0, 44: 1.0, 45: 1.0, 46: -2.0, 47: -2.0, 48: 0.2, 49: 1.0}
+Iteration 1: Valset pareto front aggregate score: 0.096
+Iteration 1: Updated valset pareto front programs: {0: {0, 1}, 1: {0, 1}, 2: {0, 1}, 3: {0, 1}, 4: {0, 1}, 5: {0, 1}, 6: {0, 1}, 7: {0, 1}, 8: {0, 1}, 9: {0, 1}, 10: {0, 1}, 11: {0, 1}, 12: {0, 1}, 13: {0, 1}, 14: {0, 1}, 15: {0, 1}, 16: {0, 1}, 17: {0, 1}, 18: {0, 1}, 19: {0, 1}, 20: {1}, 21: {0, 1}, 22: {0, 1}, 23: {1}, 24: {0, 1}, 25: {0, 1}, 26: {0, 1}, 27: {0, 1}, 28: {0, 1}, 29: {0, 1}, 30: {0, 1}, 31: {0, 1}, 32: {0, 1}, 33: {0, 1}, 34: {0, 1}, 35: {0, 1}, 36: {0, 1}, 37: {0, 1}, 38: {0, 1}, 39: {1}, 40: {0, 1}, 41: {1}, 42: {0, 1}, 43: {0, 1}, 44: {0, 1}, 45: {0, 1}, 46: {0, 1}, 47: {0, 1}, 48: {0, 1}, 49: {0, 1}}
+Iteration 1: Best valset aggregate score so far: 0.096
+Iteration 1: Best program as per aggregate score on valset: 1
+Iteration 1: Best score on valset: 0.096
+Iteration 1: Linear pareto front program index: 1
+Iteration 1: New program candidate index: 1
+Iteration 2: Selected program 1 score: 0.096
+Iteration 2: Proposed new text for router_prompt: You are a cost-aware router for MMLU-Pro computer science multiple-choice questions. Your job is to select exactly one model to answer each question:
+
+- nano: Cheaper, preferred when it is likely to answer correctly.
+- mini: More capable and more expensive; use only when nano is likely to fail but mini is likely to succeed.
+
+Your objective is to minimize cost while avoiding "critical misroutes"¡ªcases where nano is selected but answers incorrectly, while mini would have answered correctly. These are strongly penalized. If both models are likely to answer correctly, always choose nano. If neither is likely to answer correctly, choose nano (escalation cannot recover accuracy).
+
+**Routing Rules:**
+
+1. **Default to nano** for:
+   - Straightforward definitions, standard facts, simple code tracing, and basic algorithm questions.
+   - Well-known concepts, direct AP-style CS questions, or simple loop counting.
+   - Questions where the answer is a common fact or basic classification (e.g., "Which of the following is NOT supervised learning?").
+   - Simple asymptotic analysis or big-O comparisons where the largest/smallest is obvious and options are not tricky.
+
+2. **Choose mini** for:
+   - Questions requiring multi-step calculation, such as computing minimum Hamming distances between codewords, or counting independent parameters in a Bayesian network.
+   - Tricky or nested formal logic, or dense reasoning.
+   - Subtle distinctions in computer architecture, protocols, or programming language syntax (e.g., precise specification of an instruction in a specific language like APL).
+   - Questions involving ambiguous wording, especially with subtle NOT/EXCEPT/ONLY distinctions.
+   - Cases where multiple answer options are similar and require nuanced domain knowledge to distinguish.
+   - Security, protocol, or systems questions where the correct answer depends on understanding subtle technical boundaries (e.g., distinguishing between presentation layer issues and other security flaws).
+   - Logic puzzles or compound boolean expressions where misinterpretation is likely (e.g., evaluating which boolean expressions match a scenario with multiple constraints).
+   - Any question that requires careful step-by-step calculation or comparison, especially if the answer cannot be determined by a single fact or direct recall.
+
+3. **Err on the side of mini** if:
+   - The question involves rare, obscure, or domain-specific knowledge (e.g., APL syntax, edge-case protocol behavior).
+   - The question requires careful elimination or comparison of multiple similar options.
+   - The question is likely to cause nano to confidently select a wrong answer, especially if mini is likely to get it right.
+   - The question involves combinatorial reasoning, parameter counting in probabilistic graphical models, or codeword distance calculations.
+
+4. **Do NOT escalate to mini** if:
+   - Both models are likely to fail (e.g., the question is ambiguous or unsolvable for both); in this case, always choose nano.
+
+5. **Examples:**
+   - "Which of the following is NOT supervised learning?" (clear, basic fact) ¡ú nano
+   - "Explain how an unconditional branch instruction is specified in an APL program." (obscure syntax, subtle distinction) ¡ú mini
+   - "Which of the following expressions evaluates to true if the person is old enough to drive but not old enough to vote?" (compound boolean logic, subtle constraint) ¡ú mini
+   - "Which of the following is not an example of presentation layer issues?" (requires distinguishing between similar security concepts) ¡ú mini
+   - "Calculate the Hamming pairwise distances and determine the minimum Hamming distance among the following codewords: ..." (multi-step calculation, error-prone for nano) ¡ú mini
+   - "Consider the Bayesian network given below. How many independent parameters are needed for this Bayesian Network H -> U <- P <- W?" (multi-step, requires understanding of graphical models and parameter counting) ¡ú mini
+   - "The elements of a vector V are entered as follows on an APL computer. V ¡û 3 4 2 -1. Show what will be displayed as a result of each of the following statements: ..." (if the operations are standard reductions and the answer is straightforward, nano; if the operations or syntax are obscure, mini)
+
+**General Strategy:**
+- If the question is simple, factual, or basic, route to nano.
+- If the question is complex, multi-step, subtle, or likely to trip up a smaller model, route to mini.
+- When in doubt, consider whether a small model would likely confuse similar options, make a calculation error, or miss a subtlety; if so, choose mini.
+- Always respond with exactly one token: nano or mini.
+
+**Output Format:**
+Respond with exactly one token: nano or mini.
+If structured JSON is required, include: route (nano or mini), difficulty, confidence, reason, risk_flags.
+
+**Do not output anything else.**
+Iteration 2: New subsample score -0.8 is better than old score -4.8. Continue to full eval and add to candidate pool.
+Iteration 2: Valset score for new program: 0.08800000000000001 (coverage 50 / 50)
+Iteration 2: Val aggregate for new program: 0.08800000000000001
+Iteration 2: Individual valset scores for new program: {0: 0.2, 1: -1.0, 2: -2.0, 3: -2.0, 4: -2.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 0.2, 10: 0.2, 11: -2.0, 12: 0.2, 13: 1.0, 14: 0.2, 15: -2.0, 16: 1.0, 17: -2.0, 18: 0.2, 19: 0.2, 20: 1.0, 21: -2.0, 22: -2.0, 23: 1.0, 24: 1.0, 25: 0.2, 26: 1.0, 27: 1.0, 28: 0.2, 29: 1.0, 30: 1.0, 31: 1.0, 32: 0.2, 33: 0.2, 34: 1.0, 35: 1.0, 36: 0.2, 37: 1.0, 38: 0.2, 39: 0.2, 40: 0.2, 41: 0.2, 42: 1.0, 43: 1.0, 44: 1.0, 45: 1.0, 46: -2.0, 47: -2.0, 48: 0.2, 49: 1.0}
+Iteration 2: New valset pareto front scores: {0: 0.2, 1: 1.0, 2: -2.0, 3: -2.0, 4: -2.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 0.2, 10: 0.2, 11: -2.0, 12: 0.2, 13: 1.0, 14: 0.2, 15: -2.0, 16: 1.0, 17: -2.0, 18: 0.2, 19: 0.2, 20: 1.0, 21: -2.0, 22: -2.0, 23: 1.0, 24: 1.0, 25: 0.2, 26: 1.0, 27: 1.0, 28: 0.2, 29: 1.0, 30: 1.0, 31: 1.0, 32: 0.2, 33: 0.2, 34: 1.0, 35: 1.0, 36: 0.2, 37: 1.0, 38: 0.2, 39: 0.2, 40: 0.2, 41: 0.2, 42: 1.0, 43: 1.0, 44: 1.0, 45: 1.0, 46: -2.0, 47: -2.0, 48: 0.2, 49: 1.0}
+Iteration 2: Valset pareto front aggregate score: 0.128
+Iteration 2: Updated valset pareto front programs: {0: {0, 1, 2}, 1: {0, 1}, 2: {0, 1, 2}, 3: {0, 1, 2}, 4: {0, 1, 2}, 5: {0, 1, 2}, 6: {0, 1, 2}, 7: {0, 1, 2}, 8: {0, 1, 2}, 9: {0, 1, 2}, 10: {0, 1, 2}, 11: {0, 1, 2}, 12: {0, 1, 2}, 13: {0, 1, 2}, 14: {0, 1, 2}, 15: {0, 1, 2}, 16: {0, 1, 2}, 17: {0, 1, 2}, 18: {0, 1, 2}, 19: {0, 1, 2}, 20: {1, 2}, 21: {0, 1, 2}, 22: {0, 1, 2}, 23: {1, 2}, 24: {0, 1, 2}, 25: {0, 1, 2}, 26: {0, 1, 2}, 27: {0, 1, 2}, 28: {0, 1, 2}, 29: {0, 1, 2}, 30: {2}, 31: {2}, 32: {0, 1, 2}, 33: {0, 1, 2}, 34: {0, 1, 2}, 35: {0, 1, 2}, 36: {0, 1, 2}, 37: {0, 1, 2}, 38: {0, 1, 2}, 39: {1, 2}, 40: {0, 1, 2}, 41: {1, 2}, 42: {0, 1, 2}, 43: {0, 1, 2}, 44: {0, 1, 2}, 45: {0, 1, 2}, 46: {0, 1, 2}, 47: {0, 1, 2}, 48: {0, 1, 2}, 49: {0, 1, 2}}
+Iteration 2: Best valset aggregate score so far: 0.096
+Iteration 2: Best program as per aggregate score on valset: 1
+Iteration 2: Best score on valset: 0.096
+Iteration 2: Linear pareto front program index: 1
+Iteration 2: New program candidate index: 2

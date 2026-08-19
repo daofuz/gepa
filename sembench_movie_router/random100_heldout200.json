@@ -1,0 +1,889 @@
+{
+  "protocol": {
+    "status": "post-hoc heldout comparison; heldout already consumed",
+    "heldout_rows_used_for_training": 0,
+    "heldout_rows_used_for_threshold": 0,
+    "random_train_size": 100,
+    "random_sample_reused_across_architectures": true
+  },
+  "random_train_counts": {
+    "505": {
+      "both_correct": 86,
+      "nano_only": 2,
+      "mini_only": 11,
+      "both_wrong": 1
+    },
+    "606": {
+      "both_correct": 89,
+      "mini_only": 5,
+      "both_wrong": 6
+    },
+    "707": {
+      "both_correct": 80,
+      "mini_only": 11,
+      "both_wrong": 9
+    }
+  },
+  "heldout": {
+    "count": 200,
+    "bucket_counts": {
+      "mini_only": 16,
+      "both_correct": 167,
+      "nano_only": 3,
+      "both_wrong": 14
+    }
+  },
+  "baselines": {
+    "all_nano": {
+      "count": 200,
+      "bucket_counts": {
+        "mini_only": 16,
+        "both_correct": 167,
+        "nano_only": 3,
+        "both_wrong": 14
+      },
+      "mini_calls": 0,
+      "mini_rate": 0.0,
+      "route_accuracy": 0.85,
+      "selected_accuracy": 0.85,
+      "mean_utility": 0.655,
+      "mini_only_recall": 0.0,
+      "both_wrong_mini_rate": 0.0,
+      "critical_misroutes": 16,
+      "both_wrong_cheap_routes": 14,
+      "unnecessary_mini": 0
+    },
+    "all_mini": {
+      "count": 200,
+      "bucket_counts": {
+        "mini_only": 16,
+        "both_correct": 167,
+        "nano_only": 3,
+        "both_wrong": 14
+      },
+      "mini_calls": 200,
+      "mini_rate": 1.0,
+      "route_accuracy": 0.15,
+      "selected_accuracy": 0.915,
+      "mean_utility": 0.326,
+      "mini_only_recall": 1.0,
+      "both_wrong_mini_rate": 1.0,
+      "critical_misroutes": 0,
+      "both_wrong_cheap_routes": 0,
+      "unnecessary_mini": 170
+    }
+  },
+  "ranking": [
+    {
+      "config": "random_residual_8tok_m128",
+      "architecture": "residual",
+      "prompt_tokens": 8,
+      "bottleneck": 128,
+      "learning_rate": 0.005,
+      "weight_decay": 0.01,
+      "threshold_policy": "conservative",
+      "accuracy": 0.895,
+      "accuracy_std": 0.010801234497346443,
+      "mini_saving": 0.3333333333333333,
+      "mini_saving_std": 0.10442966798547026,
+      "critical_recall": 0.7083333333333334,
+      "both_wrong_mini_rate": 0.5476190476190477
+    },
+    {
+      "config": "random_plain_8tok",
+      "architecture": "plain",
+      "prompt_tokens": 8,
+      "learning_rate": 0.01,
+      "weight_decay": 0.0,
+      "threshold_policy": "current",
+      "accuracy": 0.885,
+      "accuracy_std": 0.014719601443879758,
+      "mini_saving": 0.45,
+      "mini_saving_std": 0.13121229617176383,
+      "critical_recall": 0.5416666666666666,
+      "both_wrong_mini_rate": 0.5952380952380952
+    }
+  ],
+  "aggregate": {
+    "random_plain_8tok": {
+      "selected_accuracy": {
+        "mean": 0.885,
+        "std": 0.014719601443879758
+      },
+      "accuracy_gap_vs_all_mini": {
+        "mean": -0.030000000000000027,
+        "std": 0.014719601443879758
+      },
+      "mini_saving_vs_all_mini": {
+        "mean": 0.45,
+        "std": 0.13121229617176383
+      },
+      "mini_only_recall": {
+        "mean": 0.5416666666666666,
+        "std": 0.15590239111558088
+      },
+      "both_wrong_mini_rate": {
+        "mean": 0.5952380952380952,
+        "std": 0.2756151643521482
+      },
+      "critical_misroutes": {
+        "mean": 7.333333333333333,
+        "std": 2.494438257849294
+      },
+      "unnecessary_mini": {
+        "mean": 93.0,
+        "std": 20.51016008388688
+      }
+    },
+    "random_residual_8tok_m128": {
+      "selected_accuracy": {
+        "mean": 0.895,
+        "std": 0.010801234497346443
+      },
+      "accuracy_gap_vs_all_mini": {
+        "mean": -0.020000000000000018,
+        "std": 0.010801234497346443
+      },
+      "mini_saving_vs_all_mini": {
+        "mean": 0.3333333333333333,
+        "std": 0.10442966798547026
+      },
+      "mini_only_recall": {
+        "mean": 0.7083333333333334,
+        "std": 0.1473139127471974
+      },
+      "both_wrong_mini_rate": {
+        "mean": 0.5476190476190477,
+        "std": 0.14677176197545183
+      },
+      "critical_misroutes": {
+        "mean": 4.666666666666667,
+        "std": 2.3570226039551585
+      },
+      "unnecessary_mini": {
+        "mean": 114.33333333333333,
+        "std": 16.81930108205715
+      }
+    }
+  },
+  "runs": {
+    "random_plain_8tok": [
+      {
+        "seed": 505,
+        "best_epoch": 1,
+        "threshold": 0.45217907428741455,
+        "validation": {
+          "count": 40,
+          "bucket_counts": {
+            "both_correct": 32,
+            "mini_only": 4,
+            "nano_only": 1,
+            "both_wrong": 3
+          },
+          "mini_calls": 26,
+          "mini_rate": 0.65,
+          "route_accuracy": 0.525,
+          "selected_accuracy": 0.925,
+          "mean_utility": 0.6599999999999999,
+          "mini_only_recall": 1.0,
+          "both_wrong_mini_rate": 1.0,
+          "critical_misroutes": 0,
+          "both_wrong_cheap_routes": 0,
+          "unnecessary_mini": 19
+        },
+        "test": {
+          "count": 200,
+          "bucket_counts": {
+            "mini_only": 16,
+            "both_correct": 167,
+            "nano_only": 3,
+            "both_wrong": 14
+          },
+          "mini_calls": 73,
+          "mini_rate": 0.365,
+          "route_accuracy": 0.575,
+          "selected_accuracy": 0.87,
+          "mean_utility": 0.5175,
+          "mini_only_recall": 0.375,
+          "both_wrong_mini_rate": 0.21428571428571427,
+          "critical_misroutes": 10,
+          "both_wrong_cheap_routes": 11,
+          "unnecessary_mini": 64,
+          "accuracy_gap_vs_all_mini": -0.04500000000000004,
+          "mini_saving_vs_all_mini": 0.635
+        },
+        "history": [
+          {
+            "epoch": 1,
+            "train_loss": 0.8977212238311768,
+            "threshold": 0.45217907428741455,
+            "validation_accuracy": 0.925,
+            "validation_mini_rate": 0.65,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.7173703420162201,
+            "threshold": 0.3992058038711548,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.625,
+            "validation_critical_recall": 0.75,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.7004897964000701,
+            "threshold": 0.7391209602355957,
+            "validation_accuracy": 0.925,
+            "validation_mini_rate": 0.65,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 4,
+            "train_loss": 0.7046661865711212,
+            "threshold": 0.37400683760643005,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.425,
+            "validation_critical_recall": 0.75,
+            "validation_both_wrong_mini_rate": 0.6666666666666666
+          },
+          {
+            "epoch": 5,
+            "train_loss": 0.5372445321083069,
+            "threshold": 0.2602328658103943,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.775,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 6,
+            "train_loss": 0.3944322979450226,
+            "threshold": 0.4714910686016083,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.6,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 0.6666666666666666
+          },
+          {
+            "epoch": 7,
+            "train_loss": 0.4616213534772396,
+            "threshold": 0.01829814538359642,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.55,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 0.6666666666666666
+          },
+          {
+            "epoch": 8,
+            "train_loss": 0.37132140040397643,
+            "threshold": 0.37161192297935486,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.3,
+            "validation_critical_recall": 0.75,
+            "validation_both_wrong_mini_rate": 0.3333333333333333
+          }
+        ]
+      },
+      {
+        "seed": 606,
+        "best_epoch": 1,
+        "threshold": 0.5795826315879822,
+        "validation": {
+          "count": 40,
+          "bucket_counts": {
+            "both_correct": 32,
+            "both_wrong": 3,
+            "nano_only": 1,
+            "mini_only": 4
+          },
+          "mini_calls": 21,
+          "mini_rate": 0.525,
+          "route_accuracy": 0.5,
+          "selected_accuracy": 0.925,
+          "mean_utility": 0.6475,
+          "mini_only_recall": 1.0,
+          "both_wrong_mini_rate": 0.0,
+          "critical_misroutes": 0,
+          "both_wrong_cheap_routes": 3,
+          "unnecessary_mini": 17
+        },
+        "test": {
+          "count": 200,
+          "bucket_counts": {
+            "mini_only": 16,
+            "both_correct": 167,
+            "nano_only": 3,
+            "both_wrong": 14
+          },
+          "mini_calls": 126,
+          "mini_rate": 0.63,
+          "route_accuracy": 0.4,
+          "selected_accuracy": 0.88,
+          "mean_utility": 0.406,
+          "mini_only_recall": 0.5,
+          "both_wrong_mini_rate": 0.7142857142857143,
+          "critical_misroutes": 8,
+          "both_wrong_cheap_routes": 4,
+          "unnecessary_mini": 108,
+          "accuracy_gap_vs_all_mini": -0.03500000000000003,
+          "mini_saving_vs_all_mini": 0.37
+        },
+        "history": [
+          {
+            "epoch": 1,
+            "train_loss": 1.1817619228363037,
+            "threshold": 0.5795826315879822,
+            "validation_accuracy": 0.925,
+            "validation_mini_rate": 0.525,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 0.0
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.8153656125068665,
+            "threshold": 0.3522622883319855,
+            "validation_accuracy": 0.925,
+            "validation_mini_rate": 0.65,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 0.6666666666666666
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.7028791213035583,
+            "threshold": 0.5512019395828247,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.55,
+            "validation_critical_recall": 0.75,
+            "validation_both_wrong_mini_rate": 0.0
+          },
+          {
+            "epoch": 4,
+            "train_loss": 0.6542150646448135,
+            "threshold": 0.028092436492443085,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.975,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 5,
+            "train_loss": 0.6539210087060928,
+            "threshold": 0.3941376805305481,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.975,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 6,
+            "train_loss": 0.6166827881336212,
+            "threshold": 0.16646283864974976,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.925,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 7,
+            "train_loss": 0.5533203530311585,
+            "threshold": 0.09497153013944626,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.75,
+            "validation_critical_recall": 0.75,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 8,
+            "train_loss": 0.4287181258201599,
+            "threshold": 0.07950951159000397,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.8,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          }
+        ]
+      },
+      {
+        "seed": 707,
+        "best_epoch": 5,
+        "threshold": 0.19405345618724823,
+        "validation": {
+          "count": 40,
+          "bucket_counts": {
+            "both_correct": 32,
+            "mini_only": 4,
+            "both_wrong": 3,
+            "nano_only": 1
+          },
+          "mini_calls": 28,
+          "mini_rate": 0.7,
+          "route_accuracy": 0.375,
+          "selected_accuracy": 0.925,
+          "mean_utility": 0.545,
+          "mini_only_recall": 1.0,
+          "both_wrong_mini_rate": 0.3333333333333333,
+          "critical_misroutes": 0,
+          "both_wrong_cheap_routes": 2,
+          "unnecessary_mini": 23
+        },
+        "test": {
+          "count": 200,
+          "bucket_counts": {
+            "mini_only": 16,
+            "both_correct": 167,
+            "nano_only": 3,
+            "both_wrong": 14
+          },
+          "mini_calls": 131,
+          "mini_rate": 0.655,
+          "route_accuracy": 0.435,
+          "selected_accuracy": 0.905,
+          "mean_utility": 0.503,
+          "mini_only_recall": 0.75,
+          "both_wrong_mini_rate": 0.8571428571428571,
+          "critical_misroutes": 4,
+          "both_wrong_cheap_routes": 2,
+          "unnecessary_mini": 107,
+          "accuracy_gap_vs_all_mini": -0.010000000000000009,
+          "mini_saving_vs_all_mini": 0.345
+        },
+        "history": [
+          {
+            "epoch": 1,
+            "train_loss": 1.2296185350418092,
+            "threshold": 0.5904252529144287,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.225,
+            "validation_critical_recall": 0.75,
+            "validation_both_wrong_mini_rate": 0.3333333333333333
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.7303287315368653,
+            "threshold": 0.4489291310310364,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.175,
+            "validation_critical_recall": 0.75,
+            "validation_both_wrong_mini_rate": 0.0
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.7793737173080444,
+            "threshold": 0.822236180305481,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.25,
+            "validation_critical_recall": 0.75,
+            "validation_both_wrong_mini_rate": 0.3333333333333333
+          },
+          {
+            "epoch": 4,
+            "train_loss": 0.8043213820457459,
+            "threshold": 0.6340253353118896,
+            "validation_accuracy": 0.925,
+            "validation_mini_rate": 0.85,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 5,
+            "train_loss": 0.5894771313667297,
+            "threshold": 0.19405345618724823,
+            "validation_accuracy": 0.925,
+            "validation_mini_rate": 0.7,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 0.3333333333333333
+          },
+          {
+            "epoch": 6,
+            "train_loss": 0.6811689209938049,
+            "threshold": 0.43243905901908875,
+            "validation_accuracy": 0.925,
+            "validation_mini_rate": 0.7,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 0.6666666666666666
+          },
+          {
+            "epoch": 7,
+            "train_loss": 0.5657745003700256,
+            "threshold": 0.646763026714325,
+            "validation_accuracy": 0.925,
+            "validation_mini_rate": 0.75,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 0.6666666666666666
+          },
+          {
+            "epoch": 8,
+            "train_loss": 0.5820138192176819,
+            "threshold": 0.1505802720785141,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.875,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 0.6666666666666666
+          }
+        ]
+      }
+    ],
+    "random_residual_8tok_m128": [
+      {
+        "seed": 505,
+        "best_epoch": 1,
+        "threshold": 0.2618756592273712,
+        "validation": {
+          "count": 40,
+          "bucket_counts": {
+            "both_correct": 32,
+            "mini_only": 4,
+            "nano_only": 1,
+            "both_wrong": 3
+          },
+          "mini_calls": 37,
+          "mini_rate": 0.925,
+          "route_accuracy": 0.25,
+          "selected_accuracy": 0.925,
+          "mean_utility": 0.44000000000000006,
+          "mini_only_recall": 1.0,
+          "both_wrong_mini_rate": 1.0,
+          "critical_misroutes": 0,
+          "both_wrong_cheap_routes": 0,
+          "unnecessary_mini": 30
+        },
+        "test": {
+          "count": 200,
+          "bucket_counts": {
+            "mini_only": 16,
+            "both_correct": 167,
+            "nano_only": 3,
+            "both_wrong": 14
+          },
+          "mini_calls": 145,
+          "mini_rate": 0.725,
+          "route_accuracy": 0.355,
+          "selected_accuracy": 0.9,
+          "mean_utility": 0.444,
+          "mini_only_recall": 0.8125,
+          "both_wrong_mini_rate": 0.7142857142857143,
+          "critical_misroutes": 3,
+          "both_wrong_cheap_routes": 4,
+          "unnecessary_mini": 122,
+          "accuracy_gap_vs_all_mini": -0.015000000000000013,
+          "mini_saving_vs_all_mini": 0.275
+        },
+        "history": [
+          {
+            "epoch": 1,
+            "train_loss": 0.7249745225906372,
+            "threshold": 0.2618756592273712,
+            "validation_accuracy": 0.925,
+            "validation_mini_rate": 0.925,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.8009502220153809,
+            "threshold": 0.4095956087112427,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.9,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.6633811569213868,
+            "threshold": 0.29063233733177185,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.875,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 4,
+            "train_loss": 0.6579155898094178,
+            "threshold": 0.316582590341568,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.85,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 5,
+            "train_loss": 0.6063343751430511,
+            "threshold": 0.16466324031352997,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.875,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 6,
+            "train_loss": 0.6756866675615311,
+            "threshold": 0.609147310256958,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.75,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 7,
+            "train_loss": 0.7000117802619934,
+            "threshold": 0.2733616530895233,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.775,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 8,
+            "train_loss": 0.5243487501144409,
+            "threshold": 0.2600339949131012,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.825,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          }
+        ]
+      },
+      {
+        "seed": 606,
+        "best_epoch": 4,
+        "threshold": 0.3909287750720978,
+        "validation": {
+          "count": 40,
+          "bucket_counts": {
+            "both_correct": 32,
+            "both_wrong": 3,
+            "nano_only": 1,
+            "mini_only": 4
+          },
+          "mini_calls": 31,
+          "mini_rate": 0.775,
+          "route_accuracy": 0.4,
+          "selected_accuracy": 0.925,
+          "mean_utility": 0.5599999999999999,
+          "mini_only_recall": 1.0,
+          "both_wrong_mini_rate": 1.0,
+          "critical_misroutes": 0,
+          "both_wrong_cheap_routes": 0,
+          "unnecessary_mini": 24
+        },
+        "test": {
+          "count": 200,
+          "bucket_counts": {
+            "mini_only": 16,
+            "both_correct": 167,
+            "nano_only": 3,
+            "both_wrong": 14
+          },
+          "mini_calls": 104,
+          "mini_rate": 0.52,
+          "route_accuracy": 0.46,
+          "selected_accuracy": 0.88,
+          "mean_utility": 0.45649999999999996,
+          "mini_only_recall": 0.5,
+          "both_wrong_mini_rate": 0.35714285714285715,
+          "critical_misroutes": 8,
+          "both_wrong_cheap_routes": 9,
+          "unnecessary_mini": 91,
+          "accuracy_gap_vs_all_mini": -0.03500000000000003,
+          "mini_saving_vs_all_mini": 0.48
+        },
+        "history": [
+          {
+            "epoch": 1,
+            "train_loss": 0.7344047212600708,
+            "threshold": 0.30280059576034546,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.825,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.6954796123504638,
+            "threshold": 0.38384366035461426,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.925,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.5758822286128997,
+            "threshold": 0.0948057472705841,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.95,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 4,
+            "train_loss": 0.7302614939212799,
+            "threshold": 0.3909287750720978,
+            "validation_accuracy": 0.925,
+            "validation_mini_rate": 0.775,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 5,
+            "train_loss": 0.538503121137619,
+            "threshold": 0.22500044107437134,
+            "validation_accuracy": 0.925,
+            "validation_mini_rate": 0.825,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 6,
+            "train_loss": 0.5236092948913574,
+            "threshold": 0.06500398367643356,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.85,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 7,
+            "train_loss": 0.614859721660614,
+            "threshold": 0.25741955637931824,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.75,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 8,
+            "train_loss": 0.49354602813720705,
+            "threshold": 0.11893690377473831,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.9,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          }
+        ]
+      },
+      {
+        "seed": 707,
+        "best_epoch": 2,
+        "threshold": 0.6200869083404541,
+        "validation": {
+          "count": 40,
+          "bucket_counts": {
+            "both_correct": 32,
+            "mini_only": 4,
+            "both_wrong": 3,
+            "nano_only": 1
+          },
+          "mini_calls": 32,
+          "mini_rate": 0.8,
+          "route_accuracy": 0.375,
+          "selected_accuracy": 0.925,
+          "mean_utility": 0.54,
+          "mini_only_recall": 1.0,
+          "both_wrong_mini_rate": 1.0,
+          "critical_misroutes": 0,
+          "both_wrong_cheap_routes": 0,
+          "unnecessary_mini": 25
+        },
+        "test": {
+          "count": 200,
+          "bucket_counts": {
+            "mini_only": 16,
+            "both_correct": 167,
+            "nano_only": 3,
+            "both_wrong": 14
+          },
+          "mini_calls": 151,
+          "mini_rate": 0.755,
+          "route_accuracy": 0.305,
+          "selected_accuracy": 0.905,
+          "mean_utility": 0.41100000000000003,
+          "mini_only_recall": 0.8125,
+          "both_wrong_mini_rate": 0.5714285714285714,
+          "critical_misroutes": 3,
+          "both_wrong_cheap_routes": 6,
+          "unnecessary_mini": 130,
+          "accuracy_gap_vs_all_mini": -0.010000000000000009,
+          "mini_saving_vs_all_mini": 0.245
+        },
+        "history": [
+          {
+            "epoch": 1,
+            "train_loss": 0.830022439956665,
+            "threshold": 0.7361615300178528,
+            "validation_accuracy": 0.925,
+            "validation_mini_rate": 0.825,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.6938416957855225,
+            "threshold": 0.6200869083404541,
+            "validation_accuracy": 0.925,
+            "validation_mini_rate": 0.8,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.7339175510406494,
+            "threshold": 0.28671348094940186,
+            "validation_accuracy": 0.925,
+            "validation_mini_rate": 0.75,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 0.6666666666666666
+          },
+          {
+            "epoch": 4,
+            "train_loss": 0.745387635231018,
+            "threshold": 0.6207975149154663,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.875,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 5,
+            "train_loss": 0.6669572567939759,
+            "threshold": 0.44593799114227295,
+            "validation_accuracy": 0.925,
+            "validation_mini_rate": 0.85,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 0.6666666666666666
+          },
+          {
+            "epoch": 6,
+            "train_loss": 0.7099779224395752,
+            "threshold": 0.23587138950824738,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.975,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 7,
+            "train_loss": 0.6938489365577698,
+            "threshold": 0.5440326929092407,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.975,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          },
+          {
+            "epoch": 8,
+            "train_loss": 0.6642765474319458,
+            "threshold": 0.19997666776180267,
+            "validation_accuracy": 0.9,
+            "validation_mini_rate": 0.975,
+            "validation_critical_recall": 1.0,
+            "validation_both_wrong_mini_rate": 1.0
+          }
+        ]
+      }
+    ]
+  }
+}

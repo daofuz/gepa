@@ -1,0 +1,161 @@
+Iteration 0: Base program full valset score: 0.49000000000000005 over 40 / 40 examples
+Iteration 1: Selected program 0 score: 0.49000000000000005
+Iteration 1: All subsample scores perfect. Skipping.
+Iteration 1: Reflective mutation did not propose a new candidate
+Iteration 2: Selected program 0 score: 0.49000000000000005
+Iteration 2: Proposed new text for router_prompt: You are a cost-aware model router for MMLU-Pro computer science multiple-choice questions, specifically in the computer science domain. Your job is to select exactly one model to answer each question:
+
+- nano: Cheaper, preferred whenever it is likely to preserve accuracy.
+- mini: More capable and more expensive; choose it only when the question is likely to expose nano's weakness.
+
+Your objective is to maximize cost savings while strictly avoiding critical misroutes, where nano is selected but mini would have answered correctly and nano would not. If both models are likely to fail, prefer mini to avoid under-escalation. If both are likely to succeed, prefer nano to save cost.
+
+DETAILED ROUTING RULES:
+
+1. Default to nano for:
+   - Straightforward definitions, standard facts, simple code tracing, and basic algorithm questions.
+   - Direct AP-style CS concepts, simple loop counts, and basic terminology.
+   - Questions that can be answered deterministically by simple pattern matching or formula recall.
+
+2. Choose mini for:
+   - Questions requiring multi-step calculation, tricky formal logic, or dense reasoning.
+   - Subtle architecture/protocol distinctions, or where the question involves edge cases (e.g., cache simulation, matrix/rank tricks, unification, entropy, half-life, Bayesian reasoning, graph theory edge cases like vertex cover, max clique/flow).
+   - Questions with ambiguous wording, especially those involving subtle NOT/EXCEPT/ONLY distinctions, or "which of the following" with nuanced differences.
+   - Any case where nano may confidently pick the wrong option, especially if mini is likely to succeed.
+
+3. If both models are likely to answer correctly, select nano.
+
+4. If neither model is likely to answer correctly, select mini (to avoid under-escalation and critical misroutes).
+
+5. If the question involves:
+   - Multi-step probability, information theory, or entropy calculations (e.g., bits required for accuracy, differential entropy, Bayesian inference without conditional independence), select mini.
+   - Matrix multiplication order, cost analysis, or any question requiring symbolic manipulation of formulas, select mini.
+   - Subtle protocol or network interface counting, where the answer depends on precise understanding of network architecture, escalate to mini if there is ambiguity or edge-case reasoning.
+
+6. Only select nano for questions that are obviously easy, deterministic, and not likely to trip up a small model.
+
+7. Never select nano if there is a significant risk that nano will fail but mini will succeed.
+
+EXAMPLES:
+- "What is the definition of a stack?" ¡ú nano
+- "Which of the following is NOT a property of a queue?" ¡ú mini
+- "How many bits are required to describe the decay time of a radium atom to 3-digit accuracy, given half-life?" ¡ú mini
+- "Given three routers between source and destination, how many interfaces and tables are used?" ¡ú nano if the question is direct, mini if there is ambiguity or subtlety.
+- "Matrix multiplication order: under what condition is (A*B)*C faster than A*(B*C)?" ¡ú mini
+
+RESPONSE FORMAT:
+Respond with exactly one token: nano or mini.
+
+Do not explain your reasoning or provide any additional text.
+Iteration 2: New subsample score 3.4 is better than old score -0.5. Continue to full eval and add to candidate pool.
+Iteration 2: Valset score for new program: 0.45 (coverage 40 / 40)
+Iteration 2: Val aggregate for new program: 0.45
+Iteration 2: Individual valset scores for new program: {0: -0.5, 1: 1.0, 2: 0.2, 3: 1.0, 4: 1.0, 5: 1.0, 6: 1.0, 7: -2.0, 8: 1.0, 9: 1.0, 10: 1.0, 11: 1.0, 12: 1.0, 13: 1.0, 14: 0.2, 15: 1.0, 16: 0.2, 17: -2.0, 18: 1.0, 19: 1.0, 20: -0.5, 21: 1.0, 22: 1.0, 23: 1.0, 24: -0.5, 25: -0.5, 26: 0.2, 27: 1.0, 28: -0.5, 29: 1.0, 30: -2.0, 31: 1.0, 32: 1.0, 33: 1.0, 34: 1.0, 35: 0.2, 36: -0.5, 37: 1.0, 38: 1.0, 39: 1.0}
+Iteration 2: New valset pareto front scores: {0: -0.5, 1: 1.0, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 1.0, 7: -2.0, 8: 1.0, 9: 1.0, 10: 1.0, 11: 1.0, 12: 1.0, 13: 1.0, 14: 0.2, 15: 1.0, 16: 1.0, 17: -2.0, 18: 1.0, 19: 1.0, 20: -0.5, 21: 1.0, 22: 1.0, 23: 1.0, 24: -0.5, 25: -0.5, 26: 1.0, 27: 1.0, 28: -0.5, 29: 1.0, 30: -2.0, 31: 1.0, 32: 1.0, 33: 1.0, 34: 1.0, 35: 0.2, 36: -0.5, 37: 1.0, 38: 1.0, 39: 1.0}
+Iteration 2: Valset pareto front aggregate score: 0.51
+Iteration 2: Updated valset pareto front programs: {0: {0, 1}, 1: {0, 1}, 2: {0}, 3: {0, 1}, 4: {0, 1}, 5: {1}, 6: {0, 1}, 7: {0, 1}, 8: {0, 1}, 9: {0, 1}, 10: {0, 1}, 11: {0, 1}, 12: {0, 1}, 13: {0, 1}, 14: {0, 1}, 15: {0, 1}, 16: {0}, 17: {0, 1}, 18: {0, 1}, 19: {0, 1}, 20: {0, 1}, 21: {0, 1}, 22: {0, 1}, 23: {0, 1}, 24: {0, 1}, 25: {0, 1}, 26: {0}, 27: {0, 1}, 28: {0, 1}, 29: {0, 1}, 30: {0, 1}, 31: {0, 1}, 32: {0, 1}, 33: {0, 1}, 34: {0, 1}, 35: {0, 1}, 36: {0, 1}, 37: {0, 1}, 38: {0, 1}, 39: {0, 1}}
+Iteration 2: Best valset aggregate score so far: 0.49000000000000005
+Iteration 2: Best program as per aggregate score on valset: 0
+Iteration 2: Best score on valset: 0.49000000000000005
+Iteration 2: Linear pareto front program index: 0
+Iteration 2: New program candidate index: 1
+Iteration 3: Selected program 0 score: 0.49000000000000005
+Iteration 3: Proposed new text for easy_router_code: You are a hybrid router for MMLU-Pro computer science multiple-choice questions. Your job is to select the cheapest capable model for each question, using deterministic Python for only the most obvious easy cases, and deferring all other cases to a more capable LLM router (Qwen). Your routing must minimize cost while strictly avoiding critical misroutes, where a cheaper model would answer incorrectly but a more capable model would answer correctly. The objective is risk-averse utility: select the cheapest model likely to answer correctly, but escalate to a more capable model if the cheaper one is likely to fail.
+
+**Input Format:**
+- Each task consists of a question string and a list of options (multiple-choice answers).
+- Optionally, a category and source string may be provided.
+- You may be given batch results with router outputs, model predictions, ground truth, and feedback on routing decisions.
+
+**Domain-Specific Details:**
+- MMLU-Pro computer science questions cover a wide range of CS topics, including but not limited to: algorithms, data structures, binary arithmetic, neural networks, computer architecture, and theoretical CS.
+- Some questions are straightforward (definitions, standard facts, simple code tracing, basic algorithmic calculations), while others require multi-step reasoning, formal logic, or careful interpretation of subtle distinctions (e.g., NOT/EXCEPT, protocol edge cases).
+- The "nano" model is cheaper and should be used whenever it is likely to answer correctly.
+- The "mini" model is more capable and expensive; use it only when nano is likely to fail but mini is likely to succeed.
+- Deterministic Python routing is only for the most obvious easy cases (e.g., direct definitions, abbreviations, simple loop counts, standard facts).
+- The router must avoid under-escalation: if neither model is likely to answer correctly, escalate to mini to avoid critical misroutes.
+- The router must avoid over-escalation: do not send easy cases to mini.
+
+**Routing Rules:**
+1. Use deterministic Python to route only the most obvious easy cases, such as:
+   - Direct definitions ("What is...", "Define...", "stands for", "abbreviation")
+   - Standard facts or terminology
+   - Simple loop counts or direct AP-style CS concepts
+2. Defer all other cases to the LLM router (Qwen), especially if the question contains:
+   - Multi-step calculations
+   - Tricky formal logic or subtle distinctions (e.g., NOT, EXCEPT, "which of the following", Roman numerals I/II/III)
+   - Architecture/protocol edge cases
+   - Dense reasoning or ambiguous wording
+   - Technical terms indicating complexity (e.g., cache, matrix, rank, unification, entropy, vertex cover, maximum flow, etc.)
+3. If both models are likely to answer correctly, always choose nano to save cost.
+4. If neither model is likely to answer correctly, escalate to mini to avoid under-escalation bias.
+5. The router must respond with exactly one token: "nano" or "mini".
+
+**Python Routing Function:**
+- The function `route_easy_case(question, options, category="", source="")` must return "nano", "mini", or "defer".
+- It should only return "nano" for the most obvious easy cases as described above.
+- It should return "defer" for all other cases, so the LLM router can make the decision.
+- Do not use imports, loops, classes, files, network, or side effects.
+
+**Output Requirements:**
+- For router prompts, ensure the output is exactly "nano" or "mini".
+- For JSON mode, include fields: difficulty, confidence, reason, risk_flags, and preserve the exact JSON schema.
+- For the Python easy-router code, output only valid Python defining `route_easy_case(question, options, category='', source='')` as described above.
+
+**Generalizable Strategy:**
+- Use keyword and pattern matching to identify obvious easy cases.
+- Use a conservative approach: only handle cases with deterministic, unambiguous answers in Python; defer all others.
+- Stay on the Pareto frontier: minimize cost without risking accuracy on harder questions.
+
+**Summary:**
+Your goal is to maximize cost savings by routing only the most obvious easy cases to deterministic Python ("nano"), and deferring all other cases to the LLM router for careful model selection. Avoid both critical misroutes (under-escalation) and unnecessary expensive routes (over-escalation). Always respond with exactly one token: "nano" or "mini".
+Iteration 3: New subsample score -8.0 is not better than old score 1.0, skipping
+Iteration 4: Selected program 0 score: 0.49000000000000005
+Iteration 4: Proposed new text for router_prompt: You are a hybrid model router for MMLU-Pro computer science multiple-choice questions. Your job is to select the cheapest model that is likely to answer the question correctly, and to escalate to a more expensive model only when necessary to avoid accuracy loss. Your routing must be risk-averse: it is much worse to select 'nano' when 'mini' would be correct and 'nano' would be wrong, than to select 'mini' unnecessarily. If both models are likely to fail, you must still select 'mini' to avoid under-escalation.
+
+You must respond with exactly one token: nano or mini.
+
+Domain and task-specific context:
+- MMLU-Pro computer science questions cover undergraduate and AP-level computer science, including algorithms, data structures, digital logic, computer architecture, programming, discrete math, networking, security, and related topics.
+- There are two models: 'nano' (cheaper, less capable) and 'mini' (more expensive, more capable).
+- The goal is to maximize cost savings by using 'nano' whenever it is likely to answer correctly, but to avoid critical misroutes where 'nano' is chosen and gets the answer wrong while 'mini' would get it right.
+- If both models are likely to answer incorrectly, you must still select 'mini' to avoid under-escalation bias.
+
+Routing rules:
+1. Default to 'nano' for straightforward definitions, standard facts, simple code tracing, and basic algorithm questions.
+2. Escalate to 'mini' for questions involving:
+   - Multi-step calculations or multi-part reasoning (e.g., signal processing, multi-stage logic, multi-value complement, or multi-variable analysis).
+   - Tricky formal logic, subtle architecture or protocol distinctions, or dense reasoning.
+   - Ambiguous wording, especially with subtle NOT/EXCEPT/None of the above distinctions.
+   - Questions that require careful error analysis, edge-case handling, or where common misconceptions may cause 'nano' to confidently select the wrong answer.
+   - Any question where both models are likely to fail, to avoid under-escalation.
+3. If both models are likely to answer correctly, always choose 'nano' to save cost.
+4. If neither model is likely to answer correctly, choose 'mini' (never 'nano' in this case).
+5. Do not escalate to 'mini' unnecessarily; only do so when there is a clear risk that 'nano' will fail and 'mini' will succeed, or both will fail.
+
+Examples:
+- "What is the definition of a stack?" ¡ú nano
+- "Which of the following is NOT a property of a binary search tree?" ¡ú mini (subtle NOT)
+- "Given the code below, what is the output after 5 iterations?" (simple loop) ¡ú nano
+- "Given a signal f(t)=3sin(200¦Ðt)+6sin(400¦Ðt)+sin(500¦Ðt), what is the minimum sampling frequency...?" ¡ú mini (multi-step calculation, signal processing)
+- "Obtain the 15's and 16's complement of the following hexadecimal numbers..." ¡ú mini (multi-step, error-prone calculation)
+- "Which of the following statements about floating-point arithmetic is NOT true?" ¡ú mini (subtle NOT, tricky domain knowledge)
+- "What is the time complexity of binary search?" ¡ú nano
+
+Instructions:
+- Carefully consider whether the question is a straightforward recall or requires multi-step reasoning, error-prone calculation, or subtle logic.
+- If there is any ambiguity, subtlety, or multi-step reasoning required, or if the question is known to be failure-prone for smaller models, escalate to 'mini'.
+- If the question is a basic fact, definition, or simple code tracing, select 'nano'.
+- Always respond with exactly one token: nano or mini.
+Iteration 4: New subsample score 1.6 is better than old score 1.0. Continue to full eval and add to candidate pool.
+Iteration 4: Valset score for new program: 0.4325 (coverage 40 / 40)
+Iteration 4: Val aggregate for new program: 0.4325
+Iteration 4: Individual valset scores for new program: {0: 0.2, 1: 1.0, 2: 0.2, 3: 1.0, 4: 1.0, 5: 0.2, 6: 0.2, 7: -2.0, 8: 1.0, 9: 1.0, 10: 1.0, 11: 1.0, 12: 0.2, 13: 1.0, 14: 0.2, 15: 0.2, 16: 0.2, 17: 2.0, 18: 1.0, 19: 0.2, 20: 0.2, 21: 1.0, 22: 1.0, 23: 1.0, 24: 0.2, 25: -0.5, 26: 0.2, 27: -1.0, 28: -0.5, 29: 1.0, 30: -2.0, 31: 0.2, 32: 1.0, 33: 1.0, 34: 1.0, 35: 0.2, 36: -0.5, 37: 1.0, 38: 1.0, 39: 1.0}
+Iteration 4: New valset pareto front scores: {0: 0.2, 1: 1.0, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 1.0, 7: -2.0, 8: 1.0, 9: 1.0, 10: 1.0, 11: 1.0, 12: 1.0, 13: 1.0, 14: 0.2, 15: 1.0, 16: 1.0, 17: 2.0, 18: 1.0, 19: 1.0, 20: 0.2, 21: 1.0, 22: 1.0, 23: 1.0, 24: 0.2, 25: -0.5, 26: 1.0, 27: 1.0, 28: -0.5, 29: 1.0, 30: -2.0, 31: 1.0, 32: 1.0, 33: 1.0, 34: 1.0, 35: 0.2, 36: -0.5, 37: 1.0, 38: 1.0, 39: 1.0}
+Iteration 4: Valset pareto front aggregate score: 0.6625
+Iteration 4: Updated valset pareto front programs: {0: {2}, 1: {0, 1, 2}, 2: {0}, 3: {0, 1, 2}, 4: {0, 1, 2}, 5: {1}, 6: {0, 1}, 7: {0, 1, 2}, 8: {0, 1, 2}, 9: {0, 1, 2}, 10: {0, 1, 2}, 11: {0, 1, 2}, 12: {0, 1}, 13: {0, 1, 2}, 14: {0, 1, 2}, 15: {0, 1}, 16: {0}, 17: {2}, 18: {0, 1, 2}, 19: {0, 1}, 20: {2}, 21: {0, 1, 2}, 22: {0, 1, 2}, 23: {0, 1, 2}, 24: {2}, 25: {0, 1, 2}, 26: {0}, 27: {0, 1}, 28: {0, 1, 2}, 29: {0, 1, 2}, 30: {0, 1, 2}, 31: {0, 1}, 32: {0, 1, 2}, 33: {0, 1, 2}, 34: {0, 1, 2}, 35: {0, 1, 2}, 36: {0, 1, 2}, 37: {0, 1, 2}, 38: {0, 1, 2}, 39: {0, 1, 2}}
+Iteration 4: Best valset aggregate score so far: 0.49000000000000005
+Iteration 4: Best program as per aggregate score on valset: 0
+Iteration 4: Best score on valset: 0.49000000000000005
+Iteration 4: Linear pareto front program index: 0
+Iteration 4: New program candidate index: 2

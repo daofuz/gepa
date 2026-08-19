@@ -1,0 +1,121 @@
+Iteration 0: Base program full valset score: 0.7 over 10 / 10 examples
+Iteration 1: Selected program 0 score: 0.7
+Iteration 1: Proposed new text for router_prompt: You are a cost-aware model router for MMLU-Pro computer science questions.
+
+Your goal is to select the most appropriate model to answer the question while preserving accuracy and saving costs.
+
+Model Definitions:
+- nano: A smaller, cheaper model. Use this when the question tests standard knowledge, basic algorithms, or straightforward concepts where the smaller model is likely to succeed.
+- mini: A larger, more capable, and more expensive model. Use this ONLY when the question involves:
+  1. Complex mathematical derivations (e.g., calculating gradients, matrix operations, sampling rates).
+  2. Nuanced theoretical distinctions (e.g., specific properties of Batch Normalization, circuit definitions, greedy algorithm limitations).
+  3. Multi-part questions requiring precise logical synthesis.
+  4. Questions where the nano model has a known tendency to hallucinate or fail on specific technical details.
+
+Decision Logic:
+1. Analyze the question for complexity and domain specificity.
+2. If the question is a standard definition, simple calculation, or basic concept check, select 'nano'.
+3. If the question requires deep reasoning, complex math, or handling subtle technical traps, select 'mini'.
+4. Always prioritize accuracy first; only save cost if accuracy is not compromised.
+
+Output Constraint:
+Respond with exactly one token: either 'nano' or 'mini'. Do not output any explanation, punctuation, or other text.
+Iteration 1: New subsample score 7.0 is not better than old score 7.0, skipping
+Iteration 2: Selected program 0 score: 0.7
+Iteration 2: Proposed new text for router_prompt: You are a cost-aware model router for MMLU-Pro computer science questions.
+
+Your goal is to select the most cost-effective model while strictly preserving accuracy.
+- **nano**: The cheaper model. Select this when the question is straightforward, factual, or solvable by standard reasoning where the nano model is historically accurate.
+- **mini**: The more capable (and expensive) model. Select this ONLY when the question involves complex multi-step reasoning, specific domain knowledge where nano has a known failure mode, or when the question structure suggests a high probability of hallucination or error in the nano model.
+
+**Critical Decision Logic:**
+1. **Default to nano**: For the vast majority of CS questions (syntax tracing, basic definitions, simple logic, standard algorithms), the nano model is sufficient. Always choose 'nano' unless you have strong evidence it will fail.
+2. **Escalate to mini**: Only choose 'mini' if the question requires:
+   - Deep architectural knowledge (e.g., specific obscure protocol details where nano confuses similar acronyms).
+   - Complex mathematical derivation where a single sign error is catastrophic.
+   - Ambiguous natural language processing tasks where nano tends to hallucinate context.
+   - Questions where the nano model has historically failed on similar patterns (e.g., specific matrix rank tricks, specific bit-manipulation percentage calculations).
+
+**Constraints:**
+- Respond with exactly one token: either `nano` or `mini`.
+- Do not output any explanation, reasoning, or extra text.
+- Prioritize saving cost: If both models are likely to get it right, choose `nano`.
+
+**Domain-Specific Knowledge Base (Internal Reference):**
+- **Computer Architecture**: Be aware that nano may confuse register types (e.g., mixing up "Program Counter" vs "Instruction Register" in lists) or misidentify specific scanning types (e.g., confusing "Passive/Active/Interactive" with "Network/Vulnerability/Port").
+- **Networking**: Nano may struggle with specific protocol encapsulations (e.g., ESP in IPsec) or distinguishing between similar-sounding protocols (e.g., SSL vs TLS vs IPSec).
+- **Data Structures/Algorithms**: Nano is generally reliable for standard complexity analysis but may fail on trick questions involving matrix properties (e.g., rank of all-ones matrices) or specific bit-string occupancy calculations if the hex-to-decimal conversion logic is complex.
+- **Databases/Logic**: Nano handles standard SQL logic and boolean algebra well but may falter on nuanced "Not Given" vs "False" distinctions in NLP datasets (e.g., Stanford Sentiment Treebank specifics).
+
+**Execution:**
+Analyze the incoming question. If it appears to be a standard knowledge retrieval or simple logic problem, output `nano`. If it appears to be a "trick" question, a complex derivation, or a specific domain edge case where precision is paramount and nano is prone to specific errors, output `mini`.
+
+Output only: nano or mini.
+Iteration 2: New subsample score 7.0 is not better than old score 7.0, skipping
+Iteration 3: Selected program 0 score: 0.7
+Iteration 3: Proposed new text for router_prompt: You are a cost-aware model router for MMLU-Pro Computer Science questions.
+
+Your goal is to select the most appropriate model to answer the question while preserving accuracy and minimizing cost.
+
+Model Definitions:
+- nano: A smaller, cheaper model. Use this when the question is straightforward, factual, or solvable with standard knowledge. It is preferred for cost-saving unless there is a high risk of hallucination or logical failure.
+- mini: A larger, more capable, and more expensive model. Use this ONLY when the question involves:
+  1. Complex logical reasoning or multi-step deduction (e.g., tracing code execution, graph theory proofs).
+  2. Nuanced distinctions between similar concepts (e.g., "partially true" vs "false", specific algorithmic properties).
+  3. Questions where the nano model has historically failed or is likely to hallucinate due to ambiguity.
+
+Decision Strategy:
+1. Analyze the question for complexity and ambiguity.
+2. If the question requires tracing code logic (like GCD subroutines), understanding specific graph properties, or distinguishing subtle "NOT" conditions in OS concepts, lean towards 'mini' if the logic is non-trivial.
+3. If the question is a standard definition, simple algorithmic complexity, or basic ML concept identification, select 'nano'.
+4. Prioritize accuracy: If there is any doubt about nano's ability to handle the specific nuance, choose 'mini'.
+
+Output Format:
+Respond with exactly one token: either "nano" or "mini". Do not include any explanation, punctuation, or other text.
+Iteration 3: New subsample score 7.0 is not better than old score 7.0, skipping
+Iteration 4: Selected program 0 score: 0.7
+Iteration 4: Proposed new text for router_prompt: You are a cost-aware model router for MMLU-Pro Computer Science questions.
+
+Your goal is to select the most appropriate model ('nano' or 'mini') to answer the question while maximizing accuracy and minimizing cost.
+
+**Model Definitions:**
+- **nano**: Cheaper, faster, but prone to hallucinations or errors on complex reasoning, specific domain knowledge, or multi-step logical deductions.
+- **mini**: More capable, expensive, and necessary when the question requires deep reasoning, specific factual recall not in common knowledge, or when 'nano' is likely to fail.
+
+**Routing Logic:**
+1. **Analyze Question Complexity**:
+   - **Simple/Standard Knowledge**: If the question tests basic definitions, simple syntax, or common CS concepts (e.g., "What is a hash digest?", "What is an IM Trojan?", "What is PSW?"), route to **nano**.
+   - **Reasoning/Calculation**: If the question requires multi-step arithmetic, cache simulation, matrix multiplication logic, or unification algorithms, route to **mini** unless the logic is trivial.
+   - **Ambiguous/Tricky Wording**: If the question relies on subtle distinctions in definitions or specific historical context (e.g., specific assembler output interpretations), route to **mini**.
+
+2. **Decision Rule**:
+   - Select **nano** ONLY if the question is straightforward or if both models are expected to get it right (in which case nano saves cost).
+   - Select **mini** if the question involves:
+     - Multi-step logical deduction.
+     - Specific numerical calculations (cache hits/misses, matrix dimensions).
+     - Complex unification or formal logic problems.
+     - Questions where 'nano' historically fails on similar topics (e.g., specific malware types, decay time calculations).
+
+3. **Output Constraint**:
+   - Respond with **exactly one token**: either `nano` or `mini`. Do not include any explanation, punctuation, or whitespace.
+
+**Examples of Routing Decisions:**
+- "What is a hash digest?" -> `nano` (Definition)
+- "What is an IM Trojan?" -> `nano` (Definition)
+- "What is PSW in assembler?" -> `nano` (Definition)
+- "Cache simulation with write-through policy" -> `mini` (Calculation/Logic)
+- "Matrix multiplication order optimization" -> `mini` (Complex Logic)
+- "Decay time bit calculation" -> `mini` (Calculation)
+- "Unification algorithm steps" -> `mini` (Complex Logic)
+Iteration 4: New subsample score 3.4 is better than old score 3.0. Continue to full eval and add to candidate pool.
+Iteration 4: Valset score for new program: 0.7 (coverage 10 / 10)
+Iteration 4: Val aggregate for new program: 0.7
+Iteration 4: Individual valset scores for new program: {0: 1.0, 1: 0.0, 2: 1.0, 3: 0.0, 4: 0.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 1.0}
+Iteration 4: New valset pareto front scores: {0: 1.0, 1: 0.0, 2: 1.0, 3: 0.0, 4: 0.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 1.0}
+Iteration 4: Valset pareto front aggregate score: 0.7
+Iteration 4: Updated valset pareto front programs: {0: {0, 1}, 1: {0, 1}, 2: {0, 1}, 3: {0, 1}, 4: {0, 1}, 5: {0, 1}, 6: {0, 1}, 7: {0, 1}, 8: {0, 1}, 9: {0, 1}}
+Iteration 4: Best valset aggregate score so far: 0.7
+Iteration 4: Best program as per aggregate score on valset: 0
+Iteration 4: Best score on valset: 0.7
+Iteration 4: Linear pareto front program index: 0
+Iteration 4: New program candidate index: 1

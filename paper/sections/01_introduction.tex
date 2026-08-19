@@ -1,0 +1,108 @@
+\section{Introduction}
+
+Large language models (LLMs) are becoming physical operators in data systems.
+Systems such as LOTUS~\cite{patel2025lotus},
+Palimpzest~\cite{liu2025palimpzest}, UQE~\cite{dai2024uqe}, and
+DocETL~\cite{shankar2025docetl} expose declarative operators over text, images,
+and documents, then choose an execution strategy that trades financial cost,
+latency, and result quality.
+For a bulk semantic filter or map, even a modest per-tuple price difference is
+multiplied by the cardinality of the input relation. Always using the strongest
+available model preserves quality but can dominate query cost; always using a
+cheap model is efficient but can corrupt downstream filters, joins, and
+aggregates.
+
+Model routing treats the model choice as an execution-plan decision. Given a
+tuple and operator, a router selects either a cheap model or a stronger model.
+Prior LLM-routing work learns this decision from confidence, preferences, or
+model features and reports favorable aggregate cost--quality curves
+\cite{chen2024frugalgpt,ong2025routellm,gupta2024cascades,jitkrittum2026uniroute}.
+Bulk semantic processing creates a particularly unforgiving version of the
+problem. The router is invoked repeatedly, failures may be correlated within a
+group or predicate, and a small number of false negatives can materially alter
+an aggregate. Moreover, the useful training signal is severely imbalanced:
+the cheap and strong model agree on most tuples, while the operationally
+important event---cheap wrong and strong correct---may be rare.
+
+Consider a sentiment operator over movie reviews. For a review saying
+``the film is a disaster, except that it falls into the so-bad-it-is-good
+category,'' both models may agree, only the strong model may resolve the
+contrast, only the cheap model may happen to be right, or both may fail.
+Difficulty alone does not determine the desirable route. A difficult tuple on
+which both models fail cannot gain answer accuracy from escalation; conversely,
+an apparently simple tuple can be a critical cheap-model failure. A router
+trained only on easy/hard labels, overall route accuracy, or class balance
+therefore optimizes a surrogate that is misaligned with the query result.
+
+This paper focuses on \emph{lightweight soft-prompt routing} as the primary
+way to learn this execution decision. A frozen compact encoder maps each tuple
+to a routing representation; only a short continuous prompt and classification
+head are trained. This avoids fine-tuning the answer models and, unlike an
+LLM-based router, avoids autoregressive decoding by a multi-billion-parameter
+model on every tuple. We study discrete natural-language prompt optimization
+separately as an interpretable alternative, not as a stage of the soft-prompt
+router. Existing prompt optimizers show substantial task gains
+\cite{pryzant2023protegi,opsahlong2024mipro,agrawal2025gepa}, but their usual
+training data and scalar metrics do not target rare recoverable failures or
+distinguish a harmless expensive call from a critical under-escalation.
+
+We introduce \system around two methodological innovations. First,
+\emph{disagreement-guided critical-case acquisition} starts from an unlabeled
+candidate pool and executes both answer models without revealing gold. It
+partitions candidates by whether the two predictions agree, prioritizes
+disagreements, retains an agreement sample for coverage, and requests human
+gold labels only for the selected subset. Every Mini-only and Nano-only case
+must appear in the disagreement stratum, so this observable signal concentrates
+annotation on routing-critical examples without inspecting hidden correctness.
+On Computer Science QA, both disagreement-guided and random acquisition screen
+the same 200 pairs and request 100 human labels. Disagreement-guided selection
+covers all 19 Mini-only and all 8 Nano-only cases; random selection covers
+53.1\% and 54.8\% on average. Thus the saving is 50\% of human labels relative
+to labeling the full screened pool, not a saving in paired model calls. Second,
+a \emph{cost-derived route score} assigns inverse expected route cost to a
+correct route and zero to an incorrect route, making every routed decision
+auditable in common units. The primary soft-prompt router is trained only with
+inverse-expected-cost weighted cross-entropy. Disagreement enrichment, rather
+than a hand-tuned Mini-only weight, ensures that rare recoverable errors
+influence training. The cost score reports the resulting cost--quality frontier
+and supplies feedback to the separate GEPA adapter; it is not a second
+soft-prompt loss.
+The empirical finding is deliberately more nuanced than ``routing saves
+cost.'' The lightweight soft-prompt router has only 3,074--13,826 trainable
+parameters and provides a smooth validation cost--quality curve. On historical
+Movie splits, outcome enrichment and cost-weighted CE produce configurations
+near all-Mini accuracy while avoiding 15.85--34.15\% of Mini calls. However, the
+locked fresh evaluation shows that the apparent frontier does not robustly
+reproduce: the mean router loses 1.33 accuracy points and Mini-call savings vary
+by 24 points across seeds. More soft-prompt tokens do not monotonically help.
+The independent discrete router has a different failure mode: hard routing
+collapses to all-Nano, and a calibrated verbal risk score only partly repairs
+it. Computer Science confirms that preserving all-Mini accuracy remains
+expensive under the present data budget.
+
+Our methodological novelty is concentrated in the first two contributions:
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Disagreement-guided acquisition of critical routing data.}
+  We screen an unlabeled pool with both answer models, prioritize candidates
+  whose answers disagree, retain agreement coverage, and obtain human gold
+  labels only for the selected subset. The observable split enriches the
+  one-model-only cases that control router accuracy and reduces annotation
+  demand without using correctness during selection.
+  \item \textbf{Weighted soft-prompt routing with cost-derived evaluation.}
+  Paired execution assigns both routes an auditable score from correctness and
+  expected route cost. Inverse-expected-cost weighted cross-entropy trains only
+  3,074--13,826 parameters over a frozen compact encoder. The score also
+  supplies feedback through a separate GEPA adapter.
+
+  \item \textbf{Independent comparison and careful evaluation.} Across 1,012 paired Movie reviews, a locked 200-row fresh set,
+  and 410 Computer Science questions, we compare the lightweight soft-prompt
+  method against reflective discrete instructions, loss designs, acquisition
+  policies, and validation thresholds.
+\end{itemize}
+
+The current draft is an Experiment, Analysis \& Benchmark submission because
+its strongest result is the controlled characterization of reliability, not a
+claim that one prototype dominates all baselines. The final artifact will
+release split manifests, paired outcomes, optimization traces, and scripts
+needed to reproduce every table.

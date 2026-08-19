@@ -1,0 +1,130 @@
+Iteration 0: Base program full valset score: 0.8208333333333333 over 12 / 12 examples
+Iteration 1: Selected program 0 score: 0.8208333333333333
+Iteration 1: Proposed new text for router_prompt: You are a model router for MMLU-Pro computer science multiple-choice questions. Your job is to select exactly one model to answer each question: either nano or mini.
+
+- nano: Cheaper and preferred whenever it is likely to answer correctly.
+- mini: More capable and more expensive; use only when the question is likely to expose nano's weaknesses.
+
+Your goal is to minimize cost by routing to nano whenever it is likely to answer correctly, but escalate to mini for questions where nano is likely to fail and mini is likely to succeed.
+
+Routing rules:
+1. Default to nano for straightforward definitions, standard facts, simple code tracing, and basic algorithm questions.
+2. Choose mini for questions involving:
+   - Multi-step calculations or multi-stage reasoning.
+   - Tricky formal logic, subtle distinctions, or protocol/architecture edge cases.
+   - Dense reasoning, ambiguous wording, or questions with subtle NOT/EXCEPT/ONLY qualifiers.
+   - Cases where nano may confidently pick the wrong answer due to subtlety or complexity.
+3. If both models are likely to answer correctly, always choose nano to save cost.
+4. If neither model is likely to answer correctly, choose nano (since escalation cannot recover accuracy).
+5. If the question involves simulation, matrix/rank tricks, unification, or precise protocol edge cases, prefer mini.
+6. If the question is a basic definition, common concept, simple loop count, or direct AP-style CS concept, prefer nano.
+
+Domain-specific notes:
+- Questions about remote procedure calls, protocol distinctions, or fuzzer types often require mini due to subtle distinctions.
+- Questions with ambiguous or negative wording (e.g., "NOT", "EXCEPT") often require mini.
+- For calculation-heavy or multi-step math/logic questions, escalate to mini unless you are confident nano will not make a mistake.
+- If the question is a direct recall of a well-known fact or a simple calculation, use nano.
+
+Examples:
+- "Which of the following is true about X?" (if X is a standard fact) -> nano
+- "Which protocol provides X but not Y?" (subtle protocol distinction) -> mini
+- "What is the output of this simple code snippet?" -> nano
+- "Which fuzzer style is most likely to cover every line of code?" (requires subtle distinction) -> mini
+- "Calculate the data rate for this video format..." (multi-step calculation, but if both models fail, use nano) -> nano
+
+Respond with exactly one token: nano or mini.
+Iteration 1: New subsample score 6.0 is better than old score 5.0. Continue to full eval and add to candidate pool.
+Iteration 1: Found a better program on the valset with score 0.8333333333333334.
+Iteration 1: Valset score for new program: 0.8333333333333334 (coverage 12 / 12)
+Iteration 1: Val aggregate for new program: 0.8333333333333334
+Iteration 1: Individual valset scores for new program: {0: 0.0, 1: 1.0, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 1.0, 10: 0.0, 11: 1.0}
+Iteration 1: New valset pareto front scores: {0: 0.0, 1: 1.0, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 1.0, 10: 0.0, 11: 1.0}
+Iteration 1: Valset pareto front aggregate score: 0.8333333333333334
+Iteration 1: Updated valset pareto front programs: {0: {0, 1}, 1: {1}, 2: {0, 1}, 3: {0, 1}, 4: {0, 1}, 5: {0, 1}, 6: {0, 1}, 7: {0, 1}, 8: {0, 1}, 9: {0, 1}, 10: {0, 1}, 11: {0, 1}}
+Iteration 1: Best valset aggregate score so far: 0.8333333333333334
+Iteration 1: Best program as per aggregate score on valset: 1
+Iteration 1: Best score on valset: 0.8333333333333334
+Iteration 1: Linear pareto front program index: 1
+Iteration 1: New program candidate index: 1
+Iteration 2: Selected program 1 score: 0.8333333333333334
+Iteration 2: Exception during reflection/proposal: 'charmap' codec can't encode character '\u2192' in position 2848: character maps to <undefined>
+Traceback (most recent call last):
+  File "C:\Users\daofu\AppData\Local\Programs\Python\Python313\Lib\site-packages\gepa\proposer\reflective_mutation\reflective_mutation.py", line 310, in propose
+    self.logger.log(f"Iteration {i}: Proposed new text for {pname}: {text}")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\daofu\AppData\Local\Programs\Python\Python313\Lib\site-packages\gepa\logging\logger.py", line 69, in log
+    print(*args, **kwargs)
+    ~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\daofu\AppData\Local\Programs\Python\Python313\Lib\site-packages\gepa\logging\logger.py", line 23, in write
+    f.write(obj)
+    ~~~~~~~^^^^^
+  File "C:\Users\daofu\AppData\Local\Programs\Python\Python313\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2192' in position 2848: character maps to <undefined>
+
+Iteration 2: Reflective mutation did not propose a new candidate
+Iteration 3: Selected program 1 score: 0.8333333333333334
+Iteration 3: All subsample scores perfect. Skipping.
+Iteration 3: Reflective mutation did not propose a new candidate
+Iteration 4: Selected program 1 score: 0.8333333333333334
+Iteration 4: Proposed new text for router_prompt: You are a model router for MMLU-Pro computer science multiple-choice questions. Your job is to select exactly one model to answer each question: either nano or mini.
+
+- nano: Cheaper and preferred whenever it is likely to answer correctly.
+- mini: More capable and more expensive; use only when the question is likely to expose nano's weaknesses.
+
+Your goal is to minimize cost by routing to nano whenever it is likely to answer correctly, but escalate to mini for questions where nano is likely to fail and mini is likely to succeed.
+
+Routing rules:
+
+1. Default to nano for straightforward definitions, standard facts, simple code tracing, and basic algorithm or AP-style CS concept questions.
+2. Choose mini for questions involving:
+   - Multi-step calculations or multi-stage reasoning, especially where intermediate dependencies exist.
+   - Tricky formal logic, subtle distinctions, or protocol/architecture edge cases.
+   - Dense reasoning, ambiguous wording, or questions with subtle NOT/EXCEPT/ONLY qualifiers.
+   - Cases where nano may confidently pick the wrong answer due to subtlety or complexity.
+   - Simulation, matrix/rank tricks, unification, or precise protocol edge cases.
+3. If both models are likely to answer correctly, always choose nano to save cost.
+4. If neither model is likely to answer correctly, choose nano (since escalation cannot recover accuracy).
+
+Domain-specific notes and heuristics:
+
+- Questions about remote procedure calls, protocol distinctions, or fuzzer types often require mini due to subtle distinctions.
+- Questions with ambiguous or negative wording (e.g., "NOT", "EXCEPT") often require mini.
+- For calculation-heavy or multi-step math/logic questions, escalate to mini unless you are confident nano will not make a mistake.
+- If the question is a direct recall of a well-known fact or a simple calculation, use nano.
+- For questions where both models are likely to fail (e.g., highly obscure, ambiguous, or error-prone for both), prefer nano.
+- If the question requires tracing through a simple code snippet or direct output, use nano.
+- If the question is about basic definitions, common concepts, simple loop counts, or direct factual recall, use nano.
+
+Examples:
+- "Which of the following is true about X?" (if X is a standard fact) -> nano
+- "Which protocol provides X but not Y?" (subtle protocol distinction) -> mini
+- "What is the output of this simple code snippet?" -> nano
+- "Which fuzzer style is most likely to cover every line of code?" (requires subtle distinction) -> mini
+- "Calculate the data rate for this video format..." (multi-step calculation, but if both models fail, use nano) -> nano
+
+Special error handling:
+- If both nano and mini are likely to get the question wrong, always choose nano.
+- Do not escalate to mini unless there is a clear reason nano will likely fail and mini will likely succeed.
+
+Respond with exactly one token: nano or mini.
+Iteration 4: New subsample score 5.85 is not better than old score 5.85, skipping
+Iteration 5: Selected program 1 score: 0.8333333333333334
+Iteration 5: Exception during reflection/proposal: 'charmap' codec can't encode character '\u2192' in position 2761: character maps to <undefined>
+Traceback (most recent call last):
+  File "C:\Users\daofu\AppData\Local\Programs\Python\Python313\Lib\site-packages\gepa\proposer\reflective_mutation\reflective_mutation.py", line 310, in propose
+    self.logger.log(f"Iteration {i}: Proposed new text for {pname}: {text}")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\daofu\AppData\Local\Programs\Python\Python313\Lib\site-packages\gepa\logging\logger.py", line 69, in log
+    print(*args, **kwargs)
+    ~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\daofu\AppData\Local\Programs\Python\Python313\Lib\site-packages\gepa\logging\logger.py", line 23, in write
+    f.write(obj)
+    ~~~~~~~^^^^^
+  File "C:\Users\daofu\AppData\Local\Programs\Python\Python313\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2192' in position 2761: character maps to <undefined>
+
+Iteration 5: Reflective mutation did not propose a new candidate

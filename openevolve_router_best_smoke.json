@@ -1,0 +1,29 @@
+{
+  "program_path": "C:\\Users\\25875\\AppData\\Local\\Temp\\tmp5uwpqndw.py",
+  "combined_score": -0.2,
+  "candidate": {
+    "router_prompt": "You are a cost-aware model router for MMLU-Pro computer science questions.\n\nChoose exactly one model:\n- nano: cheaper and preferred whenever it is likely to preserve accuracy.\n- mini: more capable and more expensive; choose it only when the question is likely to expose nano's weakness.\n\nRouting rules:\n1. Default to nano for straightforward definitions, standard facts, simple code tracing, and basic algorithm questions.\n2. Choose mini for questions with multi-step calculation, tricky formal logic, subtle architecture/protocol distinctions, dense reasoning, or hidden traps where nano may confidently pick the wrong option.\n3. If both models are likely to answer correctly, choose nano to save cost.\n4. If neither model is likely to answer correctly, choose mini under this objective; the router should avoid under-escalating difficult failure-prone cases.\n\nExamples:\n- Basic definition or common concept -> nano\n- Simple loop count or direct AP-style CS concept -> nano\n- Cache simulation, matrix/rank trick, unification, or precise protocol edge case -> mini\n- Ambiguous wording with a subtle NOT/EXCEPT distinction -> mini\n\nRespond with exactly one token: nano or mini.",
+    "easy_router_code": "def route_easy_case(question, options, category=\"\", source=\"\"):\n    \"\"\"Return 'nano' for obvious easy cases; return 'defer' for the LLM router.\"\"\"\n    text = (question + \"\\n\" + \"\\n\".join(options)).lower()\n\n    # Hard markers - use word boundary matching to avoid false positives\n    hard_patterns = [\n        r\"\\bnot\\b\",      # standalone not, not inside other words like \"important\" is OK\n        r\"\\bexcept\\b\",   # stands alone \n        r\"none of the above\",\n        r\"not enough information\",\n        r\"\\bi\\.\\s*\\d+\",  # roman numerals i., ii., iii. with optional digit\n        r\"\\bii\\.\",       # Roman numeral II.\n        r\"\\biii\\b\",      # Roman numeral III\n        r\"\\bcache\\b\",    # standalone cache word\n        r\"\\bmatrix\\b\",   # standalone matrix\n        r\"\\brank\\b\",     # standalone rank\n        r\"unification\",  # specific term\n        r\"boolean\",      # boolean logic question\n        r\"recurs\",       # recursion related\n        r\"capacity\",     # memory capacity questions\n        r\"entropy\",      # entropy calculations\n        r\"half-life\",    # physics half life\n        r\"bayesian\",     # bayesian problems\n        r\"\\bvertex cover\\b\",\n        r\"maximum clique\",\n        r\"maximum flow\",\n        r\"\\bachord\\b\",   # graph chord\n        r\"dht\",          # distributed hash table\n        r\"\\bnmap\\b\",     # network mapping tool\n    ]\n\n    if any(pattern in text for pattern in hard_patterns):\n        return \"defer\"\n\n    easy_markers = [\n        \"\\bwhat is\\s+\",  # definition questions starting with what is\n        \"\\bwhat are\\s+\", \n        r\"\\bdefine\\b\",   # define something specific\n        r\"\\bdefinition\\b\",\n        r\"\\bstands for\\b\",\n        r\"\\babbr\\.\\s*\\w+\",  # abbreviation pattern\n    ]\n\n    if len(question) < 150 and any(marker in text or marker.replace('\\n', '') in question.lower() for marker in easy_markers):\n        return \"nano\"\n\n    return \"defer\""
+  },
+  "summary": {
+    "mean_score": -2.0,
+    "accuracy": 0.0,
+    "correct_routes": 0,
+    "scores": [
+      -2.0
+    ],
+    "routes": [
+      "nano"
+    ],
+    "nano_routes": 1,
+    "mini_routes": 0,
+    "invalid_routes": 0,
+    "failure_type_counts": {
+      "critical_misroute": 1
+    },
+    "critical_misroute_rate": 1.0,
+    "unnecessary_mini_rate": 0.0,
+    "invalid_json_rate": 0.0,
+    "trace_count": 1
+  }
+}

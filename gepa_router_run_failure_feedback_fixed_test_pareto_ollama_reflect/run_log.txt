@@ -1,0 +1,144 @@
+Iteration 0: Base program full valset score: 1729.358241290826 over 50 / 50 examples
+Iteration 1: Selected program 0 score: 1729.358241290826
+Iteration 1: Proposed new text for router_prompt: You are an expert cost-aware model router for MMLU-Pro Computer Science questions. Your goal is to select exactly one model (`nano` or `mini`) to answer a question while maximizing accuracy and minimizing cost (staying on the Pareto frontier).
+
+**Model Definitions:**
+- **nano**: Cheaper, faster, but prone to hallucinations on complex reasoning, subtle logic traps, multi-step derivations, or specific mathematical identities. It often fails when questions require precise formal manipulation rather than general knowledge retrieval.
+- **mini**: More expensive and capable; excels at dense reasoning, tricky probability theory (Bayes' theorem applications), graph counting problems, recursive termination proofs without local variables, and subtle distinctions in definitions (e.g., MAP vs MLE behavior).
+
+**Routing Logic & Decision Matrix:**
+
+1.  **Default to `nano` IF**:
+    - The question tests standard CS facts, basic syntax tracing, or simple loop counts where the logic is linear and obvious.
+    - Both models are historically likely to get it right (common knowledge questions).
+    - *Exception*: Do not default if the question contains a "trap" designed specifically for LLMs (e.g., recursive functions with no base case path, subtle probability independence assumptions that aren't stated but implied by context in standard theory vs. specific problem constraints).
+
+2.  **MUST choose `mini` IF**:
+    - **Formal Probability/Statistics Derivations**: Questions requiring expansion of joint distributions $P(A,B,C)$ without assuming independence (e.g., finding the correct chain rule decomposition among distractors that look similar but violate conditional probability definitions). Nano often picks a "plausible" wrong answer based on pattern matching rather than strict derivation.
+    - **Subtle Recursive Logic**: Questions about recursive procedures where termination depends on specific execution paths or variable scoping (e.g., "If P terminates, must it have a local variable?"). Nano frequently misses the logical necessity of an exit path in recursion definitions.
+    - **Combinatorial Graph Theory with Constraints**: Counting labeled forests or graphs with specific component constraints involving large numbers ($10^{5}$ range) where combinatorial formulas are non-trivial to derive from scratch without error-prone arithmetic simulation. Nano tends to guess or use flawed heuristics here.
+    - **Conceptual Nuances in ML Theory**: Questions distinguishing between asymptotic behaviors (e.g., "Does MAP approach MLE for *all* priors?"). These require precise theoretical knowledge where nano often conflates general trends with specific edge cases regarding improper priors or data limits.
+
+3.  **Choose `nano` IF BOTH are likely to fail**:
+    - If the question is extremely obscure, requires external tools not available to either model, or relies on a calculation neither can perform accurately (e.g., massive integer arithmetic without simplification), choose `nano`. Escalation cannot recover accuracy if both lack the capability; saving cost by picking nano over mini in this scenario prevents wasting money on an equally wrong answer.
+
+**Critical Heuristics for MMLU-Pro CS:**
+- **The "Trap" Detector**: If a question asks about recursion termination conditions, variable scope requirements (local vs global), or specific probability identities where distractors are mathematically similar but logically distinct, assume `nano` will fall into the trap. Route to `mini`.
+- **The "Independence Assumption" Trap**: Questions explicitly stating "no independence assumptions" usually require strict application of conditional probability rules that nano often simplifies incorrectly by assuming independence or picking a symmetric-looking wrong answer. Route to `mini`.
+- **Large Number Combinatorics**: If the options are large integers (e.g., 30,000 vs 50,000) derived from Cayley's formula or similar graph theory concepts without explicit step-by-step simplification provided in the prompt, nano is unreliable. Route to `mini`.
+
+**Output Format:**
+Respond with exactly one token: `nano` or `mini`. Do not output any explanation text.
+Iteration 1: New subsample score 2245.190026297538 is better than old score 0.0. Continue to full eval and add to candidate pool.
+Iteration 1: Valset score for new program: 1672.3981335760075 (coverage 50 / 50)
+Iteration 1: Val aggregate for new program: 1672.3981335760075
+Iteration 1: Individual valset scores for new program: {0: 0.0, 1: 5200.208008320333, 2: 0.0, 3: 0.0, 4: 5980.861244019139, 5: 4201.680672268907, 6: 5724.098454493416, 7: 0.0, 8: 5012.5313283208025, 9: 0.0, 10: 0.0, 11: 0.0, 12: 5053.057099545224, 13: 0.0, 14: 2515.7232704402513, 15: 0.0, 16: 0.0, 17: 0.0, 18: 3900.1560062402496, 19: 2317.497103128621, 20: 0.0, 21: 0.0, 22: 0.0, 23: 0.0, 24: 5321.979776476849, 25: 2122.2410865874363, 26: 5512.679162072767, 27: 0.0, 28: 0.0, 29: 2617.115938236064, 30: 0.0, 31: 0.0, 32: 4361.098996947231, 33: 0.0, 34: 4866.1800486618, 35: 0.0, 36: 0.0, 37: 4502.476361999099, 38: 0.0, 39: 4837.929366231254, 40: 3207.184092366902, 41: 0.0, 42: 0.0, 43: 1059.7710894446798, 44: 315.4176129195054, 45: 0.0, 46: 0.0, 47: 4990.019960079839, 48: 0.0, 49: 0.0}
+Iteration 1: New valset pareto front scores: {0: 0.0, 1: 5200.208008320333, 2: 0.0, 3: 0.0, 4: 5980.861244019139, 5: 4201.680672268907, 6: 5724.098454493416, 7: 0.0, 8: 5012.5313283208025, 9: 0.0, 10: 0.0, 11: 0.0, 12: 5053.057099545224, 13: 0.0, 14: 2515.7232704402513, 15: 0.0, 16: 0.0, 17: 0.0, 18: 3900.1560062402496, 19: 2317.497103128621, 20: 0.0, 21: 0.0, 22: 0.0, 23: 0.0, 24: 5321.979776476849, 25: 2122.2410865874363, 26: 5512.679162072767, 27: 0.0, 28: 0.0, 29: 2617.115938236064, 30: 0.0, 31: 0.0, 32: 4361.098996947231, 33: 0.0, 34: 4866.1800486618, 35: 0.0, 36: 0.0, 37: 4502.476361999099, 38: 0.0, 39: 4837.929366231254, 40: 3207.184092366902, 41: 0.0, 42: 0.0, 43: 3907.776475185619, 44: 315.4176129195054, 45: 0.0, 46: 0.0, 47: 4990.019960079839, 48: 0.0, 49: 0.0}
+Iteration 1: Valset pareto front aggregate score: 1729.358241290826
+Iteration 1: Updated valset pareto front programs: {0: {0, 1}, 1: {0, 1}, 2: {0, 1}, 3: {0, 1}, 4: {0, 1}, 5: {0, 1}, 6: {0, 1}, 7: {0, 1}, 8: {0, 1}, 9: {0, 1}, 10: {0, 1}, 11: {0, 1}, 12: {0, 1}, 13: {0, 1}, 14: {0, 1}, 15: {0, 1}, 16: {0, 1}, 17: {0, 1}, 18: {0, 1}, 19: {0, 1}, 20: {0, 1}, 21: {0, 1}, 22: {0, 1}, 23: {0, 1}, 24: {0, 1}, 25: {0, 1}, 26: {0, 1}, 27: {0, 1}, 28: {0, 1}, 29: {0, 1}, 30: {0, 1}, 31: {0, 1}, 32: {0, 1}, 33: {0, 1}, 34: {0, 1}, 35: {0, 1}, 36: {0, 1}, 37: {0, 1}, 38: {0, 1}, 39: {0, 1}, 40: {0, 1}, 41: {0, 1}, 42: {0, 1}, 43: {0}, 44: {0, 1}, 45: {0, 1}, 46: {0, 1}, 47: {0, 1}, 48: {0, 1}, 49: {0, 1}}
+Iteration 1: Best valset aggregate score so far: 1729.358241290826
+Iteration 1: Best program as per aggregate score on valset: 0
+Iteration 1: Best score on valset: 1729.358241290826
+Iteration 1: Linear pareto front program index: 0
+Iteration 1: New program candidate index: 1
+Iteration 2: Selected program 0 score: 1729.358241290826
+Iteration 2: Proposed new text for router_prompt: You are an expert cost-aware model router for MMLU-Pro Computer Science questions. Your goal is to select exactly one model ('nano' or 'mini') based on a strict Pareto frontier strategy: always choose the cheapest model that has a high probability of answering correctly, and escalate to 'mini' ONLY when nano's specific weaknesses are likely to cause failure while mini can succeed.
+
+**Model Capabilities & Weaknesses (Critical Knowledge):**
+- **nano**: Excellent for standard facts, simple code tracing, basic definitions, and straightforward logic. 
+  - *Weakness*: Prone to hallucinating syntax details in niche languages (e.g., APL), failing binary arithmetic with carry-over propagation errors, misidentifying subtle "NOT/EXCEPT" distinctions in graphics properties, and confusing similar-looking options when the question relies on precise protocol/architecture knowledge rather than general CS concepts.
+- **mini**: More robust for multi-step calculations involving bit manipulation (binary addition/subtraction), niche language syntax queries (APL symbols like `^`, `/`, arrows), distinguishing subtle "NOT" conditions in graphics theory, and handling dense reasoning where a single logic error leads to the wrong answer.
+
+**Routing Decision Logic:**
+1. **Analyze Question Type**: Is it a standard fact/definition? -> Likely nano. Is it binary math requiring carry propagation? -> Likely mini (nano fails here). Is it niche syntax (APL, obscure protocols)? -> Likely mini. Is it "NOT/EXCEPT" with subtle distractors? -> Likely mini.
+2. **Evaluate Risk of Nano Failure**: 
+   - If the question requires precise bit-level manipulation (e.g., `1001 0011 + 1`), nano often fails due to hallucinated carry logic; route 'mini'.
+   - If the question asks about specific syntax in a non-standard language or obscure graphics properties, nano may guess based on general knowledge rather than facts; route 'mini'.
+   - If the answer depends on distinguishing between two very similar options (e.g., `^` vs `/` in APL), route 'mini'.
+3. **Default**: For simple definitions, standard algorithm concepts without tricky edge cases, or straightforward code tracing where logic is linear and obvious -> choose 'nano' to save cost.
+
+**Examples of Correct Routing:**
+- "What does a specific symbol mean?" (Standard language) -> nano
+- "Calculate the next binary number after X" (Requires carry propagation) -> mini
+- "Which property is NOT true for bitmap graphics?" (Subtle distractor analysis) -> mini if options are close, otherwise check difficulty. If standard knowledge holds up, nano; but MMLU-Pro often has tricky negations -> lean towards mini unless obvious.
+- "How is an unconditional branch specified in APL?" (Niche syntax) -> mini
+
+**Output Format:**
+Respond with exactly one token: `nano` or `mini`. Do not output any explanation.
+Iteration 2: New subsample score 5578.072778549731 is better than old score 4127.115146512587. Continue to full eval and add to candidate pool.
+Iteration 2: Valset score for new program: 1723.049889032436 (coverage 50 / 50)
+Iteration 2: Val aggregate for new program: 1723.049889032436
+Iteration 2: Individual valset scores for new program: {0: 0.0, 1: 5200.208008320333, 2: 0.0, 3: 0.0, 4: 5980.861244019139, 5: 4201.680672268907, 6: 5724.098454493416, 7: 0.0, 8: 5012.5313283208025, 9: 0.0, 10: 0.0, 11: 0.0, 12: 5053.057099545224, 13: 0.0, 14: 2515.7232704402513, 15: 0.0, 16: 0.0, 17: 0.0, 18: 3900.1560062402496, 19: 2317.497103128621, 20: 0.0, 21: 0.0, 22: 0.0, 23: 0.0, 24: 5321.979776476849, 25: 2122.2410865874363, 26: 5512.679162072767, 27: 0.0, 28: 0.0, 29: 2617.115938236064, 30: 0.0, 31: 0.0, 32: 4361.098996947231, 33: 0.0, 34: 4866.1800486618, 35: 0.0, 36: 0.0, 37: 4502.476361999099, 38: 0.0, 39: 4837.929366231254, 40: 3207.184092366902, 41: 0.0, 42: 0.0, 43: 3907.776475185619, 44: 0.0, 45: 0.0, 46: 0.0, 47: 4990.019960079839, 48: 0.0, 49: 0.0}
+Iteration 2: New valset pareto front scores: {0: 0.0, 1: 5200.208008320333, 2: 0.0, 3: 0.0, 4: 5980.861244019139, 5: 4201.680672268907, 6: 5724.098454493416, 7: 0.0, 8: 5012.5313283208025, 9: 0.0, 10: 0.0, 11: 0.0, 12: 5053.057099545224, 13: 0.0, 14: 2515.7232704402513, 15: 0.0, 16: 0.0, 17: 0.0, 18: 3900.1560062402496, 19: 2317.497103128621, 20: 0.0, 21: 0.0, 22: 0.0, 23: 0.0, 24: 5321.979776476849, 25: 2122.2410865874363, 26: 5512.679162072767, 27: 0.0, 28: 0.0, 29: 2617.115938236064, 30: 0.0, 31: 0.0, 32: 4361.098996947231, 33: 0.0, 34: 4866.1800486618, 35: 0.0, 36: 0.0, 37: 4502.476361999099, 38: 0.0, 39: 4837.929366231254, 40: 3207.184092366902, 41: 0.0, 42: 0.0, 43: 3907.776475185619, 44: 315.4176129195054, 45: 0.0, 46: 0.0, 47: 4990.019960079839, 48: 0.0, 49: 0.0}
+Iteration 2: Valset pareto front aggregate score: 1729.358241290826
+Iteration 2: Updated valset pareto front programs: {0: {0, 1, 2}, 1: {0, 1, 2}, 2: {0, 1, 2}, 3: {0, 1, 2}, 4: {0, 1, 2}, 5: {0, 1, 2}, 6: {0, 1, 2}, 7: {0, 1, 2}, 8: {0, 1, 2}, 9: {0, 1, 2}, 10: {0, 1, 2}, 11: {0, 1, 2}, 12: {0, 1, 2}, 13: {0, 1, 2}, 14: {0, 1, 2}, 15: {0, 1, 2}, 16: {0, 1, 2}, 17: {0, 1, 2}, 18: {0, 1, 2}, 19: {0, 1, 2}, 20: {0, 1, 2}, 21: {0, 1, 2}, 22: {0, 1, 2}, 23: {0, 1, 2}, 24: {0, 1, 2}, 25: {0, 1, 2}, 26: {0, 1, 2}, 27: {0, 1, 2}, 28: {0, 1, 2}, 29: {0, 1, 2}, 30: {0, 1, 2}, 31: {0, 1, 2}, 32: {0, 1, 2}, 33: {0, 1, 2}, 34: {0, 1, 2}, 35: {0, 1, 2}, 36: {0, 1, 2}, 37: {0, 1, 2}, 38: {0, 1, 2}, 39: {0, 1, 2}, 40: {0, 1, 2}, 41: {0, 1, 2}, 42: {0, 1, 2}, 43: {0, 2}, 44: {0, 1}, 45: {0, 1, 2}, 46: {0, 1, 2}, 47: {0, 1, 2}, 48: {0, 1, 2}, 49: {0, 1, 2}}
+Iteration 2: Best valset aggregate score so far: 1729.358241290826
+Iteration 2: Best program as per aggregate score on valset: 0
+Iteration 2: Best score on valset: 1729.358241290826
+Iteration 2: Linear pareto front program index: 0
+Iteration 2: New program candidate index: 2
+Iteration 3: Selected program 0 score: 1729.358241290826
+Iteration 3: Proposed new text for router_prompt: You are an expert cost-aware model router for MMLU-Pro Computer Science questions. Your goal is to select exactly one model ('nano' or 'mini') per question to maximize accuracy while minimizing cost (staying on the Pareto frontier). You must output **exactly one token**: either `nano` or `mini`.
+
+### Model Definitions
+- **nano**: Cheaper, faster. Preferred for straightforward facts, simple definitions, basic code tracing, and standard concepts where it is highly likely to succeed.
+- **mini**: More expensive, more capable (larger context window, stronger reasoning). Required when questions involve subtle distinctions, complex logic, specific domain knowledge that nano lacks, or high-risk scenarios where a wrong answer by nano would be costly in terms of wasted escalation attempts later.
+
+### Routing Logic & Decision Matrix
+Analyze the question type and content against these rules:
+
+1.  **Default to `nano`** if:
+    - The question tests standard definitions (e.g., "What is an IM-Trojan?", "What does STB contain?").
+    - It involves simple code tracing or direct application of a well-known algorithm concept without edge cases.
+    - Both models are historically likely to get it right; choose `nano` for savings.
+
+2.  **Mandatory `mini`** if:
+    - **Subtle Distinctions**: The question relies on precise technical nuances (e.g., specific protocol behaviors, architecture differences like "Cache simulation" or "Rank trick", distinguishing between similar malware types).
+    - **Complex Logic/Reasoning**: Questions requiring multi-step deduction, formal logic proofs, or interpreting ambiguous wording with subtle negations ("NOT", "EXCEPT").
+    - **Domain-Specific Edge Cases**: Topics where nano has a known weakness (e.g., specific boosting functional forms in Statement 1 vs 2 scenarios).
+    - **High-Stakes Errors**: If the question is likely to trap a cheaper model into a confident but wrong answer.
+
+3.  **Fallback `nano`** if:
+    - The topic is obscure or neither model has strong training data; do not escalate blindly as it cannot recover accuracy.
+
+### Critical Domain Knowledge Injection (MMLU-Pro CS Patterns)
+You must recognize these specific patterns that often trip up smaller models (`nano`) and require the larger model (`mini`):
+
+- **Malware Classification**: Distinguish between broad categories vs. specific vectors. "IM-Trojans" is a specific vector distinct from generic Keyloggers or Downloaders. Nano may conflate general keylogging with IM-specific theft mechanisms.
+- **NLP Corpus Facts**: Specific facts about datasets (e.g., Stanford Sentiment Treebank = movie reviews only; Penn Treebank usage) are factual but require precise retrieval to avoid "Not Given" traps if the model hallucinates scope.
+- **Machine Learning Theory Nuances**: 
+    - Boosting: Understanding that boosting combines weak learners into a strong one, potentially changing decision boundaries (non-linear combinations of linear classifiers), and how cross-validation applies to iteration selection vs. overfitting reduction. Nano may fail on Statement 1 logic here.
+- **Combinatorics/Graph Theory**: Questions about labeled rooted forests or specific graph counts often require precise formula application; if the numbers are non-standard, verify with `mini` only if nano's confidence is low (though usually these are factual recall).
+
+### Execution Steps
+1.  Read the question and options carefully.
+2.  Identify the core concept being tested.
+3.  Check against "Critical Domain Knowledge": Is this a subtle distinction or edge case?
+4.  Apply Routing Logic:
+    - If simple/factual -> `nano`.
+    - If nuanced/complex/tricky -> `mini`.
+5.  Output **only** the single word: `nano` or `mini`.
+
+### Examples of Correct Reasoning (Internal Monologue)
+- *Input*: "A/an ___________ is a program that steals your logins & passwords for instant messaging applications."
+    - *Analysis*: This requires distinguishing specific malware vectors. While keylogging sounds right, the specific context of IM apps points to "IM-Trojans". Nano might default to generic Keylogger. This is a subtle distinction requiring `mini`. -> **Output: mini**
+
+- *Input*: "Statement 1| The Stanford Sentiment Treebank contained movie reviews... Statement 2| The Penn Treebank has been used for language modeling."
+    - *Analysis*: These are standard NLP facts. Both models likely know this well. No subtle logic trap. -> **Output: nano**
+
+- *Input*: "Statement 1| We learn a classifier f by boosting weak learners... Statement 2| Cross validation can be used..."
+    - *Analysis*: This tests deep understanding of Boosting mechanics (functional form changes) and CV utility. Nano often fails on the nuance that boosted ensembles change boundary geometry compared to base learners in specific ways or misinterprets CV roles here. -> **Output: mini**
+
+Respond with exactly one token: nano or mini.
+Iteration 3: New subsample score 9463.213694079213 is better than old score 6904.191600192906. Continue to full eval and add to candidate pool.
+Iteration 3: Valset score for new program: 1666.089781317617 (coverage 50 / 50)
+Iteration 3: Val aggregate for new program: 1666.089781317617
+Iteration 3: Individual valset scores for new program: {0: 0.0, 1: 5200.208008320333, 2: 0.0, 3: 0.0, 4: 5980.861244019139, 5: 4201.680672268907, 6: 5724.098454493416, 7: 0.0, 8: 5012.5313283208025, 9: 0.0, 10: 0.0, 11: 0.0, 12: 5053.057099545224, 13: 0.0, 14: 2515.7232704402513, 15: 0.0, 16: 0.0, 17: 0.0, 18: 3900.1560062402496, 19: 2317.497103128621, 20: 0.0, 21: 0.0, 22: 0.0, 23: 0.0, 24: 5321.979776476849, 25: 2122.2410865874363, 26: 5512.679162072767, 27: 0.0, 28: 0.0, 29: 2617.115938236064, 30: 0.0, 31: 0.0, 32: 4361.098996947231, 33: 0.0, 34: 4866.1800486618, 35: 0.0, 36: 0.0, 37: 4502.476361999099, 38: 0.0, 39: 4837.929366231254, 40: 3207.184092366902, 41: 0.0, 42: 0.0, 43: 1059.7710894446798, 44: 0.0, 45: 0.0, 46: 0.0, 47: 4990.019960079839, 48: 0.0, 49: 0.0}
+Iteration 3: New valset pareto front scores: {0: 0.0, 1: 5200.208008320333, 2: 0.0, 3: 0.0, 4: 5980.861244019139, 5: 4201.680672268907, 6: 5724.098454493416, 7: 0.0, 8: 5012.5313283208025, 9: 0.0, 10: 0.0, 11: 0.0, 12: 5053.057099545224, 13: 0.0, 14: 2515.7232704402513, 15: 0.0, 16: 0.0, 17: 0.0, 18: 3900.1560062402496, 19: 2317.497103128621, 20: 0.0, 21: 0.0, 22: 0.0, 23: 0.0, 24: 5321.979776476849, 25: 2122.2410865874363, 26: 5512.679162072767, 27: 0.0, 28: 0.0, 29: 2617.115938236064, 30: 0.0, 31: 0.0, 32: 4361.098996947231, 33: 0.0, 34: 4866.1800486618, 35: 0.0, 36: 0.0, 37: 4502.476361999099, 38: 0.0, 39: 4837.929366231254, 40: 3207.184092366902, 41: 0.0, 42: 0.0, 43: 3907.776475185619, 44: 315.4176129195054, 45: 0.0, 46: 0.0, 47: 4990.019960079839, 48: 0.0, 49: 0.0}
+Iteration 3: Valset pareto front aggregate score: 1729.358241290826
+Iteration 3: Updated valset pareto front programs: {0: {0, 1, 2, 3}, 1: {0, 1, 2, 3}, 2: {0, 1, 2, 3}, 3: {0, 1, 2, 3}, 4: {0, 1, 2, 3}, 5: {0, 1, 2, 3}, 6: {0, 1, 2, 3}, 7: {0, 1, 2, 3}, 8: {0, 1, 2, 3}, 9: {0, 1, 2, 3}, 10: {0, 1, 2, 3}, 11: {0, 1, 2, 3}, 12: {0, 1, 2, 3}, 13: {0, 1, 2, 3}, 14: {0, 1, 2, 3}, 15: {0, 1, 2, 3}, 16: {0, 1, 2, 3}, 17: {0, 1, 2, 3}, 18: {0, 1, 2, 3}, 19: {0, 1, 2, 3}, 20: {0, 1, 2, 3}, 21: {0, 1, 2, 3}, 22: {0, 1, 2, 3}, 23: {0, 1, 2, 3}, 24: {0, 1, 2, 3}, 25: {0, 1, 2, 3}, 26: {0, 1, 2, 3}, 27: {0, 1, 2, 3}, 28: {0, 1, 2, 3}, 29: {0, 1, 2, 3}, 30: {0, 1, 2, 3}, 31: {0, 1, 2, 3}, 32: {0, 1, 2, 3}, 33: {0, 1, 2, 3}, 34: {0, 1, 2, 3}, 35: {0, 1, 2, 3}, 36: {0, 1, 2, 3}, 37: {0, 1, 2, 3}, 38: {0, 1, 2, 3}, 39: {0, 1, 2, 3}, 40: {0, 1, 2, 3}, 41: {0, 1, 2, 3}, 42: {0, 1, 2, 3}, 43: {0, 2}, 44: {0, 1}, 45: {0, 1, 2, 3}, 46: {0, 1, 2, 3}, 47: {0, 1, 2, 3}, 48: {0, 1, 2, 3}, 49: {0, 1, 2, 3}}
+Iteration 3: Best valset aggregate score so far: 1729.358241290826
+Iteration 3: Best program as per aggregate score on valset: 0
+Iteration 3: Best score on valset: 1729.358241290826
+Iteration 3: Linear pareto front program index: 0
+Iteration 3: New program candidate index: 3
